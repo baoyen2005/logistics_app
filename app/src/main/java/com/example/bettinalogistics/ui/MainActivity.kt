@@ -1,7 +1,8 @@
-package com.example.bettinalogistics
+package com.example.bettinalogistics.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.bettinalogistics.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

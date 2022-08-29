@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_background_view"
+    android:fillViewport="true"
+    tools:context=".ui.signup.SignUpActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearImageSignup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200dp"
+            android:background="@color/primary_dodger_blue_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_signup"/>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/custom_background_signup"
+            app:layout_constraintTop_toBottomOf="@id/linearImageSignup"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <TextView
+                android:id="@+id/txtTitleSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_marginTop="@dimen/_15dp"
+                android:padding="@dimen/_8dp"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/title_signup"
+                android:maxLines="2"
+
+                />
+            <LinearLayout
+                android:id="@+id/linear_img_avt"
+                android:layout_width="@dimen/_80dp"
+                android:layout_height="@dimen/_80dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:background="@drawable/custom_background_circle_image"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTitleSignup">
+
+                <ImageView
+                    android:layout_width="@dimen/_30dp"
+                    android:layout_height="@dimen/_30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_add_a_photo_24"
+                    android:contentDescription="@string/material_motion_easing_standard"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_full_name_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/custom_background_linear_signup"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp"
+                app:layout_constraintBottom_toTopOf="@id/linear_phone_signup"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_img_avt">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_40dp"
+                    android:layout_height="@dimen/_40dp"
+                    android:background="@drawable/custom_background_img_view"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_account_box_24" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtFullNameSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:hint="@string/full_name"
+                    android:inputType="text"
+                    android:padding="@dimen/_10dp"
+                    android:background="@drawable/custom_background_email_signup"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/tertiary_gray"
+                    android:textSize="@dimen/_20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_phone_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/custom_background_linear_signup"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/linear_email_signup"
+                app:layout_constraintTop_toBottomOf="@id/linear_full_name_signup">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_40dp"
+                    android:layout_height="@dimen/_40dp"
+                    android:background="@drawable/custom_background_img_view"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_contact_phone_24" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtPhoneSignup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:hint="@string/phone"
+                    android:inputType="textPhonetic"
+                    android:padding="@dimen/_10dp"
+                    android:background="@drawable/custom_background_email_signup"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/tertiary_gray"
+                    android:textSize="@dimen/_20sp"
+                    tools:ignore="TextFields" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_email_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/custom_background_linear_signup"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp"
+                app:layout_constraintBottom_toTopOf="@id/linear_password_signup"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_phone_signup">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_40dp"
+                    android:layout_height="@dimen/_40dp"
+                    android:background="@drawable/custom_background_img_view"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_email_24" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtEmailSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/_10dp"
+                    android:background="@drawable/custom_background_email_signup"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/tertiary_gray"
+                    android:textSize="@dimen/_20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_password_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/custom_background_linear_signup"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_email_signup">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_40dp"
+                    android:layout_height="@dimen/_40dp"
+                    android:background="@drawable/custom_background_img_view"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_lock_24" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtPasswordSignup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/_10dp"
+                    android:background="@drawable/custom_background_email_signup"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/tertiary_gray"
+                    android:textSize="@dimen/_20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_address_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/custom_background_linear_signup"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_password_signup">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_40dp"
+                    android:layout_height="@dimen/_40dp"
+                    android:background="@drawable/custom_background_img_view"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_home_24" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtAddressSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:hint="@string/address"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/_10dp"
+                    android:background="@drawable/custom_background_email_signup"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/tertiary_gray"
+                    android:textSize="@dimen/_20sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSignup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/custom_background_button"
+                android:padding="@dimen/_10dp"
+                android:text="@string/sign_up"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_address_signup" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

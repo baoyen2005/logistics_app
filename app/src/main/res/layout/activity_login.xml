@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_background_view"
+    tools:context=".ui.login.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/linear_first"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/constraintLogin"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_150dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/material_motion_easing_standard"
+            android:src="@drawable/logistics_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_30dp"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center"
+            android:text="@string/bettina_name"
+            android:textColor="@color/primary_dodger_blue_1"
+            android:textSize="@dimen/_28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLogin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/primary_dodger_blue_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.7"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_first">
+
+        <TextView
+            android:id="@+id/txtTitleLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/linear_email_login"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linear_email_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:background="@drawable/custom_background_linear_email"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10dp"
+            app:layout_constraintBottom_toTopOf="@id/linear_password_login"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleLogin">
+
+            <LinearLayout
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_40dp"
+                android:background="@drawable/custom_background_img_view"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_email_24" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_background_edt_email"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/_20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_password_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:background="@drawable/custom_background_linear_email"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10dp"
+            app:layout_constraintBottom_toTopOf="@id/txt_forgot_pass_login"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_email_login">
+
+            <LinearLayout
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_40dp"
+                android:background="@drawable/custom_background_img_view"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_lock_24" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtPasswordLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_background_edt_email"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/_20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_show_password_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_30dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_remove_red_eye_24"
+            app:layout_constraintBottom_toBottomOf="@id/linear_password_login"
+            app:layout_constraintRight_toRightOf="@id/linear_password_login"
+            app:layout_constraintTop_toTopOf="@id/linear_password_login" />
+
+        <TextView
+            android:id="@+id/txt_forgot_pass_login"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/forgot_password"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="@id/linear_password_login"
+            app:layout_constraintTop_toBottomOf="@id/linear_password_login" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:background="@drawable/custom_background_button"
+            android:padding="@dimen/_10dp"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintBottom_toTopOf="@id/txt_or_login_with"
+            app:layout_constraintLeft_toLeftOf="@id/txt_forgot_pass_login"
+            app:layout_constraintRight_toRightOf="@id/txt_forgot_pass_login"
+            app:layout_constraintTop_toBottomOf="@id/txt_forgot_pass_login" />
+
+        <TextView
+            android:id="@+id/txt_or_login_with"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/or_login_with"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/linear_logIn_facebook"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
+        <LinearLayout
+            android:id="@+id/linear_logIn_facebook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:background="@drawable/custom_background_button_face"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_or_login_with"
+            app:layout_constraintWidth_percent="0.4">
+
+            <ImageView
+                android:layout_width="@dimen/_30dp"
+                android:layout_height="@dimen/_40dp"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/_8dp"
+                android:src="@drawable/icon_facebook" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_regular"
+                android:padding="@dimen/_8dp"
+                android:text="@string/facebook"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_logIn_google"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:background="@drawable/custom_background_button_gg"
+            android:orientation="horizontal"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_or_login_with"
+            app:layout_constraintWidth_percent="0.4">
+
+            <ImageView
+                android:layout_width="@dimen/_30dp"
+                android:layout_height="@dimen/_40dp"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/_8dp"
+                android:src="@drawable/icon_google" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_regular"
+                android:padding="@dimen/_8dp"
+                android:text="@string/google"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/new_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20dp"
+            android:text="@string/new_user"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/txtRegister"
+            app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />
+
+        <TextView
+            android:id="@+id/txtRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:text="@string/register"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/new_user"
+            app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
