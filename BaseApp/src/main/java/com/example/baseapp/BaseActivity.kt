@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.dialog.BaseDialog
 import com.example.baseapp.dialog.LoadingDialog
 
@@ -23,7 +27,6 @@ abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseV
     private lateinit var viewModel: ViewModelType
     abstract fun getVM(): ViewModelType
 
-    abstract fun showHideProgress(isShow: Boolean)
     protected abstract fun onReady(savedInstanceState: Bundle?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,7 @@ abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseV
         _binding?.lifecycleOwner = this
         setContentView(binding.root)
         viewModel = getVM()
+
     }
     fun showLoading() {
         LoadingDialog.getInstance(this)?.show()
@@ -39,6 +43,10 @@ abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseV
 
     fun hiddenLoading() {
         LoadingDialog.getInstance(this)?.hidden()
+    }
+
+    fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     /**

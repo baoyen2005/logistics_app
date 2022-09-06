@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "553246158094",
+    "project_id": "logistics-app-4dda3",
+    "storage_bucket": "logistics-app-4dda3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553246158094:android:831c9181326682a0e8fb5f",
+        "android_client_info": {
+          "package_name": "com.example.bettinalogistics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553246158094-shh8775mbm69j1tfuepctjgfdtesnk34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bettinalogistics",
+            "certificate_hash": "c448437946f77c7a8fc84917fac49415070ad5b2"
+          }
+        },
+        {
+          "client_id": "553246158094-3f21k73ulp1livceqa7gbn9nafjnounn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvYfLUxZhW2nHXfXoHs2fOr2nBdZ6y9e0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553246158094-3f21k73ulp1livceqa7gbn9nafjnounn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

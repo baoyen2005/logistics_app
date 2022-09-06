@@ -16,6 +16,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password_title_dialog">Forgot password</string>
     <string name="or_login_with">or login with...</string>
     <string name="facebook">Facebook</string>
     <string name="google">Google</string>
@@ -26,4 +27,8 @@
     <string name="phone">Phone</string>
     <string name="address">Address</string>
     <string name="sign_up">Sign up</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="invalid_field">Field is required</string>
+    <string name="invalid_pass">Minimum 8 characters</string>
+    <string name="date_picker">DatePicker</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.bettinalogistics.utils
 
+import android.annotation.SuppressLint
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,9 +14,16 @@ fun String.toDate (format : String) : Date?{
     }
 }
 
-fun Date.toString(format: String): String {
-    val dateFormatter = SimpleDateFormat(format, Locale.US)
-    return dateFormatter.format(this)
+@SuppressLint("SimpleDateFormat")
+fun stringToDate(dateString : String): Date? {
+    val dateFormatter = SimpleDateFormat("dd-MM-yyyy")
+    return dateFormatter.parse(dateString)
+}
+
+@SuppressLint("SimpleDateFormat")
+fun dateToString(date: Date): String {
+    val dateFormatter = SimpleDateFormat("dd-MM-yyyy")
+    return dateFormatter.format(date)
 }
 
 fun String.getCurrentDayName(): String {
