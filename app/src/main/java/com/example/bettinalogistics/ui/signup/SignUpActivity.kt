@@ -212,9 +212,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding, SignUpViewModel>() {
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
-                            else -> {
-                                showToast(SIGN_UP_FAIL_VAL)
-                            }
                         }
                     }
                 }

@@ -3,20 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/background_radius_white.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/bg_alert_dialog_custom.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/custom_bg_circle_gray_bt_cancel_dialog.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/custom_bg_secondary_sea_green_button.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/custom_progress.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/dialog_notice.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/layout_loading.xml" value="0.13796296296296295" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/loading_dialog.xml" value="0.18697916666666667" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_edittext.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_edt_email.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_email_signup.xml" value="0.1865" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_linear_email.xml" value="0.106" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_linear_signup.xml" value="0.106" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_signup.xml" value="0.1075" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_title_signup.xml" value="0.1865" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_button.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_button_face.xml" value="0.1075" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_button_face_gg.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_button_gg.xml" value="0.1125" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_circle_image.xml" value="0.106" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_img_view.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_view.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_bg_circle_gray_bt_cancel.xml" value="0.1075" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_bg_circle_white_image.xml" value="0.1075" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/ic_baseline_account_box_24.xml" value="0.106" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/ic_baseline_contact_phone_24.xml" value="0.106" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/ic_baseline_date_range_24.xml" value="0.1" />
@@ -29,7 +39,7 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_maps.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
-        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/dialog_forgot_password.xml" value="0.13363363363363365" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/dialog_forgot_password.xml" value="0.18" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>

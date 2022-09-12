@@ -15,15 +15,20 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.dialog.BaseDialog
+import com.example.baseapp.dialog.ConfirmDialog
 import com.example.baseapp.dialog.LoadingDialog
+import dagger.hilt.android.migration.CustomInjection.inject
+import org.koin.android.ext.android.inject
 
 abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseViewModel> :
     AppCompatActivity() {
+    val loading by inject<LoadingDialog>()
+    val confirm by inject<ConfirmDialog>()
+
     @get:LayoutRes
     protected abstract val layoutId: Int
     private var _binding: BindingType? = null
     val binding: BindingType get() = _binding!!
-
     private lateinit var viewModel: ViewModelType
     abstract fun getVM(): ViewModelType
 
@@ -38,11 +43,11 @@ abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseV
 
     }
     fun showLoading() {
-        LoadingDialog.getInstance(this)?.show()
+        loading.show()
     }
 
     fun hiddenLoading() {
-        LoadingDialog.getInstance(this)?.hidden()
+        loading.dismiss()
     }
 
     fun showToast(message: String){
@@ -72,7 +77,7 @@ abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseV
         super.onBackPressed()
     }
 
-    private fun showAlertDialog(message: String) {
+    fun showAlertDialog(message: String) {
         BaseDialog(this)
             .setMessage(message)
             .setPositiveButton(R.string.ok, null)

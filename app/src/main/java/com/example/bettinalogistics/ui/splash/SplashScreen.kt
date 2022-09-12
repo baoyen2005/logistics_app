@@ -21,10 +21,6 @@ class SplashScreen : BaseActivity<ActivitySplashScreenBinding, SplashViewModel>(
 
     override fun getVM(): SplashViewModel = viewModel
 
-    override fun showHideProgress(isShow: Boolean) {
-        TODO("Not yet implemented")
-    }
-
     override fun onReady(savedInstanceState: Bundle?) {
         handler.postDelayed(runnable, 1200)
     }

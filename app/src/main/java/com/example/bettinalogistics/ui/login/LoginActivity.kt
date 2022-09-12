@@ -1,18 +1,19 @@
 package com.example.bettinalogistics.ui.login
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityLoginBinding
+import com.example.bettinalogistics.ui.home.HomeActivity
 import com.example.bettinalogistics.ui.signup.SignUpActivity.Companion.startSignUpActivity
-import com.example.bettinalogistics.ui.signup.SignUpViewModel
-import com.example.bettinalogistics.utils.AppConstant.Companion.SIGN_IN_FAIL_VAL
 import com.example.bettinalogistics.utils.State
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.dialog_forgot_password.view.*
 import kotlinx.coroutines.flow.collectLatest
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
@@ -33,10 +34,45 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
              startSignUpActivity(this)
          }
         binding.btnLogin.setOnClickListener {
+            areFieldReady()
             checkLogin()
         }
         binding.txtForgotPassLogin.setOnClickListener {
             forgotPassword()
+        }
+    }
+
+    private fun checkLogin() {
+        val email = binding.edtEmailLogin.text.trim().toString()
+        val password = binding.edtPasswordLogin.text.trim().toString()
+        lifecycleScope.launchWhenStarted {
+            viewModel.login(email, password).collectLatest {
+                when (it) {
+                    is State.Loading -> {
+                        if (it.flag == true)
+                            showLoading()
+                    }
+
+                    is State.Success -> {
+                        hiddenLoading()
+                        confirm.newBuild().setNotice(it.data.toString())
+                            .addButtonRight(R.string.close) {
+                                startActivity(
+                                    Intent(this@LoginActivity, HomeActivity::class.java)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                )
+                                confirm.dismiss()
+                                finish()
+                                ActivityCompat.finishAffinity(this@LoginActivity)
+                            }.setAction(true)
+                    }
+                    is State.Failed -> {
+                        hiddenLoading()
+                        confirm.newBuild().setNotice(it.error)
+                    }
+                }
+            }
         }
     }
 
@@ -58,7 +94,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                 flag = true
             }
             password.length < 8 -> {
-                binding.edtPasswordLogin.error = getString(R.string.invalid_password)
+                binding.edtPasswordLogin.error = getString(R.string.invalid_pass)
+                view = binding.edtPasswordLogin
+                flag = true
+            }
+            password.contains(" ") -> {
+                binding.edtPasswordLogin.error = getString(R.string.invalid_pass)
                 view = binding.edtPasswordLogin
                 flag = true
             }
@@ -70,55 +111,39 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             true
     }
 
-    private fun checkLogin() {
-        if (areFieldReady()) {
-            val email = binding.edtEmailLogin.text.trim().toString()
-            val password = binding.edtPasswordLogin.text.trim().toString()
-            lifecycleScope.launchWhenStarted {
-                viewModel.login(email, password).collectLatest {
-                when (it) {
-                    is State.Loading -> {
-                        if (it.flag == true)
-                            showLoading()
-                    }
+    private fun forgotPassword() {
+        val builder = AlertDialog.Builder(this)
+            .create()
+        val view = layoutInflater.inflate(R.layout.dialog_forgot_password, null)
+        builder.setView(view)
+        view.btnForgotPassAgreeDal.setOnClickListener {
+            val email = view.edtForgotPassEmailInputDlo.text
+            if (email == null || email.isEmpty()) {
+                showAlertDialog(getString(R.string.EURROR_EMAIL))
+                builder.dismiss()
+            } else {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.forget(email.toString(), this@LoginActivity).collectLatest {
+                        when (it) {
+                            is State.Loading -> {
+                                if (it.flag == true)
+                                    showLoading()
+                            }
 
-                    is State.Success -> {
-                       hiddenLoading()
-                        Snackbar.make(
-                            binding.root,
-                            it.data.toString(),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                   //     val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    //    startActivity(intent)
-                    //    finish()
-
-                    }
-                    is State.Failed -> {
-                        hiddenLoading()
-                        Snackbar.make(
-                            binding.root,
-                            it.error,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                    else -> {
-                        showToast(SIGN_IN_FAIL_VAL)
+                            is State.Success -> {
+                                hiddenLoading()
+                                confirm.newBuild().setNotice(it.data.toString())
+                                builder.dismiss()
+                            }
+                            is State.Failed -> {
+                                hiddenLoading()
+                                confirm.newBuild().setNotice(it.error)
+                                builder.dismiss()
+                            }
+                        }
                     }
                 }
             }
-            }
-        }
-    }
-
-    private fun forgotPassword() {
-        val builder = AlertDialog.Builder(this,R.style.CustomAlertDialog)
-            .create()
-        val view = layoutInflater.inflate(R.layout.customView_layout,null)
-        val  button = view.findViewById<Button>(R.id.dialogDismiss_button)
-        builder.setView(view)
-        button.setOnClickListener {
-            builder.dismiss()
         }
         builder.setCanceledOnTouchOutside(false)
         builder.show()

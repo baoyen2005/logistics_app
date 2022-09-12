@@ -27,4 +27,5 @@
     <dimen name="_45dp">45dp</dimen>
     <dimen name="_200dp">200dp</dimen>
     <dimen name="_2dp">2dp</dimen>
+    <dimen name="_22sp">22sp</dimen>
 </resources>

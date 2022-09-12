@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Hủy</string>
+    <string name="notice">Thông báo</string>
+    <string name="agree">Đồng ý</string>
 </resources>

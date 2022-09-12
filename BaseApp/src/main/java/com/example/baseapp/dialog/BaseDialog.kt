@@ -124,7 +124,7 @@ class BaseDialog {
             dialog.window?.setBackgroundDrawableResource(R.drawable.bg_alert_dialog_custom)
             dialog.show()
             forceShown()
-            val textSize = dialog.context.resources.getDimension(R.dimen.text_size_18)
+            val textSize = dialog.context.resources.getDimension(R.dimen.main_size)
             dialog.findViewById<TextView>(android.R.id.message).textSize = textSize
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).textSize = textSize
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).textSize = textSize

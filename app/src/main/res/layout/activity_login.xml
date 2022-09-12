@@ -186,7 +186,7 @@
                android:layout_marginTop="@dimen/_20dp"
                android:layout_marginStart="@dimen/_15dp"
                android:layout_marginEnd="@dimen/_15dp"
-               android:background="@drawable/custom_background_button"
+               android:background="@drawable/custom_bg_secondary_sea_green_dialog_button"
                android:padding="@dimen/_10dp"
                android:text="@string/login"
                android:textAllCaps="false"

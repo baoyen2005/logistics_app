@@ -1,5 +1,6 @@
 package com.example.bettinalogistics
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.baseapp.BaseRepository
@@ -87,11 +88,11 @@ class AuthenticationRepository :BaseRepository(){
         }
     }
 
-    fun forgetPassword(email: String): Flow<State<Any>> = flow<State<Any>> {
+    fun forgetPassword(email: String, context: Context): Flow<State<Any>> = flow<State<Any>> {
         emit(State.loading(true))
         val auth = Firebase.auth
         auth.sendPasswordResetEmail(email).await()
-        emit(State.success("Password reset email sent."))
+        emit(State.success(context.getString(R.string.pass_reset_sent_email)))
     }.catch {
         emit(State.failed(it.message!!))
     }.flowOn(Dispatchers.IO)
