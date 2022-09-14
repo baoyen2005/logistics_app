@@ -48,8 +48,6 @@ dependencies {
 
     // Lifecycles only (without ViewModel or LiveData)
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
     // alternately - if using Java8, use the following instead of lifecycle-compiler
 
@@ -61,7 +59,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.41"
 
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.2'
     //koin
 // Koin for Android
     implementation 'org.koin:koin-android:1.0.2'
@@ -76,5 +74,5 @@ dependencies {
 
     //MULTIDEX
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
 }
