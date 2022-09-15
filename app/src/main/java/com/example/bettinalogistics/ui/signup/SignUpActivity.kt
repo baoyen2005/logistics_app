@@ -51,6 +51,7 @@ class SignUpActivity : BaseActivity() {
     }
 
     override fun onReady(savedInstanceState: Bundle?) {
+        setContentView(binding.root)
         appPermissions = AppPermissionsUtils()
         Log.d(TAG, "onReady: binding = $binding")
         binding.imgClickCamera.setOnClickListener {

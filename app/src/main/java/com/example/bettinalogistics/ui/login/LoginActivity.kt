@@ -36,6 +36,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun onReady(savedInstanceState: Bundle?) {
+        setContentView(binding.root)
         binding.txtRegister.setOnClickListener {
             startSignUpActivity(this)
         }

@@ -23,6 +23,7 @@ class SplashScreen : BaseActivity() {
         decideNextScreen(viewModel.decideNextScreen())
     }
     override fun onReady(savedInstanceState: Bundle?) {
+        setContentView(binding.root)
         handler.postDelayed(runnable, 1200)
     }
 
