@@ -3,8 +3,8 @@ package com.example.bettinalogistics.ui.login
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
@@ -14,39 +14,43 @@ import com.example.bettinalogistics.ui.home.HomeActivity
 import com.example.bettinalogistics.ui.signup.SignUpActivity.Companion.startSignUpActivity
 import com.example.bettinalogistics.utils.State
 import kotlinx.android.synthetic.main.dialog_forgot_password.view.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
-    private val viewModel: LoginViewModel by viewModels()
 
-    companion object{
+class LoginActivity : BaseActivity() {
+
+    companion object {
         private final val TAG = "LoginActivity"
     }
 
-    override val layoutId: Int = R.layout.activity_login
+    override val layoutId: Int
+        get() = R.layout.activity_login
 
-    override fun getVM(): LoginViewModel {
-        return viewModel
+    override val viewModel: LoginViewModel by viewModel()
+
+    override val binding: ActivityLoginBinding by lazy {
+        ActivityLoginBinding.inflate(layoutInflater)
     }
 
     override fun onReady(savedInstanceState: Bundle?) {
-         binding.txtRegister.setOnClickListener {
-             startSignUpActivity(this)
-         }
+        binding.txtRegister.setOnClickListener {
+            startSignUpActivity(this)
+        }
         binding.btnLogin.setOnClickListener {
             areFieldReady()
-            checkLogin()
         }
         binding.txtForgotPassLogin.setOnClickListener {
             forgotPassword()
         }
+        checkLogin()
     }
 
     private fun checkLogin() {
-        val email = binding.edtEmailLogin.text.trim().toString()
-        val password = binding.edtPasswordLogin.text.trim().toString()
-        lifecycleScope.launchWhenStarted {
-            viewModel.login(email, password).collectLatest {
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.stateLoginFlow.collectLatest {
                 when (it) {
                     is State.Loading -> {
                         if (it.flag == true)
@@ -70,6 +74,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                     is State.Failed -> {
                         hiddenLoading()
                         confirm.newBuild().setNotice(it.error)
+                    }
+                    else -> {
+                        Log.d(TAG, "checkLogin: ")
                     }
                 }
             }
@@ -103,6 +110,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                 view = binding.edtPasswordLogin
                 flag = true
             }
+            else -> {
+                Log.d(TAG, "areFieldReady: else viewmodel")
+                viewModel.login(email, password)
+            }
         }
         return if (flag) {
             view?.requestFocus()
@@ -122,8 +133,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                 showAlertDialog(getString(R.string.EURROR_EMAIL))
                 builder.dismiss()
             } else {
-                lifecycleScope.launchWhenStarted {
-                    viewModel.forget(email.toString(), this@LoginActivity).collectLatest {
+                viewModel.forget(email.toString(), applicationContext)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.stateForgotPasswordFlow.collectLatest {
                         when (it) {
                             is State.Loading -> {
                                 if (it.flag == true)
@@ -140,6 +152,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                                 confirm.newBuild().setNotice(it.error)
                                 builder.dismiss()
                             }
+                            else -> {}
                         }
                     }
                 }

@@ -107,7 +107,7 @@
                    android:padding="@dimen/_10dp"
                    android:textColor="@color/white"
                    android:textColorHint="@color/white"
-                   android:textSize="@dimen/_20sp" />
+                   android:textSize="@dimen/_16sp" />
            </LinearLayout>
 
            <LinearLayout
@@ -152,7 +152,7 @@
                    android:padding="@dimen/_10dp"
                    android:textColor="@color/white"
                    android:textColorHint="@color/white"
-                   android:textSize="@dimen/_20sp" />
+                   android:textSize="@dimen/_16sp" />
            </LinearLayout>
 
            <ImageView

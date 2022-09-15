@@ -5,7 +5,7 @@ import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.ui.splash.SplashScreen.Companion.LOGIN_SCREEN
 import com.example.bettinalogistics.ui.splash.SplashScreen.Companion.MAIN_SCREEN
 
-class SplashViewModel(application: Application) : BaseViewModel(application) {
+class SplashViewModel() : BaseViewModel() {
     private var isLogin: Boolean = false
 
     fun decideNextScreen(): String {

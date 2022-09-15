@@ -1,4 +1,4 @@
-package com.vnpay.base.di
+package com.example.baseapp.di
 
 import android.annotation.SuppressLint
 import android.app.Activity

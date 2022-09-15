@@ -2,7 +2,6 @@ package com.example.baseapp.di
 
 import com.example.baseapp.dialog.ConfirmDialog
 import com.example.baseapp.dialog.LoadingDialog
-import com.vnpay.base.di.Common
 import org.koin.dsl.module.module
 
 val dialogs = module {

@@ -73,11 +73,11 @@ abstract class BaseFragment<BindingType : ViewDataBinding, ViewModelType : BaseV
     }
 
     fun showHideLoading(isShow: Boolean) {
-        if (activity != null && activity is BaseActivity<*,*>) {
+        if (activity != null && activity is BaseActivity) {
             if (isShow) {
-                (activity as BaseActivity<*,*>?)!!.showLoading()
+                (activity as BaseActivity?)!!.showLoading()
             } else {
-                (activity as BaseActivity<*,*>?)!!.hiddenLoading()
+                (activity as BaseActivity?)!!.hiddenLoading()
             }
         }
     }

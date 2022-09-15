@@ -1,7 +1,7 @@
 package com.example.bettinalogistics.main
 
 import androidx.multidex.MultiDexApplication
-import com.example.baseapp.di.modules
+import com.example.bettinalogistics.di.modules
 import org.koin.android.ext.android.startKoin
 
 class MainApplication : MultiDexApplication() {

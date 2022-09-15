@@ -14,33 +14,30 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.example.baseapp.dialog.BaseDialog
 import com.example.baseapp.dialog.ConfirmDialog
 import com.example.baseapp.dialog.LoadingDialog
 import dagger.hilt.android.migration.CustomInjection.inject
 import org.koin.android.ext.android.inject
 
-abstract class BaseActivity<BindingType : ViewDataBinding, ViewModelType : BaseViewModel> :
+abstract class BaseActivity :
     AppCompatActivity() {
     val loading by inject<LoadingDialog>()
     val confirm by inject<ConfirmDialog>()
 
     @get:LayoutRes
     protected abstract val layoutId: Int
-    private var _binding: BindingType? = null
-    val binding: BindingType get() = _binding!!
-    private lateinit var viewModel: ViewModelType
-    abstract fun getVM(): ViewModelType
+    protected open val binding: ViewBinding? = null
+    abstract val viewModel: BaseViewModel
 
     protected abstract fun onReady(savedInstanceState: Bundle?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = DataBindingUtil.setContentView(this, layoutId)
-        _binding?.lifecycleOwner = this
-        setContentView(binding.root)
-        viewModel = getVM()
-
+        if (binding != null) {
+            setContentView(binding?.root)
+        }
     }
     fun showLoading() {
         loading.show()
