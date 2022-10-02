@@ -3,29 +3,21 @@ package com.example.bettinalogistics.ui.login
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityLoginBinding
-import com.example.bettinalogistics.ui.home.HomeActivity
-import com.example.bettinalogistics.ui.signup.SignUpActivity.Companion.startSignUpActivity
+import com.example.bettinalogistics.ui.main.MainActivity
+import com.example.bettinalogistics.ui.signup.SignUpActivity
+import com.example.bettinalogistics.utils.AppConstant.Companion.SIGN_IN_FAIL_VAL
 import com.example.bettinalogistics.utils.State
 import kotlinx.android.synthetic.main.dialog_forgot_password.view.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LoginActivity : BaseActivity() {
-
-    companion object {
-        private final val TAG = "LoginActivity"
-    }
-
     override val layoutId: Int
         get() = R.layout.activity_login
 
@@ -35,10 +27,13 @@ class LoginActivity : BaseActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    override fun onReady(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.txtRegister.setOnClickListener {
-            startSignUpActivity(this)
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         binding.btnLogin.setOnClickListener {
             areFieldReady()
@@ -46,12 +41,13 @@ class LoginActivity : BaseActivity() {
         binding.txtForgotPassLogin.setOnClickListener {
             forgotPassword()
         }
-        checkLogin()
     }
 
     private fun checkLogin() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.stateLoginFlow.collectLatest {
+        val email = binding.edtEmailLogin.text.trim().toString()
+        val password = binding.edtPasswordLogin.text.trim().toString()
+        lifecycleScope.launchWhenStarted {
+            viewModel.login(email, password).collectLatest {
                 when (it) {
                     is State.Loading -> {
                         if (it.flag == true)
@@ -60,24 +56,19 @@ class LoginActivity : BaseActivity() {
 
                     is State.Success -> {
                         hiddenLoading()
-                        confirm.newBuild().setNotice(it.data.toString())
-                            .addButtonRight(R.string.close) {
-                                startActivity(
-                                    Intent(this@LoginActivity, HomeActivity::class.java)
-                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                )
-                                confirm.dismiss()
-                                finish()
-                                ActivityCompat.finishAffinity(this@LoginActivity)
-                            }.setAction(true)
+                        startActivity(
+                            Intent(this@LoginActivity, MainActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        )
+                        finish()
                     }
                     is State.Failed -> {
                         hiddenLoading()
                         confirm.newBuild().setNotice(it.error)
                     }
                     else -> {
-                        Log.d(TAG, "checkLogin: ")
+                        showToast(SIGN_IN_FAIL_VAL)
                     }
                 }
             }
@@ -112,8 +103,7 @@ class LoginActivity : BaseActivity() {
                 flag = true
             }
             else -> {
-                Log.d(TAG, "areFieldReady: else viewmodel")
-                viewModel.login(email, password)
+                checkLogin()
             }
         }
         return if (flag) {
@@ -134,9 +124,8 @@ class LoginActivity : BaseActivity() {
                 showAlertDialog(getString(R.string.EURROR_EMAIL))
                 builder.dismiss()
             } else {
-                viewModel.forget(email.toString(), applicationContext)
-                lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.stateForgotPasswordFlow.collectLatest {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.forget(email.toString(), this@LoginActivity).collectLatest {
                         when (it) {
                             is State.Loading -> {
                                 if (it.flag == true)

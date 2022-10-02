@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_radius_white"
@@ -57,6 +59,7 @@
             android:background="@drawable/custom_bg_circle_gray_bt_cancel_dialog"
             android:clickable="true"
             android:gravity="center"
+            app:backgroundTint="@null"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
@@ -76,6 +79,7 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
+            app:backgroundTint="@null"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             android:text="@string/agree"

@@ -13,4 +13,5 @@
     <color name="edt_steal_blue">#4682B4</color>
     <color name="blue_dark">#1565C0</color>
     <color name="blue_facebook">#3c5a99</color>
+    <color name="background_app">#fafafa</color>
 </resources>

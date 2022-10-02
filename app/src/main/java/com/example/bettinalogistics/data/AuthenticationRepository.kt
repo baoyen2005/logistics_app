@@ -1,10 +1,14 @@
-package com.example.bettinalogistics
+package com.example.bettinalogistics.data
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.example.baseapp.BaseRepository
+import com.example.baseapp.di.Common
+import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.utils.AppConstant
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.State
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -12,12 +16,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import java.util.*
 
 interface AuthenticationRepository {
-    suspend fun login(email: String, password: String): MutableStateFlow<State<Any>?>
+    suspend fun login(email: String, password: String): Flow<State<Any>>
     suspend fun signUp(
         image: Uri,
         fullName: String,
@@ -26,60 +34,57 @@ interface AuthenticationRepository {
         password: String,
         email: String,
         address: String
-    ): MutableStateFlow<State<Any>?>
+    ): Flow<State<Any>>
 
-    suspend fun forgetPassword(email: String, context: Context): MutableStateFlow<State<Any>?>
+    suspend fun forgetPassword(email: String, context: Context): Flow<State<Any>>
 }
 
 class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository {
-    private val stateLoginFlow = MutableStateFlow<State<Any>?>(State.loading(true))
-    private val stateSignInFlow = MutableStateFlow<State<Any>?>(State.loading(true))
-    private val stateForgotPasswordFlow = MutableStateFlow<State<Any>?>(State.loading(true))
-
+    private val context = Common.currentActivity
     override suspend fun login(
         email: String,
         password: String
-    ): MutableStateFlow<State<Any>?> {
+    ): Flow<State<Any>> = flow<State<Any>> {
+        emit(State.loading(true))
+
         val auth = Firebase.auth
         val data = auth.signInWithEmailAndPassword(email, password).await()
-        data?.let {
-            if (auth.currentUser?.isEmailVerified!!) {
-                stateLoginFlow.emit(State.success("Login Successfully"))
-            } else {
-                auth.currentUser?.sendEmailVerification()?.await()
-                stateLoginFlow.emit(State.failed("Verify email first"))
-            }
+        if(data != null){
+            Log.d(TAG, "login: in repo success ")
+            emit(State.success(context!!.getString(R.string.LOGIN_SUCCESS)))
         }
-
-        stateLoginFlow.catch {
-            stateLoginFlow.emit(State.failed(it.message!!))
+        else{
+            Log.d(TAG, "login: in repo failde ")
+            emit(State.failed(context!!.getString(R.string.ERRO_LOGIN)))
         }
-        return stateLoginFlow
-    }
+    }.catch {
+        Log.d(TAG, "login in repo: catchhhh")
+        emit(State.failed(it.message.toString()))
+    }.flowOn(
+        Dispatchers.IO
+    )
 
-    override suspend fun signUp(
-        image: Uri,
-        fullName: String,
-        phone: String,
-        dateOfBirth: Date,
-        password: String,
-        email: String,
-        address: String
-    ): MutableStateFlow<State<Any>?> {
-
+    override suspend fun signUp(image: Uri,
+                                fullName:String,
+                                phone: String,
+                                dateOfBirth : Date,
+                                password: String,
+                                email: String,
+                                address: String
+    ): Flow<State<Any>> = flow<State<Any>> {
+        emit(State.loading(true))
         val auth = Firebase.auth
         val data = auth.createUserWithEmailAndPassword(email, password).await()
         data.user?.let {
             val path = uploadImage(it.uid, image).toString()
             val userModel = User(path, fullName, phone, dateOfBirth, email, password, address)
             createUser(userModel, auth)
-            stateSignInFlow.emit(State.success("Email verification sent"))
+            emit(State.success("Email verification sent"))
         }
-        stateSignInFlow.catch {
-            stateSignInFlow.emit(State.failed(it.message!!))
-        }
-        return stateSignInFlow
-    }
+
+    }.catch {
+        emit(State.failed(it.message!!))
+    }.flowOn(Dispatchers.IO)
 
     private suspend fun uploadImage(uid: String, image: Uri): Uri {
         val firebaseStorage = Firebase.storage
@@ -103,17 +108,12 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
         }
     }
 
-    override suspend fun forgetPassword(
-        email: String,
-        context: Context
-    ): MutableStateFlow<State<Any>?> {
-        stateForgotPasswordFlow.emit(State.loading(true))
+    override suspend fun forgetPassword(email: String, context: Context): Flow<State<Any>> = flow<State<Any>> {
+        emit(State.loading(true))
         val auth = Firebase.auth
         auth.sendPasswordResetEmail(email).await()
-        stateForgotPasswordFlow.emit(State.success(context.getString(R.string.pass_reset_sent_email)))
-        stateForgotPasswordFlow.catch {
-            stateForgotPasswordFlow.emit(State.failed(it.message!!))
-        }
-        return stateForgotPasswordFlow
-    }
+        emit(State.success(context.getString(R.string.pass_reset_sent_email)))
+    }.catch {
+        emit(State.failed(it.message!!))
+    }.flowOn(Dispatchers.IO)
 }

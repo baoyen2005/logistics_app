@@ -9,21 +9,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.example.baseapp.di.Common
 import com.example.baseapp.dialog.BaseDialog
 import com.example.baseapp.dialog.ConfirmDialog
 import com.example.baseapp.dialog.LoadingDialog
-import dagger.hilt.android.migration.CustomInjection.inject
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity :
     AppCompatActivity() {
-    val loading by inject<LoadingDialog>()
     val confirm by inject<ConfirmDialog>()
 
     @get:LayoutRes
@@ -31,24 +25,28 @@ abstract class BaseActivity :
     protected open val binding: ViewBinding? = null
     abstract val viewModel: BaseViewModel
 
-    protected abstract fun onReady(savedInstanceState: Bundle?)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (binding != null) {
             setContentView(binding?.root)
         }
+        Common.currentActivity = this
     }
     fun showLoading() {
-        loading.show()
+        LoadingDialog.getInstance(this)?.show()
     }
 
     fun hiddenLoading() {
-        loading.dismiss()
+        LoadingDialog.getInstance(this)?.hidden()
     }
 
     fun showToast(message: String){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Common.currentActivity = this
     }
 
     /**

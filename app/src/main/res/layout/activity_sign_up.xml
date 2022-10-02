@@ -35,7 +35,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linearImageSignup">
 
-                <TextView
+                <com.example.baseapp.view.Textview
                     android:id="@+id/txtTitleSignup"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -65,8 +65,9 @@
 
                     <ImageView
                         android:id="@+id/img_avt"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="@dimen/_80dp"
+                        android:layout_height="@dimen/_80dp"
+                        android:background="@drawable/custom_bg_circle_white_image"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
@@ -112,7 +113,7 @@
                             android:src="@drawable/ic_baseline_account_box_24" />
                     </LinearLayout>
 
-                    <EditText
+                    <com.example.baseapp.view.EditText
                         android:id="@+id/edtFullNameSignUp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -157,7 +158,7 @@
                             android:src="@drawable/ic_baseline_contact_phone_24" />
                     </LinearLayout>
 
-                    <EditText
+                    <com.example.baseapp.view.EditText
                         android:id="@+id/edtPhoneSignup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -187,7 +188,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linear_phone_signup">
 
-                    <TextView
+                    <com.example.baseapp.view.Textview
                         android:id="@+id/tvDateOfBirthSignUp"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_40dp"
@@ -244,7 +245,7 @@
                             android:src="@drawable/ic_baseline_email_24" />
                     </LinearLayout>
 
-                    <EditText
+                    <com.example.baseapp.view.EditText
                         android:id="@+id/edtEmailSignUp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -288,7 +289,7 @@
                             android:src="@drawable/ic_baseline_lock_24" />
                     </LinearLayout>
 
-                    <EditText
+                    <com.example.baseapp.view.EditText
                         android:id="@+id/edtPasswordSignup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -332,7 +333,7 @@
                             android:src="@drawable/ic_baseline_home_24" />
                     </LinearLayout>
 
-                    <EditText
+                    <com.example.baseapp.view.EditText
                         android:id="@+id/edtAddressSignUp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -349,17 +350,12 @@
                 <Button
                     android:id="@+id/btnSignup"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50dp"
-                    android:layout_marginStart="@dimen/_15dp"
                     android:layout_marginTop="@dimen/_20dp"
-                    android:layout_marginEnd="@dimen/_15dp"
+                    style="@style/login"
+                    app:backgroundTint="@null"
                     android:layout_marginBottom="@dimen/_15dp"
-                    android:background="@drawable/custom_bg_secondary_sea_green_dialog_button"
-                    android:padding="@dimen/_10dp"
                     android:text="@string/sign_in"
-                    android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

@@ -1,69 +1,77 @@
 package com.example.baseapp.dialog
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import com.example.baseapp.R
+import java.lang.ref.WeakReference
 
 
-class LoadingDialog(context: Context?) : Dialog(context!!) {
-    var progress: ProgressBar? = null
-    private var handler: Handler? = null
-    private var run: Runnable? = null
-    private var dialog: Dialog? = null
-    private fun init() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        setCancelable(false)
-        handler = Handler()
-        dialog = this
-        run = Runnable {
-            try {
-                if (dialog != null && isShowing) {
-                    dismiss()
-                }
-            } catch (e: Exception) {
-                ////LogVnp.Shape1(Shape1);
+class LoadingDialog private constructor(private var context: Context?) {
+    private var isShow = false
+    private lateinit var dialog: AlertDialog
+    fun show() {
+        if (context != null && !(context as Activity?)!!.isFinishing) {
+            if (!isShow) {
+                isShow = true
+                dialog.show()
+            }
+        }
+    }
+    fun hidden() {
+        if (isShow && dialog.isShowing) {
+            isShow = false
+            dialog.dismiss()
+        }
+    }
+
+    fun destroyLoadingDialog() {
+        context = null
+        if (instance != null) {
+            instance!!.dialog.dismiss()
+        }
+        instance = null
+    }
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: LoadingDialog? = null
+
+        fun getInstance(context: Context): LoadingDialog? {
+            return if (instance != null) {
+                instance
+            } else {
+                instance = LoadingDialog(WeakReference(context).get()!!)
+                instance
             }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_notice)
-        progress = findViewById<View>(R.id.progressLoading) as ProgressBar?
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    fun setCancel(isCancel: Boolean) {
-        setCancelable(isCancel)
-        setCanceledOnTouchOutside(isCancel)
-    }
-
-    override fun show() {
-        super.show()
-        handler!!.postDelayed(run!!, 90000)
-    }
-
-    override fun dismiss() {
-        try {
-            super.dismiss()
-            handler!!.removeCallbacks(run!!)
-        } catch (ex: Exception) {
-            ////LogVnp.Shape1(ex);
-        }
-    }
-
     init {
-        init()
+        if (context != null && !isShow) {
+            val dialogBuilder =
+                AlertDialog.Builder(context!!)
+            val li = LayoutInflater.from(context)
+            val dialogView = li.inflate(R.layout.loading_dialog, null)
+            dialogBuilder.setView(dialogView)
+            dialogBuilder.setCancelable(false)
+            dialog = dialogBuilder.create()
+            if (dialog.window != null) {
+                dialog.window!!
+                    .setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+            dialog.setCancelable(false)
+            dialog.setCanceledOnTouchOutside(false)
+        }
     }
 }

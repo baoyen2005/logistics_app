@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextView">
+        <attr name="right" format="reference" />
+        <attr name="top" format="reference" />
+        <attr name="bottom" format="reference" />
+        <attr name="left" format="reference" />
+        <attr name="check" format="boolean" />
+        <attr name="tint" format="color" />
+        <attr name="background" format="reference" />
+        <attr name="html" format="string" />
+        <attr name="light" format="boolean" />
+    </declare-styleable>
+</resources>

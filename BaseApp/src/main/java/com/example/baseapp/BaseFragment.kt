@@ -2,110 +2,59 @@ package com.example.baseapp
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.example.baseapp.dialog.BaseDialog
+import androidx.viewbinding.ViewBinding
+import com.example.baseapp.di.Common
+import com.example.baseapp.dialog.ConfirmDialog
+import com.example.baseapp.dialog.LoadingDialog
+import org.koin.android.ext.android.inject
 
-abstract class BaseFragment<BindingType : ViewDataBinding, ViewModelType : BaseViewModel> :
+abstract class BaseFragment :
     Fragment() {
+    val confirm by inject<ConfirmDialog>()
+
     @get:LayoutRes
     protected abstract val layoutId: Int
-    private var _binding: BindingType? = null
-    val binding: BindingType
-        get() = _binding
-            ?: throw IllegalStateException("Cannot access view after view destroyed or before view creation")
+    protected open val binding: ViewBinding? = null
+    abstract val viewModel: BaseViewModel
 
-    private lateinit var viewModel: ViewModelType
-    abstract fun getVM(): ViewModelType
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = DataBindingUtil.bind(view)
-        _binding?.lifecycleOwner = viewLifecycleOwner
-
-        if(savedInstanceState == null){
-            initView(savedInstanceState)
-
-            setOnClick()
-
-            bindingStateView()
-
-            bindingAction()
+        if (binding != null) {
+            requireActivity().setContentView(binding?.root)
         }
+        Common.currentActivity = requireActivity()
+        initView()
+        initListener()
+        observerData()
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if(savedInstanceState != null){
-            initView(savedInstanceState)
+    abstract fun initView()
 
-            setOnClick()
+    abstract fun initListener()
 
-            bindingStateView()
+    abstract fun observerData()
 
-            bindingAction()
-        }
+    fun showLoading() {
+        LoadingDialog.getInstance(requireContext())?.show()
     }
 
-    open fun setOnClick() {
-
+    fun hiddenLoading() {
+        LoadingDialog.getInstance(requireContext())?.hidden()
     }
 
-    open fun initView(savedInstanceState: Bundle?) {
-
+    fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    open fun bindingStateView() {
-
-    }
-
-    open fun bindingAction() {
-
-    }
-
-    override fun onDestroyView() {
-        _binding?.unbind()
-        _binding = null
-        super.onDestroyView()
-    }
-
-    fun showHideLoading(isShow: Boolean) {
-        if (activity != null && activity is BaseActivity) {
-            if (isShow) {
-                (activity as BaseActivity?)!!.showLoading()
-            } else {
-                (activity as BaseActivity?)!!.hiddenLoading()
-            }
-        }
-    }
-
-    fun showAlertDialog(message: String, onPositive: BaseDialog.OnDialogListener? = null) {
-        BaseDialog(requireContext())
-            .setMessage(message)
-            .setCancelable(false)
-            .setPositiveButton(R.string.ok, onPositive)
-            .show()
-    }
-
-    fun showAlertDialog(@StringRes message: Int) {
-        BaseDialog(requireContext())
-            .setMessage(message.toString())
-            .setPositiveButton(R.string.ok, null)
-            .show()
-    }
-
-    fun showConfirmDialog(
-        @StringRes message: Int,
-        onPositive: BaseDialog.OnDialogListener? = null,
-        onNegative: BaseDialog.OnDialogListener? = null,
-    ) {
-        BaseDialog(requireContext())
-            .setMessage(message.toString())
-            .setPositiveButton(R.string.ok, onPositive)
-            .setNegativeButton(R.string.cancel, onNegative)
-            .show()
+    override fun onResume() {
+        super.onResume()
+        Common.currentActivity = requireActivity()
     }
 }

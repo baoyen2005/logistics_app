@@ -1,8 +1,6 @@
 package com.example.bettinalogistics.ui.signup
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,14 +13,15 @@ import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySignUpBinding
-import com.example.bettinalogistics.utils.AppConstant.Companion.CANCEL_DATE_PICKER_VAL
+import com.example.bettinalogistics.ui.main.MainActivity
 import com.example.bettinalogistics.utils.AppConstant.Companion.CHOOSE_IMAGE
+import com.example.bettinalogistics.utils.AppConstant.Companion.SIGN_UP_FAIL_VAL
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.example.bettinalogistics.utils.State
 import com.example.bettinalogistics.utils.dateToString
 import com.example.bettinalogistics.utils.stringToDate
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -30,16 +29,6 @@ import java.util.*
 
 class SignUpActivity : BaseActivity() {
     private lateinit var appPermissions: AppPermissionsUtils
-    private lateinit var datePickerDialog: DatePickerDialog
-
-
-    companion object {
-        private final val TAG = "SignupActivity"
-
-        fun startSignUpActivity(context: Context) {
-            Intent(context, SignUpActivity::class.java)
-        }
-    }
 
     override val layoutId: Int
         get() = R.layout.activity_login
@@ -50,7 +39,8 @@ class SignUpActivity : BaseActivity() {
         ActivitySignUpBinding.inflate(layoutInflater)
     }
 
-    override fun onReady(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(binding.root)
         appPermissions = AppPermissionsUtils()
         Log.d(TAG, "onReady: binding = $binding")
@@ -82,6 +72,7 @@ class SignUpActivity : BaseActivity() {
             && result.data != null
         ) {
             val photoUri: Uri? = result.data!!.data
+            viewModel.setUriPhoto(photoUri!!)
             binding.imgAvt.visibility = View.VISIBLE
             binding.imgClickCamera.visibility = View.GONE
             binding.imgAvt.setImageURI(photoUri)
@@ -93,11 +84,12 @@ class SignUpActivity : BaseActivity() {
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     private fun chooseDate() {
-        val datePicker = MaterialDatePicker.Builder.datePicker().build()
-        datePicker.show(supportFragmentManager, getString(R.string.date_picker))
-
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText(this@SignUpActivity.getString(R.string.TITLE_DATE_PICKER))
+            .build()
+        datePicker.show(supportFragmentManager,"DatePicker")
         datePicker.addOnPositiveButtonClickListener {
             val date = dateToString(Date(it))
             binding.tvDateOfBirthSignUp.text = date
@@ -105,18 +97,15 @@ class SignUpActivity : BaseActivity() {
         datePicker.addOnNegativeButtonClickListener {
             showToast("${datePicker.headerText} is cancelled")
         }
-        datePicker.addOnCancelListener {
-            showToast(CANCEL_DATE_PICKER_VAL)
-        }
     }
 
     private fun areFieldReady(): Boolean {
-        val fullName = binding.edtFullNameSignUp.text.trim().toString()
-        val phone = binding.edtPhoneSignup.text.trim().toString()
+        val fullName = binding.edtFullNameSignUp.text?.trim().toString()
+        val phone = binding.edtPhoneSignup.text?.trim().toString()
         val dateOfBirth = binding.tvDateOfBirthSignUp.text.trim().toString()
-        val email = binding.edtEmailSignUp.text.trim().toString()
-        val password = binding.edtPasswordSignup.text.trim().toString()
-        val address = binding.edtAddressSignUp.text.trim().toString()
+        val email = binding.edtEmailSignUp.text?.trim().toString()
+        val password = binding.edtPasswordSignup.text?.trim().toString()
+        val address = binding.edtAddressSignUp.text?.trim().toString()
 
         var view: View? = null
         var flag = false
@@ -150,7 +139,12 @@ class SignUpActivity : BaseActivity() {
                 view = binding.edtPasswordSignup
                 flag = true
             }
-            password.length < 8 -> {
+            password.contains(" ") ->{
+                binding.edtPasswordSignup.error = getString(R.string.invalid_pass)
+                view = binding.edtPasswordSignup
+                flag = true
+            }
+            password.length < 8   -> {
                 binding.edtPasswordSignup.error = getString(R.string.invalid_pass)
                 view = binding.edtPasswordSignup
                 flag = true
@@ -160,18 +154,6 @@ class SignUpActivity : BaseActivity() {
                 binding.edtAddressSignUp.error = getString(R.string.invalid_field)
                 view = binding.edtAddressSignUp
                 flag = true
-            }
-            else -> {
-                val uri = viewModel.getUri()
-                val dateOB = stringToDate(dateOfBirth)
-                if (uri != null) {
-                    viewModel.signUp(
-                        uri, fullName, phone, dateOB!!,
-                        password, email, address
-                    )
-                } else {
-                    Log.d(TAG, "areFieldReady: uri null")
-                }
             }
         }
 
@@ -183,37 +165,44 @@ class SignUpActivity : BaseActivity() {
     }
 
     private fun saveUser() {
+        if (areFieldReady()) {
+            val uri = viewModel.uri
+            val fullName = binding.edtFullNameSignUp.text?.trim().toString()
+            val phone = binding.edtPhoneSignup.text?.trim().toString()
+            val dateOfBirth = binding.tvDateOfBirthSignUp.text.trim().toString()
+            val email = binding.edtEmailSignUp.text?.trim().toString()
+            val password = binding.edtPasswordSignup.text?.trim().toString()
+            val address = binding.edtAddressSignUp.text?.trim().toString()
+            val dateOB = stringToDate(dateOfBirth)
+            Log.d(TAG, "saveUser: uri = $uri")
+            if (uri != null) {
                 lifecycleScope.launchWhenCreated {
-                    viewModel.stateSignInFlow
-                        .collectLatest {
-                            when (it) {
-                                is State.Loading -> {
-                                    if (it.flag == true)
-                                        showLoading()
-                                }
-
-                                is State.Success -> {
-                                    hiddenLoading()
-                                    Snackbar.make(
-                                        binding.root,
-                                        it.data.toString(),
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-
-                                    onBackPressed()
-
-                                }
-                                is State.Failed -> {
-                                    hiddenLoading()
-                                    Snackbar.make(
-                                        binding.root,
-                                        it.error,
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
-                                else -> {}
+                    viewModel.signUp(
+                        uri, fullName, phone, dateOB!!,
+                        password, email, address
+                    ).collectLatest {
+                        when (it) {
+                            is State.Loading -> {
+                                if (it.flag == true)
+                                    showLoading()
                             }
+
+                            is State.Success -> {
+                                hiddenLoading()
+                                startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                                finish()
+                            }
+                            is State.Failed -> {
+                                hiddenLoading()
+                                confirm.newBuild().setNotice(it.error)
+                            }
+                            else -> {
+                                showToast(SIGN_UP_FAIL_VAL)
+                            }
+                        }
                     }
                 }
             }
+        }
+    }
 }

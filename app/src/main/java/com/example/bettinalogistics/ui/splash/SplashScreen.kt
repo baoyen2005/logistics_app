@@ -5,9 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.databinding.ActivitySignUpBinding
 import com.example.bettinalogistics.databinding.ActivitySplashScreenBinding
-import com.example.bettinalogistics.ui.signup.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashScreen : BaseActivity() {
@@ -22,7 +20,9 @@ class SplashScreen : BaseActivity() {
     private var runnable: Runnable = Runnable {
         decideNextScreen(viewModel.decideNextScreen())
     }
-    override fun onReady(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(binding.root)
         handler.postDelayed(runnable, 1200)
     }

@@ -58,5 +58,5 @@ class AndroidResourceProvider
 
 @SuppressLint("StaticFieldLeak")
 public object Common {
-    @JvmStatic   var  currentActivity: Activity? = null
+    @JvmStatic  var currentActivity: Activity? = null
 }

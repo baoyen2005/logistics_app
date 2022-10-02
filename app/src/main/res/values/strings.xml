@@ -34,4 +34,20 @@
     <string name="pass_reset_sent_email">Mật khẩu được reset lại gửi đã gửi qua email của bạn.</string>
     <string name="close">Đóng</string>
     <string name="sign_in">Đăng ký</string>
+    <string name="LOGIN_SUCCESS">Đăng nhập thành công</string>
+    <string name="VERIFY_EMAIL">Xin hãy xác thực email</string>
+    <string name="ERRO_LOGIN">Tài khoản sai hoặc không tồn tại. Quý khách kiểm tra lại tài khoản. Nếu chưa có tài khoản vui lòng đăng ký tài khoản.</string>
+    <string name="TITLE_DATE_PICKER">Chọn ngày sinh</string>
+    <string name="str_home">Trang chủ</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="transport_service">Các dịch vụ vận chuyển</string>
+    <string name="transport_type">Các loại vận chuyển</string>
+    <string name="str_noti">Thông báo</string>
+    <string name="str_discount">Khuyến mãi</string>
+    <string name="str_search">Tìm kiếm</string>
+    <string name="str_order">Đơn hàng</string>
+    <string name="str_balance_fluctuations">Biến động số dư</string>
+    <string name="str_pending_approval">Đang chờ duyệt</string>
+    <string name="str_Delivering">Đang giao</string>
 </resources>

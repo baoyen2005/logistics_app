@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app"
+    tools:context="ui.home.HomeFragment">
+
+    <LinearLayout
+        android:id="@+id/linearHomeIvMenu"
+        android:layout_width="@dimen/_40dp"
+        android:layout_height="@dimen/_40dp"
+        android:layout_marginStart="@dimen/_15dp"
+        android:background="@drawable/shape_bg_fffff_corner_12"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgHomeShowMenu"
+            android:layout_width="@dimen/_30dp"
+            android:layout_height="@dimen/_30dp"
+            android:src="@drawable/ic_baseline_dehaze_24" />
+    </LinearLayout>
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvHomeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/ssp_semi_bold"
+        android:gravity="center"
+        android:text="@string/str_home"
+        android:textColor="@color/black"
+        android:textSize="@dimen/main_size"
+        app:layout_constraintBottom_toBottomOf="@id/linearHomeIvMenu"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/linearHomeIvMenu" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvHomeUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeTitle"
+        tools:text="le bao yen" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvHomeDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_bold"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeUserName"
+        tools:text="1920202" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvHomeIntroduceTransportMethods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_bold"
+        android:text="@string/transport_service"
+        android:textSize="@dimen/_16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeDate" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHomeTransportMethods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/sliderHome"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeIntroduceTransportMethods"
+        app:spanCount="2" />
+
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/sliderHome"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150dp"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        app:iss_auto_cycle="true"
+        app:iss_delay="0"
+        app:iss_period="1000"
+        app:layout_constraintBottom_toTopOf="@id/tvHomeIntroduceService"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvHomeTransportMethods" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvHomeIntroduceService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_bold"
+        android:text="@string/transport_type"
+        android:textSize="@dimen/_16sp"
+        app:layout_constraintBottom_toTopOf="@id/rvHomeTransportType"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sliderHome" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHomeTransportType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:layout_marginBottom="@dimen/_20dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeIntroduceService"
+        app:spanCount="2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

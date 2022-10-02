@@ -1,17 +1,18 @@
 package com.example.bettinalogistics.main
 
+import android.app.Application
 import androidx.multidex.MultiDexApplication
 import com.example.bettinalogistics.di.modules
 import org.koin.android.ext.android.startKoin
 
-class MainApplication : MultiDexApplication() {
+class MainApplication : Application() {
     init {
         instance = this
     }
 
     override fun onCreate() {
         super.onCreate()
-        startKoin(this, modules)
+        startKoin(this@MainApplication, modules)
     }
 
     companion object {

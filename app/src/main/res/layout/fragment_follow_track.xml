@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.followtrask.FollowTraskFragment">
+
+    <LinearLayout
+        android:id="@+id/linearNotificationTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/layoutFollowTrackHeader"
+            layout="@layout/layout_header"/>
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewFollowTrack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gray_color_corner_12"
+            android:layout_marginTop="@dimen/_20dp"
+            app:queryHint="@string/str_search"
+            app:iconifiedByDefault="false"
+            android:autofillHints="@string/str_search"
+            />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutFollowTrackOrderStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

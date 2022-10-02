@@ -26,17 +26,16 @@
                android:contentDescription="@string/material_motion_easing_standard"
                android:src="@drawable/logistics_logo" />
 
-           <TextView
+           <com.example.baseapp.view.Textview
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_gravity="center"
                android:layout_marginBottom="@dimen/_30dp"
-               android:fontFamily="@font/poppins_regular"
                android:gravity="center"
                android:text="@string/bettina_name"
                android:textColor="@color/primary_dodger_blue_1"
                android:textSize="@dimen/_28sp"
-               android:textStyle="bold" />
+               android:fontFamily="@font/ssp_semi_bold" />
        </LinearLayout>
 
        <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,17 +49,16 @@
            app:layout_constraintRight_toRightOf="parent"
            app:layout_constraintTop_toBottomOf="@id/linear_first">
 
-           <TextView
+           <com.example.baseapp.view.Textview
                android:id="@+id/txtTitleLogin"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="@dimen/_15dp"
                android:layout_marginTop="@dimen/_20dp"
-               android:fontFamily="@font/poppins_regular"
                android:text="@string/login"
                android:textColor="@color/white"
                android:textSize="@dimen/_24sp"
-               android:textStyle="bold"
+               android:fontFamily="@font/ssp_semi_bold"
                app:layout_constraintBottom_toTopOf="@id/linear_email_login"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintTop_toTopOf="parent" />
@@ -103,10 +101,11 @@
                    android:layout_gravity="center"
                    android:background="@drawable/custom_background_edt_email"
                    android:hint="@string/email"
+                   android:fontFamily="@font/ssp_semi_regular"
                    android:inputType="textEmailAddress"
                    android:padding="@dimen/_10dp"
-                   android:textColor="@color/white"
-                   android:textColorHint="@color/white"
+                   android:textColor="@color/black"
+                   android:textColorHint="@color/tertiary_gray"
                    android:textSize="@dimen/_16sp" />
            </LinearLayout>
 
@@ -148,10 +147,11 @@
                    android:layout_gravity="center"
                    android:background="@drawable/custom_background_edt_email"
                    android:hint="@string/password"
+                   android:fontFamily="@font/ssp_semi_regular"
                    android:inputType="textPassword"
                    android:padding="@dimen/_10dp"
-                   android:textColor="@color/white"
-                   android:textColorHint="@color/white"
+                   android:textColor="@color/black"
+                   android:textColorHint="@color/tertiary_gray"
                    android:textSize="@dimen/_16sp" />
            </LinearLayout>
 
@@ -166,47 +166,41 @@
                app:layout_constraintRight_toRightOf="@id/linear_password_login"
                app:layout_constraintTop_toTopOf="@id/linear_password_login" />
 
-           <TextView
+           <com.example.baseapp.view.Textview
                android:id="@+id/txt_forgot_pass_login"
                android:layout_width="wrap_content"
                android:layout_height="0dp"
                android:layout_marginTop="@dimen/_10dp"
-               android:fontFamily="@font/poppins_regular"
                android:text="@string/forgot_password"
+               android:fontFamily="@font/ssp_semi_bold"
                android:textColor="@color/white"
                android:textSize="@dimen/_12sp"
-               android:textStyle="bold"
                app:layout_constraintRight_toRightOf="@id/linear_password_login"
                app:layout_constraintTop_toBottomOf="@id/linear_password_login" />
 
            <Button
                android:id="@+id/btnLogin"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/_50dp"
+               style="@style/login"
+               android:fontFamily="@font/ssp_semi_bold"
                android:layout_marginTop="@dimen/_20dp"
-               android:layout_marginStart="@dimen/_15dp"
-               android:layout_marginEnd="@dimen/_15dp"
-               android:background="@drawable/custom_bg_secondary_sea_green_dialog_button"
-               android:padding="@dimen/_10dp"
                android:text="@string/login"
-               android:textAllCaps="false"
+               app:backgroundTint="@null"
                android:textColor="@color/white"
-               android:textSize="@dimen/_18sp"
                app:layout_constraintBottom_toTopOf="@id/txt_or_login_with"
                app:layout_constraintLeft_toLeftOf="@id/txt_forgot_pass_login"
                app:layout_constraintRight_toRightOf="@id/txt_forgot_pass_login"
                app:layout_constraintTop_toBottomOf="@id/txt_forgot_pass_login" />
 
-           <TextView
+           <com.example.baseapp.view.Textview
                android:id="@+id/txt_or_login_with"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="@dimen/_20dp"
-               android:fontFamily="@font/poppins_regular"
                android:text="@string/or_login_with"
                android:textColor="@color/white"
                android:textSize="@dimen/_12sp"
-               android:textStyle="bold"
+               android:fontFamily="@font/ssp_semi_bold"
                app:layout_constraintBottom_toTopOf="@id/linear_logIn_facebook"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintRight_toRightOf="parent"
@@ -231,7 +225,7 @@
                    android:padding="@dimen/_8dp"
                    android:src="@drawable/icon_facebook" />
 
-               <TextView
+               <com.example.baseapp.view.Textview
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_gravity="center"
@@ -261,7 +255,7 @@
                    android:padding="@dimen/_8dp"
                    android:src="@drawable/icon_google" />
 
-               <TextView
+               <com.example.baseapp.view.Textview
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_gravity="center"
@@ -272,12 +266,13 @@
                    android:textSize="@dimen/_12sp" />
            </LinearLayout>
 
-           <TextView
+           <com.example.baseapp.view.Textview
                android:id="@+id/new_user"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="@dimen/_20dp"
                android:text="@string/new_user"
+               android:fontFamily="@font/ssp_semi_regular"
                android:textColor="@color/white"
                android:textSize="@dimen/_16sp"
                app:layout_constraintBottom_toBottomOf="parent"
@@ -285,7 +280,7 @@
                app:layout_constraintRight_toRightOf="@+id/txtRegister"
                app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />
 
-           <TextView
+           <com.example.baseapp.view.Textview
                android:id="@+id/txtRegister"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -294,6 +289,7 @@
                android:text="@string/register"
                android:textColor="@color/black"
                android:textSize="@dimen/_16sp"
+               android:fontFamily="@font/ssp_semi_regular"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintLeft_toRightOf="@id/new_user"
                app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />

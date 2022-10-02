@@ -13,5 +13,7 @@ class AppConstant {
         const val DATE_OF_BIRTH_NULL_VAL = "Date of birth is null"
         const val SIGN_UP_FAIL_VAL = "Đăng ký thất bại!"
         const val SIGN_IN_FAIL_VAL = "Đăng nhập thất bại!"
+
+        const val TAG = "app_logistics"
     }
 }
