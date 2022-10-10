@@ -24,6 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_gray_color_corner_12"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_15dp"
             android:layout_marginTop="@dimen/_20dp"
             app:queryHint="@string/str_search"
             app:iconifiedByDefault="false"
@@ -33,6 +35,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_15dp"
             android:weightSum="3"
             android:layout_marginTop="@dimen/_15dp"
             android:orientation="horizontal">
@@ -41,9 +45,12 @@
                 android:id="@+id/tvNotificationDiscount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.9"
                 android:padding="@dimen/_8dp"
                 android:textSize="@dimen/_18sp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="@dimen/_5dp"
+                android:background="@drawable/custom_background_img_view"
                 android:fontFamily="@font/ssp_semi_regular"
                 android:text="@string/str_discount"/>
 
@@ -51,9 +58,12 @@
                 android:id="@+id/tvNotificationOrder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
+                android:layout_marginEnd="@dimen/_5dp"
                 android:padding="@dimen/_8dp"
                 android:textSize="@dimen/_18sp"
+                android:textColor="@color/black"
+                android:background="@drawable/custom_background_img_view"
                 android:fontFamily="@font/ssp_semi_regular"
                 android:text="@string/str_order"/>
 
@@ -61,7 +71,9 @@
                 android:id="@+id/tvNotificationBalanceFluctuations"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
+                android:textColor="@color/black"
+                android:background="@drawable/custom_background_img_view"
                 android:padding="@dimen/_8dp"
                 android:textSize="@dimen/_18sp"
                 android:fontFamily="@font/ssp_semi_regular"

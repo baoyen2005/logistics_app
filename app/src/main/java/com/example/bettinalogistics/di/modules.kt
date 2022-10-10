@@ -5,6 +5,7 @@ import com.example.baseapp.di.ResourceProvider
 import com.example.baseapp.di.dialogs
 import com.example.bettinalogistics.data.AuthenticationRepository
 import com.example.bettinalogistics.data.AuthenticationRepositoryImpl
+import com.example.bettinalogistics.ui.home.HomeViewModel
 import com.example.bettinalogistics.ui.login.LoginViewModel
 import com.example.bettinalogistics.ui.main.MainViewModel
 import com.example.bettinalogistics.ui.signup.SignUpViewModel
@@ -22,6 +23,10 @@ val models = module {
     viewModel {
         MainViewModel()
     }
+    viewModel {
+        HomeViewModel()
+    }
+
 }
 
 val impls = module {

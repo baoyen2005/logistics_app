@@ -8,10 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityLoginBinding
+import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.main.MainActivity
 import com.example.bettinalogistics.ui.signup.SignUpActivity
-import com.example.bettinalogistics.utils.AppConstant.Companion.SIGN_IN_FAIL_VAL
 import com.example.bettinalogistics.utils.State
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.dialog_forgot_password.view.*
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,9 +55,10 @@ class LoginActivity : BaseActivity() {
                         if (it.flag == true)
                             showLoading()
                     }
-
                     is State.Success -> {
                         hiddenLoading()
+                        AppData.g().currentUser = Firebase.auth.currentUser.toString()
+                        AppData.g().userId = Firebase.auth.uid
                         startActivity(
                             Intent(this@LoginActivity, MainActivity::class.java)
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -66,9 +69,6 @@ class LoginActivity : BaseActivity() {
                     is State.Failed -> {
                         hiddenLoading()
                         confirm.newBuild().setNotice(it.error)
-                    }
-                    else -> {
-                        showToast(SIGN_IN_FAIL_VAL)
                     }
                 }
             }

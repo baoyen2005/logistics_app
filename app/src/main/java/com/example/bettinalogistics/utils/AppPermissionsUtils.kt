@@ -25,4 +25,13 @@ class AppPermissionsUtils {
             AppConstant.STORAGE_REQUEST_CODE
         )
     }
+
+    fun requestLocationStorage(act: Activity): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            act,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            act, Manifest.permission.ACCESS_COARSE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED
+    }
 }

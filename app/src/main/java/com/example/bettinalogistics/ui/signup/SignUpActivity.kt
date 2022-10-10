@@ -13,15 +13,17 @@ import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySignUpBinding
+import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.main.MainActivity
 import com.example.bettinalogistics.utils.AppConstant.Companion.CHOOSE_IMAGE
-import com.example.bettinalogistics.utils.AppConstant.Companion.SIGN_UP_FAIL_VAL
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.example.bettinalogistics.utils.State
 import com.example.bettinalogistics.utils.dateToString
 import com.example.bettinalogistics.utils.stringToDate
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -43,7 +45,7 @@ class SignUpActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         appPermissions = AppPermissionsUtils()
-        Log.d(TAG, "onReady: binding = $binding")
+
         binding.imgClickCamera.setOnClickListener {
             if (appPermissions.isStorageOk(applicationContext))
                 pickImage()
@@ -83,7 +85,6 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-
     @SuppressLint("SetTextI18n", "ResourceType")
     private fun chooseDate() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
@@ -106,29 +107,24 @@ class SignUpActivity : BaseActivity() {
         val email = binding.edtEmailSignUp.text?.trim().toString()
         val password = binding.edtPasswordSignup.text?.trim().toString()
         val address = binding.edtAddressSignUp.text?.trim().toString()
-
         var view: View? = null
         var flag = false
-
         when {
             fullName.isEmpty() -> {
                 binding.edtFullNameSignUp.error = getString(R.string.invalid_field)
                 view = binding.edtFullNameSignUp
                 flag = true
             }
-
             phone.isEmpty() -> {
                 binding.edtPhoneSignup.error = getString(R.string.invalid_field)
                 view = binding.edtPhoneSignup
                 flag = true
             }
-
             dateOfBirth.isEmpty() -> {
                 binding.tvDateOfBirthSignUp.error = getString(R.string.invalid_field)
                 view = binding.tvDateOfBirthSignUp
                 flag = true
             }
-
             email.isEmpty() -> {
                 binding.edtEmailSignUp.error = getString(R.string.invalid_field)
                 view = binding.edtEmailSignUp
@@ -149,14 +145,12 @@ class SignUpActivity : BaseActivity() {
                 view = binding.edtPasswordSignup
                 flag = true
             }
-
             address.isEmpty() -> {
                 binding.edtAddressSignUp.error = getString(R.string.invalid_field)
                 view = binding.edtAddressSignUp
                 flag = true
             }
         }
-
         return if (flag) {
             view?.requestFocus()
             false
@@ -186,8 +180,13 @@ class SignUpActivity : BaseActivity() {
                                 if (it.flag == true)
                                     showLoading()
                             }
-
                             is State.Success -> {
+                                AppData.g().currentUser = Firebase.auth.currentUser.toString()
+                                AppData.g().userId = Firebase.auth.uid
+                                AppData.g().phone = phone
+                                AppData.g().fullName = fullName
+                                AppData.g().email = email
+                                AppData.g().uri = uri
                                 hiddenLoading()
                                 startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
                                 finish()
@@ -195,9 +194,6 @@ class SignUpActivity : BaseActivity() {
                             is State.Failed -> {
                                 hiddenLoading()
                                 confirm.newBuild().setNotice(it.error)
-                            }
-                            else -> {
-                                showToast(SIGN_UP_FAIL_VAL)
                             }
                         }
                     }

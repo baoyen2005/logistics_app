@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addorder.OrderActivity">
+
+
+    <include
+        android:id="@+id/layoutHeaderOrder"
+        layout="@layout/layout_header" />
+
+    <com.example.baseapp.view.Textview
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_bold"
+        android:text="@string/str_list_order"
+        android:textSize="@dimen/main_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeaderOrder" />
+
+    <Button
+        android:id="@+id/btnAddOrderProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:background="@drawable/custom_bg_circle_green_bt_agree"
+        android:text="@string/str_add_new_product"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sp"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeaderOrder" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrderList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:layout_marginBottom="@dimen/_20dp"
+        android:background="@drawable/bg_gray_color_corner_12"
+        app:layout_constraintBottom_toTopOf="@id/btnOrder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAddOrderProduct" />
+
+    <Button
+        android:id="@+id/btnOrder"
+        android:layout_width="@dimen/_200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_20dp"
+        android:background="@drawable/custom_bg_secondary_sea_green_button_corner_20"
+        android:text="@string/str_ordering"
+        android:textAllCaps="false"
+        android:textSize="@dimen/main_size"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
