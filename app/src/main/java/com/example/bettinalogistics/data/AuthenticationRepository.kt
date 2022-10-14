@@ -92,7 +92,6 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
         val task = storageReference.child(uid + AppConstant.PROFILE_PATH)
             .putFile(image).await()
         return task.storage.downloadUrl.await()
-
     }
 
     private suspend fun createUser(userModel: User, auth: FirebaseAuth) {

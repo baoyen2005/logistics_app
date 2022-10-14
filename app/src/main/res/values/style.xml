@@ -49,4 +49,14 @@
         <item name="colorAccent">@color/tertiary_gray</item>
     </style>
     <dimen name="main_size">22sp</dimen>
+
+    <style name="DialogStyleBottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="bottomSheetStyle">@style/BottomSheetRoundCornerStyle</item>
+
+    </style>
+
+    <style name="BottomSheetRoundCornerStyle" parent="Theme.AppCompat.NoActionBar" />
+
 </resources>

@@ -15,5 +15,9 @@ class AppConstant {
         const val SIGN_IN_FAIL_VAL = "Đăng nhập thất bại!"
 
         const val TAG = "app_logistics"
+
+        // firebase
+        const val ORDER_COLLECTION = "orders"
+        const val ORDER_IMAGE_STORAGE = "product_images"
     }
 }

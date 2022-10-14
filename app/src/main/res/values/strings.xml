@@ -81,4 +81,5 @@
     <string name="str_create_product">Thêm vào đơn hàng</string>
     <string name="str_order_lcl">Hàng lẻ</string>
     <string name="str_order_fcl">Hàng nguyên cont</string>
+    <string name="str_error_product_image_null">Ảnh không được để trống</string>
 </resources>

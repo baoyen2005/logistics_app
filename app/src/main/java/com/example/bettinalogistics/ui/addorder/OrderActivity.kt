@@ -1,12 +1,19 @@
 package com.example.bettinalogistics.ui.addorder
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.databinding.ActivityLoginBinding
+import com.example.bettinalogistics.ui.login.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OrderActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order)
+class OrderActivity : BaseActivity() {
+    override val layoutId: Int
+        get() = R.layout.activity_order
+    override val viewModel: LoginViewModel by viewModel()
+
+    override val binding: ActivityLoginBinding by lazy {
+        ActivityLoginBinding.inflate(layoutInflater)
     }
+
+
 }
