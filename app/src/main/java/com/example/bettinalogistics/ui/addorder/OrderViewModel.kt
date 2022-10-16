@@ -10,9 +10,10 @@ import com.example.bettinalogistics.model.Order
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OrderViewModel(val orderRepository: OrderRepository) : BaseViewModel() {
+class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
     val addOrderLiveData = MutableLiveData<Boolean>()
-    val checkValidDataOrder = MutableLiveData<String>()
+    val checkValidDataOrderLiveData = MutableLiveData<String>()
+    var getAllOrderLiveData = MutableLiveData<List<Order>?>()
 
     fun addOrder(order: Order) = viewModelScope.launch(Dispatchers.IO) {
         val response = orderRepository.addOrder(order)
@@ -21,19 +22,25 @@ class OrderViewModel(val orderRepository: OrderRepository) : BaseViewModel() {
         }
     }
 
-    /*
-     var imgUri: Uri? = null,
-    var productName : String ? = null,
-    var productDes : String? = null,
-    var quantity: Long? = null,
-    var volume: Double? = null,
-    var mass: Double?= null,
-    var numberOfCarton: Long? = null,
-    var isOrderLCL: Boolean = true
-     */
-    fun checkInvalidData(order: Order, context: Context) : Boolean{
-        if (order.imgUri == null || order.imgUri?.path.isNullOrBlank()) {
-            checkValidDataOrder.postValue(context.getString(R.string.str_error_product_image_null))
+    fun getAllOrder() = viewModelScope.launch(Dispatchers.IO) {
+        val response = orderRepository.getAllOrder()
+        response.let {
+            getAllOrderLiveData.postValue(it.value)
         }
+    }
+
+
+    fun checkInvalidData(order: Order, context: Context) : Boolean{
+        if (order.imgUri == null || order.imgUri?.path.isNullOrBlank()
+            || order.productName.isNullOrBlank()
+            || order.productDes.isNullOrBlank()
+            || order.quantity.toString().isBlank()
+            || order.volume.toString().isBlank()
+            || order.mass.toString().isBlank()
+            || order.numberOfCarton.toString().isBlank()) {
+            checkValidDataOrderLiveData.postValue(context.getString(R.string.str_error_product_data_blank_null))
+            return false
+        }
+       return true
     }
 }

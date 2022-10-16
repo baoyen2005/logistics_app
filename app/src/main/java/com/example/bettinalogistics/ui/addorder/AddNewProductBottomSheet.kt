@@ -53,7 +53,7 @@ class AddNewProductBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.setOnShowListener { dialogInterface ->
-            Handler().postDelayed(Runnable {
+            Handler().postDelayed({
                 val bottomSheetDialog = dialogInterface as BottomSheetDialog
                 setupFullHeight(bottomSheetDialog)
             }, 200L)

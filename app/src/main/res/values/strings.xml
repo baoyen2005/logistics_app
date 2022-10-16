@@ -75,11 +75,16 @@
     <string name="str_product_quantity">Số lượng</string>
     <string name="str_product_volume">Thể tích (m<sup>3</sup>)\n(1 sản phẩm)</string>
     <string name="str_product_volume_hint">Thể tích</string>
-    <string name="str_product_mass">Khối lượng \n\t\t\t(Kg)</string>
+    <string name="str_product_mass">Khối lượng \n(1 thùng-Kg)</string>
     <string name="str_product_mass_hint">Khối lượng</string>
     <string name="str_product_Number_of_bins">Số thùng</string>
     <string name="str_create_product">Thêm vào đơn hàng</string>
     <string name="str_order_lcl">Hàng lẻ</string>
     <string name="str_order_fcl">Hàng nguyên cont</string>
     <string name="str_error_product_image_null">Ảnh không được để trống</string>
+    <string name="str_error_product_data_blank_null">Yêu cầu nhập đủ dữ liệu về đơn hàng</string>
+    <string name="header_order">Danh sách đơn hàng</string>
+    <string name="str_add_order_success">Thêm đơn hàng thành công</string>
+    <string name="str_add_order_fail">Thêm đơn hàng không thành công. Vui lòng thử lại</string>
+    <string name="str_get_all_order_fail">Mời quý khách thêm đơn hàng</string>
 </resources>

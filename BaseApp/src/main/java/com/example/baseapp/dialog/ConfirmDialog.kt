@@ -23,39 +23,39 @@ class ConfirmDialog( val mContext: Context) : Dialog(mContext){
     private var mRightTitle: String? = null
     private var mTitle: String? = null
     private var mAlertIcon = -1
-    private  var mBtLeft: TextView?=null
-    private  var mBtRight: TextView?=null
+    private  var mBtCancel: TextView?=null
+    private  var mBtAgree: TextView?=null
     private  var mTvContent: TextView?=null
     private  var mTvTitle: TextView?=null
     private  var mIvAlert: ImageView?=null
     private var needActionAll = false
-    private var leftOnClick: () -> Unit? = {}
-    private var rightOnClick: () -> Unit? = {}
+    private var cancelOnClick: () -> Unit? = {}
+    private var agreeOnClick: () -> Unit? = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_notice)
         mTvTitle = findViewById(R.id.tv_notice_title_dal)
         mTvContent = findViewById(R.id.tv_notice_content_dal)
-        mBtRight = findViewById(R.id.bt_right)
-        mBtLeft = findViewById(R.id.bt_left)
+        mBtAgree = findViewById(R.id.bt_agree)
+        mBtCancel = findViewById(R.id.bt_cancel)
         mIvAlert = findViewById(R.id.ivNoticeAlertDal)
-        mBtRight!!.setOnClickListener {
-            rightOnClick()
+        mBtAgree!!.setOnClickListener {
+            agreeOnClick()
             dismiss()
         }
-        mBtLeft!!.setOnClickListener {
-            leftOnClick()
+        mBtCancel!!.setOnClickListener {
+            cancelOnClick()
             dismiss()
         }
 
         if (mLeftTitle != null) {
-            if (mRightTitle != null) mBtRight!!.text = mRightTitle
-            if (mBtLeft!!.visibility != View.VISIBLE) mBtLeft!!.visibility = View.VISIBLE
-            mBtLeft!!.text = mLeftTitle
+            if (mRightTitle != null) mBtAgree!!.text = mRightTitle
+            if (mBtCancel!!.visibility != View.VISIBLE) mBtCancel!!.visibility = View.VISIBLE
+            mBtCancel!!.text = mLeftTitle
         } else {
-            mBtLeft!!.visibility = View.GONE
-            if (mRightTitle != null) mBtRight!!.setText(mRightTitle)
+            mBtCancel!!.visibility = View.GONE
+            if (mRightTitle != null) mBtAgree!!.setText(mRightTitle)
         }
         if (mTitle != null) {
             mTvTitle!!.text = mTitle
@@ -78,9 +78,9 @@ class ConfirmDialog( val mContext: Context) : Dialog(mContext){
     private fun actionDialog() {
         if (needActionAll
         ) {
-            if (mBtLeft != null && mBtLeft!!.visibility == View.VISIBLE) leftOnClick()
+            if (mBtCancel != null && mBtCancel!!.visibility == View.VISIBLE) cancelOnClick()
             else
-                rightOnClick()
+                agreeOnClick()
         }
     }
 
@@ -109,17 +109,17 @@ class ConfirmDialog( val mContext: Context) : Dialog(mContext){
     }
 
     fun newBuild(): ConfirmDialog {
-        if (mBtLeft != null) {
-            mBtLeft!!.visibility = View.GONE
+        if (mBtCancel != null) {
+            mBtCancel!!.visibility = View.GONE
         }
         if (mTvTitle != null) mTvTitle!!.visibility = View.GONE
         needActionAll = false
-        leftOnClick = {  }
-        rightOnClick = {  }
+        cancelOnClick = {  }
+        agreeOnClick = {  }
         mLeftTitle = null
         mRightTitle = context.getString(R.string.agree)
-        if (mBtRight != null) {
-            mBtRight!!.text = mRightTitle
+        if (mBtAgree != null) {
+            mBtAgree!!.text = mRightTitle
         }
         if (mTvTitle != null) {
             mTitle = mContext.getString(R.string.notice)
@@ -167,70 +167,70 @@ class ConfirmDialog( val mContext: Context) : Dialog(mContext){
         return this
     }
 
-    fun addButtonLeft(@StringRes id: Int): ConfirmDialog {
-        return addButtonLeft(context.getString(id))
+    fun addButtonCancel(@StringRes id: Int): ConfirmDialog {
+        return addButtonCancel(context.getString(id))
     }
 
-    fun addButtonLeft(onLeftOnClick: View.OnClickListener?): ConfirmDialog {
-        if (mBtLeft != null) {
-            mBtLeft!!.visibility = View.VISIBLE
-            mBtLeft!!.text = context.getString(R.string.agree)
+    fun addButtonCancel(onLeftOnClick: View.OnClickListener?): ConfirmDialog {
+        if (mBtCancel != null) {
+            mBtCancel!!.visibility = View.VISIBLE
+            mBtCancel!!.text = context.getString(R.string.agree)
         } else {
             mLeftTitle = context.getString(R.string.cancel)
         }
         return this
     }
 
-    fun addButtonLeft(title: String?): ConfirmDialog {
-        if (mBtLeft != null) {
-            mBtLeft!!.visibility = View.VISIBLE
-            mBtLeft!!.text = title
+    fun addButtonCancel(title: String?): ConfirmDialog {
+        if (mBtCancel != null) {
+            mBtCancel!!.visibility = View.VISIBLE
+            mBtCancel!!.text = title
         } else {
             mLeftTitle = title
         }
         return this
     }
 
-    fun addButtonLeft(title: Int, onLeftOnClick:() -> Unit): ConfirmDialog {
-        addButtonLeft(context.getString(title), onLeftOnClick)
+    fun addButtonCancel(title: Int, onLeftOnClick:() -> Unit): ConfirmDialog {
+        addButtonCancel(context.getString(title), onLeftOnClick)
         return this
     }
 
-    fun addButtonLeft(title: String?, onLeftOnClick:() -> Unit): ConfirmDialog {
-        leftOnClick = onLeftOnClick
-        if (mBtLeft != null) {
-            mBtLeft!!.visibility = View.VISIBLE
-            mBtLeft!!.text = title
+    fun addButtonCancel(title: String?, onLeftOnClick:() -> Unit): ConfirmDialog {
+        cancelOnClick = onLeftOnClick
+        if (mBtCancel != null) {
+            mBtCancel!!.visibility = View.VISIBLE
+            mBtCancel!!.text = title
         } else {
             mLeftTitle = title
         }
         return this
     }
 
-    fun addButtonRight(onRightClick:  () -> Unit): ConfirmDialog {
-        rightOnClick = onRightClick
-        if (mBtRight != null) {
-            mBtRight!!.setText(R.string.agree)
+    fun addButtonAgree(onRightClick:  () -> Unit): ConfirmDialog {
+        agreeOnClick = onRightClick
+        if (mBtAgree != null) {
+            mBtAgree!!.setText(R.string.agree)
         } else {
             mRightTitle = context.getString(R.string.agree)
         }
         return this
     }
 
-    fun addButtonRight(title: Int, onRightClick:  () -> Unit): ConfirmDialog {
-        addButtonRight(context.getString(title), onRightClick)
+    fun addButtonAgree(title: Int, onRightClick:  () -> Unit): ConfirmDialog {
+        addButtonAgree(context.getString(title), onRightClick)
         return this
     }
 
-    fun addButtonRight(title: Int): ConfirmDialog {
-        addButtonRight(context.getString(title), {})
+    fun addButtonAgree(title: Int): ConfirmDialog {
+        addButtonAgree(context.getString(title), {})
         return this
     }
 
-    fun addButtonRight(title: String?, onRightClick: () -> Unit): ConfirmDialog {
-        rightOnClick = onRightClick
-        if (mBtRight != null) {
-            mBtRight!!.text = title
+    fun addButtonAgree(title: String?, onRightClick: () -> Unit): ConfirmDialog {
+        agreeOnClick = onRightClick
+        if (mBtAgree != null) {
+            mBtAgree!!.text = title
         } else {
             mRightTitle = title
         }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/_8dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/ivAddOrderImageItem"
+        android:layout_width="@dimen/_80dp"
+        android:layout_height="@dimen/_80dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewDeviceAddOrderItem"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/addOrderNameItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_regular"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivAddOrderImageItem"
+        app:layout_constraintLeft_toRightOf="@id/ivAddOrderImageItem"
+        app:layout_constraintRight_toLeftOf="@id/addOrderTypeItem"
+        app:layout_constraintTop_toTopOf="@id/ivAddOrderImageItem" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/addOrderTypeItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_regular"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivAddOrderImageItem"
+        app:layout_constraintLeft_toRightOf="@id/addOrderNameItem"
+        app:layout_constraintRight_toLeftOf="@id/ivAddOrderExpandItem"
+        app:layout_constraintTop_toTopOf="@id/ivAddOrderImageItem" />
+
+    <ImageView
+        android:id="@+id/ivAddOrderExpandItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:src="@drawable/ic_baseline_expand_more_24"
+        app:layout_constraintBottom_toBottomOf="@id/ivAddOrderImageItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivAddOrderImageItem" />
+
+    <View
+        android:id="@+id/viewDeviceAddOrderItem"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_font"
+        app:layout_constraintTop_toBottomOf="@id/ivAddOrderImageItem"
+        android:layout_marginTop="@dimen/_10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

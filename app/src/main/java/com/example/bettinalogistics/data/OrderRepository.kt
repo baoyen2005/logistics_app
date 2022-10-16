@@ -17,39 +17,65 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_VOLUME
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 
 
 interface OrderRepository {
+    suspend fun getAllOrder(): MutableLiveData<List<Order>?>
     suspend fun addOrder(order: Order): MutableLiveData<Boolean>
 }
 
 class OrderRepositoryImpl : OrderRepository {
-    private var addOrderLiveData = MutableLiveData<Boolean>()
-    override suspend fun addOrder(order: Order): MutableLiveData<Boolean> {
+    companion object{
         val documentReference = FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
-            .document();
-        val values: HashMap<String, String?> = HashMap<String, String?>();
-        values[PRODUCT_NAME] = order.productName;
-        values[PRODUCT_DES] = order.productDes;
-        values[PRODUCT_QUANTITY] = order.quantity.toString();
-        values[PRODUCT_VOLUME] = order.volume.toString();
-        values[PRODUCT_MASS] = order.mass.toString();
-        values[PRODUCT_NUMBER_OF_CARTON] = order.numberOfCarton.toString();
-        values[PRODUCT_IS_ORDER_LCL] = order.isOrderLCL.toString();
+            .document()
+    }
+
+    private var addOrderLiveData = MutableLiveData<Boolean>()
+    private var getAllOrdersLiveData = MutableLiveData<List<Order>?>()
+
+    override suspend fun getAllOrder(): MutableLiveData<List<Order>?> {
+        FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
+            .get()
+            .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
+                val listOrder: ArrayList<Order>? = queryDocumentSnapshots.toObjects(
+                    Order::class.java
+                ) as ArrayList<Order>?
+                if (listOrder != null) {
+                    getAllOrdersLiveData.postValue(listOrder)
+                } else {
+                    getAllOrdersLiveData.postValue(listOf())
+                }
+            }
+            .addOnFailureListener {
+                getAllOrdersLiveData.postValue(listOf())
+            }
+        return getAllOrdersLiveData
+    }
+
+    override suspend fun addOrder(order: Order): MutableLiveData<Boolean> {
+        val values: HashMap<String, String?> = HashMap()
+        values[PRODUCT_NAME] = order.productName
+        values[PRODUCT_DES] = order.productDes
+        values[PRODUCT_QUANTITY] = order.quantity.toString()
+        values[PRODUCT_VOLUME] = order.volume.toString()
+        values[PRODUCT_MASS] = order.mass.toString()
+        values[PRODUCT_NUMBER_OF_CARTON] = order.numberOfCarton.toString()
+        values[PRODUCT_IS_ORDER_LCL] = order.isOrderLCL.toString()
         values[USER_ID] = AppData.g().userId
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener {
             if (it.isSuccessful) {
                 if (order.imgUri != null) {
-                    upLoadPhotos(order.imgUri, documentReference.id);
+                    upLoadPhotos(order.imgUri, documentReference.id)
                 } else {
                     addOrderLiveData.postValue(false)
                 }
             } else {
                 addOrderLiveData.postValue(false)
             }
-        };
+        }
         return addOrderLiveData
     }
 

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.addorder.OrderActivity">
 
-
     <include
         android:id="@+id/layoutHeaderOrder"
         layout="@layout/layout_header" />
@@ -44,6 +43,8 @@
         android:layout_marginTop="@dimen/_20dp"
         android:layout_marginEnd="@dimen/_15dp"
         android:layout_marginBottom="@dimen/_20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         android:background="@drawable/bg_gray_color_corner_12"
         app:layout_constraintBottom_toTopOf="@id/btnOrder"
         app:layout_constraintLeft_toLeftOf="parent"

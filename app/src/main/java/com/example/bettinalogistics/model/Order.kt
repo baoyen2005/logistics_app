@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.model
 
 import android.net.Uri
+import java.util.*
 
 data class Order (
     var imgUri: Uri? = null,
@@ -10,5 +11,7 @@ data class Order (
     var volume: Double? = null,
     var mass: Double?= null,
     var numberOfCarton: Long? = null,
-    var isOrderLCL: Boolean = true
+    var isOrderLCL: Boolean = true,
+    var status: String? = null,
+    var orderDate : Date? = null,
     )
