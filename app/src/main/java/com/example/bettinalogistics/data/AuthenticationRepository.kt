@@ -9,11 +9,19 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ADDRESS
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_DATE_OF_BIRTH
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_FULL_NAME
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_PASSWORD
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_PHONE
 import com.example.bettinalogistics.utils.State
+import com.example.bettinalogistics.utils.dateToString
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +31,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import java.util.*
+
 
 interface AuthenticationRepository {
     suspend fun login(email: String, password: String): Flow<State<Any>>
@@ -95,8 +104,16 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
     }
 
     private suspend fun createUser(userModel: User, auth: FirebaseAuth) {
-        val firebase = Firebase.database.getReference("Users")
-        firebase.child(auth.uid!!).setValue(userModel).await()
+        val documentReference = FirebaseFirestore.getInstance().collection("users")
+            .document(auth.uid!!)
+        val values: HashMap<String, String> = HashMap()
+        values[USER_FULL_NAME] = userModel.fullName
+        values[USER_PHONE] = userModel.phone
+        values[USER_DATE_OF_BIRTH] = dateToString(userModel.dateOfBirth!!)
+        values[USER_EMAIL] = userModel.email
+        values[USER_PASSWORD] = userModel.password
+        values[USER_ADDRESS] = userModel.address
+        documentReference.set(values, SetOptions.merge()).await()
         val profileChangeRequest = UserProfileChangeRequest.Builder()
             .setDisplayName(userModel.fullName)
             .setPhotoUri(Uri.parse(userModel.image))

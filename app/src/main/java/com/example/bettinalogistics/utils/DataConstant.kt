@@ -4,7 +4,13 @@ class DataConstant {
     companion object{
         // user
         const val USER_ID = "uid"
-
+        const val USER_IMAGE = "image"
+        const val USER_FULL_NAME = "fullName"
+        const val USER_PHONE = "phone"
+        const val USER_DATE_OF_BIRTH = "dateOfBirth"
+        const val USER_EMAIL= "email"
+        const val USER_PASSWORD= "password"
+        const val USER_ADDRESS= "address"
         // order
         const val PRODUCT_NAME = "productName"
         const val PRODUCT_DES = "productDes"

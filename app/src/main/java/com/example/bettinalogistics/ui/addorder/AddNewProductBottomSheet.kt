@@ -92,9 +92,11 @@ class AddNewProductBottomSheet : BottomSheetDialogFragment() {
 
     private fun setViewWhenClickFcl() {
         binding.btnAddOrderNewProductFCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
-        binding.btnAddOrderNewProductFCL.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+        binding.btnAddOrderNewProductFCL.setTextColor(ContextCompat.getColor(requireContext(),
+            com.example.baseapp.R.color.white))
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.bg_green_corne_20_width_1_5)
-        binding.btnAddOrderNewProductLCL.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+        binding.btnAddOrderNewProductLCL.setTextColor(ContextCompat.getColor(requireContext(),
+            com.example.baseapp.R.color.black))
         binding.ivExpanseQuantityForFlc.visibility = View.VISIBLE
         binding.tvAddNewProductVolumeTitle.visibility = View.GONE
         binding.edtAddNewProductVolume.visibility = View.GONE
@@ -110,9 +112,11 @@ class AddNewProductBottomSheet : BottomSheetDialogFragment() {
 
     private fun setViewWhenClickLCL() {
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
-        binding.btnAddOrderNewProductLCL.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+        binding.btnAddOrderNewProductLCL.setTextColor(ContextCompat.getColor(requireContext(),
+            com.example.baseapp.R.color.white))
         binding.btnAddOrderNewProductFCL.setBackgroundResource(R.drawable.bg_green_corne_20_width_1_5)
-        binding.btnAddOrderNewProductFCL.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+        binding.btnAddOrderNewProductFCL.setTextColor(ContextCompat.getColor(requireContext(),
+            com.example.baseapp.R.color.black))
         binding.ivExpanseQuantityForFlc.visibility = View.GONE
         binding.tvAddNewProductVolumeTitle.visibility = View.VISIBLE
         binding.edtAddNewProductVolume.visibility = View.VISIBLE
