@@ -12,11 +12,14 @@ import com.example.bettinalogistics.ui.home.HomeViewModel
 import com.example.bettinalogistics.ui.login.LoginViewModel
 import com.example.bettinalogistics.ui.main.MainViewModel
 import com.example.bettinalogistics.ui.signup.SignUpViewModel
+import com.example.bettinalogistics.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
 val models = module {
-
+    viewModel{
+        SplashViewModel()
+    }
     viewModel {
         LoginViewModel(get())
     }

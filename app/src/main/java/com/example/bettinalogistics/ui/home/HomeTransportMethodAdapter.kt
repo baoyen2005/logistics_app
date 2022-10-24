@@ -1,6 +1,5 @@
 package com.example.bettinalogistics.ui.home
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.example.bettinalogistics.model.CommonEntity
 
 class HomeTransportMethodAdapter(var listCommonEntity: List<CommonEntity>) :
     RecyclerView.Adapter<HomeTransportMethodAdapter.ViewHolder>()   {
-    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

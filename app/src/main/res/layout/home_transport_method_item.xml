@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="3"
+    android:layout_marginTop="@dimen/_10dp"
+    android:layout_marginStart="@dimen/_10dp"
     android:background="@drawable/bg_gray_color_corner_12"
     android:gravity="center"
     android:orientation="horizontal">
@@ -13,18 +16,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="2"
-        android:gravity="center"
+        android:gravity="start"
         android:textColor="@color/black"
-        android:textSize="@dimen/_17sp" />
+        android:textSize="@dimen/_14sp" />
 
-    <ImageView
-        android:id="@+id/ivHomeTransportMethodIconItem"
-        android:layout_width="@dimen/_50dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
         android:layout_height="@dimen/_50dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@drawable/bg_gray_color_corner_left_12"
+        app:cardCornerRadius="@dimen/_10dp"
         android:gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@drawable/hangkhong" />
+        >
+        <ImageView
+            android:id="@+id/ivHomeTransportMethodIconItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_gray_color_corner_12_shape_oval"
+            android:scaleType="centerCrop"
+            android:src="@drawable/hangkhong" />
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

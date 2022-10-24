@@ -6,5 +6,8 @@ class CommonEntity {
 
     constructor()
 
-    constructor(icon : Int, title: String)
+    constructor(icon : Int, title: String){
+        this.icon = icon
+        this.title = title
+    }
 }

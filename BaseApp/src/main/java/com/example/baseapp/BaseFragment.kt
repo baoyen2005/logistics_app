@@ -1,9 +1,10 @@
 package com.example.baseapp
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.baseapp.di.Common
@@ -15,8 +16,6 @@ abstract class BaseFragment :
     Fragment() {
     val confirm by inject<ConfirmDialog>()
 
-    @get:LayoutRes
-    protected abstract val layoutId: Int
     protected open val binding: ViewBinding? = null
     abstract val viewModel: BaseViewModel
 
@@ -24,11 +23,16 @@ abstract class BaseFragment :
         super.onCreate(savedInstanceState)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return binding?.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (binding != null) {
-            requireActivity().setContentView(binding?.root)
-        }
         Common.currentActivity = requireActivity()
         initView()
         initListener()

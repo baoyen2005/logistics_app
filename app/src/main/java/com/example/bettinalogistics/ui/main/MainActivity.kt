@@ -19,25 +19,30 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViewPager()
+        initView()
         initListener()
+    }
+
+    private fun initView() {
+        binding.viewPagerMain.currentItem = 0
+        binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
+        binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
+        binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24)
+        binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24)
     }
 
     private fun initListener() {
         binding.ivMainHome.setOnClickListener {
-            binding.viewPagerMain.currentItem = 0
-            binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
+           setFirstFragmentItem()
         }
         binding.ivMainFollowTrack.setOnClickListener {
-            binding.viewPagerMain.currentItem = 1
-            binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24_clicked)
+            setSecondFragmentItem()
         }
         binding.ivMainNotification.setOnClickListener {
-            binding.viewPagerMain.currentItem = 2
-            binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24_clicked)
+            setThirdFragmentItem()
         }
         binding.ivMainPerson.setOnClickListener {
-            binding.viewPagerMain.currentItem = 3
-            binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24_clicked)
+           setFourthFragmentItem()
         }
     }
 
@@ -46,18 +51,50 @@ class MainActivity : BaseActivity() {
         binding.viewPagerMain.adapter = adapter
         when(binding.viewPagerMain.currentItem){
             0 -> {
-                binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
+                setFirstFragmentItem()
             }
             1-> {
-                binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24_clicked)
+                setSecondFragmentItem()
             }
             2 -> {
-                binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24_clicked)
+                setThirdFragmentItem()
             }
             3-> {
-                binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24_clicked)
+                setFourthFragmentItem()
             }
         }
+    }
+
+    private fun setFirstFragmentItem() {
+        binding.viewPagerMain.currentItem = 0
+        binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
+        binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
+        binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24)
+        binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24)
+    }
+
+    private fun setThirdFragmentItem(){
+        binding.viewPagerMain.currentItem = 2
+        binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24_clicked)
+        binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24)
+        binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
+        binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24)
+    }
+
+    private fun setSecondFragmentItem(){
+        binding.viewPagerMain.currentItem = 1
+        binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24_clicked)
+        binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24)
+        binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24)
+        binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24)
+    }
+
+    private fun setFourthFragmentItem(){
+        binding.viewPagerMain.currentItem = 3
+        binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24_clicked)
+        binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24)
+        binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
+        binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24)
     }
 
     override fun onBackPressed() {

@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_gray_color_corner_12"
     android:gravity="center"
+    android:layout_marginTop="@dimen/_10dp"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/ivHomeTransportTypeIconItem"
-        android:layout_width="@dimen/_50dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_60dp"
         android:layout_height="@dimen/_50dp"
         android:layout_gravity="center"
-        android:background="@drawable/bg_gray_color_corner_top_12"
+        android:layout_weight="1"
+        app:cardCornerRadius="@dimen/_10dp"
         android:gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@drawable/hangkhong" />
+        >
+        <ImageView
+            android:id="@+id/ivHomeTransportTypeIconItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/hangkhong" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvHomeTransportTypeTitleItem"
@@ -24,5 +32,5 @@
         android:gravity="center"
         android:text="H"
         android:textColor="@color/black"
-        android:textSize="@dimen/_17sp" />
+        android:textSize="@dimen/_14sp" />
 </LinearLayout>

@@ -25,8 +25,10 @@ class HomeViewModel :BaseViewModel() {
 
     fun getTransportTypeList(context: Context) : List<CommonEntity>{
         val list = ArrayList<CommonEntity>()
-        val plane = CommonEntity(R.drawable.maybay, context.getString(R.string.str_plane))
-        val container = CommonEntity(R.drawable.container, context.getString(R.string.str_container))
+        val plane =
+            CommonEntity(icon = R.drawable.maybay, title = context.getString(R.string.str_plane))
+        val container =
+            CommonEntity(R.drawable.container, context.getString(R.string.str_container))
         val truck = CommonEntity(R.drawable.xetai, context.getString(R.string.str_truck))
         val trip = CommonEntity(R.drawable.tau, context.getString(R.string.str_ship))
         list.add(plane)

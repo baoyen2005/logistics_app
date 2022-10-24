@@ -1,13 +1,18 @@
 package com.example.bettinalogistics.ui.splash
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySplashScreenBinding
+import com.example.bettinalogistics.ui.login.LoginActivity
+import com.example.bettinalogistics.ui.main.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreen : BaseActivity() {
     override val layoutId: Int
         get() = R.layout.activity_splash_screen
@@ -39,15 +44,15 @@ class SplashScreen : BaseActivity() {
     }
 
     private fun openLoginScreen() {
-//        val intent = Intent(this, LoginActivity::class.java)
-//        startActivity(intent)
-//        finish()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun openMainScreen() {
-//        val intent = Intent(this, MainSampleActivity::class.java)
-//        startActivity(intent)
-//        finish()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     companion object {

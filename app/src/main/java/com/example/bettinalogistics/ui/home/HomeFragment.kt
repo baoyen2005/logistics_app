@@ -4,8 +4,8 @@ import android.content.Intent
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.example.baseapp.BaseFragment
-import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentHomeBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.signup.SignUpActivity
@@ -15,11 +15,8 @@ import java.util.*
 
 
 class HomeFragment : BaseFragment() {
-    private lateinit var homeTransportMethodAdapter: HomeTransportMethodAdapter
-    private lateinit var homeTransportTypeAdapter: HomeTransportTypeAdapter
-
-    override val layoutId: Int
-        get() = R.layout.fragment_home
+    private var homeTransportMethodAdapter: HomeTransportMethodAdapter? = null
+    private var homeTransportTypeAdapter: HomeTransportTypeAdapter? = null
 
     override val viewModel: HomeViewModel by viewModel()
 
@@ -31,7 +28,7 @@ class HomeFragment : BaseFragment() {
         checkLogin()
         setAdapter()
         val slideModel = viewModel.getSliderModels(requireContext())
-        binding.sliderHome.setImageList(slideModel)
+        binding.sliderHome.setImageList(slideModel, ScaleTypes.CENTER_CROP)
     }
 
     override fun initListener() {
@@ -72,5 +69,4 @@ class HomeFragment : BaseFragment() {
         homeTransportTypeAdapter = HomeTransportTypeAdapter(transportTypeList)
         binding.rvHomeTransportType.adapter = homeTransportTypeAdapter
     }
-
 }
