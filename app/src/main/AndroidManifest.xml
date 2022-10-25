@@ -21,22 +21,30 @@
         android:theme="@style/Theme.BettinaLogistics"
         tools:targetApi="31">
         <activity
-            android:name=".ui.addorder.OrderActivity"
+            android:name=".AddNewOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.add_new_order.AddNewOrderActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".ui.signup.SignUpActivity"
+            android:name="com.example.bettinalogistics.ui.activity.addorder.OrderActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="com.example.bettinalogistics.ui.activity.signup.SignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".ui.splash.SplashScreen"
+            android:name="com.example.bettinalogistics.ui.activity.login.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name="com.example.bettinalogistics.ui.activity.splash.SplashScreen"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -45,11 +53,12 @@
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.example.bettinalogistics.ui.activity.main.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
@@ -70,9 +79,9 @@
 
         <activity
             android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:label="@string/title_activity_maps" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.addorder.OrderActivity">
+    tools:context=".ui.activity.addorder.OrderActivity">
 
     <include
         android:id="@+id/layoutHeaderOrder"
@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/_15dp"
         android:fontFamily="@font/ssp_semi_bold"
         android:text="@string/str_list_order"
-        android:textSize="@dimen/main_size"
+        android:textSize="@dimen/_16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutHeaderOrder" />
 
@@ -30,7 +30,7 @@
         android:text="@string/str_add_new_product"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/_16sp"
+        android:textSize="@dimen/_14sp"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutHeaderOrder" />

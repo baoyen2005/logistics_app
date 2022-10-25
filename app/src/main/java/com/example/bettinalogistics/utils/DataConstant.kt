@@ -24,5 +24,6 @@ class DataConstant {
         const val PRODUCT_STATUS_PENDING = "Đang chờ duyệt"
         const val PRODUCT_STATUS_CONFIRM = "Đã xác nhận"
         const val PRODUCT_STATUS_DELIVERED= "Đã giao"
+        const val PRODUCT_ORDER_DATE= "Ngày đặt hàng"
     }
 }

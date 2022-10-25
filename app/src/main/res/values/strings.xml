@@ -88,4 +88,7 @@
     <string name="str_add_order_fail">Thêm đơn hàng không thành công. Vui lòng thử lại</string>
     <string name="str_get_all_order_fail">Mời quý khách thêm đơn hàng</string>
     <string name="str_sign_up_success">Đăng nhập thành công</string>
+    <string name="str_please_signup">Vui lòng đăng nhập để sử dụng dữ liệu</string>
+    <string name="str_hello">Xin chào %s</string>
+    <string name="str_agree">Đồng ý</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.example.bettinalogistics.utils
 
+import android.content.Context
 import android.text.TextUtils
 import android.util.Patterns
+import com.example.baseapp.di.Common
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.regex.Pattern
@@ -22,18 +24,14 @@ class Utils private constructor() {
     private var gson: Gson? = null
 
     //Validate tên quá dài
-    fun getFullNameShort(fullName: String): String? {
-        if (TextUtils.isEmpty(fullName)) return fullName
-        var fullNameShort = ""
-        val fullNameArr = fullName.split(" ").toTypedArray()
-        if (fullNameArr.size >= 5) {
-            for (i in fullNameArr.size - 4 until fullNameArr.size) {
-                fullNameShort += "${fullNameArr[i]} "
-            }
+    fun getFullNameShort(value: String): String? {
+        var data = ""
+        if (data.length >= 13) {
+            data = value.substring(0, 13)+ "...";
         } else {
-            fullNameShort = fullName
+            data = value;
         }
-        return fullNameShort
+        return data
     }
 
     fun provideGson(): Gson {
@@ -69,5 +67,53 @@ class Utils private constructor() {
 
     fun verifyLengthPass(pass: String): Boolean {
         return pass.length in 8..50
+    }
+    // lưu dữ liệu trong SharedPreferences
+    fun saveDataString(key: String, value: String){
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        val editor = sharedPreference?.edit()
+        editor?.putString(key,value)
+        editor?.apply()
+    }
+
+    fun saveDataLong(key: String, value: Long){
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        val editor = sharedPreference?.edit()
+        editor?.putLong(key,value)
+        editor?.apply()
+    }
+
+    fun saveDataBoolean(key: String, value: Boolean){
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        val editor = sharedPreference?.edit()
+        editor?.putBoolean(key,value)
+        editor?.apply()
+    }
+
+    fun saveDataInt(key: String, value: Int){
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        val editor = sharedPreference?.edit()
+        editor?.putInt(key,value)
+        editor?.apply()
+    }
+
+    fun getDataString(key: String) : String?{
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        return  sharedPreference?.getString(key,"data")
+    }
+
+    fun getDataBoolean(key: String) : Boolean?{
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        return  sharedPreference?.getBoolean(key,false)
+    }
+
+    fun getDataLong(key: String) : Long?{
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        return  sharedPreference?.getLong(key,-1L)
+    }
+
+    fun getDataInt(key: String) : Int?{
+        val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        return  sharedPreference?.getInt(key,-1)
     }
 }

@@ -277,11 +277,11 @@
                android:textSize="@dimen/_16sp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintLeft_toLeftOf="parent"
-               app:layout_constraintRight_toRightOf="@+id/txtRegister"
+               app:layout_constraintRight_toRightOf="@+id/txtLoginRegister"
                app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />
 
            <com.example.baseapp.view.Textview
-               android:id="@+id/txtRegister"
+               android:id="@+id/txtLoginRegister"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="@dimen/_10dp"

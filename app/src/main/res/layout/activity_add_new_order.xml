@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.add_new_order.AddNewOrderActivity">
+
+    <include
+        android:id="@+id/headerAddNewOrder"
+        layout="@layout/layout_header" />
+
+    <LinearLayout
+        android:id="@+id/linearChooseOrderType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8dp"
+        android:weightSum="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerAddNewOrder">
+
+        <Button
+            android:id="@+id/btnAddOrderNewProductLCL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10dp"
+            android:layout_weight="0.8"
+            android:background="@drawable/custom_bg_secondary_sea_green_button_corner_20"
+            android:text="@string/str_order_lcl"
+            android:textAllCaps="false"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnAddOrderNewProductFCL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10dp"
+            android:layout_weight="1.2"
+            android:background="@drawable/bg_green_corne_20_width_1_5"
+            android:text="@string/str_order_fcl"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sclViewInput"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnAddNewProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearChooseOrderType">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductImageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_10dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_image"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUriNewImageProduct"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvUriNewImageProduct" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvUriNewImageProduct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:ellipsize="end"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:maxLines="1"
+                android:padding="@dimen/_10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductName"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toRightOf="@id/tvAddNewProductImageTitle"
+                app:layout_constraintRight_toLeftOf="@+id/ivAttachmentNewImageProduct"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivAttachmentNewImageProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_20dp"
+                android:src="@drawable/ic_baseline_attachment_24"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUriNewImageProduct"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvUriNewImageProduct" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductName" />
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtAddNewProductName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:hint="@string/str_product_name"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductDescription"
+                app:layout_constraintLeft_toRightOf="@id/tvAddNewProductNameTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvUriNewImageProduct" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductDescriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_des"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductDescription"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductDescription" />
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtAddNewProductDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:hint="@string/str_product_des"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductQuantity"
+                app:layout_constraintLeft_toRightOf="@id/tvAddNewProductDescriptionTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtAddNewProductName" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductQuantityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_quantity"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductQuantity"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductQuantity" />
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtAddNewProductQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:hint="@string/str_product_quantity"
+                android:inputType="number"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductVolume"
+                app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductQuantityTitle"
+                app:layout_constraintRight_toLeftOf="@+id/ivExpanseQuantityForFlc"
+                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductDescription" />
+
+            <ImageView
+                android:id="@+id/ivExpanseQuantityForFlc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:src="@drawable/ic_baseline_expand_more_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductQuantity"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductQuantity" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductVolumeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_volume"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductVolume"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductVolume" />
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtAddNewProductVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:hint="@string/str_product_volume_hint"
+                android:inputType="numberSigned|numberDecimal"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductMass"
+                app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductVolumeTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductQuantity" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductMassTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_mass"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductMass"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductMass" />
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtAddNewProductMass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:hint="@string/str_product_mass_hint"
+                android:inputType="numberSigned|numberDecimal"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toTopOf="@+id/edtAddNewProductNumberOfCarton"
+                app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductVolumeTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductVolume" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAddNewProductNumberOfCartonTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:fontFamily="@font/ssp_semi_regular"
+                android:text="@string/str_product_Number_of_bins"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductNumberOfCarton"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductNumberOfCarton" />
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtAddNewProductNumberOfCarton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginEnd="@dimen/_15dp"
+                android:background="@drawable/bg_white_corne_8_width_1_5"
+                android:fontFamily="@font/ssp_semi_bold"
+                android:hint="@string/str_product_Number_of_bins"
+                android:inputType="number"
+                android:padding="@dimen/_10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductNumberOfCartonTitle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddNewProductMassTitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnAddNewProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginBottom="@dimen/_15dp"
+        android:background="@drawable/custom_bg_secondary_sea_green_button_corner_20"
+        android:text="@string/str_create_product"
+        android:textAllCaps="false"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sclViewInput" />
+</androidx.constraintlayout.widget.ConstraintLayout>

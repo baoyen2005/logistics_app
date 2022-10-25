@@ -29,5 +29,5 @@
             android:fontFamily="@font/ssp_semi_bold"
             android:gravity="center"
             android:text="aaaaaaaaaa"
-            android:textSize="@dimen/_24sp" />
+            android:textSize="@dimen/_22sp" />
 </RelativeLayout>
