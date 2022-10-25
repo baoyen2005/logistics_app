@@ -18,10 +18,10 @@ class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseV
     val checkValidDataOrderLiveData = MutableLiveData<String>()
 
     fun addOrder(order: Order) = viewModelScope.launch(Dispatchers.IO) {
-        val response = orderRepository.addOrder(order)
-        response.let {
+        orderRepository.addOrder(order){
             addOrderLiveData.postValue(it.value)
         }
+
     }
 
     fun checkInvalidData(order: Order, context: Context) : Boolean{

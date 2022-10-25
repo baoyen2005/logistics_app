@@ -30,7 +30,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 interface OrderRepository {
     suspend fun getAllOrder(): MutableLiveData<List<Order>?>
-    suspend fun addOrder(order: Order): MutableLiveData<Boolean>
+    suspend fun addOrder(order: Order,onComplete: ((MutableLiveData<Boolean>) -> Unit)?)
 }
 
 class OrderRepositoryImpl : OrderRepository {
@@ -89,7 +89,7 @@ class OrderRepositoryImpl : OrderRepository {
         return getAllOrdersLiveData
     }
 
-    override suspend fun addOrder(order: Order): MutableLiveData<Boolean> {
+    override suspend fun addOrder(order: Order,onComplete: ((MutableLiveData<Boolean>) -> Unit)?){
         val values: HashMap<String, String?> = HashMap()
         values[PRODUCT_IMAGE_URL] = ""
         values[PRODUCT_NAME] = order.productName
@@ -105,18 +105,20 @@ class OrderRepositoryImpl : OrderRepository {
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener {
             if (it.isSuccessful) {
                 if (order.imgUri != null) {
-                    upLoadPhotos(order.imgUri!!, documentReference.id)
+                    upLoadPhotos(order.imgUri!!, documentReference.id,onComplete)
                 } else {
-                    addOrderLiveData.postValue(false)
+                    addOrderLiveData.value = false
+                    onComplete?.invoke(addOrderLiveData)
                 }
             } else {
-                addOrderLiveData.postValue(false)
+                addOrderLiveData.value = false
+                onComplete?.invoke(addOrderLiveData)
             }
         }
-        return addOrderLiveData
+
     }
 
-    private fun upLoadPhotos(uri: Uri, orderId: String) {
+    private fun upLoadPhotos(uri: Uri, orderId: String,onComplete: ((MutableLiveData<Boolean>) -> Unit)?) {
         val storage = FirebaseStorage.getInstance()
         val name = "product_image"
         val storageRef = storage.reference.child(ORDER_IMAGE_STORAGE).child(orderId).child(name)
@@ -124,21 +126,22 @@ class OrderRepositoryImpl : OrderRepository {
         uploadTask.addOnSuccessListener {
             storageRef.downloadUrl
                 .addOnSuccessListener { url: Uri ->
-                    updateProductImage(url.toString(), orderId)
-                    addOrderLiveData.postValue(true)
+                    updateProductImage(url.toString(), orderId,onComplete)
                 }
 
         }
         uploadTask.addOnFailureListener { e: Exception? ->
             print(e?.message)
-            addOrderLiveData.postValue(false)
+            addOrderLiveData.value = false
+            onComplete?.invoke(addOrderLiveData)
         }
         uploadTask.addOnCanceledListener {
-            addOrderLiveData.postValue(false)
+            addOrderLiveData.value = false
+            onComplete?.invoke(addOrderLiveData)
         }
     }
 
-    private fun updateProductImage(url: String, orderId: String) {
+    private fun updateProductImage(url: String, orderId: String,onComplete: ((MutableLiveData<Boolean>) -> Unit)?) {
         val map: MutableMap<String, String> = HashMap()
         map[PRODUCT_IMAGE_URL] = url
         FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
@@ -146,9 +149,11 @@ class OrderRepositoryImpl : OrderRepository {
             .set(map, SetOptions.merge())
             .addOnCompleteListener { task: Task<Void?> ->
                 if (task.isSuccessful) {
-                    addOrderLiveData.postValue(true)
+                    addOrderLiveData.value = true
+                    onComplete?.invoke(addOrderLiveData)
                 } else {
-                    addOrderLiveData.postValue(false)
+                    addOrderLiveData.value = false
+                    onComplete?.invoke(addOrderLiveData)
                 }
             }
     }
