@@ -1,37 +1,26 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
 import android.content.Context
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.model.Order
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.bettinalogistics.model.Product
 
 class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
-    var uri: Uri? = null
-    var isLCL :Boolean = false
-    val addOrderLiveData = MutableLiveData<Boolean>()
+    var uri: String? = null
+    var isLCL: Boolean = true
     val checkValidDataOrderLiveData = MutableLiveData<String>()
 
-    fun addOrder(order: Order) = viewModelScope.launch(Dispatchers.IO) {
-        orderRepository.addOrder(order){
-            addOrderLiveData.postValue(it.value)
-        }
-
-    }
-
-    fun checkInvalidData(order: Order, context: Context) : Boolean{
-        if (order.imgUri == null || order.imgUri?.path.isNullOrBlank()
-            || order.productName.isNullOrBlank()
-            || order.productDes.isNullOrBlank()
-            || order.quantity.toString().isBlank()
-            || order.volume.toString().isBlank()
-            || order.mass.toString().isBlank()
-            || order.numberOfCarton.toString().isBlank()) {
+    fun checkInvalidData(product: Product, context: Context): Boolean {
+        if (product.imgUri == null || product.imgUri.isNullOrBlank()
+            || product.productName.isNullOrBlank()
+            || product.productDes.isNullOrBlank()
+            || product.quantity.toString().isBlank()
+            || product.volume.toString().isBlank()
+            || product.mass.toString().isBlank()
+            || product.numberOfCarton.toString().isBlank()
+        ) {
             checkValidDataOrderLiveData.postValue(context.getString(R.string.str_error_product_data_blank_null))
             return false
         }

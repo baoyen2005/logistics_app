@@ -1,17 +1,14 @@
 package com.example.bettinalogistics.model
 
-import android.net.Uri
+import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.dateToString
 import java.util.*
 
 data class Order (
-    var imgUri: Uri? = null,
-    var productName : String ? = null,
-    var productDes : String? = null,
-    var quantity: Long? = null,
-    var volume: Double? = null,
-    var mass: Double?= null,
-    var numberOfCarton: Long? = null,
-    var isOrderLCL: Boolean = true,
-    var status: String? = null,
-    var orderDate : Date? = null,
-    )
+    var status: String = DataConstant.ORDER_STATUS_PENDING,
+    var orderDate: String = dateToString(Calendar.getInstance().time),
+    var transportType: String? = null,
+    var transportMethod: String? = null,
+    var contNum: Int? = null,
+    var productList: List<Product>? = null,
+)

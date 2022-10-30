@@ -2,8 +2,10 @@ package com.example.bettinalogistics.utils
 
 import android.content.Context
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import com.example.baseapp.di.Common
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.regex.Pattern
@@ -44,6 +46,7 @@ class Utils private constructor() {
         return try {
             provideGson().fromJson(json, classOfT)
         } catch (e: Exception) {
+            Log.d(TAG, "getObjectFromJson: $e")
             null
         }
     }
@@ -69,7 +72,7 @@ class Utils private constructor() {
         return pass.length in 8..50
     }
     // lưu dữ liệu trong SharedPreferences
-    fun saveDataString(key: String, value: String){
+    fun saveDataString(key: String, value: String?){
         val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
         val editor = sharedPreference?.edit()
         editor?.putString(key,value)

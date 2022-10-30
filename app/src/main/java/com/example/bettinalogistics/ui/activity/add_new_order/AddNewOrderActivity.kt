@@ -1,25 +1,28 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddNewOrderBinding
-import com.example.bettinalogistics.model.Order
+import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.utils.AppConstant
-import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class AddNewOrderActivity : BaseActivity() {
+    companion object {
+        const val ADD_NEW_PRODUCT = "new_product"
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_add_new_order
@@ -33,16 +36,16 @@ class AddNewOrderActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         initView()
         initListener()
-        observerData()
     }
 
     private fun initView() {
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
+        binding.headerAddNewOrder.tvHeaderTitle.text = getString(R.string.str_add_new_product)
     }
 
     private fun initListener() {
         binding.ivAttachmentNewImageProduct.setOnClickListener {
-            pickImage()
+            showPhotoPermission()
         }
         binding.btnAddOrderNewProductLCL.setOnClickListener {
             viewModel.isLCL = true
@@ -53,16 +56,41 @@ class AddNewOrderActivity : BaseActivity() {
             setViewWhenClickFcl()
         }
 
+        binding.headerAddNewOrder.ivHeaderBack.setOnClickListener {
+            if (binding.edtAddNewProductName.text.isNullOrEmpty()
+                && binding.edtAddNewProductDescription.text.isNullOrEmpty()
+                && binding.edtAddNewProductQuantity.text.isNullOrEmpty()
+                && binding.edtAddNewProductVolume.text.isNullOrEmpty()
+                && binding.edtAddNewProductMass.text.isNullOrEmpty()
+                && binding.edtAddNewProductNumberOfCarton.text.isNullOrEmpty()
+                && binding.tvUriNewImageProduct.text.isNullOrEmpty()
+            ) {
+                finish()
+            } else {
+                confirm.newBuild().setNotice(getString(R.string.str_confirm_out))
+                    .addButtonAgree {
+                        confirm.dismiss()
+                    }.addButtonCancel(getString(com.example.baseapp.R.string.cancel)) {
+                        confirm.dismiss()
+                        finish()
+                    }
+            }
+        }
         binding.btnAddNewProduct.setOnClickListener {
             val name = binding.edtAddNewProductName.text.toString()
             val des = binding.edtAddNewProductDescription.text.toString()
             val quantity = binding.edtAddNewProductQuantity.text.toString()
-            val volume = binding.edtAddNewProductVolume.text.toString()
-            val mass = binding.edtAddNewProductMass.text.toString()
-            val numberOfCarton = binding.edtAddNewProductNumberOfCarton.text.toString()
-            showLoading()
-            val order =
-                Order(
+            var volume = 0.0
+            var mass = 0.0
+            var numberOfCarton = 0L
+            if (viewModel.isLCL) {
+                volume = binding.edtAddNewProductVolume.text.toString().toDouble()
+                mass = binding.edtAddNewProductMass.text.toString().toDouble()
+                numberOfCarton = binding.edtAddNewProductNumberOfCarton.text.toString().toLong()
+
+            }
+            val product =
+                Product(
                     imgUri = viewModel.uri,
                     productName = name,
                     productDes = des,
@@ -71,30 +99,12 @@ class AddNewOrderActivity : BaseActivity() {
                     mass = mass.toDouble(),
                     numberOfCarton = numberOfCarton.toLong(),
                     isOrderLCL = viewModel.isLCL,
-                    status = DataConstant.PRODUCT_STATUS_PENDING,
-                    orderDate = Calendar.getInstance().time
                 )
-            if (viewModel.checkInvalidData(order, this)) {
-                viewModel.addOrder(order)
-            }
-        }
-    }
-
-    private fun observerData() {
-        viewModel.checkValidDataOrderLiveData.observe(this) {
-            confirm.newBuild().setNotice(it)
-        }
-        viewModel.addOrderLiveData.observe(this) {
-            if (it) {
-                confirm.newBuild().addButtonAgree(getString(R.string.str_add_order_success)) {
-                    hiddenLoading()
-                    finish()
-                }
-            } else {
-                confirm.newBuild().addButtonAgree(getString(R.string.str_add_order_fail)) {
-                    hiddenLoading()
-                    finish()
-                }
+            if (viewModel.checkInvalidData(product, this)) {
+                val i = Intent()
+                i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
+                setResult(RESULT_OK, i)
+                finish()
             }
         }
     }
@@ -155,7 +165,33 @@ class AddNewOrderActivity : BaseActivity() {
         binding.edtAddNewProductQuantity.text?.clear()
     }
 
+    private fun showPhotoPermission() {
+        val p1 =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val p2 =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (p1 != PackageManager.PERMISSION_GRANTED || p2 != PackageManager.PERMISSION_GRANTED) {
+            requestPhotoPermission()
+        } else {
+            pickImage()
+        }
+    }
+
+    private fun requestPhotoPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            123
+        )
+    }
+
+
     private fun pickImage() {
+        // gơ app di chay lai
+
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         launcher.launch(intent)
     }
@@ -166,8 +202,8 @@ class AddNewOrderActivity : BaseActivity() {
         if (result.resultCode == RESULT_OK
             && result.data != null
         ) {
-            viewModel.uri = result.data!!.data
-            binding.tvUriNewImageProduct.text = viewModel.uri.toString().substring(0,15)+"..."
+            viewModel.uri = result.data!!.data.toString()
+            binding.tvUriNewImageProduct.text = viewModel.uri.toString().substring(0, 15) + "..."
         } else {
             Log.d(AppConstant.TAG, "result = null: ")
         }

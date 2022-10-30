@@ -323,7 +323,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10dp"
-        android:layout_marginBottom="@dimen/_15dp"
+        android:layout_marginBottom="@dimen/_30dp"
         android:background="@drawable/custom_bg_secondary_sea_green_button_corner_20"
         android:text="@string/str_create_product"
         android:textAllCaps="false"

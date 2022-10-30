@@ -55,7 +55,7 @@
         android:id="@+id/btnOrder"
         android:layout_width="@dimen/_200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_20dp"
+        android:layout_marginBottom="@dimen/_40dp"
         android:background="@drawable/custom_bg_secondary_sea_green_button_corner_20"
         android:text="@string/str_ordering"
         android:textAllCaps="false"

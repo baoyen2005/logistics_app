@@ -15,12 +15,12 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySignUpBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.main.MainActivity
-import com.example.bettinalogistics.utils.*
 import com.example.bettinalogistics.utils.AppConstant.Companion.CHOOSE_IMAGE
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
-import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
-import com.example.bettinalogistics.utils.DataConstant.Companion.USER_FULL_NAME
-import com.example.bettinalogistics.utils.DataConstant.Companion.USER_IMAGE
+import com.example.bettinalogistics.utils.AppPermissionsUtils
+import com.example.bettinalogistics.utils.State
+import com.example.bettinalogistics.utils.dateToString
+import com.example.bettinalogistics.utils.stringToDate
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -45,12 +45,12 @@ class SignUpActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         appPermissions = AppPermissionsUtils()
+        if (!appPermissions.isStorageOk(applicationContext)) {
+            appPermissions.requestStoragePermission(this)
+        }
 
         binding.imgClickCamera.setOnClickListener {
-            if (appPermissions.isStorageOk(applicationContext))
-                pickImage()
-            else
-                appPermissions.requestStoragePermission(this)
+            pickImage()
         }
 
         binding.imgDatePicker.setOnClickListener {
@@ -182,14 +182,7 @@ class SignUpActivity : BaseActivity() {
                             }
                             is State.Success -> {
                                 AppData.g().currentUser = Firebase.auth.currentUser.toString()
-                                AppData.g().userId = Firebase.auth.uid
-                                AppData.g().phone = phone
-                                AppData.g().fullName = fullName
-                                AppData.g().email = email
-                                AppData.g().uri = uri
-                                Utils.g().saveDataString(USER_EMAIL, email)
-                                Utils.g().saveDataString(USER_IMAGE, uri.toString())
-                                Utils.g().saveDataString(USER_FULL_NAME, fullName)
+                                AppData.g().saveUser(email, uri, phone, fullName, Firebase.auth.uid)
                                 hiddenLoading()
                                 startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
                                 finish()

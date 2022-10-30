@@ -91,4 +91,7 @@
     <string name="str_please_signup">Vui lòng đăng nhập để sử dụng dữ liệu</string>
     <string name="str_hello">Xin chào %s</string>
     <string name="str_agree">Đồng ý</string>
+    <string name="header_product">Danh sách sản phẩm</string>
+    <string name="str_confirm_out">Bạn có muốn tiếp tục điền thông tin sản phẩm?</string>
+    <string name="str_confirm_order">Bạn muốn tiếp tục đặt hàng không?</string>
 </resources>

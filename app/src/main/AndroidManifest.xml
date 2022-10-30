@@ -21,9 +21,6 @@
         android:theme="@style/Theme.BettinaLogistics"
         tools:targetApi="31">
         <activity
-            android:name=".AddNewOrderActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.activity.add_new_order.AddNewOrderActivity"
             android:exported="false"
             android:screenOrientation="portrait"

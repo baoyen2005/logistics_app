@@ -2,14 +2,17 @@ package com.example.bettinalogistics.ui.activity.addorder
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityOrderBinding
 import com.example.bettinalogistics.model.Order
+import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderActivity
-import com.example.bettinalogistics.ui.activity.login.LoginActivity
-import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_STATUS_PENDING
-import org.koin.android.ext.android.get
+import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderActivity.Companion.ADD_NEW_PRODUCT
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
+import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OrderActivity : BaseActivity() {
@@ -34,40 +37,54 @@ class OrderActivity : BaseActivity() {
     private fun initView() {
         addNewProductBottomSheet = AddNewProductBottomSheet()
         addOrderAdapter = AddOrderAdapter()
-        binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.header_order)
+        binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.header_product)
         binding.rvOrderList.adapter = addOrderAdapter
-        showLoading()
-        viewModel.getAllOrder()
     }
 
     private fun initListener() {
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
-            finish()
+            if(viewModel.productList.isEmpty()){
+                finish()
+            }
+            else {
+                confirm.newBuild().setNotice(getString(R.string.str_confirm_order))
+                    .addButtonAgree {
+                        confirm.dismiss()
+                    }.addButtonCancel(getString(com.example.baseapp.R.string.cancel)) {
+                        confirm.dismiss()
+                        finish()
+                    }
+            }
         }
         binding.btnAddOrderProduct.setOnClickListener {
-            startActivity(Intent(this, AddNewOrderActivity::class.java))
+            val intent =  Intent(this, AddNewOrderActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+        binding.btnOrder.setOnClickListener {
+            val order = Order(transportMethod = "bien", transportType = "net", contNum = 3, productList = viewModel.productList)
+            viewModel.addOrder(order)
         }
     }
 
-    private fun observerData() {
-        viewModel.getAllOrderLiveData.observe(this){
-            if(it != null){
-                addOrderAdapter.resetOrderList(it as ArrayList<Order>)
-                hiddenLoading()
+    private fun observerData(){
+        viewModel.addOrderLiveData.observe(this){
+            if(it){
+                Log.d(TAG, "observerData: add order success")
             }
-            else{
-                hiddenLoading()
-                confirm.newBuild().setNotice(getString(R.string.str_get_all_order_fail))
-                    .addButtonAgree(getString(R.string.str_agree)) {
-                        confirm.dismiss()
-                        startActivity(Intent(this, AddNewOrderActivity::class.java))
-                    }.setAction(true)
-            }
+            else
+                Log.d(TAG, "observerData: add fail")
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAllOrder()
-    }
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> {
+                    val product =  Utils.g().getObjectFromJson(result.data?.getStringExtra(ADD_NEW_PRODUCT).toString(),Product::class.java)
+                    product?.let { viewModel.productList.add(it) }
+                    addOrderAdapter.resetOrderList(viewModel.productList)
+                }
+            }
+        }
+
 }

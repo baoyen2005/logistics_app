@@ -3,16 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/_8dp"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/ivAddOrderImageItem"
-        android:layout_width="@dimen/_80dp"
-        android:layout_height="@dimen/_80dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewImageOrder"
+        android:layout_width="@dimen/_60dp"
+        android:layout_height="@dimen/_60dp"
+        app:cardCornerRadius="@dimen/_30dp"
         app:layout_constraintBottom_toTopOf="@+id/viewDeviceAddOrderItem"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivAddOrderImageItem"
+            android:src="@drawable/slide1"
+            android:scaleType="fitXY"
+            android:layout_width="@dimen/_60dp"
+            android:layout_height="@dimen/_60dp"/>
+
+    </androidx.cardview.widget.CardView>
 
     <com.example.baseapp.view.Textview
         android:id="@+id/addOrderNameItem"
@@ -20,23 +31,36 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15dp"
         android:fontFamily="@font/ssp_semi_regular"
-        android:textSize="@dimen/_18sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivAddOrderImageItem"
-        app:layout_constraintLeft_toRightOf="@id/ivAddOrderImageItem"
-        app:layout_constraintRight_toLeftOf="@id/addOrderTypeItem"
-        app:layout_constraintTop_toTopOf="@id/ivAddOrderImageItem" />
+        android:textSize="@dimen/_16sp"
+        tools:text = "sssssssssssss"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/cardViewImageOrder"
+        app:layout_constraintTop_toTopOf="@+id/cardViewImageOrder" />
 
     <com.example.baseapp.view.Textview
         android:id="@+id/addOrderTypeItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:fontFamily="@font/ssp_semi_regular"
+        android:textSize="@dimen/_14sp"
+        tools:text  = "llsls"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewImageOrder"
+        app:layout_constraintLeft_toRightOf="@id/cardViewImageOrder"
+        app:layout_constraintTop_toBottomOf="@id/addOrderNameItem" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvAddOrderQuantityItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_15dp"
         android:fontFamily="@font/ssp_semi_regular"
-        android:textSize="@dimen/_18sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivAddOrderImageItem"
-        app:layout_constraintLeft_toRightOf="@id/addOrderNameItem"
+        android:textSize="@dimen/_14sp"
+        android:textColor="@color/black"
+        tools:text  = "llsls"
         app:layout_constraintRight_toLeftOf="@id/ivAddOrderExpandItem"
-        app:layout_constraintTop_toTopOf="@id/ivAddOrderImageItem" />
+        app:layout_constraintTop_toTopOf="@id/cardViewImageOrder"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewImageOrder"/>
 
     <ImageView
         android:id="@+id/ivAddOrderExpandItem"
@@ -44,16 +68,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15dp"
         android:src="@drawable/ic_baseline_expand_more_24"
-        app:layout_constraintBottom_toBottomOf="@id/ivAddOrderImageItem"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewImageOrder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivAddOrderImageItem" />
+        app:layout_constraintTop_toTopOf="@id/cardViewImageOrder" />
 
     <View
         android:id="@+id/viewDeviceAddOrderItem"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey_font"
-        app:layout_constraintTop_toBottomOf="@id/ivAddOrderImageItem"
+        app:layout_constraintTop_toBottomOf="@id/cardViewImageOrder"
         android:layout_marginTop="@dimen/_10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
