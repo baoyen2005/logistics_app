@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
@@ -170,7 +169,7 @@ class AddNewOrderActivity : BaseActivity() {
             ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val p2 =
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (p1 != PackageManager.PERMISSION_GRANTED || p2 != PackageManager.PERMISSION_GRANTED) {
+        if ( p2 != PackageManager.PERMISSION_GRANTED) {
             requestPhotoPermission()
         } else {
             pickImage()
@@ -191,8 +190,12 @@ class AddNewOrderActivity : BaseActivity() {
 
     private fun pickImage() {
         // gơ app di chay lai
-
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).also {
+            it.addCategory(Intent.CATEGORY_OPENABLE)
+            it.type = "image/*"
+            it.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
         launcher.launch(intent)
     }
 
@@ -202,7 +205,12 @@ class AddNewOrderActivity : BaseActivity() {
         if (result.resultCode == RESULT_OK
             && result.data != null
         ) {
-            viewModel.uri = result.data!!.data.toString()
+            val uri = result.data?.data!!
+            contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            viewModel.uri = uri.toString()
             binding.tvUriNewImageProduct.text = viewModel.uri.toString().substring(0, 15) + "..."
         } else {
             Log.d(AppConstant.TAG, "result = null: ")

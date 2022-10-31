@@ -122,25 +122,16 @@ class OrderRepositoryImpl : OrderRepository {
         onComplete: ((MutableLiveData<Boolean>) -> Unit)?
     ) {
         val product = products[countUpLoad]
-        val newProducts = ArrayList<Product>()
-        newProducts.addAll(products)
-        newProducts.remove(product)
-        Log.d(TAG, "upLoadPhotos: $product")
-        Log.d(TAG, "upLoadPhotos: ${Uri.parse(product.imgUri)}")
-
         val name = "product_image $orderId $countUpLoad"
         val storageRef = FirebaseStorage.getInstance().reference.child(ORDER_IMAGE_STORAGE).child(orderId).child(name)
         val uri = Uri.parse(product.imgUri)
-
         val uploadTask = storageRef.putFile(uri)
         uploadTask.addOnSuccessListener {
             storageRef.downloadUrl
                 .addOnSuccessListener { url: Uri ->
-                    product.imgUri = url.toString()
-                    newProducts.add(product)
-                    updateProduct(newProducts, orderId, onComplete)
+                    products[countUpLoad].imgUri = url.toString()
+                    updateProduct(products, orderId, onComplete)
                 }
-
         }
         uploadTask.addOnFailureListener { e: Exception? ->
             print(e?.message)
@@ -153,9 +144,9 @@ class OrderRepositoryImpl : OrderRepository {
         }
     }
 
-    private fun updateProduct(newProducts: ArrayList<Product>, orderId: String, onComplete: ((MutableLiveData<Boolean>) -> Unit)?) {
+    private fun updateProduct(newProducts: List<Product>, orderId: String, onComplete: ((MutableLiveData<Boolean>) -> Unit)?) {
         countUpLoad++
-        if(countUpLoad >= newProducts.size){
+        if(countUpLoad == newProducts.size){
             val map: MutableMap<String, Any> = java.util.HashMap()
             map[DataConstant.PRODUCT_LIST] = newProducts
             FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
@@ -175,5 +166,4 @@ class OrderRepositoryImpl : OrderRepository {
             upLoadPhotos(newProducts,orderId,onComplete)
         }
     }
-
 }
