@@ -1,7 +1,6 @@
 package com.example.bettinalogistics.di
 
 import android.content.Intent
-import android.net.Uri
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import com.example.baseapp.di.Common
@@ -44,10 +43,10 @@ class AppData {
         Common.currentActivity!!.finish()
     }
 
-    fun saveUser(email : String?, uri :Uri?, phone : String?, fullName:String?, uid: String?){
+    fun saveUser(email : String?, uri :String?, phone : String?, fullName:String?, uid: String?){
         Utils.g().saveDataString(USER_EMAIL, email)
         Utils.g().saveDataString(DataConstant.USER_ID, uid)
-        Utils.g().saveDataString(DataConstant.USER_IMAGE, uri.toString())
+        Utils.g().saveDataString(DataConstant.USER_IMAGE, uri)
         Utils.g().saveDataString(DataConstant.USER_PHONE, phone)
         Utils.g().saveDataString(DataConstant.USER_FULL_NAME, fullName)
     }

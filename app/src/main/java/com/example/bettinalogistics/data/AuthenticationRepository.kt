@@ -1,12 +1,10 @@
 package com.example.bettinalogistics.data
 
-import android.content.Context
 import android.net.Uri
 import com.example.baseapp.BaseRepository
 import com.example.baseapp.di.Common
-import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.User
-import com.example.bettinalogistics.utils.AppConstant
+import com.example.bettinalogistics.utils.AppConstant.Companion.USER_COLLECTION
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_DATE_OF_BIRTH
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
@@ -15,120 +13,181 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_IMAGE
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_PASSWORD
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_PHONE
-import com.example.bettinalogistics.utils.State
-import com.example.bettinalogistics.utils.dateToString
+import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ROLE
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.tasks.await
-import java.util.*
+import com.google.firebase.storage.FirebaseStorage
 
 
 interface AuthenticationRepository {
-    suspend fun login(email: String, password: String): Flow<State<Any>>
+    suspend fun login(email: String, password: String, onComplete: ((Boolean) -> Unit)?)
     suspend fun signUp(
-        image: Uri,
-        fullName: String,
-        phone: String,
-        dateOfBirth: Date,
-        password: String,
-        email: String,
-        address: String
-    ): Flow<State<Any>>
+        user: User,
+        onComplete: ((Boolean) -> Unit)?
+    )
 
-    suspend fun forgetPassword(email: String, context: Context): Flow<State<Any>>
+    suspend fun forgetPassword(
+        email: String, onComplete: ((Boolean) -> Unit)?
+    )
+
+    suspend fun getUser(email: String): User?
 }
 
 class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository {
     private val context = Common.currentActivity
     override suspend fun login(
         email: String,
-        password: String
-    ): Flow<State<Any>> = flow<State<Any>> {
-        emit(State.loading(true))
-
-        val auth = Firebase.auth
-        val data = auth.signInWithEmailAndPassword(email, password).await()
-        if(data != null){
-            emit(State.success(context!!.getString(R.string.LOGIN_SUCCESS)))
-        }
-        else{
-            emit(State.failed(context!!.getString(R.string.ERRO_LOGIN)))
-        }
-    }.catch {
-        emit(State.failed(it.message.toString()))
-    }.flowOn(
-        Dispatchers.IO
-    )
-
-    override suspend fun signUp(image: Uri,
-                                fullName:String,
-                                phone: String,
-                                dateOfBirth : Date,
-                                password: String,
-                                email: String,
-                                address: String
-    ): Flow<State<Any>> = flow<State<Any>> {
-        emit(State.loading(true))
-        val auth = Firebase.auth
-        val data = auth.createUserWithEmailAndPassword(email, password).await()
-        data.user?.let {
-            val path = uploadImage(it.uid, image).toString()
-            val userModel = User(path, fullName, phone, dateOfBirth, email, password, address)
-            createUser(userModel, auth)
-            emit(State.success(context!!.getString(R.string.str_sign_up_success)))
-        }
-
-    }.catch {
-        emit(State.failed(it.message!!))
-    }.flowOn(Dispatchers.IO)
-
-    private suspend fun uploadImage(uid: String, image: Uri): Uri {
-        val firebaseStorage = Firebase.storage
-        val storageReference = firebaseStorage.reference
-        val task = storageReference.child(uid + AppConstant.PROFILE_PATH)
-            .putFile(image).await()
-        return task.storage.downloadUrl.await()
+        password: String,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                onComplete?.invoke(true)
+            }.addOnFailureListener {
+                onComplete?.invoke(false)
+            }
     }
 
-    private suspend fun createUser(userModel: User, auth: FirebaseAuth) {
-        val documentReference = FirebaseFirestore.getInstance().collection("users")
-            .document(auth.uid!!)
+    override suspend fun signUp(
+        user: User,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
+            .addOnSuccessListener {
+                val currentUser = firebaseAuth.currentUser
+                val uid = currentUser?.uid
+                uid?.let { uid ->
+                    createUser(
+                        uid,
+                        user, onComplete
+                    )
+                }
+            }
+            .addOnFailureListener { e: java.lang.Exception ->
+                onComplete?.invoke(false)
+            }
+    }
+
+    private fun createUser(
+        uid: String,
+        user: User,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val documentReference = FirebaseFirestore.getInstance().collection(USER_COLLECTION)
+            .document(uid)
         val values: HashMap<String, String?> = HashMap()
-        values[USER_ID] = auth.uid.toString()
-        values[USER_FULL_NAME] = userModel.fullName
-        values[USER_PHONE] = userModel.phone
-        values[USER_DATE_OF_BIRTH] = userModel.dateOfBirth?.let { dateToString(it) }
-        values[USER_EMAIL] = userModel.email
-        values[USER_PASSWORD] = userModel.password
-        values[USER_ADDRESS] = userModel.address
-        values[USER_IMAGE] = userModel.image.toString()
+        values[USER_ID] = uid
+        values[USER_FULL_NAME] = user.fullName
+        values[USER_PHONE] = user.phone
+        values[USER_DATE_OF_BIRTH] = user.dateOfBirth
+        values[USER_EMAIL] = user.email
+        values[USER_PASSWORD] = user.password
+        values[USER_ADDRESS] = user.address
+        values[USER_IMAGE] = user.image.toString()
+        values[USER_ROLE] = user.role
+        documentReference.set(values, SetOptions.merge())
+            .addOnCompleteListener { task: Task<Void?> ->
+                if (context!!.isDestroyed || context.isFinishing) {
+                    return@addOnCompleteListener
+                }
+                if (task.isSuccessful) {
+                    uploadImage(uid, user.image, onComplete)
+                } else {
+                    onComplete?.invoke(false)
+                }
+            }
 
-        documentReference.set(values, SetOptions.merge()).await()
-        val profileChangeRequest = UserProfileChangeRequest.Builder()
-            .setDisplayName(userModel.fullName)
-            .setPhotoUri(Uri.parse(userModel.image))
-            .build()
-        auth.currentUser?.apply {
-            updateProfile(profileChangeRequest).await()
+    }
+
+    private fun uploadImage(uid: String, uri: String?, onComplete: ((Boolean) -> Unit)?) {
+        val storage = FirebaseStorage.getInstance()
+        val name = "avatar"
+        val storageRef = storage.reference.child("photos_$uid").child(uid).child(name)
+        val uploadTask = storageRef.putFile(Uri.parse(uri))
+        uploadTask.addOnSuccessListener {
+            if (context!!.isDestroyed || context.isFinishing) {
+                return@addOnSuccessListener
+            }
+            storageRef.downloadUrl
+                .addOnSuccessListener { url: Uri ->
+                    updateUserImageToFireStorage(url.toString(), uid, onComplete)
+                }
+        }
+        uploadTask.addOnFailureListener { e: java.lang.Exception? ->
+            if (context!!.isDestroyed || context.isFinishing) {
+                return@addOnFailureListener
+            }
+            onComplete?.invoke(false)
+        }
+        uploadTask.addOnCanceledListener {
+            if (context!!.isDestroyed || context.isFinishing) {
+                return@addOnCanceledListener
+            }
+            onComplete?.invoke(false)
         }
     }
 
-    override suspend fun forgetPassword(email: String, context: Context): Flow<State<Any>> = flow<State<Any>> {
-        emit(State.loading(true))
+    private fun updateUserImageToFireStorage(
+        url: String,
+        uid: String,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val map: MutableMap<String, Any> = HashMap()
+        map[USER_IMAGE] = url
+        FirebaseFirestore.getInstance().collection(USER_COLLECTION)
+            .document(uid)
+            .set(map, SetOptions.merge())
+            .addOnCompleteListener { task: Task<Void?> ->
+                if (context!!.isDestroyed || context.isFinishing) {
+                    return@addOnCompleteListener
+                }
+                if (task.isSuccessful) {
+                    onComplete?.invoke(true)
+                } else {
+                    onComplete?.invoke(false)
+                }
+            }
+    }
+
+
+    override suspend fun forgetPassword(email: String, onComplete: ((Boolean) -> Unit)?) {
         val auth = Firebase.auth
-        auth.sendPasswordResetEmail(email).await()
-        emit(State.success(context.getString(R.string.pass_reset_sent_email)))
-    }.catch {
-        emit(State.failed(it.message!!))
-    }.flowOn(Dispatchers.IO)
+        auth.sendPasswordResetEmail(email).addOnCompleteListener {
+            if (it.isSuccessful)
+                onComplete?.invoke(true)
+            else
+                onComplete?.invoke(false)
+        }.addOnFailureListener {
+            onComplete?.invoke(false)
+        }
+    }
+
+    override suspend fun getUser(email: String): User? {
+        val listUser = ArrayList<User>()
+        var user: User? = null
+        FirebaseFirestore.getInstance().collection(USER_COLLECTION)
+            .whereEqualTo(USER_EMAIL, email)
+            .get()
+            .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
+                for (query in queryDocumentSnapshots) {
+                    val user = query.toObject(User::class.java);
+                    listUser.add(user)
+                }
+                if (listUser.isNotEmpty()) {
+                    listUser.forEach {
+                        if (it.email == email) {
+                            user = it
+                        }
+                    }
+                }
+            }
+        return user
+    }
 }

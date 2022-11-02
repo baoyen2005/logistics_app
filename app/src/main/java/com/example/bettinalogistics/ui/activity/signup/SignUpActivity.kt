@@ -4,27 +4,19 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySignUpBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.main.MainActivity
 import com.example.bettinalogistics.utils.AppConstant.Companion.CHOOSE_IMAGE
-import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.AppPermissionsUtils
-import com.example.bettinalogistics.utils.State
 import com.example.bettinalogistics.utils.dateToString
-import com.example.bettinalogistics.utils.stringToDate
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.collectLatest
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -60,10 +52,26 @@ class SignUpActivity : BaseActivity() {
         binding.btnSignup.setOnClickListener {
             saveUser()
         }
+        viewModel.signUpLiveData.observe(this){
+            if(it){
+                AppData.g().saveUser(email = viewModel.terminalUser?.email, phone = viewModel.terminalUser?.phone,
+                uri = viewModel.terminalUser?.image, fullName = viewModel.terminalUser?.fullName, uid =
+                    FirebaseAuth.getInstance().currentUser?.uid)
+                confirm.newBuild().setNotice(getString(R.string.str_sign_up_success)).addButtonAgree {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }
+            else confirm.newBuild().setNotice(getString(R.string.sign_up_failed))
+        }
     }
 
     private fun pickImage() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).also {
+            it.addCategory(Intent.CATEGORY_OPENABLE)
+            it.type = "image/*"
+            it.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
         launcher.launch(intent)
     }
 
@@ -74,7 +82,7 @@ class SignUpActivity : BaseActivity() {
             && result.data != null
         ) {
             val photoUri: Uri? = result.data!!.data
-            viewModel.setUriPhoto(photoUri!!)
+            viewModel.uri = photoUri
             binding.imgAvt.visibility = View.VISIBLE
             binding.imgClickCamera.visibility = View.GONE
             binding.imgAvt.setImageURI(photoUri)
@@ -167,34 +175,13 @@ class SignUpActivity : BaseActivity() {
             val email = binding.edtEmailSignUp.text?.trim().toString()
             val password = binding.edtPasswordSignup.text?.trim().toString()
             val address = binding.edtAddressSignUp.text?.trim().toString()
-            val dateOB = stringToDate(dateOfBirth)
-            Log.d(TAG, "saveUser: uri = $uri")
-            if (uri != null) {
-                lifecycleScope.launchWhenCreated {
-                    viewModel.signUp(
-                        uri, fullName, phone, dateOB!!,
-                        password, email, address
-                    ).collectLatest {
-                        when (it) {
-                            is State.Loading -> {
-                                if (it.flag == true)
-                                    showLoading()
-                            }
-                            is State.Success -> {
-                                AppData.g().currentUser = Firebase.auth.currentUser.toString()
-                                AppData.g().saveUser(email, uri, phone, fullName, Firebase.auth.uid)
-                                hiddenLoading()
-                                startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
-                                finish()
-                            }
-                            is State.Failed -> {
-                                hiddenLoading()
-                                confirm.newBuild().setNotice(it.error)
-                            }
-                        }
-                    }
-                }
-            }
+            val user = com.example.bettinalogistics.model.User(
+                image = uri.toString(), fullName = fullName,
+                phone = phone, dateOfBirth = dateOfBirth, email = email, password = password,
+                address = address
+            )
+            viewModel.terminalUser = user
+           viewModel.signUp(user)
         }
     }
 }

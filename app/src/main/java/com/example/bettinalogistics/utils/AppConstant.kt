@@ -19,5 +19,6 @@ class AppConstant {
         // firebase
         const val ORDER_COLLECTION = "orders"
         const val ORDER_IMAGE_STORAGE = "product_images"
+        const val USER_COLLECTION = "users"
     }
 }

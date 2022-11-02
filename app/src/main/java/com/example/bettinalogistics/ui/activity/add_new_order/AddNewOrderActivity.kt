@@ -75,6 +75,7 @@ class AddNewOrderActivity : BaseActivity() {
                     }
             }
         }
+
         binding.btnAddNewProduct.setOnClickListener {
             val name = binding.edtAddNewProductName.text.toString()
             val des = binding.edtAddNewProductDescription.text.toString()
@@ -86,7 +87,6 @@ class AddNewOrderActivity : BaseActivity() {
                 volume = binding.edtAddNewProductVolume.text.toString().toDouble()
                 mass = binding.edtAddNewProductMass.text.toString().toDouble()
                 numberOfCarton = binding.edtAddNewProductNumberOfCarton.text.toString().toLong()
-
             }
             val product =
                 Product(
@@ -165,8 +165,6 @@ class AddNewOrderActivity : BaseActivity() {
     }
 
     private fun showPhotoPermission() {
-        val p1 =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val p2 =
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
         if ( p2 != PackageManager.PERMISSION_GRANTED) {

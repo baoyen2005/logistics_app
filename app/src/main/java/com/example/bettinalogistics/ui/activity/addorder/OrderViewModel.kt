@@ -15,7 +15,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewMod
 
     fun addOrder(order: Order) = viewModelScope.launch(Dispatchers.IO) {
         orderRepository.addOrder(order) {
-            addOrderLiveData = it
+            addOrderLiveData.postValue(it)
         }
     }
 }

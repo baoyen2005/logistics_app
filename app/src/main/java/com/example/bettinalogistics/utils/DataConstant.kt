@@ -11,6 +11,7 @@ class DataConstant {
         const val USER_EMAIL= "email"
         const val USER_PASSWORD= "password"
         const val USER_ADDRESS= "address"
+        const val USER_ROLE = "role"
         // order
         const val PRODUCT_NAME = "productName"
         const val PRODUCT_DES = "productDes"

@@ -102,7 +102,7 @@ class Utils private constructor() {
 
     fun getDataString(key: String) : String?{
         val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
-        return  sharedPreference?.getString(key,"data")
+        return  sharedPreference?.getString(key, null)
     }
 
     fun getDataBoolean(key: String) : Boolean?{

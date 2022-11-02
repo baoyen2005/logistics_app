@@ -30,8 +30,8 @@ class OrderActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
-        initListener()
         observerData()
+        initListener()
     }
 
     private fun initView() {
@@ -61,6 +61,7 @@ class OrderActivity : BaseActivity() {
             resultLauncher.launch(intent)
         }
         binding.btnOrder.setOnClickListener {
+            showLoading()
             val order = Order(transportMethod = "bien", transportType = "net", contNum = 3, productList = viewModel.productList)
             viewModel.addOrder(order)
         }
@@ -68,11 +69,20 @@ class OrderActivity : BaseActivity() {
 
     private fun observerData(){
         viewModel.addOrderLiveData.observe(this){
+            Log.d(TAG, "observerData: $it")
             if(it){
-                Log.d(TAG, "observerData: add order success")
+                hiddenLoading()
+                confirm.newBuild().setNotice(getString(R.string.str_add_order_success)).addButtonAgree{
+                    finish()
+                }
             }
             else
-                Log.d(TAG, "observerData: add fail")
+            {
+                hiddenLoading()
+                confirm.newBuild().setNotice(getString(R.string.str_add_order_fail)).addButtonAgree{
+                    finish()
+                }
+            }
         }
     }
 

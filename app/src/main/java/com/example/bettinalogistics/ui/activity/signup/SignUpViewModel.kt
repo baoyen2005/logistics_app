@@ -1,26 +1,22 @@
 package com.example.bettinalogistics.ui.activity.signup
 
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.data.AuthenticationRepository
-import com.example.bettinalogistics.utils.State
-import kotlinx.coroutines.flow.MutableStateFlow
-import java.util.*
+import com.example.bettinalogistics.model.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SignUpViewModel(val authenticationRepository: AuthenticationRepository) : BaseViewModel() {
-    var stateSignInFlow: MutableStateFlow<State<Any>?> = MutableStateFlow(null)
-
     var uri : Uri? = null
-    suspend fun signUp(image: Uri,
-                       fullName:String,
-                       phone: String,
-                       dateOfBirth : Date,
-                       password: String,
-                       email: String,
-                       address: String) =
-        authenticationRepository.signUp(image, fullName, phone, dateOfBirth, password, email, address)
+    var terminalUser : User? = null
+    var signUpLiveData = MutableLiveData<Boolean>()
 
-    fun setUriPhoto(uri: Uri?){
-        this.uri = uri
+    fun signUp(user: User) = viewModelScope.launch(Dispatchers.IO){
+        authenticationRepository.signUp(user = user){
+            signUpLiveData.postValue(it)
+        }
     }
 }

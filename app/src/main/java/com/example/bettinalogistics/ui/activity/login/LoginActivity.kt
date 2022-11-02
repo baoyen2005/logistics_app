@@ -4,18 +4,15 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityLoginBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.main.MainActivity
 import com.example.bettinalogistics.ui.activity.signup.SignUpActivity
-import com.example.bettinalogistics.utils.State
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.dialog_forgot_password.view.*
-import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -43,34 +40,48 @@ class LoginActivity : BaseActivity() {
         binding.txtForgotPassLogin.setOnClickListener {
             forgotPassword()
         }
+        observeData()
     }
 
-    private fun checkLogin() {
-        val email = binding.edtEmailLogin.text.trim().toString()
-        val password = binding.edtPasswordLogin.text.trim().toString()
-        lifecycleScope.launchWhenStarted {
-            viewModel.login(email, password).collectLatest {
-                when (it) {
-                    is State.Loading -> {
-                        if (it.flag == true)
-                            showLoading()
-                    }
-                    is State.Success -> {
-                        hiddenLoading()
-                        AppData.g().currentUser = Firebase.auth.currentUser.toString()
-                        AppData.g().userId = Firebase.auth.uid
-                        startActivity(
-                            Intent(this@LoginActivity, MainActivity::class.java)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        )
-                        finish()
-                    }
-                    is State.Failed -> {
-                        hiddenLoading()
-                        confirm.newBuild().setNotice(it.error)
-                    }
-                }
+    private fun observeData() {
+        viewModel.getUserLiveData.observe(this) {
+            hiddenLoading()
+            if (it != null) {
+                AppData.g().saveUser(
+                    it.email,
+                    it.image,
+                    phone = it.phone,
+                    fullName = it.fullName,
+                    uid = Firebase.auth.uid
+                )
+                AppData.g().currentUser = Firebase.auth.currentUser.toString()
+                startActivity(
+                    Intent(this@LoginActivity, MainActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                )
+                finish()
+            }
+            else{
+                confirm.newBuild().setNotice(R.string.ERRO_LOGIN)
+            }
+        }
+
+        viewModel.loginLiveData.observe(this){
+            if(it){
+                viewModel.getUser(email = binding.edtEmailLogin.text.toString())
+            }
+            else {
+                confirm.newBuild().setNotice(getString(R.string.ERRO_LOGIN))
+            }
+        }
+
+        viewModel.forgetLiveData.observe(this){
+            if(it){
+                confirm.newBuild().setNotice(getString(R.string.pass_reset_sent_email))
+            }
+            else{
+                confirm.newBuild().setNotice(getString(R.string.pass_reset_fail))
             }
         }
     }
@@ -103,7 +114,7 @@ class LoginActivity : BaseActivity() {
                 flag = true
             }
             else -> {
-                checkLogin()
+                viewModel.login(email = email, password = password)
             }
         }
         return if (flag) {
@@ -124,27 +135,7 @@ class LoginActivity : BaseActivity() {
                 showAlertDialog(getString(R.string.EURROR_EMAIL))
                 builder.dismiss()
             } else {
-                lifecycleScope.launchWhenStarted {
-                    viewModel.forget(email.toString(), this@LoginActivity).collectLatest {
-                        when (it) {
-                            is State.Loading -> {
-                                if (it.flag == true)
-                                    showLoading()
-                            }
-
-                            is State.Success -> {
-                                hiddenLoading()
-                                confirm.newBuild().setNotice(it.data.toString())
-                                builder.dismiss()
-                            }
-                            is State.Failed -> {
-                                hiddenLoading()
-                                confirm.newBuild().setNotice(it.error)
-                                builder.dismiss()
-                            }
-                        }
-                    }
-                }
+                viewModel.forget(email.toString())
             }
         }
         builder.setCanceledOnTouchOutside(false)
