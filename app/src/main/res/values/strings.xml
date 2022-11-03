@@ -95,6 +95,8 @@
     <string name="str_confirm_out">Bạn có muốn tiếp tục điền thông tin sản phẩm?</string>
     <string name="str_confirm_order">Bạn muốn tiếp tục đặt hàng không?</string>
     <string name="login_success">Đăng nhập thành công</string>
-    <string name="sign_up_failed">Đăng ký không thành công. Mời quý khách kiểm tra thông tin và thao tác lại</string>
+    <string name="sign_in_failed">Đăng ký không thành công. Mời quý khách kiểm tra thông tin và thao tác lại</string>
     <string name="pass_reset_fail">Có lỗi trong quá trình xảy ra. Hãy kiểm tra lại email của bạn đã đăng ký chưa và thử lại</string>
+    <string name="str_sign_in_success">Đăng ký thành công.</string>
+    <string name="str_continue">Tiếp tục</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.example.bettinalogistics.ui.activity.main
 
 import android.content.Intent
-import android.os.Bundle
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityMainBinding
@@ -9,8 +8,6 @@ import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
-    override val layoutId: Int
-        get() = R.layout.activity_main
 
     override val viewModel: MainViewModel by viewModel()
 
@@ -18,14 +15,8 @@ class MainActivity : BaseActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initView() {
         setupViewPager()
-        initView()
-        initListener()
-    }
-
-    private fun initView() {
         binding.viewPagerMain.currentItem = 0
         binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
         binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
@@ -33,7 +24,7 @@ class MainActivity : BaseActivity() {
         binding.ivMainPerson.setImageResource(R.drawable.ic_baseline_person_24)
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.ivMainHome.setOnClickListener {
            setFirstFragmentItem()
         }
@@ -49,6 +40,10 @@ class MainActivity : BaseActivity() {
         binding.btnFloatTingMainAdd.setOnClickListener {
             startActivity(Intent(this, OrderActivity::class.java))
         }
+    }
+
+    override fun observeData() {
+
     }
 
     private fun setupViewPager() {

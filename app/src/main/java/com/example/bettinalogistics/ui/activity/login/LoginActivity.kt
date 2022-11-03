@@ -2,7 +2,6 @@ package com.example.bettinalogistics.ui.activity.login
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
@@ -17,18 +16,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LoginActivity : BaseActivity() {
-    override val layoutId: Int
-        get() = R.layout.activity_login
-
     override val viewModel: LoginViewModel by viewModel()
 
     override val binding: ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun initView() {
+    }
+
+    override fun initListener() {
         binding.txtLoginRegister.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
@@ -40,10 +37,9 @@ class LoginActivity : BaseActivity() {
         binding.txtForgotPassLogin.setOnClickListener {
             forgotPassword()
         }
-        observeData()
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.getUserLiveData.observe(this) {
             hiddenLoading()
             if (it != null) {

@@ -2,11 +2,9 @@ package com.example.bettinalogistics.ui.activity.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.example.baseapp.BaseActivity
-import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySplashScreenBinding
 import com.example.bettinalogistics.ui.activity.login.LoginActivity
 import com.example.bettinalogistics.ui.activity.main.MainActivity
@@ -14,8 +12,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : BaseActivity() {
-    override val layoutId: Int
-        get() = R.layout.activity_splash_screen
     override val viewModel: SplashViewModel by viewModel()
 
     override val binding: ActivitySplashScreenBinding by lazy {
@@ -26,14 +22,15 @@ class SplashScreen : BaseActivity() {
         decideNextScreen(viewModel.decideNextScreen())
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+
+    override fun initView() {
         handler.postDelayed(runnable, 1200)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun initListener() {
+    }
+
+    override fun observeData() {
     }
 
     private fun decideNextScreen(screen: String) {

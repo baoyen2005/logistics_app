@@ -1,20 +1,17 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddNewOrderBinding
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.utils.AppConstant
+import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,29 +19,26 @@ class AddNewOrderActivity : BaseActivity() {
     companion object {
         const val ADD_NEW_PRODUCT = "new_product"
     }
-
-    override val layoutId: Int
-        get() = R.layout.activity_add_new_order
+    private lateinit var appPermissions: AppPermissionsUtils
     override val viewModel: AddNewOrderViewModel by viewModel()
 
     override val binding: ActivityAddNewOrderBinding by lazy {
         ActivityAddNewOrderBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initView()
-        initListener()
-    }
-
-    private fun initView() {
+    override fun initView() {
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
         binding.headerAddNewOrder.tvHeaderTitle.text = getString(R.string.str_add_new_product)
+        appPermissions = AppPermissionsUtils()
+        if (!appPermissions.isStorageOk(applicationContext)) {
+            appPermissions.requestStoragePermission(this)
+        }
     }
 
-    private fun initListener() {
+    override fun initListener() {
+
         binding.ivAttachmentNewImageProduct.setOnClickListener {
-            showPhotoPermission()
+            pickImage()
         }
         binding.btnAddOrderNewProductLCL.setOnClickListener {
             viewModel.isLCL = true
@@ -108,6 +102,10 @@ class AddNewOrderActivity : BaseActivity() {
         }
     }
 
+    override fun observeData() {
+
+    }
+
     private fun setViewWhenClickFcl() {
         binding.btnAddOrderNewProductFCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
         binding.btnAddOrderNewProductFCL.setTextColor(
@@ -164,30 +162,7 @@ class AddNewOrderActivity : BaseActivity() {
         binding.edtAddNewProductQuantity.text?.clear()
     }
 
-    private fun showPhotoPermission() {
-        val p2 =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if ( p2 != PackageManager.PERMISSION_GRANTED) {
-            requestPhotoPermission()
-        } else {
-            pickImage()
-        }
-    }
-
-    private fun requestPhotoPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            123
-        )
-    }
-
-
     private fun pickImage() {
-        // gơ app di chay lai
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).also {
             it.addCategory(Intent.CATEGORY_OPENABLE)
             it.type = "image/*"
@@ -209,7 +184,7 @@ class AddNewOrderActivity : BaseActivity() {
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
             viewModel.uri = uri.toString()
-            binding.tvUriNewImageProduct.text = viewModel.uri.toString().substring(0, 15) + "..."
+            binding.tvUriNewImageProduct.text = viewModel.uri.toString().substring(0, 30) + "..."
         } else {
             Log.d(AppConstant.TAG, "result = null: ")
         }

@@ -3,7 +3,6 @@ package com.example.bettinalogistics.ui.activity.signup
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,23 +23,20 @@ import java.util.*
 class SignUpActivity : BaseActivity() {
     private lateinit var appPermissions: AppPermissionsUtils
 
-    override val layoutId: Int
-        get() = R.layout.activity_login
-
     override val viewModel: SignUpViewModel by viewModel()
 
     override val binding: ActivitySignUpBinding by lazy {
         ActivitySignUpBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun initView() {
         appPermissions = AppPermissionsUtils()
         if (!appPermissions.isStorageOk(applicationContext)) {
             appPermissions.requestStoragePermission(this)
         }
+    }
 
+    override fun initListener() {
         binding.imgClickCamera.setOnClickListener {
             pickImage()
         }
@@ -52,16 +48,19 @@ class SignUpActivity : BaseActivity() {
         binding.btnSignup.setOnClickListener {
             saveUser()
         }
+    }
+
+    override fun observeData() {
         viewModel.signUpLiveData.observe(this){
             if(it){
                 AppData.g().saveUser(email = viewModel.terminalUser?.email, phone = viewModel.terminalUser?.phone,
-                uri = viewModel.terminalUser?.image, fullName = viewModel.terminalUser?.fullName, uid =
+                    uri = viewModel.terminalUser?.image, fullName = viewModel.terminalUser?.fullName, uid =
                     FirebaseAuth.getInstance().currentUser?.uid)
-                confirm.newBuild().setNotice(getString(R.string.str_sign_up_success)).addButtonAgree {
+                confirm.newBuild().setNotice(getString(R.string.str_sign_in_success)).addButtonAgree {
                     startActivity(Intent(this, MainActivity::class.java))
                 }
             }
-            else confirm.newBuild().setNotice(getString(R.string.sign_up_failed))
+            else confirm.newBuild().setNotice(getString(R.string.sign_in_failed))
         }
     }
 

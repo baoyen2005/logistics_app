@@ -46,18 +46,18 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:background="@drawable/bg_gray_color_corner_12"
-        app:layout_constraintBottom_toTopOf="@id/btnOrder"
+        app:layout_constraintBottom_toTopOf="@id/btnOrderContinued"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnAddOrderProduct" />
 
     <Button
-        android:id="@+id/btnOrder"
+        android:id="@+id/btnOrderContinued"
         android:layout_width="@dimen/_200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_40dp"
         android:background="@drawable/custom_bg_secondary_sea_green_button_corner_20"
-        android:text="@string/str_ordering"
+        android:text="@string/str_continue"
         android:textAllCaps="false"
         android:textSize="@dimen/main_size"
         app:backgroundTint="@null"

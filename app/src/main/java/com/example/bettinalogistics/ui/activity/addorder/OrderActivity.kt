@@ -1,7 +1,6 @@
 package com.example.bettinalogistics.ui.activity.addorder
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.baseapp.BaseActivity
@@ -9,6 +8,7 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityOrderBinding
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.Product
+import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderActivity
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderActivity.Companion.ADD_NEW_PRODUCT
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
@@ -19,29 +19,20 @@ class OrderActivity : BaseActivity() {
     private lateinit var addNewProductBottomSheet: AddNewProductBottomSheet
     private lateinit var addOrderAdapter: AddOrderAdapter
 
-    override val layoutId: Int
-        get() = R.layout.activity_order
     override val viewModel: OrderViewModel by viewModel()
 
     override val binding: ActivityOrderBinding by lazy {
         ActivityOrderBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initView()
-        observerData()
-        initListener()
-    }
-
-    private fun initView() {
+    override fun initView() {
         addNewProductBottomSheet = AddNewProductBottomSheet()
         addOrderAdapter = AddOrderAdapter()
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.header_product)
         binding.rvOrderList.adapter = addOrderAdapter
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             if(viewModel.productList.isEmpty()){
                 finish()
@@ -60,14 +51,15 @@ class OrderActivity : BaseActivity() {
             val intent =  Intent(this, AddNewOrderActivity::class.java)
             resultLauncher.launch(intent)
         }
-        binding.btnOrder.setOnClickListener {
-            showLoading()
+        binding.btnOrderContinued.setOnClickListener {
+//            showLoading()
             val order = Order(transportMethod = "bien", transportType = "net", contNum = 3, productList = viewModel.productList)
-            viewModel.addOrder(order)
+    //        viewModel.addOrder(order)
+            resultLauncherAddAddress.launch(AddAddressTransactionActivity.startAddAddressTransactionActivity(this, order))
         }
     }
 
-    private fun observerData(){
+    override fun observeData(){
         viewModel.addOrderLiveData.observe(this){
             Log.d(TAG, "observerData: $it")
             if(it){
@@ -93,6 +85,14 @@ class OrderActivity : BaseActivity() {
                     val product =  Utils.g().getObjectFromJson(result.data?.getStringExtra(ADD_NEW_PRODUCT).toString(),Product::class.java)
                     product?.let { viewModel.productList.add(it) }
                     addOrderAdapter.resetOrderList(viewModel.productList)
+                }
+            }
+        }
+private var resultLauncherAddAddress =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> {
+
                 }
             }
         }

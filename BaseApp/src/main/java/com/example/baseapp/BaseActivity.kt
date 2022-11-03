@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.example.baseapp.di.Common
@@ -19,9 +18,6 @@ import org.koin.android.ext.android.inject
 abstract class BaseActivity :
     AppCompatActivity() {
     val confirm by inject<ConfirmDialog>()
-
-    @get:LayoutRes
-    protected abstract val layoutId: Int
     protected open val binding: ViewBinding? = null
     abstract val viewModel: BaseViewModel
 
@@ -31,7 +27,14 @@ abstract class BaseActivity :
             setContentView(binding?.root)
         }
         Common.currentActivity = this
+        initView()
+        initListener()
+        observeData()
     }
+    abstract fun initView()
+    abstract fun initListener()
+    abstract fun observeData()
+
     fun showLoading() {
         LoadingDialog.getInstance(this)?.show()
     }

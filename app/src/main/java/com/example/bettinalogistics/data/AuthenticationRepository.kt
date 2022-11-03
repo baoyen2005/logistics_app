@@ -90,20 +90,22 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
         values[USER_EMAIL] = user.email
         values[USER_PASSWORD] = user.password
         values[USER_ADDRESS] = user.address
-        values[USER_IMAGE] = user.image.toString()
         values[USER_ROLE] = user.role
         documentReference.set(values, SetOptions.merge())
-            .addOnCompleteListener { task: Task<Void?> ->
-                if (context!!.isDestroyed || context.isFinishing) {
-                    return@addOnCompleteListener
+            .addOnSuccessListener {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnSuccessListener
                 }
-                if (task.isSuccessful) {
-                    uploadImage(uid, user.image, onComplete)
-                } else {
-                    onComplete?.invoke(false)
-                }
+//                else {
+                    //if (it) {
+                        uploadImage(uid, user.image, onComplete)
+//                    } else {
+//                        onComplete?.invoke(false)
+//                    }
+                //}
+            }.addOnFailureListener {
+                onComplete?.invoke(false)
             }
-
     }
 
     private fun uploadImage(uid: String, uri: String?, onComplete: ((Boolean) -> Unit)?) {
@@ -112,7 +114,7 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
         val storageRef = storage.reference.child("photos_$uid").child(uid).child(name)
         val uploadTask = storageRef.putFile(Uri.parse(uri))
         uploadTask.addOnSuccessListener {
-            if (context!!.isDestroyed || context.isFinishing) {
+            if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
                 return@addOnSuccessListener
             }
             storageRef.downloadUrl
@@ -145,7 +147,7 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
             .document(uid)
             .set(map, SetOptions.merge())
             .addOnCompleteListener { task: Task<Void?> ->
-                if (context!!.isDestroyed || context.isFinishing) {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
                     return@addOnCompleteListener
                 }
                 if (task.isSuccessful) {
