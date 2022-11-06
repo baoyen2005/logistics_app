@@ -10,6 +10,7 @@ import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySignUpBinding
 import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.ui.activity.main.MainActivity
 import com.example.bettinalogistics.utils.AppConstant.Companion.CHOOSE_IMAGE
 import com.example.bettinalogistics.utils.AppPermissionsUtils
@@ -52,13 +53,23 @@ class SignUpActivity : BaseActivity() {
 
     override fun observeData() {
         viewModel.signUpLiveData.observe(this){
-            if(it){
-                AppData.g().saveUser(email = viewModel.terminalUser?.email, phone = viewModel.terminalUser?.phone,
-                    uri = viewModel.terminalUser?.image, fullName = viewModel.terminalUser?.fullName, uid =
-                    FirebaseAuth.getInstance().currentUser?.uid)
-                confirm.newBuild().setNotice(getString(R.string.str_sign_in_success)).addButtonAgree {
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
+            if(it) {
+                AppData.g().saveUser(
+                    User(
+                        email = viewModel.terminalUser?.email,
+                        phone = viewModel.terminalUser?.phone,
+                        image = viewModel.terminalUser?.image,
+                        fullName = viewModel.terminalUser?.fullName,
+                        uid = FirebaseAuth.getInstance().currentUser?.uid,
+                        dateOfBirth = viewModel.terminalUser?.dateOfBirth,
+                        address = viewModel.terminalUser?.address,
+                        password = viewModel.terminalUser?.password
+                    )
+                )
+                confirm.newBuild().setNotice(getString(R.string.str_sign_in_success))
+                    .addButtonAgree {
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
             }
             else confirm.newBuild().setNotice(getString(R.string.sign_in_failed))
         }

@@ -2,22 +2,16 @@ package com.example.baseapp.dialog
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import com.example.baseapp.R
 import java.lang.ref.WeakReference
 
 
-class LoadingDialog private constructor(private var context: Context?) {
+class LoadingDialog(private var context: Context?) {
     private var isShow = false
     private lateinit var dialog: AlertDialog
     fun show() {

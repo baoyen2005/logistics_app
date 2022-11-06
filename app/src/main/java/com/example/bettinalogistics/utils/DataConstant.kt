@@ -3,6 +3,7 @@ package com.example.bettinalogistics.utils
 class DataConstant {
     companion object{
         // user
+        const val USER = "user"
         const val USER_ID = "uid"
         const val USER_IMAGE = "image"
         const val USER_FULL_NAME = "fullName"

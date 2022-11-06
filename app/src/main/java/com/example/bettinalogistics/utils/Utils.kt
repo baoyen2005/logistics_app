@@ -5,9 +5,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import com.example.baseapp.di.Common
+import com.example.bettinalogistics.utils.AppConstant.Companion.KEY_SEARCH_HISTORY
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.util.regex.Pattern
 
 class Utils private constructor() {
@@ -118,5 +120,39 @@ class Utils private constructor() {
     fun getDataInt(key: String) : Int?{
         val sharedPreference =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
         return  sharedPreference?.getInt(key,-1)
+    }
+
+    fun setSearchHistory(type: Int, searchKey: String, isDelete: Boolean = false) {
+        val searchKeysStorage =
+            Utils.g().provideGson()
+                .fromJson(getDataString(KEY_SEARCH_HISTORY), object :
+                    TypeToken<HashMap<Int, MutableList<String>>>() {}.type)?:  HashMap<Int, MutableList<String>>()
+        if (isDelete) {
+            searchKeysStorage[type]?.remove(searchKey)
+        } else {
+            if (searchKeysStorage.containsKey(type)) {
+                if (searchKeysStorage[type]?.contains(searchKey) == true) {
+                    searchKeysStorage[type]?.remove(searchKey)
+                }
+                searchKeysStorage[type]?.add(0,searchKey)
+            } else {
+                searchKeysStorage[type] = mutableListOf(searchKey)
+            }
+        }
+        saveDataString(KEY_SEARCH_HISTORY, g().provideGson().toJson(searchKeysStorage))
+    }
+
+    fun getSearchKeyInStorage(): Map<Int, MutableList<String>> {
+        return provideGson().fromJson(
+                    getDataString(KEY_SEARCH_HISTORY), object :
+                        TypeToken<HashMap<Int, MutableList<String>>>() {}.type)?: HashMap<Int, MutableList<String>>()
+    }
+
+    fun clearHistory(type:Int){
+        val searchKeysStorage =  provideGson().fromJson(
+            getDataString(KEY_SEARCH_HISTORY), object :
+                TypeToken<HashMap<Int, MutableList<String>>>() {}.type)?: HashMap<Int, MutableList<String>>()
+        searchKeysStorage[type]?.clear()
+        saveDataString(KEY_SEARCH_HISTORY, provideGson().toJson(searchKeysStorage))
     }
 }

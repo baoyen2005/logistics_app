@@ -99,4 +99,14 @@
     <string name="pass_reset_fail">Có lỗi trong quá trình xảy ra. Hãy kiểm tra lại email của bạn đã đăng ký chưa và thử lại</string>
     <string name="str_sign_in_success">Đăng ký thành công.</string>
     <string name="str_continue">Tiếp tục</string>
+    <string name="open_navigation_drawer">Open Drawer</string>
+    <string name="close_navigation_drawer">Open Drawer</string>
+    <string name="API_KEY">AIzaSyCbSowrmJ7XdfVlT-nCvHNI-pmmaD0wF_8</string>
+    <string name="HANDLE_ERROR">Có lỗi xảy ra trong quá trình xử lý, quý khách thử lại trong giây lát</string>
+    <string name="str_choose_origin_address">Chọn địa điểm gửi hàng</string>
+    <string name="str_choose_destination_address">Chọn địa điểm giao hàng</string>
+    <string name="str_type_transaction">Hình thức vận chuyển</string>
+    <string name="str_client_choose_transaction">Khách hàng tự chọn hình thức vận chuyển</string>
+    <string name="str_shop_choose_transaction">Đơn vị vận chuyển tự chọn hình thức vận chuyển</string>
+    <string name="str_enter_address_detail">Số nhà/ tên đường chi tiết</string>
 </resources>

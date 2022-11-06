@@ -27,11 +27,7 @@ class AddAddressTransactionActivity : BaseActivity() {
     }
 
     override fun initListener() {
-        binding.btnTrack.setOnClickListener {
-            val sSource = binding.edtSource.text.toString().trim()
-            val sDestination = binding.edtDestination.text.toString().trim()
 
-        }
     }
 
     override fun observeData() {

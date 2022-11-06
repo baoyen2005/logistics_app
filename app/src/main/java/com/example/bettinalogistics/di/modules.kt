@@ -28,7 +28,7 @@ val models = module {
         SignUpViewModel(get())
     }
     viewModel {
-        MainViewModel()
+        MainViewModel(get())
     }
     viewModel {
         HomeViewModel()

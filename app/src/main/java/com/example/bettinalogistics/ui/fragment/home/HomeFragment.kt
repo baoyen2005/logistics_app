@@ -15,7 +15,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.USER_FULL_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_IMAGE
 import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.dateToString
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
 
@@ -23,7 +23,7 @@ class HomeFragment : BaseFragment() {
     private var homeTransportMethodAdapter: HomeTransportMethodAdapter? = null
     private var homeTransportTypeAdapter: HomeTransportTypeAdapter? = null
 
-    override val viewModel: HomeViewModel by viewModel()
+    override val viewModel: HomeViewModel by sharedViewModel()
 
     override val binding: FragmentHomeBinding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
