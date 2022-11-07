@@ -34,7 +34,7 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <com.vnpay.merchant.ui.views.EditTextPassword
+    <com.example.baseapp.view.EditTextRound
         android:id="@+id/edtOriginAddressDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,8 +42,6 @@
         android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/shape_a2a2a5_stroke_corner_12"
         android:hint="@string/str_enter_address_detail"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="14sp" />
 
     <com.example.baseapp.view.Textview
@@ -69,7 +67,7 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <com.vnpay.merchant.ui.views.EditTextPassword
+    <com.example.baseapp.view.EditTextRound
         android:id="@+id/edtDestinationAddressDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,8 +75,6 @@
         android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/shape_a2a2a5_stroke_corner_12"
         android:hint="@string/str_enter_address_detail"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="14sp" />
 
     <com.example.baseapp.view.Textview

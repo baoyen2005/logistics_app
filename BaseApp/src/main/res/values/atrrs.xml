@@ -12,7 +12,32 @@
         <attr name="light" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="EdittextInputAttrs">
+<!--    <declare-styleable name="EdittextInputAttrs">-->
+<!--        <attr name="textHint" format="string" />-->
+<!--        <attr name="android:imeOptions" />-->
+<!--        <attr name="android:inputType" />-->
+<!--        <attr name="android:textColor" />-->
+<!--        <attr name="android:background" />-->
+<!--        <attr name="android:hint" />-->
+<!--        <attr name="android:textColorHint" />-->
+<!--        <attr name="sizeHeader" format="dimension" />-->
+<!--        <attr name="sizeHint" format="dimension" />-->
+<!--        <attr name="srcIconLeft" format="reference" />-->
+<!--        <attr name="android:text" />-->
+<!--        <attr name="android:maxLength" />-->
+<!--        &lt;!&ndash;        Hiển thị dấu * bắt buộc&ndash;&gt;-->
+<!--        <attr name="required" format="boolean" />-->
+<!--        &lt;!&ndash;        Hiển thị divider&ndash;&gt;-->
+<!--        <attr name="show_divider" format="boolean" />-->
+<!--        <attr name="show_right" format="boolean" />-->
+<!--        <attr name="iconClear" format="boolean" />-->
+<!--        <attr name="colorHint" format="color" />-->
+<!--        <attr name="colorHintFirst" format="color" />-->
+<!--        <attr name="colorValue" format="color" />-->
+<!--        <attr name="colorCursor" format="reference" />-->
+<!--    </declare-styleable>-->
+
+    <declare-styleable name="EditTextRound">
         <attr name="textHint" format="string" />
         <attr name="android:imeOptions" />
         <attr name="android:inputType" />
@@ -31,9 +56,23 @@
         <attr name="show_divider" format="boolean" />
         <attr name="show_right" format="boolean" />
         <attr name="iconClear" format="boolean" />
-        <attr name="colorHint" format="color" />
+        <attr name="hintColor" format="color" />
         <attr name="colorHintFirst" format="color" />
-        <attr name="colorValue" format="color" />
+        <attr name="valueColor" format="color" />
         <attr name="colorCursor" format="reference" />
+        <attr name="hintFont" format="enum">
+            <enum name="Regular" value="0" />
+            <enum name="Bold" value="1" />
+            <enum name="Medium" value="2" />
+            <enum name="Italic" value="3" />
+            <enum name="SemiBold" value="4" />
+        </attr>
+        <attr name="valueFont" format="enum">
+            <enum name="Regular" value="0" />
+            <enum name="Bold" value="1" />
+            <enum name="Medium" value="2" />
+            <enum name="Italic" value="3" />
+            <enum name="SemiBold" value="4" />
+        </attr>
     </declare-styleable>
 </resources>

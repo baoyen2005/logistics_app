@@ -2,6 +2,7 @@ package com.example.bettinalogistics.ui.activity.add_new_order
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
 import com.example.bettinalogistics.model.Order
@@ -27,7 +28,7 @@ class AddAddressTransactionActivity : BaseActivity() {
     }
 
     override fun initListener() {
-
+        binding.edtOriginAddressDetail.visibleDrawableLeft(View.GONE)
     }
 
     override fun observeData() {
