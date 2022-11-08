@@ -106,7 +106,11 @@
     <string name="str_choose_origin_address">Chọn địa điểm gửi hàng</string>
     <string name="str_choose_destination_address">Chọn địa điểm giao hàng</string>
     <string name="str_type_transaction">Hình thức vận chuyển</string>
-    <string name="str_client_choose_transaction">Khách hàng tự chọn hình thức vận chuyển</string>
+    <string name="str_client_choose_transaction">Khách hàng chọn hình thức vận chuyển</string>
     <string name="str_shop_choose_transaction">Đơn vị vận chuyển tự chọn hình thức vận chuyển</string>
     <string name="str_enter_address_detail">Số nhà/ tên đường chi tiết</string>
+    <string name="str_method_transaction">Cách thức vận chuyển</string>
+    <string name="str_chinh_ngach">Chính ngạch</string>
+    <string name="str_tieu_ngach">Tiểu ngạch</string>
+    <string name="str_choose_type_transaction">Chọn loại hình vận chuyển</string>
 </resources>

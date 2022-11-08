@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.activity.add_new_order.AddAddressTransactionActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:fontFamily="@font/ssp_bold"
+        android:gravity="center"
+        android:text="@string/str_choose_type_transaction"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitleTypeTransport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:text="@string/str_type_transaction"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvTitleChooseTypeTransport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="@string/str_client_choose_transaction"
+        android:textColor="@color/merchant_color_a2a2a5"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleTypeTransport" />
+
+    <LinearLayout
+        android:id="@+id/linearTypeTransport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleChooseTypeTransport">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/_5dp">
+
+            <ImageView
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_30dp"
+                android:background="@drawable/shape_bg_fffff_corner_8"
+                android:clipToOutline="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/duongbo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5dp"
+                android:text="@string/str_road_transport"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/_5dp">
+
+            <ImageView
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_30dp"
+                android:background="@drawable/shape_bg_fffff_corner_8"
+                android:clipToOutline="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/duongbien" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5dp"
+                android:text="@string/str_sea_transport"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/_5dp"
+            android:paddingEnd="@dimen/_15dp">
+
+            <ImageView
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_30dp"
+                android:background="@drawable/shape_bg_fffff_corner_8"
+                android:clipToOutline="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/hangkhong" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5dp"
+                android:text="@string/str_air_transport"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvMethodTransportTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:text="@string/str_method_transaction"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearTypeTransport" />
+
+    <LinearLayout
+        android:id="@+id/linearChooseMethodTransport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMethodTransportTitle">
+
+        <CheckBox
+            android:id="@+id/checkBoxPayFullTax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_chinh_ngach" />
+
+        <CheckBox
+            android:id="@+id/checkBoxPayLumpsum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_tieu_ngach" />
+    </LinearLayout>
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/btnBackLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_30dp"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp18"
+        android:text="@string/str_continue"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp"
+        android:fontFamily="@font/ssp_bold"
+        app:layout_constraintTop_toBottomOf="@+id/linearChooseMethodTransport"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,4 +33,8 @@
     <dimen name="_5dp">5dp</dimen>
     <dimen name="_17sp">17sp</dimen>
     <dimen name="_1dp">1dp</dimen>
+    <dimen name="dp32">32dp</dimen>
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="_24dp">24dp</dimen>
+    <dimen name="_dp40">40dp</dimen>
 </resources>

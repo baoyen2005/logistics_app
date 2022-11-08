@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,15 +33,34 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <com.example.baseapp.view.EditTextRound
-        android:id="@+id/edtOriginAddressDetail"
+    <RelativeLayout
+        android:id="@+id/relativeDetailOriginAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15dp"
         android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-        android:hint="@string/str_enter_address_detail"
-        android:textSize="14sp" />
+        android:paddingHorizontal="@dimen/_16dp"
+        android:paddingVertical="@dimen/dp18">
+
+        <com.example.baseapp.view.EditText
+            android:id="@+id/edtDetailOriginAddressInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:hint="@string/str_enter_address_detail"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivDetailOriginAddressDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_quick_del" />
+    </RelativeLayout>
 
     <com.example.baseapp.view.Textview
         android:id="@+id/tvChooseDestinationAddress"
@@ -67,15 +85,34 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <com.example.baseapp.view.EditTextRound
-        android:id="@+id/edtDestinationAddressDetail"
+    <RelativeLayout
+        android:id="@+id/relativeDetailDestinationAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15dp"
         android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-        android:hint="@string/str_enter_address_detail"
-        android:textSize="14sp" />
+        android:paddingHorizontal="@dimen/_16dp"
+        android:paddingVertical="@dimen/dp18">
+
+        <com.example.baseapp.view.EditText
+            android:id="@+id/edtDetailDestinationAddressInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:hint="@string/str_enter_address_detail"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivDetailDestinationAddressDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_quick_del" />
+    </RelativeLayout>
 
     <com.example.baseapp.view.Textview
         android:layout_width="match_parent"
@@ -87,44 +124,38 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <CheckBox
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/str_client_choose_transaction"
         android:layout_marginHorizontal="@dimen/_15dp"
         android:layout_marginTop="@dimen/_12dp"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="14sp"/>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/str_shop_choose_transaction"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="14sp"/>
-
+        android:textColor="@color/merchant_color_a2a2a5"
+        android:textSize="14sp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/_12dp"
         android:weightSum="3">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:paddingVertical="@dimen/_5dp"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="@dimen/_40dp"
                 android:layout_height="@dimen/_30dp"
                 android:background="@drawable/shape_bg_fffff_corner_8"
                 android:src="@drawable/duongbo"
                 android:clipToOutline="true"
-                android:scaleType="fitXY"
-                />
+                android:scaleType="fitXY" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,6 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:paddingVertical="@dimen/_5dp"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="@dimen/_40dp"
@@ -162,23 +194,59 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_marginStart="@dimen/_5dp"
+            android:paddingVertical="@dimen/_5dp"
+            android:paddingEnd="@dimen/_15dp"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="@dimen/_40dp"
                 android:layout_height="@dimen/_30dp"
                 android:background="@drawable/shape_bg_fffff_corner_8"
                 android:src="@drawable/hangkhong"
                 android:clipToOutline="true"
-                android:scaleType="fitXY"
-                />
+                android:scaleType="fitXY" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5dp"
                 android:text="@string/str_air_transport"
                 android:textSize="@dimen/_14sp"
-                android:textColor="@color/merchant_color_4a4a4a"/>
+                android:textColor="@color/merchant_color_4a4a4a" />
         </LinearLayout>
+
     </LinearLayout>
 
+    <com.example.baseapp.view.Textview
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="@string/str_method_transaction"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:weightSum="2">
+
+        <CheckBox
+            android:id="@+id/checkBoxPayFullTax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_chinh_ngach" />
+
+        <CheckBox
+            android:id="@+id/checkBoxPayLumpsum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_tieu_ngach" />
+    </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
