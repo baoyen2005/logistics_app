@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.baseapp.R
 import com.vnpay.merchant.ui.views.AbstractTextWatcher
-import kotlinx.android.synthetic.main.custom_layout_edittext_password.view.*
+import kotlinx.android.synthetic.main.custom_layout_edittext_round.view.*
 
 class EditTextRound : RelativeLayout {
     var onClearData: (() -> Unit)? = null
@@ -37,9 +37,9 @@ class EditTextRound : RelativeLayout {
                 if (isPassword){
                     imgShowPassword.visibility = View.VISIBLE
                 }
-                edtInput.setTypeface(valueFont)
+                edtRound.setTypeface(valueFont)
             } else {
-                edtInput.setTypeface(hintFont)
+                edtRound.setTypeface(hintFont)
                 imgClear.visibility = View.GONE
                 imgShowPassword.visibility = View.GONE
             }
@@ -72,19 +72,19 @@ class EditTextRound : RelativeLayout {
     }
 
     private fun init(context: Context?, attrs: AttributeSet?) {
-        inflate(context, R.layout.custom_layout_edittext_password, this)
+        inflate(context, R.layout.custom_layout_edittext_round, this)
         val density = getContext().resources.displayMetrics.density
         val typedArray: TypedArray =
             getContext().obtainStyledAttributes(attrs, R.styleable.EditTextRound)
 
         val textValueColor = typedArray.getColor(R.styleable.EditTextRound_valueColor, ContextCompat.getColor(getContext(),R.color.merchant_color_4a4a4a) )
-        edtInput.setTextColor(textValueColor)
+        edtRound.setTextColor(textValueColor)
 
         val hintString = typedArray.getString(R.styleable.EditTextRound_android_hint) ?: ""
-        edtInput.hint = hintString
+        edtRound.hint = hintString
 
         val hintStringColor = typedArray.getColor(R.styleable.EditTextRound_hintColor, ContextCompat.getColor(getContext(),R.color.merchant_color_d0d0d2))
-        edtInput.setHintTextColor(hintStringColor)
+        edtRound.setHintTextColor(hintStringColor)
 
         hintFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_hintFont,0))
         valueFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_valueFont,1))
@@ -102,18 +102,18 @@ class EditTextRound : RelativeLayout {
         }
 
         val imeOption = typedArray.getInteger(R.styleable.EditTextRound_android_imeOptions, EditorInfo.IME_ACTION_DONE)
-        edtInput.imeOptions = imeOption
+        edtRound.imeOptions = imeOption
 
         val inputType = typedArray.getInteger(R.styleable.EditTextRound_android_inputType, InputType.TYPE_CLASS_TEXT)
-        edtInput.inputType = inputType
+        edtRound.inputType = inputType
 
         if (inputType == (InputType.TYPE_NUMBER_VARIATION_PASSWORD + InputType.TYPE_CLASS_NUMBER)
             || inputType == (InputType.TYPE_TEXT_VARIATION_PASSWORD + InputType.TYPE_CLASS_TEXT) ){
             isPassword = true
         }
-        edtInput.typeface = hintFont
+        edtRound.typeface = hintFont
 
-        edtInput.setOnFocusChangeListener { _, hasFocus ->
+        edtRound.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 if (!isHideClear){
                         imgClear.visibility = View.VISIBLE
@@ -131,18 +131,18 @@ class EditTextRound : RelativeLayout {
             onFocusChange?.invoke(hasFocus)
 
         }
-        edtInput.addTextChangedListener(textChangeListener)
+        edtRound.addTextChangedListener(textChangeListener)
 
-        edtInput.setOnClickListener {
-            edtInput.requestFocus()
-            edtInput.showKeyboard()
+        edtRound.setOnClickListener {
+            edtRound.requestFocus()
+            edtRound.showKeyboard()
             onEditClick?.invoke()
         }
-        edtInput.setOnEditorActionListener { textView, i, keyEvent ->
+        edtRound.setOnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {
                 onActionDone?.invoke()
-                edtInput.clearFocus()
-                edtInput.hideKeyboard()
+                edtRound.clearFocus()
+                edtRound.hideKeyboard()
                 true
             } else {
                 false
@@ -150,18 +150,18 @@ class EditTextRound : RelativeLayout {
         }
 
         imgClear.setOnClickListener {
-            edtInput.setText("")
+            edtRound.setText("")
             onClearData?.invoke()
         }
 
         if (isPassword) {
             imgShowPassword.setOnClickListener {
                 if (imgShowPassword.tag == "hide") {
-                    edtInput.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                    edtRound.transformationMethod = HideReturnsTransformationMethod.getInstance()
                     imgShowPassword.setImageResource(R.drawable.ic_show_password)
                     imgShowPassword.tag = "show"
                 } else {
-                    edtInput.transformationMethod = PasswordTransformationMethod.getInstance()
+                    edtRound.transformationMethod = PasswordTransformationMethod.getInstance()
                     imgShowPassword.setImageResource(R.drawable.ic_icon_hide_password)
                     imgShowPassword.tag = "hide"
                 }
@@ -186,17 +186,17 @@ class EditTextRound : RelativeLayout {
     }
 
     fun setColorText(resourceId: Int) {
-        edtInput.setTextColor(resourceId)
+        edtRound.setTextColor(resourceId)
     }
 
     fun setEditText(message: String) {
-        edtInput.removeTextChangedListener(textChangeListener)
-        edtInput.setText(message)
-        edtInput.addTextChangedListener(textChangeListener)
+        edtRound.removeTextChangedListener(textChangeListener)
+        edtRound.setText(message)
+        edtRound.addTextChangedListener(textChangeListener)
        if (TextUtils.isEmpty(message)) {
-           edtInput.setTypeface(hintFont)
+           edtRound.setTypeface(hintFont)
        } else {
-           edtInput.setTypeface(valueFont)
+           edtRound.setTypeface(valueFont)
        }
 
     }
@@ -207,7 +207,7 @@ class EditTextRound : RelativeLayout {
 
 
     fun getTextEdit(): String{
-        return edtInput.text.toString()
+        return edtRound.text.toString()
     }
 
 
