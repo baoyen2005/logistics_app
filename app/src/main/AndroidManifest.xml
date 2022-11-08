@@ -32,7 +32,7 @@
         android:theme="@style/Theme.BettinaLogistics"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.gg_map.MainActivityTest"
+            android:name=".ui.activity.gg_map.GoogleMapActivity"
             android:exported="false" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

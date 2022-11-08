@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
-class MainActivityTest : FragmentActivity(), OnMapReadyCallback {
+class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
 
 
     private var mMap: GoogleMap? = null
@@ -41,7 +41,7 @@ class MainActivityTest : FragmentActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_test);
+        setContentView(R.layout.activity_google_map);
         searchView = findViewById(R.id.idSearchview)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -55,7 +55,7 @@ class MainActivityTest : FragmentActivity(), OnMapReadyCallback {
                 // checking if the entered location is null or not.
                 if (location != null || location.equals("")) {
                     // on below line we are creating and initializing a geo coder.
-                    val geocoder = Geocoder(this@MainActivityTest);
+                    val geocoder = Geocoder(this@GoogleMapActivity);
                     try {
                         // on below line we are getting location from the
                         // location name and adding that location to address list.

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/main_activity_test"
-        layout="@layout/activity_main_test" />
+        layout="@layout/activity_google_map" />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"

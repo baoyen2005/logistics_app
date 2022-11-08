@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ChooseTypeTransportation : BottomSheetDialogFragment() {
+class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
 
     val binding : FragmentChooseTypeTransportationBottomBinding by lazy {
         FragmentChooseTypeTransportationBottomBinding.inflate(layoutInflater)

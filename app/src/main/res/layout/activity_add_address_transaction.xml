@@ -1,252 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.activity.add_new_order.AddAddressTransactionActivity">
 
     <include
         android:id="@+id/layoutHeaderOrder"
         layout="@layout/layout_header" />
 
-    <com.example.baseapp.view.Textview
-        android:id="@+id/tvChooseOriginAddress"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-        android:padding="@dimen/_16dp"
-        android:text="@string/str_choose_origin_address"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_004a9c"
-        android:textSize="16sp" />
-
-    <com.example.baseapp.view.Textview
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:text="@string/str_enter_address_detail"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="16sp" />
-
-    <RelativeLayout
-        android:id="@+id/relativeDetailOriginAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_8dp"
-        android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-        android:paddingHorizontal="@dimen/_16dp"
-        android:paddingVertical="@dimen/dp18">
-
-        <com.example.baseapp.view.EditText
-            android:id="@+id/edtDetailOriginAddressInput"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeaderOrder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvChooseOriginAddress"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/white"
-            android:hint="@string/str_enter_address_detail"
-            android:textSize="14sp" />
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:background="@drawable/shape_a2a2a5_stroke_corner_12"
+            android:padding="@dimen/_16dp"
+            android:text="@string/str_choose_origin_address"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_004a9c"
+            android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/ivDetailOriginAddressDelete"
-            android:layout_width="wrap_content"
+        <com.example.baseapp.view.Textview
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_quick_del" />
-    </RelativeLayout>
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:text="@string/str_enter_address_detail"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="16sp" />
 
-    <com.example.baseapp.view.Textview
-        android:id="@+id/tvChooseDestinationAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:background="@drawable/shape_merchant_color_f2f6fa_corner_12"
-        android:padding="@dimen/_16dp"
-        android:text="@string/str_choose_destination_address"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_004a9c"
-        android:textSize="16sp" />
-
-    <com.example.baseapp.view.Textview
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:text="@string/str_enter_address_detail"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="16sp" />
-
-    <RelativeLayout
-        android:id="@+id/relativeDetailDestinationAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_8dp"
-        android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-        android:paddingHorizontal="@dimen/_16dp"
-        android:paddingVertical="@dimen/dp18">
-
-        <com.example.baseapp.view.EditText
-            android:id="@+id/edtDetailDestinationAddressInput"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/relativeDetailOriginAddress"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/white"
-            android:hint="@string/str_enter_address_detail"
-            android:textSize="14sp" />
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@drawable/shape_a2a2a5_stroke_corner_12"
+            android:paddingHorizontal="@dimen/_16dp"
+            android:paddingVertical="@dimen/dp18">
 
-        <ImageView
-            android:id="@+id/ivDetailDestinationAddressDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_quick_del" />
-    </RelativeLayout>
-
-    <com.example.baseapp.view.Textview
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:text="@string/str_type_transaction"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/str_client_choose_transaction"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:textColor="@color/merchant_color_a2a2a5"
-        android:textSize="14sp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/_12dp"
-        android:weightSum="3">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/_15dp"
-            android:layout_marginEnd="@dimen/_5dp"
-            android:paddingVertical="@dimen/_5dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/_40dp"
-                android:layout_height="@dimen/_30dp"
-                android:background="@drawable/shape_bg_fffff_corner_8"
-                android:src="@drawable/duongbo"
-                android:clipToOutline="true"
-                android:scaleType="fitXY" />
-            <TextView
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtDetailOriginAddressInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5dp"
-                android:text="@string/str_road_transport"
-                android:textSize="@dimen/_14sp"
-                android:textColor="@color/merchant_color_4a4a4a"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingVertical="@dimen/_5dp"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="@dimen/_40dp"
-                android:layout_height="@dimen/_30dp"
-                android:background="@drawable/shape_bg_fffff_corner_8"
-                android:src="@drawable/duongbien"
-                android:clipToOutline="true"
-                android:scaleType="fitXY"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5dp"
-                android:text="@string/str_sea_transport"
-                android:textSize="@dimen/_14sp"
-                android:textColor="@color/merchant_color_4a4a4a"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/_5dp"
-            android:paddingVertical="@dimen/_5dp"
-            android:paddingEnd="@dimen/_15dp"
-            android:orientation="vertical">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/white"
+                android:hint="@string/str_enter_address_detail"
+                android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="@dimen/_40dp"
-                android:layout_height="@dimen/_30dp"
-                android:background="@drawable/shape_bg_fffff_corner_8"
-                android:src="@drawable/hangkhong"
-                android:clipToOutline="true"
-                android:scaleType="fitXY" />
-
-            <TextView
+                android:id="@+id/ivDetailOriginAddressDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5dp"
-                android:text="@string/str_air_transport"
-                android:textSize="@dimen/_14sp"
-                android:textColor="@color/merchant_color_4a4a4a" />
-        </LinearLayout>
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_quick_del" />
+        </RelativeLayout>
 
-    </LinearLayout>
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvChooseDestinationAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:background="@drawable/shape_merchant_color_f2f6fa_corner_12"
+            android:padding="@dimen/_16dp"
+            android:text="@string/str_choose_destination_address"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_004a9c"
+            android:textSize="16sp" />
 
-    <com.example.baseapp.view.Textview
+        <com.example.baseapp.view.Textview
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:text="@string/str_enter_address_detail"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeDetailDestinationAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@drawable/shape_a2a2a5_stroke_corner_12"
+            android:paddingHorizontal="@dimen/_16dp"
+            android:paddingVertical="@dimen/dp18">
+
+            <com.example.baseapp.view.EditText
+                android:id="@+id/edtDetailDestinationAddressInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/white"
+                android:hint="@string/str_enter_address_detail"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/ivDetailDestinationAddressDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_quick_del" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/btnAddAddressContinued"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:text="@string/str_method_transaction"
+        android:layout_marginBottom="@dimen/_40dp"
+        app:backgroundTint="@null"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp8"
+        android:text="@string/str_continue"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp"
         android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="16sp" />
+        android:fontFamily="@font/ssp_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_12dp"
-        android:weightSum="2">
-
-        <CheckBox
-            android:id="@+id/checkBoxPayFullTax"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/str_chinh_ngach" />
-
-        <CheckBox
-            android:id="@+id/checkBoxPayLumpsum"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/str_tieu_ngach" />
-    </LinearLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

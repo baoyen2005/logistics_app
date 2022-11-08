@@ -195,7 +195,7 @@
     </LinearLayout>
 
     <com.example.baseapp.view.Textview
-        android:id="@+id/btnBackLogout"
+        android:id="@+id/btnChooseTypeTransportation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15dp"
@@ -204,7 +204,7 @@
         android:background="@drawable/shape_merchant_color_004a9c_corner_12"
         android:gravity="center"
         android:paddingVertical="@dimen/dp18"
-        android:text="@string/str_continue"
+        android:text="@string/str_confirm"
         android:textColor="@color/merchant_color_ffffff"
         android:textSize="@dimen/_16sp"
         android:fontFamily="@font/ssp_bold"

@@ -11,14 +11,15 @@ import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.RelativeLayout
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.example.baseapp.R
 import com.vnpay.merchant.ui.views.AbstractTextWatcher
 import kotlinx.android.synthetic.main.custom_layout_edittext_round.view.*
 
-class EditTextRound : RelativeLayout {
+class EditTextRound : LinearLayout {
     var onClearData: (() -> Unit)? = null
     var onBackPress: (() -> Unit)? = null
     var onActionDone: (() -> Unit)? = null
@@ -43,6 +44,7 @@ class EditTextRound : RelativeLayout {
                 imgClear.visibility = View.GONE
                 imgShowPassword.visibility = View.GONE
             }
+            tvError.visibility = View.GONE
             onTextChange?.invoke(s)
         }
 
@@ -73,6 +75,7 @@ class EditTextRound : RelativeLayout {
 
     private fun init(context: Context?, attrs: AttributeSet?) {
         inflate(context, R.layout.custom_layout_edittext_round, this)
+        orientation = VERTICAL
         val density = getContext().resources.displayMetrics.density
         val typedArray: TypedArray =
             getContext().obtainStyledAttributes(attrs, R.styleable.EditTextRound)
@@ -201,6 +204,22 @@ class EditTextRound : RelativeLayout {
 
     }
 
+    fun setEnableEdittext(enable: Boolean) {
+        edtRound.isEnabled = enable
+    }
+
+    fun setVisibleMessageError(error: String?) {
+        error?.let {
+            tvError.isVisible = true
+            tvError.text = it
+        }
+    }
+
+    fun setGoneMessageError() {
+        if (tvError.isVisible) {
+           tvError.isVisible = false
+        }
+    }
     fun setHideClearBtn() {
         isHideClear = true
     }

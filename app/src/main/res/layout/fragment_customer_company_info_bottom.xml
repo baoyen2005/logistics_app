@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.activity.add_new_order.AddAddressTransactionActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:fontFamily="@font/ssp_bold"
+        android:gravity="center"
+        android:text="@string/str_company_info"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvCompanyNameTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:text="@string/str_company_name"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <RelativeLayout
+        android:id="@+id/relativeCompanyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:background="@drawable/shape_a2a2a5_stroke_corner_12"
+        android:paddingHorizontal="@dimen/_16dp"
+        android:paddingVertical="@dimen/dp18"
+        app:layout_constraintTop_toBottomOf="@+id/tvCompanyNameTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <com.example.baseapp.view.EditText
+            android:id="@+id/edtCompanyNameInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:hint="@string/str_company_name"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivCompanyNameDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_quick_del" />
+    </RelativeLayout>
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvCompanyAddressTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="@string/str_comany_address"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/relativeCompanyName"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <com.example.baseapp.view.EditTextRound
+        android:id="@+id/edtCompanyAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/str_comany_address"
+        android:layout_marginTop="@dimen/_12dp"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyAddressTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvCompanyCodeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="@string/str_company_code"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/edtCompanyAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <com.example.baseapp.view.EditTextRound
+        android:id="@+id/edtCompanyCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12dp"
+        android:hint="@string/str_company_code"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyCodeTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvCompanyEmailTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_12dp"
+        android:text="@string/str_company_email"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/edtCompanyCode"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <com.example.baseapp.view.EditTextRound
+        android:id="@+id/edtCompanyEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12dp"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:hint="@string/str_company_email"
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyEmailTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/btnChooseTypeTransportation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_30dp"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp18"
+        android:text="@string/str_confirm"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp"
+        android:fontFamily="@font/ssp_bold"
+        app:layout_constraintTop_toBottomOf="@+id/edtCompanyEmail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
