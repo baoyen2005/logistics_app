@@ -1,12 +1,12 @@
 package com.example.bettinalogistics.ui.activity.gg_map
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.FragmentActivity
+import com.example.baseapp.view.EditText
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.Result
 import com.example.bettinalogistics.network.RetrofitApi
@@ -18,6 +18,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -26,7 +31,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 
 class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
@@ -36,14 +40,15 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
 
     // creating a variable
     // for search view.
-    var searchView: SearchView? = null
+    var searchView: EditText? = null
     var apiInterface : RetrofitApi? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_map);
-        searchView = findViewById(R.id.idSearchview)
+        searchView = findViewById(R.id.svOriginDestinationSearch)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        /*
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val  location = searchView?.query.toString();
@@ -87,9 +92,37 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
             }
 
         })
+
+         */
         // at last we calling our map fragment to update.
+        Places.initialize(applicationContext,getString(R.string.API_KEY))
+        searchView?.isFocusable = false
+        searchView?.setOnClickListener {
+            val  fieldList: List<Place.Field>  =
+                listOf(Place.Field.ADDRESS,
+                Place.Field.LAT_LNG, Place.Field.NAME)
+            val intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY,fieldList).build(this)
+            startActivityForResult(intent, 100)
+        }
+
         mapFragment?.getMapAsync(this);
         khoitao()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 100 && resultCode == Activity.RESULT_OK){
+            val place = data?.let { Autocomplete.getPlaceFromIntent(it) }
+            searchView?.setText(place?.address)
+            Log.d(TAG, "onActivityResult: name =  ${place?.name}")
+            Log.d(TAG, "onActivityResult: lat , lon =  ${place?.latLng}")
+        }
+        else if(resultCode == AutocompleteActivity.RESULT_ERROR){
+            val status = data?.let { Autocomplete.getStatusFromIntent(it) }
+            Log.d(TAG, "onActivityResult: status  = ${status?.statusMessage}")
+        }
+
     }
 
     private fun khoitao() {
@@ -116,8 +149,8 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
                 override fun onSuccess(t: Result) {
                     Log.d(TAG, "onSuccess: tinh toan aaaa success= " +
                             "${t.origin_address?.get(0)} \n" +
-                            " ${t.destination_address?.get(0)} \n" +
-                            "total distance = ${t.rows?.get(0)?.elements?.get(0)?.distance?.text}" )
+                            " ${t.destination_address?.get(0)} \n" )
+                        //    "total distance = ${t.rows?.get(0)?.elements?.get(0)?.distance?.text}" )
                 }
 
                 override fun onError(e: Throwable) {
@@ -192,7 +225,7 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
                 }
             }
         } catch (ex: Exception) {
-            Log.e(TAG, ex.localizedMessage)
+            ex.localizedMessage?.let { Log.e(TAG, it) }
         }
 
         //Draw the polyline

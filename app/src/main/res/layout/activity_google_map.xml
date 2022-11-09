@@ -14,22 +14,15 @@
         tools:context=".MapsActivity" />
 
     <!--search view to search our location-->
-    <com.example.baseapp.view.EditTextRound
+    <com.example.baseapp.view.EditText
         android:id="@+id/svOriginDestinationSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="@dimen/_15dp"
         app:srcIconLeft="@drawable/ic_baseline_search_24"
-        app:hint="@string/str_address_enter" />
+        android:hint="lllllll" />
 
-    <com.example.baseapp.view.EditTextRound
-        android:id="@+id/svDestinationDestinationSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="@dimen/_15dp"
-        app:srcIconLeft="@drawable/ic_baseline_search_24"
-        app:hint="@string/str_destination_address_enter" />
+
+
 </RelativeLayout>
