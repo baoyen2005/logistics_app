@@ -46,7 +46,7 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_map);
-        searchView = findViewById(R.id.svOriginDestinationSearch)
+        searchView = findViewById(R.id.searchview)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         /*
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

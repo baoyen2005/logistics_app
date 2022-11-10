@@ -48,38 +48,23 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <RelativeLayout
-        android:id="@+id/relativeCompanyName"
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtCompanyNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_8dp"
-        android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-        android:paddingHorizontal="@dimen/_16dp"
-        android:paddingVertical="@dimen/dp18"
-        app:layout_constraintTop_toBottomOf="@+id/tvCompanyNameTitle"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@+string/str_company_name"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15"
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyAddressTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        />
 
-        <com.example.baseapp.view.EditText
-            android:id="@+id/edtCompanyNameInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/white"
-            android:hint="@string/str_company_name"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/ivCompanyNameDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_quick_del" />
-    </RelativeLayout>
 
     <com.example.baseapp.view.Textview
         android:id="@+id/tvCompanyAddressTitle"
@@ -91,17 +76,22 @@
         android:textAllCaps="false"
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/relativeCompanyName"
+        app:layout_constraintTop_toBottomOf="@id/edtCompanyNameInput"
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <com.example.baseapp.view.EditTextRound
+    <com.example.baseapp.view.GroupEditTextView
         android:id="@+id/edtCompanyAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/str_comany_address"
-        android:layout_marginTop="@dimen/_12dp"
-        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@+string/str_comany_address"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15"
         app:layout_constraintTop_toBottomOf="@id/tvCompanyAddressTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,18 +111,22 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <com.example.baseapp.view.EditTextRound
+    <com.example.baseapp.view.GroupEditTextView
         android:id="@+id/edtCompanyCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_12dp"
-        android:hint="@string/str_company_code"
-        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@+string/str_company_code"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15"
         app:layout_constraintTop_toBottomOf="@id/tvCompanyCodeTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
 
     <com.example.baseapp.view.Textview
         android:id="@+id/tvCompanyEmailTitle"
@@ -148,13 +142,18 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <com.example.baseapp.view.EditTextRound
+    <com.example.baseapp.view.GroupEditTextView
         android:id="@+id/edtCompanyEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_12dp"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:hint="@string/str_company_email"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@+string/str_company_email"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15"
         app:layout_constraintTop_toBottomOf="@id/tvCompanyEmailTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

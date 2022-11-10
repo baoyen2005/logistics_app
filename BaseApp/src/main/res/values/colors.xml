@@ -9,5 +9,11 @@
     <color name="merchant_color_4a4a4a">#4a4a4a</color>
     <color name="merchant_color_d0d0d2">#d0d0d2</color>
     <color name="merchant_color_ea5b5b">#ea5b5b</color>
-
+    <color name="merchant_color_004a9c">#004a9c</color>
+    <color name="color_text_7">#b8b8b8</color>
+    <color name="color_text_6">#333333</color>
+    <color name="color_text_8">#8f8f8f</color>
+    <color name="color_dash">#f0f0f0</color>
+    <color name="text_color_red">#ed1c24</color>
+    <color name="bg_color_search">#f7f7f7</color>
 </resources>

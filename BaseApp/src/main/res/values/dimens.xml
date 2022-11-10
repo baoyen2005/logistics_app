@@ -12,4 +12,11 @@
     <dimen name="_16sp">16sp</dimen>
     <dimen name="_24sp">24sp</dimen>
     <dimen name="_24dp">24dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp56">56dp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
+    <dimen name="_15dp">15dp</dimen>
+    <dimen name="dp6">6dp</dimen>
+    <dimen name="dp12">12dp</dimen>
+    <dimen name="dp48">48dp</dimen>
 </resources>

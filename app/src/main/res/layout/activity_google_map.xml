@@ -15,14 +15,41 @@
 
     <!--search view to search our location-->
     <com.example.baseapp.view.EditText
-        android:id="@+id/svOriginDestinationSearch"
+        android:id="@+id/searchview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:hint="@string/str_enter_address_detail"
+        android:textSize="14sp" />
+
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtOriginDestinationSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="@dimen/_15dp"
-        app:srcIconLeft="@drawable/ic_baseline_search_24"
-        android:hint="lllllll" />
+        android:imeOptions="actionDone"
+        app:gr_hint="@+string/str_address_enter"
+        app:gr_left_icon="@drawable/ic_baseline_search_24"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15" />
 
 
-
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/svDestinationDestinationSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@string/str_destination_address_enter"
+        app:gr_left_icon="@drawable/ic_baseline_search_24"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15" />
 </RelativeLayout>

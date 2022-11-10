@@ -4,9 +4,13 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.example.baseapp.di.Common
+import com.example.baseapp.view.safeLog
 import com.example.bettinalogistics.utils.AppConstant.Companion.KEY_SEARCH_HISTORY
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -154,5 +158,13 @@ class Utils private constructor() {
                 TypeToken<HashMap<Int, MutableList<String>>>() {}.type)?: HashMap<Int, MutableList<String>>()
         searchKeysStorage[type]?.clear()
         saveDataString(KEY_SEARCH_HISTORY, provideGson().toJson(searchKeysStorage))
+    }
+
+    fun send(data: String?) {
+        try {
+            FirebaseCrashlytics.getInstance().log(data ?: "")
+        } catch (e: Exception) {
+            e.safeLog()
+        }
     }
 }

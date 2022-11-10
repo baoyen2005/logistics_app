@@ -4,4 +4,15 @@
     <string name="cancel">Hủy</string>
     <string name="notice">Thông báo</string>
     <string name="agree">Đồng ý</string>
+    <string name="save_title">Lưu</string>
+    <string name="txt_chao_buoi_sang">Chào buổi sáng</string>
+    <string name="txt_chao_buoi_trua">Chào buổi trưa</string>
+    <string name="txt_chao_buoi_chieu">Chào buổi chiều</string>
+    <string name="txt_chao_buoi_toi">Chào buổi tối</string>
+    <string name="txt_chao_ngay_moi">Chào ngày mới</string>
+    <string name="currency" translatable="false">đồng</string>
+    <string name="thousand" translatable="false">nghìn</string>
+    <string name="milion" translatable="false">triệu</string>
+    <string name="billion" translatable="false">tỷ</string>
+    <string name="thousand_billion" translatable="false">nghìn tỷ</string>
 </resources>
