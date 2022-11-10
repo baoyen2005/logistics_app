@@ -1,15 +1,17 @@
 package com.example.bettinalogistics.ui.activity.gg_map
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
-import com.example.baseapp.view.EditText
+import com.example.baseapp.BaseActivity
+import com.example.baseapp.view.GroupEditTextView
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.databinding.ActivityGoogleMapBinding
 import com.example.bettinalogistics.model.Result
 import com.example.bettinalogistics.network.RetrofitApi
+import com.example.bettinalogistics.ui.activity.login.LoginViewModel
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,112 +20,132 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.maps.DirectionsApi
-import com.google.maps.GeoApiContext
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 
-class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
+class GoogleMapActivity : BaseActivity(), OnMapReadyCallback {
 
 
     private var mMap: GoogleMap? = null
 
     // creating a variable
     // for search view.
-    var searchView: EditText? = null
-    var apiInterface : RetrofitApi? = null
+    private var edtOriginDestinationSearch: GroupEditTextView? = null
+    var edtDestinationDestinationSearch: GroupEditTextView? = null
+    private var apiInterface : RetrofitApi? = null
+
+    private var placeAdapter: PlaceArrayAdapter? = null
+    private lateinit var mPlacesClient: PlacesClient
+
+    override val viewModel: LoginViewModel by viewModel()
+
+    override val binding: ActivityGoogleMapBinding by lazy {
+        ActivityGoogleMapBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_map);
-        searchView = findViewById(R.id.searchview)
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        /*
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                val  location = searchView?.query.toString();
 
-                // below line is to create a list of address
-                // where we will store the list of all address.
-                var addressList: List<Address>? = null;
+       val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 
-                // checking if the entered location is null or not.
-                if (location != null || location.equals("")) {
-                    // on below line we are creating and initializing a geo coder.
-                    val geocoder = Geocoder(this@GoogleMapActivity);
-                    try {
-                        // on below line we are getting location from the
-                        // location name and adding that location to address list.
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (e: IOException) {
-                        e.printStackTrace();
-                    }
-                    // on below line we are getting the location
-                    // from our list a first position.
-                    val address = addressList?.get(0);
+        binding.edtOriginDestinationSearch.setOnEdittextDone =  {
+            val  location = binding.edtOriginDestinationSearch.getValueText()
+            var addressList: List<Address>? = null;
 
-                    // on below line we are creating a variable for our location
-                    // where we will add our locations latitude and longitude.
-                    val latLng = address?.let { LatLng(it.getLatitude(), address.getLongitude()) };
-
-                    // on below line we are adding marker to that position.
-                    latLng?.let { MarkerOptions().position(it).title(location) }
-                        ?.let { mMap?.addMarker(it) };
-
-                    // below line is to animate camera to that position.
-                    latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 10F) }
-                        ?.let { mMap?.animateCamera(it) };
+            // checking if the entered location is null or not.
+            if (location != null || location.equals("")) {
+                // on below line we are creating and initializing a geo coder.
+                val geocoder = Geocoder(this@GoogleMapActivity);
+                try {
+                    addressList = geocoder.getFromLocationName(location, 1);
+                } catch (e: IOException) {
+                    e.printStackTrace();
                 }
-                return false;
+                val address = addressList?.get(0);
+                val latLng = address?.let { LatLng(it.getLatitude(), address.getLongitude()) };
+
+                latLng?.let { MarkerOptions().position(it).title(location) }
+                    ?.let { mMap?.addMarker(it) };
+
+                // below line is to animate camera to that position.
+                latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 10F) }
+                    ?.let { mMap?.animateCamera(it) };
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false;
-            }
-
-        })
-
-         */
-        // at last we calling our map fragment to update.
-        Places.initialize(applicationContext,getString(R.string.API_KEY))
-        searchView?.isFocusable = false
-        searchView?.setOnClickListener {
-            val  fieldList: List<Place.Field>  =
-                listOf(Place.Field.ADDRESS,
-                Place.Field.LAT_LNG, Place.Field.NAME)
-            val intent = Autocomplete.IntentBuilder(
-                AutocompleteActivityMode.OVERLAY,fieldList).build(this)
-            startActivityForResult(intent, 100)
         }
+
 
         mapFragment?.getMapAsync(this);
         khoitao()
+        /*
+        Places.initialize(this, getString(R.string.API_KEY))
+        mPlacesClient = Places.createClient(this)
+
+        val mapFragment: SupportMapFragment? = supportFragmentManager.findFragmentById(R.id.mapLocation) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+
+        placeAdapter = PlaceArrayAdapter(this, R.layout.layout_item_places, mPlacesClient)
+        autoCompleteEditText.setAdapter(placeAdapter)
+
+        autoCompleteEditText.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
+            val place = parent.getItemAtPosition(position) as PlaceDataModel
+            autoCompleteEditText.apply {
+                setText(place.fullText)
+                setSelection(autoCompleteEditText.length())
+            }
+        }
+
+         */
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 100 && resultCode == Activity.RESULT_OK){
-            val place = data?.let { Autocomplete.getPlaceFromIntent(it) }
-            searchView?.setText(place?.address)
-            Log.d(TAG, "onActivityResult: name =  ${place?.name}")
-            Log.d(TAG, "onActivityResult: lat , lon =  ${place?.latLng}")
-        }
-        else if(resultCode == AutocompleteActivity.RESULT_ERROR){
-            val status = data?.let { Autocomplete.getStatusFromIntent(it) }
-            Log.d(TAG, "onActivityResult: status  = ${status?.statusMessage}")
-        }
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initListener() {
+        TODO("Not yet implemented")
+    }
+
+    override fun observeData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
 
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        when (resultCode) {
+//            Activity.RESULT_OK -> {
+//                data?.let {
+//                    val place = Autocomplete.getPlaceFromIntent(data)
+//                    Log.i(TAG, "Place: ${place.name}, ${place.id}")
+//                }
+//            }
+//            AutocompleteActivity.RESULT_ERROR -> {
+//                // TODO: Handle the error.
+//                data?.let {
+//                    val status = Autocomplete.getStatusFromIntent(data)
+//                    Log.i(TAG, status.statusMessage ?: "")
+//                }
+//            }
+//            Activity.RESULT_CANCELED -> {
+//                // The user canceled the operation.
+//            }
+//        }
+//        return
+//
+//    }
 
     private fun khoitao() {
         val BASE_URL = "https://maps.googleapis.com/"
@@ -161,6 +183,7 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
+
         mMap = p0
 
         val barcelona = LatLng(41.385064, 2.173403)
@@ -239,6 +262,7 @@ class GoogleMapActivity : FragmentActivity(), OnMapReadyCallback {
         mMap!!.uiSettings.isZoomControlsEnabled = true
 
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(zaragoza, 6f))
+
     }
 
 }

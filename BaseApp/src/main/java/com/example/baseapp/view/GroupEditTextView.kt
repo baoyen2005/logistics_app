@@ -23,7 +23,7 @@ import com.example.baseapp.databinding.LayoutGroupEdittextBinding
 class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
     var onAfterTextChange: ((String) -> Unit)? = null
-    var setOnEditorAction: ((String) -> Unit)? = null
+    var setOnEdittextDone: ((String) -> Unit)? = null
     var onFocusChange: ((Boolean) -> Unit)? = null
     var clear: (() -> Unit)? = null
     var onRightEditAction: (() -> Unit)? = null
@@ -415,8 +415,10 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         }
         binding.edtGroupEditTextLayout.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                setOnEditorAction?.invoke(binding.edtGroupEditTextLayout.text.toString())
-//                return@OnEditorActionListener true
+                setOnEdittextDone?.invoke(binding.edtGroupEditTextLayout.text.toString())
+                binding.edtGroupEditTextLayout.clearFocus()
+                binding.edtGroupEditTextLayout.hideKeyboard()
+                return@OnEditorActionListener true
             }
             false
         })
