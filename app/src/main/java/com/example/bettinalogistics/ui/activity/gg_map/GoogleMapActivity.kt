@@ -1,10 +1,13 @@
 package com.example.bettinalogistics.ui.activity.gg_map
 
+import android.content.Context
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
+import android.view.View
 import com.example.baseapp.BaseActivity
 import com.example.baseapp.view.GroupEditTextView
 import com.example.bettinalogistics.R
@@ -25,7 +28,15 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_google_map.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.osmdroid.api.IMapController
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.util.MapTileIndex
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -56,7 +67,6 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_google_map);
 
        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-
         binding.edtOriginDestinationSearch.setOnEdittextDone =  {
             val  location = binding.edtOriginDestinationSearch.getValueText()
             var addressList: List<Address>? = null;
@@ -81,8 +91,33 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback {
                     ?.let { mMap?.animateCamera(it) };
             }
         }
+//        val ctx: Context = applicationContext
+//        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
+//        val map = findViewById<View>(R.id.map) as MapView
+//        map.tileProvider.clearTileCache()
+//        Configuration.getInstance().cacheMapTileCount = 12.toShort()
+//        Configuration.getInstance().cacheMapTileOvershoot = 12.toShort()
+//        // Create a custom tile source
+//        // Create a custom tile source
+//        map.setTileSource(object : OnlineTileSourceBase("", 1, 20, 512, ".png", arrayOf("https://a.tile.openstreetmap.org/")) {
+//            override fun getTileURLString(pMapTileIndex: Long): String {
+//                return (baseUrl
+//                        + MapTileIndex.getZoom(pMapTileIndex)
+//                        + "/" + MapTileIndex.getX(pMapTileIndex)
+//                        + "/" + MapTileIndex.getY(pMapTileIndex)
+//                        + mImageFilenameEnding)
+//            }
+//        })
 
-
+//        map.setMultiTouchControls(true)
+//        val mapController: IMapController = map.getController()
+//        val startPoint: GeoPoint
+//        startPoint = GeoPoint(51.0, 4.0)
+//        mapController.setZoom(11.0)
+//        mapController.setCenter(startPoint)
+//        val context: Context = this
+//        map.invalidate()
+//        createmarker()
         mapFragment?.getMapAsync(this);
         khoitao()
         /*
@@ -107,21 +142,16 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     override fun initView() {
-        TODO("Not yet implemented")
     }
 
     override fun initListener() {
-        TODO("Not yet implemented")
+
     }
 
     override fun observeData() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
 
     }
+
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
@@ -183,7 +213,7 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
-
+    /*
         mMap = p0
 
         val barcelona = LatLng(41.385064, 2.173403)
@@ -262,7 +292,7 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback {
         mMap!!.uiSettings.isZoomControlsEnabled = true
 
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(zaragoza, 6f))
-
+*/
     }
 
 }
