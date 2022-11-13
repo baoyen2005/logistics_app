@@ -32,5 +32,12 @@ class DataConstant {
         const val ORDER_TRANSPORT_METHOD = "transportMethod"
         const val ORDER_CONT_NUMBER = "contNumber"
         const val ORDER_ID= "orderId"
+
+        //user company
+        const val COMPANY_ID ="company_id"
+        const val COMPANY_NAME = "company_name"
+        const val COMPANY_ADDRESS = "company_address"
+        const val COMPANY_TEX_CODE= "company_tex_code"
+        const val COMPANY_BUSINESS_TYPE = "company_business_type"
     }
 }

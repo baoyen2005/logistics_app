@@ -4,16 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/background_radius_white.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/background_white_stroke_color_dash_radius_8.xml" value="0.16" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/bg_alert_dialog_custom.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/custom_bg_circle_gray_bt_cancel_dialog.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/custom_bg_secondary_sea_green_button.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/custom_progress.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1615" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/ic_show_password.xml" value="0.135" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/drawable/shape_white_bg_blue_stroke_radius_8.xml" value="0.16" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/custom_layout_edittext_password.xml" value="0.22" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/custom_layout_edittext_round.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/dialog_notice.xml" value="0.25" />
-        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/layout_group_edittext.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/layout_group_edittext.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/layout_loading.xml" value="0.13796296296296295" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/loading_dialog.xml" value="0.18697916666666667" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_edittext.xml" value="0.1" />
@@ -23,6 +25,7 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_linear_signup.xml" value="0.106" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_signup.xml" value="0.1075" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_title_signup.xml" value="0.1865" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/ic_location_b.xml" value="0.1455" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/bg_white_corne_8_width_1_5.xml" value="0.144" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_button.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_button_face.xml" value="0.1075" />
@@ -62,7 +65,7 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_add_address_transaction.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_add_new_order.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_direction.xml" value="0.18" />
-        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_google_map.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_google_map.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_main_test.xml" value="0.1" />
@@ -71,6 +74,7 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/add_order_item_layout.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/custom_layout_edittext_round.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/dialog_forgot_password.xml" value="0.18" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_choose_type_transportation_bottom.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_customer_company_info_bottom.xml" value="0.25" />

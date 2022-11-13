@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.example.baseapp.R
 import com.example.baseapp.captures.MoneyCapture
@@ -43,7 +44,6 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     private var contentTextColorDisable: Int = ContextCompat.getColor(context, R.color.color_text_7)
     private var contentTextSize = 0f
     private var focusBackground: Int = R.drawable.shape_white_bg_blue_stroke_radius_8
-    private var errorBackground: Int = R.drawable.bg_transparent_stroke_red_radius_8
     private var lostFocusBackground: Int = R.drawable.background_white_stroke_color_dash_radius_8
     private var rightTextColor: Int = ContextCompat.getColor(context, R.color.merchant_color_004a9c)
     private var rightTextSize = 0f
@@ -60,38 +60,20 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     }
 
     fun setGroupClickListener(onSafeClick: (View) -> Unit) {
-        binding.tvHint.setSafeOnClickListener(onSafeClick)
-        binding.ivRightIcon.setSafeOnClickListener(onSafeClick)
-        binding.tilGroupEditTextLayout.setSafeOnClickListener(onSafeClick)
+        binding.viewParent.setSafeOnClickListener(onSafeClick)
         binding.edtGroupEditTextLayout.setSafeOnClickListener(onSafeClick)
     }
 
-    fun getHint(): String {
-        return binding.tvHint.text.toString()
-    }
-
     fun setHint(hint: String?) {
-        binding.tvHint.text = hint
-        binding.tilGroupEditTextLayout.hint = hint ?: ""
-    }
-
-    fun setHintForInput(hint: String?) {
-        binding.tilGroupEditTextLayout.hint = hint ?: ""
+        binding.edtGroupEditTextLayout.hint = hint
     }
 
     fun setFontHintText(fontType: Typeface) {
-        binding.tilGroupEditTextLayout.typeface = fontType
+        binding.edtGroupEditTextLayout.typeface = fontType
     }
 
     fun setValueText(content: String?) {
         binding.edtGroupEditTextLayout.setText(content)
-        if (content.isNullOrEmpty() && !binding.edtGroupEditTextLayout.hasFocus()) {
-            binding.tvHint.isVisible = true
-            binding.tilGroupEditTextLayout.isVisible = false
-        } else {
-            binding.tvHint.isVisible = false
-            binding.tilGroupEditTextLayout.isVisible = true
-        }
     }
 
     fun setSelectionInput(position: Int) {
@@ -106,7 +88,7 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         error?.let {
             binding.tvError.isVisible = true
             binding.tvError.text = it
-            binding.viewParent.background = ContextCompat.getDrawable(context, errorBackground)
+            binding.viewParent.background = ContextCompat.getDrawable(context, lostFocusBackground)
         }
     }
 
@@ -179,14 +161,17 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     }
 
     fun setTextColorHint(color: Int) {
-        binding.tilGroupEditTextLayout.defaultHintTextColor = ColorStateList.valueOf(color)
+        binding.edtGroupEditTextLayout.setTextColor( ColorStateList.valueOf(color))
     }
 
     fun enableFocusInput(focusable: Boolean) {
-        binding.tilGroupEditTextLayout.isFocusable = focusable
-        binding.tilGroupEditTextLayout.isFocusableInTouchMode = focusable
         binding.edtGroupEditTextLayout.isFocusable = focusable
         binding.edtGroupEditTextLayout.isFocusableInTouchMode = focusable
+    }
+
+    fun enableInput(enable: Boolean){
+        binding.edtGroupEditTextLayout.isEnabled = enable
+        binding.viewParent.isEnabled = enable
     }
 
     fun setLeftIcon(leftIcon: Int) {
@@ -204,8 +189,6 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     }
 
     fun showKeyBoard() {
-        binding.tvHint.isVisible = false
-        binding.tilGroupEditTextLayout.isVisible = true
         binding.edtGroupEditTextLayout.requestFocus()
         binding.edtGroupEditTextLayout.showKeyboard()
     }
@@ -217,8 +200,6 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     fun clearText() {
         binding.edtGroupEditTextLayout.setText("")
         binding.edtGroupEditTextLayout.clearFocus()
-        binding.tvHint.isVisible = true
-        binding.tilGroupEditTextLayout.isVisible = false
         binding.viewParent.background = ContextCompat.getDrawable(context, lostFocusBackground)
     }
 
@@ -289,14 +270,14 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         if (ta.hasValue(R.styleable.GroupEditTextView_gr_hint_text_color)) {
             hintTextColor = ta.getColor(
                 R.styleable.GroupEditTextView_gr_hint_text_color,
-                0
+                ContextCompat.getColor(getContext(),R.color.merchant_color_d0d0d2)
             )
         }
         if (ta.hasValue(R.styleable.GroupEditTextView_gr_text_color)) {
             contentTextColor =
                 ta.getColor(
                     R.styleable.GroupEditTextView_gr_text_color,
-                    0
+                    ContextCompat.getColor(getContext(),R.color.merchant_color_4a4a4a)
                 )
         }
         if (ta.hasValue(R.styleable.GroupEditTextView_gr_text_size)) {
@@ -359,22 +340,12 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         binding.edtGroupEditTextLayout.imeOptions = imeOption
         ta.recycle()
     }
-
     private fun initView() {
-        try {
-            binding.tilGroupEditTextLayout.typeface = Typeface.createFromAsset(
-                context.assets,
-                "fonts/sf_regular.otf"
-            )
-        } catch (e: Exception) {
-            e.safeLog()
-        }
         binding.viewParent.background = ContextCompat.getDrawable(context, lostFocusBackground)
-        binding.tilGroupEditTextLayout.hint = hintText ?: ""
-        binding.tvHint.text = hintText ?: ""
+        binding.edtGroupEditTextLayout.hint = hintText ?: ""
+        binding.edtGroupEditTextLayout.typeface = getTypeFace(0)
         if (hintTextColor != 0) {
-            binding.tilGroupEditTextLayout.defaultHintTextColor =
-                ColorStateList.valueOf(hintTextColor)
+            binding.edtGroupEditTextLayout.setHintTextColor(hintTextColor)
         }
         if (contentTextColor != 0) {
             binding.edtGroupEditTextLayout.setTextColor(contentTextColor)
@@ -424,19 +395,10 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         })
         binding.edtGroupEditTextLayout.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                binding.tvHint.isVisible = false
                 binding.ivClear.isVisible = isShowClear && isEnableEdit && getValueText().isNotEmpty()
-                binding.tilGroupEditTextLayout.isVisible = true
                 binding.viewParent.background = ContextCompat.getDrawable(context, focusBackground)
             } else {
                 binding.ivClear.isVisible = false
-                if (binding.edtGroupEditTextLayout.text.toString().trim().isNotEmpty()) {
-                    binding.tvHint.isVisible = false
-                    binding.tilGroupEditTextLayout.isVisible = true
-                } else {
-                    binding.tvHint.isVisible = true
-                    binding.tilGroupEditTextLayout.isVisible = false
-                }
                 binding.viewParent.background =
                     ContextCompat.getDrawable(context, lostFocusBackground)
             }
@@ -448,7 +410,10 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+               if(s.isNullOrEmpty()){
+                   binding.edtGroupEditTextLayout.typeface = getTypeFace(0)
+               }
+                else  binding.edtGroupEditTextLayout.typeface = getTypeFace(1)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -462,19 +427,11 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
             binding.edtGroupEditTextLayout.setText("")
             binding.edtGroupEditTextLayout.requestFocus()
             binding.edtGroupEditTextLayout.showKeyboard()
-            binding.tvHint.isVisible = false
-            binding.tilGroupEditTextLayout.isVisible = true
             clear?.invoke()
-        }
-        binding.tvHint.setSafeOnClickListener {
-            binding.tvHint.isVisible = false
-            binding.tilGroupEditTextLayout.isVisible = true
-            binding.edtGroupEditTextLayout.showKeyboard()
         }
         binding.cbMarkOnCheck.setOnCheckedChangeListener(MarkOnCheckedChangeListener(binding.edtGroupEditTextLayout, binding.cbMarkOnCheck))
         if (!isEnableEdit) {
             enableFocusInput(false)
-            binding.tvHint.isClickable = false
         }
         if (rightTextColor != 0) {
             binding.tvRight.setTextColor(rightTextColor)
@@ -490,7 +447,6 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
             isEnableEdit = !isEnableEdit
             enableFocusInput(isEnableEdit)
             if (isEnableEdit) {
-                binding.tvHint.isClickable = true
                 binding.edtGroupEditTextLayout.requestFocus()
                 binding.edtGroupEditTextLayout.requestFocusFromTouch()
                 binding.edtGroupEditTextLayout.showKeyboard()
@@ -502,8 +458,32 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
                 binding.tvRight.text = rightText
                 binding.ivClear.isVisible = false
                 binding.edtGroupEditTextLayout.hideKeyboard()
-                binding.tvHint.isClickable = false
             }
         }
+    }
+    private fun getTypeFace(value: Int) : Typeface? {
+        var typeface: Typeface? = null
+        when (value) {
+            0 -> {
+                typeface = ResourcesCompat.getFont(context, R.font.sf_regular)
+
+            }
+            1 -> {
+                typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.ssp_bold)
+
+            }
+            2 -> {
+                typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.sf_medium)
+            }
+            3 -> {
+                typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.sf_lightitalic)
+
+            }
+            4 -> {
+                typeface = ResourcesCompat.getFont(context, R.font.ssp_semibold)
+
+            }
+        }
+        return  typeface
     }
 }

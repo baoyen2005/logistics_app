@@ -16,12 +16,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.vnpay.merchant.R
-import com.vnpay.merchant.databinding.CustomLayoutEdittextRoundBinding
+import com.example.baseapp.view.hideKeyboard
+import com.example.baseapp.view.setSafeOnClickListener
+import com.example.baseapp.view.showKeyboard
+import com.example.bettinalogistics.R
+import com.example.bettinalogistics.databinding.CustomLayoutEdittextRoundBinding
 import com.vnpay.merchant.ui.views.AbstractTextWatcher
-import com.vnpay.merchant.utils.extensions.hideKeyboard
-import com.vnpay.merchant.utils.extensions.setSafeOnClickListener
-import com.vnpay.merchant.utils.extensions.showKeyboard
 
 class EditTextRound : RelativeLayout {
     var onClearData: (() -> Unit)? = null
@@ -88,20 +88,20 @@ class EditTextRound : RelativeLayout {
         val typedArray: TypedArray =
             getContext().obtainStyledAttributes(attrs, R.styleable.EditTextRound)
 
-        val textValueColor = typedArray.getColor(R.styleable.EditTextRound_valueColor, ContextCompat.getColor(getContext(),R.color.merchant_color_4a4a4a) )
+        val textValueColor = typedArray.getColor(R.styleable.EditTextRound_android_textColor, ContextCompat.getColor(getContext(),R.color.merchant_color_4a4a4a) )
          binding.edtRound.setTextColor(textValueColor)
 
         val hintString = typedArray.getString(R.styleable.EditTextRound_android_hint) ?: ""
          binding.edtRound.hint = hintString
 
-        val hintStringColor = typedArray.getColor(R.styleable.EditTextRound_hintColor, ContextCompat.getColor(getContext(),R.color.merchant_color_d0d0d2))
+        val hintStringColor = typedArray.getColor(R.styleable.EditTextRound_android_textColorHint, ContextCompat.getColor(getContext(),R.color.merchant_color_d0d0d2))
          binding.edtRound.setHintTextColor(hintStringColor)
 
-        val maxLength = typedArray.getInt(R.styleable.EditTextRound_maxLength, 100)
+        val maxLength = typedArray.getInt(R.styleable.EditTextRound_android_maxLength, 100)
         setMaxLength(maxLength)
 
-        hintFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_hintFont,0))
-        valueFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_valueFont,1))
+//        hintFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_hintFont,0))
+//        valueFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_valueFont,1))
 
 
         val iconLeftDrawable = typedArray.getDrawable(R.styleable.EditTextRound_srcIconLeft)
@@ -174,11 +174,11 @@ class EditTextRound : RelativeLayout {
              binding.imgShowPassword.setSafeOnClickListener {
                 if ( binding.imgShowPassword.tag == "hide") {
                      binding.edtRound.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                     binding.imgShowPassword.setImageResource(R.drawable.ic_show_password)
+                     binding.imgShowPassword.setImageResource(com.example.baseapp.R.drawable.ic_show_password)
                      binding.imgShowPassword.tag = "show"
                 } else {
                      binding.edtRound.transformationMethod = PasswordTransformationMethod.getInstance()
-                     binding.imgShowPassword.setImageResource(R.drawable.ic_icon_hide_password)
+                     binding.imgShowPassword.setImageResource(com.example.baseapp.R.drawable.ic_icon_hide_password)
                      binding.imgShowPassword.tag = "hide"
                 }
             }
@@ -268,22 +268,22 @@ class EditTextRound : RelativeLayout {
             var typeface: Typeface? = null
             when (value) {
                 0 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.ssp_regular)
+                    typeface = ResourcesCompat.getFont(context, R.font.ssp_semi_regular)
 
                 }
                 1 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.ssp_bold)
+                    typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.ssp_bold)
 
                 }
                 2 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.sf_medium)
+                    typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.sf_medium)
                 }
                 3 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.sf_lightitalic)
+                    typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.sf_lightitalic)
 
                 }
                 4 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.ssp_semibold)
+                    typeface = ResourcesCompat.getFont(context, R.font.ssp_semi_bold)
 
                 }
             }

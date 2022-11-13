@@ -8,16 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
+import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.databinding.FragmentChooseTypeTransportationBottomBinding
+import com.example.bettinalogistics.databinding.CustomerCompanyInfoLayoutBinding
+import com.example.bettinalogistics.model.UserCompany
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
+    var onConfirmListener: ((UserCompany) -> Unit)? = null
 
-    val binding : FragmentChooseTypeTransportationBottomBinding by lazy {
-        FragmentChooseTypeTransportationBottomBinding.inflate(layoutInflater)
+    val binding: CustomerCompanyInfoLayoutBinding by lazy {
+        CustomerCompanyInfoLayoutBinding.inflate(layoutInflater)
     }
 
 
@@ -26,19 +29,61 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyleBottomSheet)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         initView()
         initListener()
-        initObserver()
         return binding.root
     }
 
-    private fun initObserver() {
-
+    private fun initListener() {
+        binding.btnCustomerInforContinued.setSafeOnClickListener {
+            val userCompany = UserCompany(
+                name = binding.edtCompanyName.getValueText(),
+                address = binding.edtCompanyAddress.getValueText(),
+                texCode = binding.edtCompanyTexCode.getValueText(),
+                businessType = binding.edtCompanyBusinessType.getValueText()
+            )
+            if (checkValidate()) {
+                onConfirmListener?.invoke(userCompany)
+                dismiss()
+            }
+        }
     }
 
-    private fun initListener() {
-
+    private fun checkValidate(): Boolean {
+        val name = binding.edtCompanyName.getValueText()
+        val address = binding.edtCompanyAddress.getValueText()
+        val texCode = binding.edtCompanyTexCode.getValueText()
+        val businessType = binding.edtCompanyBusinessType.getValueText()
+        when {
+            name.isEmpty() -> {
+                binding.edtCompanyName.setVisibleMessageError(getString(R.string.invalid_field))
+                return false
+            }
+            address.isEmpty() -> {
+                binding.edtCompanyAddress.setVisibleMessageError(getString(R.string.invalid_field))
+                return false
+            }
+            texCode.isEmpty() -> {
+                binding.edtCompanyTexCode.setVisibleMessageError(getString(R.string.invalid_field))
+                return false
+            }
+            businessType.isEmpty() -> {
+                binding.edtCompanyBusinessType.setVisibleMessageError(getString(R.string.invalid_field))
+                return false
+            }
+            else ->{
+                binding.edtCompanyName.setGoneMessageError()
+                binding.edtCompanyAddress.setGoneMessageError()
+                binding.edtCompanyTexCode.setGoneMessageError()
+                binding.edtCompanyBusinessType.setGoneMessageError()
+                return true
+            }
+        }
     }
 
     private fun initView() {

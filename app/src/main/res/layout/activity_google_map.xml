@@ -6,15 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.gg_map.GoogleMapActivity">
 
-<!--    <fragment-->
-<!--        android:id="@+id/map"-->
-<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context=".MapsActivity" />-->
     <fragment
         android:id="@+id/mapLocation"
-        android:name="com.google.android.gms.maps.MapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/_10dp"
@@ -23,68 +17,57 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-<!--    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
-<!--        android:id="@+id/autoCompleteEditText"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_weight="0.9"-->
-<!--        android:gravity="start"-->
-<!--        android:hint="Enter Location or Drag map to select location"-->
-<!--        android:padding="10dp"-->
-<!--        android:singleLine="true"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textColorHint="@color/grey_font"-->
-<!--        android:textSize="@dimen/_12sp"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/mapLocation"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/mapLocation"-->
-<!--        app:layout_constraintTop_toTopOf="parent"/>-->
-
-    <!--search view to search our location-->
-<!--    <com.example.baseapp.view.EditText-->
-<!--        android:id="@+id/searchview"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:background="@color/white"-->
-<!--        android:hint="@string/str_enter_address_detail"-->
-<!--        android:textSize="14sp" />-->
-
-<!--    <com.example.baseapp.view.GroupEditTextView-->
-<!--        android:id="@+id/edtOriginDestinationSearch"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="15dp"-->
-<!--        android:layout_marginTop="@dimen/_15dp"-->
-<!--        android:imeOptions="actionDone"-->
-<!--        app:gr_hint="@+string/str_address_enter"-->
-<!--        app:gr_left_icon="@drawable/ic_baseline_search_24"-->
-<!--        app:gr_hint_text_color="@color/color_text_8"-->
-<!--        app:gr_is_show_clear_text="true"-->
-<!--        app:gr_text_color="@color/black"-->
-<!--        app:gr_text_size="@dimen/text_size_15"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        />-->
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtOriginSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@string/str_origin_address_enter"
+        app:gr_left_icon="@drawable/ic_location"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
 
-<!--    <com.example.baseapp.view.GroupEditTextView-->
-<!--        android:id="@+id/edtDestinationDestinationSearch"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="15dp"-->
-<!--        android:layout_marginTop="@dimen/_15dp"-->
-<!--        android:imeOptions="actionDone"-->
-<!--        app:gr_hint="@string/str_destination_address_enter"-->
-<!--        app:gr_left_icon="@drawable/ic_baseline_search_24"-->
-<!--        app:gr_hint_text_color="@color/color_text_8"-->
-<!--        app:gr_is_show_clear_text="true"-->
-<!--        app:gr_text_color="@color/black"-->
-<!--        app:gr_text_size="@dimen/text_size_15"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/edtOriginDestinationSearch"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        />-->
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtDestinationSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_15dp"
+        android:imeOptions="actionDone"
+        app:gr_hint="@string/str_destination_address_enter"
+        app:gr_left_icon="@drawable/ic_location_b"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/text_size_15"
+        app:layout_constraintTop_toBottomOf="@id/edtOriginSearch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btnFindPath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@null"
+        android:paddingVertical="@dimen/_8dp"
+        android:paddingHorizontal="@dimen/_15dp"
+        android:textAllCaps="false"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:textSize="@dimen/_16sp"
+        android:background="@drawable/custom_bg_circle_green_bt_agree"
+        app:layout_constraintTop_toBottomOf="@id/edtDestinationSearch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/str_continue"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

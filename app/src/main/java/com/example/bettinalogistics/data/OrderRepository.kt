@@ -2,12 +2,20 @@ package com.example.bettinalogistics.data
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.Product
+import com.example.bettinalogistics.model.UserCompany
+import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppConstant.Companion.ORDER_COLLECTION
 import com.example.bettinalogistics.utils.AppConstant.Companion.ORDER_IMAGE_STORAGE
 import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ADDRESS
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_BUSINESS_TYPE
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ID
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_NAME
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_TEX_CODE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CONT_NUMBER
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_DATE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ID
@@ -25,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage
 interface OrderRepository {
     suspend fun getAllOrder(): MutableLiveData<List<Order>?>
     suspend fun addOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
+    suspend fun getUserCompany( onComplete: ((UserCompany?) -> Unit)?)
+    suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
 }
 
 class OrderRepositoryImpl : OrderRepository {
@@ -76,6 +86,46 @@ class OrderRepositoryImpl : OrderRepository {
                         onComplete?.invoke(true)
                     }
                 }
+            } else {
+                onComplete?.invoke(false)
+            }
+        }
+    }
+
+    override suspend fun getUserCompany( onComplete: ((UserCompany?) -> Unit)?) {
+        FirebaseFirestore.getInstance().collection(AppConstant.USER_COMPANY_COLLECTION)
+            .whereEqualTo(DataConstant.USER_ID, AppData.g().userId)
+            .get()
+            .addOnCompleteListener {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnCompleteListener
+                }
+                val company: List<UserCompany> = it.result.toObjects(UserCompany::class.java)
+                onComplete?.invoke(company[0])
+            }.addOnFailureListener {
+                val company: UserCompany? = null
+                onComplete?.invoke(company)
+            }
+    }
+
+    override suspend fun addUserCompany(
+        userCompany: UserCompany,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val values: HashMap<String, String?> = HashMap()
+        values[COMPANY_ID] = documentReference.id
+        values[COMPANY_NAME] = userCompany.name
+        values[COMPANY_ADDRESS] = userCompany.address
+        values[COMPANY_TEX_CODE] = userCompany.texCode
+        values[COMPANY_BUSINESS_TYPE] = userCompany.businessType
+        values[USER_ID] = AppData.g().userId
+
+        documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
+            if (it.isSuccessful) {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnCompleteListener
+                }
+                else onComplete?.invoke(true)
             } else {
                 onComplete?.invoke(false)
             }

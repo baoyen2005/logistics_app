@@ -92,7 +92,7 @@ private var resultLauncherAddAddress =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-
+                    finish()
                 }
             }
         }

@@ -3,17 +3,15 @@ package com.example.bettinalogistics.di
 import com.example.baseapp.di.AndroidResourceProvider
 import com.example.baseapp.di.ResourceProvider
 import com.example.baseapp.di.dialogs
-import com.example.bettinalogistics.data.AuthenticationRepository
-import com.example.bettinalogistics.data.AuthenticationRepositoryImpl
-import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.data.OrderRepositoryImpl
+import com.example.bettinalogistics.data.*
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderViewModel
 import com.example.bettinalogistics.ui.activity.addorder.OrderViewModel
-import com.example.bettinalogistics.ui.fragment.home.HomeViewModel
+import com.example.bettinalogistics.ui.activity.gg_map.GoogleMapViewmodel
 import com.example.bettinalogistics.ui.activity.login.LoginViewModel
 import com.example.bettinalogistics.ui.activity.main.MainViewModel
 import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
 import com.example.bettinalogistics.ui.activity.splash.SplashViewModel
+import com.example.bettinalogistics.ui.fragment.home.HomeViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -39,6 +37,9 @@ val models = module {
     viewModel {
         AddNewOrderViewModel(get())
     }
+    viewModel {
+        GoogleMapViewmodel(get())
+    }
 }
 
 val impls = module {
@@ -48,6 +49,10 @@ val impls = module {
 
     single<OrderRepository>  {
         OrderRepositoryImpl()
+    }
+
+    single<GoogleMapRepo>  {
+        GoogleMapRepoImpl()
     }
 }
 

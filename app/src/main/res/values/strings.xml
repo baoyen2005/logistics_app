@@ -121,4 +121,14 @@
     <string name="str_company_email">Email công ty</string>
     <string name="str_origin_address_enter">Nhập địa điểm gửi hàng</string>
     <string name="str_destination_address_enter">Nhập địa điểm giao hàng</string>
+    <string name="str_find_path">Tìm đường</string>
+    <string name="str_origin_address">Địa điểm gửi hàng</string>
+    <string name="str_destination_address">Địa điểm giao hàng</string>
+    <string name="str_choose_address">Chọn địa điểm giao/ nhận</string>
+    <string name="str_address_order">Địa điểm giao/ nhận hàng</string>
+    <string name="str_enter_company_name">Tên công ty</string>
+    <string name="str_fill_company_info">Thông tin công ty</string>
+    <string name="str_enter_company_address">Địa chỉ công ty</string>
+    <string name="str_enter_company_tex_code">Mã số thuế</string>
+    <string name="str_enter_company_business_type">Lĩnh vực kinh doanh</string>
 </resources>

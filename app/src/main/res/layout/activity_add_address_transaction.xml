@@ -17,6 +17,7 @@
         app:layout_constraintTop_toBottomOf="@id/layoutHeaderOrder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <com.example.baseapp.view.Textview
             android:id="@+id/tvChooseOriginAddress"
             android:layout_width="match_parent"
@@ -25,59 +26,20 @@
             android:layout_marginTop="@dimen/_12dp"
             android:background="@drawable/shape_a2a2a5_stroke_corner_12"
             android:padding="@dimen/_16dp"
-            android:text="@string/str_choose_origin_address"
+            android:text="@string/str_choose_address"
             android:textAllCaps="false"
             android:textColor="@color/merchant_color_004a9c"
             android:textSize="16sp" />
 
         <com.example.baseapp.view.Textview
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15dp"
-            android:layout_marginTop="@dimen/_12dp"
-            android:text="@string/str_enter_address_detail"
-            android:textAllCaps="false"
-            android:textColor="@color/merchant_color_4a4a4a"
-            android:textSize="16sp" />
-
-        <RelativeLayout
-            android:id="@+id/relativeDetailOriginAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15dp"
-            android:layout_marginTop="@dimen/_8dp"
-            android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-            android:paddingHorizontal="@dimen/_16dp"
-            android:paddingVertical="@dimen/dp18">
-
-            <com.example.baseapp.view.EditText
-                android:id="@+id/edtDetailOriginAddressInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@color/white"
-                android:hint="@string/str_enter_address_detail"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:id="@+id/ivDetailOriginAddressDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_quick_del" />
-        </RelativeLayout>
-
-        <com.example.baseapp.view.Textview
-            android:id="@+id/tvChooseDestinationAddress"
+            android:id="@+id/tvOriginAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15dp"
             android:layout_marginTop="@dimen/_12dp"
             android:background="@drawable/shape_merchant_color_f2f6fa_corner_12"
             android:padding="@dimen/_16dp"
-            android:text="@string/str_choose_destination_address"
+            android:text="@string/str_origin_address"
             android:textAllCaps="false"
             android:textColor="@color/merchant_color_004a9c"
             android:textSize="16sp" />
@@ -92,34 +54,56 @@
             android:textColor="@color/merchant_color_4a4a4a"
             android:textSize="16sp" />
 
-        <RelativeLayout
-            android:id="@+id/relativeDetailDestinationAddress"
+        <com.example.baseapp.view.GroupEditTextView
+            android:id="@+id/edtDetailOriginAddressInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15dp"
             android:layout_marginTop="@dimen/_8dp"
-            android:background="@drawable/shape_a2a2a5_stroke_corner_12"
-            android:paddingHorizontal="@dimen/_16dp"
-            android:paddingVertical="@dimen/dp18">
+            android:paddingHorizontal="@dimen/_12dp"
+            app:gr_hint="@string/str_enter_address_detail"
+            app:gr_is_show_clear_text="true"
+            app:gr_text_color="@color/black"
+            app:gr_text_size="@dimen/_16sp"
+            app:gr_hint_text_color="@color/color_text_8"
+            android:imeOptions="actionDone"/>
 
-            <com.example.baseapp.view.EditText
-                android:id="@+id/edtDetailDestinationAddressInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@color/white"
-                android:hint="@string/str_enter_address_detail"
-                android:textSize="14sp" />
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvDestinationAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:background="@drawable/shape_merchant_color_f2f6fa_corner_12"
+            android:padding="@dimen/_16dp"
+            android:text="@string/str_destination_address"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_004a9c"
+            android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/ivDetailDestinationAddressDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_quick_del" />
-        </RelativeLayout>
+        <com.example.baseapp.view.Textview
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_12dp"
+            android:text="@string/str_enter_address_detail"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="16sp" />
+
+        <com.example.baseapp.view.GroupEditTextView
+            android:id="@+id/edtDetailDestinationAddressInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:paddingHorizontal="@dimen/_12dp"
+            app:gr_hint="@string/str_enter_address_detail"
+            app:gr_is_show_clear_text="true"
+            app:gr_text_color="@color/black"
+            app:gr_text_size="@dimen/_16sp"
+            app:gr_hint_text_color="@color/color_text_8"
+            android:imeOptions="actionDone"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <Button
@@ -136,6 +120,7 @@
         android:textSize="@dimen/_16sp"
         android:textAllCaps="false"
         android:fontFamily="@font/ssp_bold"
+        android:layout_marginHorizontal="@dimen/_15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

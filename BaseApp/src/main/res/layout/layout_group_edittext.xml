@@ -6,61 +6,37 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewParent"
+        android:paddingVertical="@dimen/_8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLeftIcon"
-            android:layout_width="@dimen/dp48"
-            android:layout_height="@dimen/dp48"
-            android:layout_marginStart="@dimen/dp12"
-            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_quick_del" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_baseline_search_24" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilGroupEditTextLayout"
+        <com.example.baseapp.view.EditText
+            android:id="@+id/edtGroupEditTextLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp12"
-            android:layout_marginEnd="@dimen/dp8"
             android:background="@null"
-            android:textColorHint="@color/color_text_8"
-            android:visibility="gone"
-            app:hintTextAppearance="@style/HintTextAppearance"
+            android:fontFamily="@font/sf_bold"
+            android:gravity="start"
+            android:includeFontPadding="false"
+            android:paddingTop="@dimen/dp6"
+            android:paddingVertical="@dimen/_8dp"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/llGroupEditTextLayoutImage"
             app:layout_constraintStart_toEndOf="@id/ivLeftIcon"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.example.baseapp.view.EditText
-                android:id="@+id/edtGroupEditTextLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:fontFamily="@font/sf_bold"
-                android:gravity="start"
-                android:includeFontPadding="false"
-                android:maxLines="1"
-                android:paddingTop="@dimen/dp6"
-                android:singleLine="true"
-                android:textColor="@color/color_text_6"
-                android:textSize="@dimen/text_size_15" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.example.baseapp.view.Textview
-            android:id="@+id/tvHint"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dp12"
-            android:layout_marginEnd="@dimen/dp8"
-            android:gravity="center_vertical"
-            android:textColor="@color/color_text_8"
-            android:textSize="@dimen/text_size_15"
-            app:layout_constraintEnd_toStartOf="@id/llGroupEditTextLayoutImage"
-            app:layout_constraintStart_toEndOf="@id/ivLeftIcon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/llGroupEditTextLayoutImage"

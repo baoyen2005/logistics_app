@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/dp16"
+    android:paddingHorizontal="@dimen/_15dp"
     android:paddingVertical="@dimen/dp18"
     android:gravity="center_vertical"
     android:background="@color/merchant_color_ffffff"
@@ -15,9 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp8"
-        app:srcCompat="@drawable/ic_phone_gray" />
+        />
 
-    <com.vnpay.merchant.ui.views.EditText
+    <com.example.baseapp.view.EditText
         android:id="@+id/edtRound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,13 +26,13 @@
         android:layout_marginEnd="@dimen/dp8"
         android:background="@null"
         app:cusfont="Bold"
-        android:textSize="@dimen/text_size_16" />
+        android:textSize="@dimen/_16sp" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgShowPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp16"
+        android:layout_marginEnd="@dimen/_15dp"
         android:visibility="gone"
         android:tag="hide"
         app:srcCompat="@drawable/ic_icon_hide_password" />

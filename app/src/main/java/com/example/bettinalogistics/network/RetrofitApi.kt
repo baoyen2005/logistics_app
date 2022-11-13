@@ -20,8 +20,5 @@ interface RetrofitApi {
     @GET("maps/api/distancematrix/json")
     fun getDistance(@Query("key") key: String,
                     @Query("origins") origion:String,
-                    @Query("destinations") destinations:String,
-                    @Query("sensor") sensor:String,
-                    @Query("units") units:String,
-                    @Query("mode") mode:String,): Single<Result>
+                    @Query("destinations") destinations:String, ): Single<Result>
 }

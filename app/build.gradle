@@ -73,6 +73,8 @@ dependencies {
     implementation 'com.google.maps:google-maps-services:0.2.9'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'com.github.jd-alexander:library:1.1.0'
+
 
     // Shape library to draw curves
     implementation 'com.github.florent37:shapeofview:1.4.7'

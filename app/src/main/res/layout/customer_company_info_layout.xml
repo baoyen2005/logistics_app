@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:fontFamily="@font/ssp_bold"
+        android:gravity="center"
+        android:text="@string/str_fill_company_info"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp" />
+
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtCompanyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:paddingHorizontal="@dimen/_12dp"
+        app:gr_hint="@string/str_enter_company_name"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"
+        android:imeOptions="actionDone"/>
+
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtCompanyAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:paddingHorizontal="@dimen/_12dp"
+        app:gr_hint="@string/str_enter_company_address"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"
+        android:imeOptions="actionDone"/>
+
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtCompanyTexCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:paddingHorizontal="@dimen/_12dp"
+        app:gr_hint="@string/str_enter_company_tex_code"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"
+        android:imeOptions="actionDone"/>
+
+    <com.example.baseapp.view.GroupEditTextView
+        android:id="@+id/edtCompanyBusinessType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:paddingHorizontal="@dimen/_12dp"
+        app:gr_hint="@string/str_enter_company_business_type"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"
+        android:imeOptions="actionDone"/>
+
+    <Button
+        android:id="@+id/btnCustomerInforContinued"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:layout_marginTop="@dimen/_40dp"
+        app:backgroundTint="@null"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp8"
+        android:text="@string/str_continue"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/ssp_bold"
+        android:layout_marginHorizontal="@dimen/_15dp" />
+</androidx.appcompat.widget.LinearLayoutCompat>
