@@ -37,4 +37,5 @@
     <dimen name="dp4">4dp</dimen>
     <dimen name="_24dp">24dp</dimen>
     <dimen name="_dp40">40dp</dimen>
+    <dimen name="_4dp">4dp</dimen>
 </resources>

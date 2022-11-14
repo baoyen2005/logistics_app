@@ -17,6 +17,7 @@ class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseV
     var uri: String? = null
     var isLCL: Boolean = true
     var order: Order?= null
+    var userCompany: UserCompany?= null
     var orderAddress: OrderAddress?= null
     val checkValidDataOrderLiveData = MutableLiveData<String>()
 

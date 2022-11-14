@@ -11,7 +11,9 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OrderAddress
+import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderTransportationActivity
 import com.example.bettinalogistics.ui.activity.gg_map.GoogleMapActivity
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ChooseTypeTransportationBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
 import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -66,18 +68,39 @@ class AddAddressTransactionActivity : BaseActivity() {
         }
     override fun observeData() {
         viewModel.getUserCompanyInfoLiveData.observe(this){
-            if(it != null){
-
-            }
-            else{
+            if(it != null) {
+                viewModel.userCompany = it
+                val chooseTypeTransportationBottomSheet = ChooseTypeTransportationBottomSheet()
+                chooseTypeTransportationBottomSheet.confirmChooseTypeTransaction = { type, method ->
+                    startActivity(
+                        viewModel.order?.let { order ->
+                            viewModel.orderAddress?.let { orderAddress ->
+                                ConfirmOrderTransportationActivity.startConfirmOrderActivity(
+                                    context = this,
+                                    order = order,
+                                    orderAddress = orderAddress,
+                                    typeTransport = type,
+                                    methodTransport = method,
+                                    userCompany = it
+                                )
+                            }
+                        }
+                    )
+                }
+                chooseTypeTransportationBottomSheet.show(supportFragmentManager, "sssssss")
+            } else {
                 val companyInfo = CustomerCompanyInfoBottomSheet()
-                companyInfo.onConfirmListener = {company ->
+                companyInfo.onConfirmListener = { company ->
                     viewModel.addCompanyInfo(company)
                 }
-                companyInfo.show(supportFragmentManager,"aaaaaaa")
+                companyInfo.show(supportFragmentManager, "aaaaaaa")
             }
         }
-
+        viewModel.addCompanyInfoLiveData.observe(this) {
+            if (it) {
+                confirm.setNotice(getString(R.string.str_add_company_success))
+            } else confirm.setNotice(getString(R.string.str_add_company_failed))
+        }
     }
 
 }

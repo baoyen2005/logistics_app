@@ -131,4 +131,12 @@
     <string name="str_enter_company_address">Địa chỉ công ty</string>
     <string name="str_enter_company_tex_code">Mã số thuế</string>
     <string name="str_enter_company_business_type">Lĩnh vực kinh doanh</string>
+    <string name="str_add_company_success">Thêm mới thông tin thành công</string>
+    <string name="str_add_company_failed">Thêm mới thông tin thất bại, mời quý khách thao tác lại</string>
+    <string name="tr_choose_type_transportation">Vui lòng chọn 1 phương thức vận chuyển</string>
+    <string name="tr_choose_method_transportation">Vui lòng chọn 1 hình thức vận chuyển</string>
+    <string name="str_phone_contact">Số điện thoại liên hệ</string>
+    <string name="str_list_product">Danh sách hàng hóa</string>
+    <string name="str_user_confirm">Thông tin công ty</string>
+    <string name="str_order_confirm">Đặt hàng</string>
 </resources>

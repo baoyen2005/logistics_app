@@ -74,6 +74,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvTitleChooseTypeTransport">
 
         <LinearLayout
+            android:id="@+id/linearRoadTransport"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15dp"
@@ -101,6 +102,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearSeaTransport"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -126,14 +128,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearAirTransport"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_marginEnd="@dimen/_15dp"
             android:orientation="vertical"
-            android:paddingVertical="@dimen/_5dp"
-            android:paddingEnd="@dimen/_15dp">
+            android:paddingVertical="@dimen/_5dp">
 
             <ImageView
                 android:layout_width="@dimen/_40dp"
@@ -155,6 +158,19 @@
     </LinearLayout>
 
     <com.example.baseapp.view.Textview
+        android:id="@+id/tvErrorTypeTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp8"
+        android:layout_marginStart="@dimen/_15dp"
+        android:textColor="@color/text_color_red"
+        android:textSize="@dimen/_12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearTypeTransport"
+        />
+
+    <com.example.baseapp.view.Textview
         android:id="@+id/tvMethodTransportTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -166,7 +182,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearTypeTransport" />
+        app:layout_constraintTop_toBottomOf="@id/tvErrorTypeTransaction" />
 
     <LinearLayout
         android:id="@+id/linearChooseMethodTransport"
@@ -194,8 +210,22 @@
             android:text="@string/str_tieu_ngach" />
     </LinearLayout>
 
+
     <com.example.baseapp.view.Textview
-        android:id="@+id/btnChooseTypeTransportation"
+        android:id="@+id/tvErrorMethodTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp8"
+        android:textColor="@color/text_color_red"
+        android:textSize="@dimen/_12sp"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/_15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearChooseMethodTransport"
+        />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/btnChooseTypeTransportationConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15dp"
@@ -208,7 +238,7 @@
         android:textColor="@color/merchant_color_ffffff"
         android:textSize="@dimen/_16sp"
         android:fontFamily="@font/ssp_bold"
-        app:layout_constraintTop_toBottomOf="@+id/linearChooseMethodTransport"
+        app:layout_constraintTop_toBottomOf="@+id/tvErrorMethodTransaction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

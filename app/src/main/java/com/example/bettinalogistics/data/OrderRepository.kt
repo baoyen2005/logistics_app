@@ -17,9 +17,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_TEX_CODE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CONT_NUMBER
-import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_DATE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ID
-import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_METHOD
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
@@ -69,8 +67,6 @@ class OrderRepositoryImpl : OrderRepository {
     override suspend fun addOrder(order: Order, onComplete: ((Boolean) -> Unit)?) {
         val values: HashMap<String, String?> = HashMap()
         values[ORDER_ID] = documentReference.id
-        values[ORDER_STATUS] = order.status
-        values[ORDER_DATE] = order.orderDate
         values[ORDER_TRANSPORT_TYPE] = order.transportType
         values[ORDER_TRANSPORT_METHOD] = order.transportMethod
         values[ORDER_CONT_NUMBER] = order.contNum.toString()
