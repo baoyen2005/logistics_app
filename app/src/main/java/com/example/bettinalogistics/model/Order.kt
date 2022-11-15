@@ -19,8 +19,16 @@ data class OrderTransaction(
 )
 
 data class Order (
-    var transportType: String? = null,
-    var transportMethod: String? = null,
-    var contNum: Int? = null,
-    var productList: List<Product>? = null,
+    var transportType: String?,
+    var transportMethod: String?,
+    var contNum: Int?,
+    var productList: List<Product>?,
+)
+
+data class ConfirmOrder(
+    var transportType: String?,
+    var transportMethod: String?,
+    var product: Product?,
+    var amount: Int?,
+    var status: String = DataConstant.ORDER_STATUS_PENDING,
 )

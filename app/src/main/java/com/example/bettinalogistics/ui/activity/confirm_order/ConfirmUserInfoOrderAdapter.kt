@@ -1,56 +1,94 @@
 package com.example.bettinalogistics.ui.activity.confirm_order
 
-import android.content.Context
-import android.view.LayoutInflater
+import android.net.Uri
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.example.baseapp.view.Textview
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import com.example.baseapp.BaseRclvAdapter
+import com.example.baseapp.BaseRclvVH
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.ConfirmOrder
 
 
-class ConfirmUserInfoOrderAdapter : RecyclerView.Adapter<ConfirmUserInfoOrderAdapter.ViewHolder>() {
-    private lateinit var context: Context
-    private var commonEntityList = ArrayList<CommonEntity>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val view: View = layoutInflater.inflate(
-            R.layout.confirm_user_order_transportation_item,
-            parent,
-            false
-        )
-        return ViewHolder(view)
+class ConfirmUserInfoOrderAdapter : BaseRclvAdapter() {
+    companion object {
+        const val TYPE_HEADER = 1
+        const val TYPE_ITEM_USER = 2
+        const val TYPE_ITEM_ORDER = 3
+        const val TYPE_LINE = 4
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val commonEntity = commonEntityList[position]
-        holder.bind(commonEntity)
-    }
-
-    override fun getItemCount(): Int {
-        return commonEntityList.size
-    }
-
-    fun resetCommonEntityList(list: ArrayList<CommonEntity>) {
-        commonEntityList.clear()
-        commonEntityList.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    inner class ViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvConfirmOrderTitle = itemView.findViewById<Textview>(R.id.tvConfirmOrderTitle)
-        private val tvConfirmOrderContent = itemView.findViewById<Textview>(R.id.tvConfirmOrderContent)
-
-        init {
-
+    override fun getLayoutResource(viewType: Int): Int =
+        when (viewType) {
+            TYPE_HEADER -> R.layout.item_order_confirm_header
+            TYPE_LINE -> R.layout.item_order_confirm_line
+            TYPE_ITEM_ORDER -> R.layout.item_order_info_confirm
+            else -> R.layout.item_user_info_confirm
         }
 
-        fun bind(commonEntity: CommonEntity) {
-            tvConfirmOrderTitle.text = commonEntity.title
-            tvConfirmOrderContent.text = commonEntity.description
+    override fun onCreateVH(itemView: View, viewType: Int): BaseRclvVH<*> =
+        when (viewType) {
+            TYPE_HEADER -> HeaderViewHolder(itemView)
+            TYPE_ITEM_ORDER -> OrderInforConfirmViewHolder(itemView)
+            TYPE_ITEM_USER -> UserInforConfirmViewHolder(itemView)
+            else -> LineViewHolder(itemView)
+        }
+
+    override fun getItemViewType(position: Int): Int {
+        if (mDataSet[position] is CommonEntity){
+            return (mDataSet[position] as CommonEntity).getTypeLayout()
+        }
+        return super.getItemViewType(position)
+    }
+
+    inner class OrderInforConfirmViewHolder(itemView: View) :
+        BaseRclvVH<ConfirmOrder>(itemView) {
+        private val ivOrderImageItem : ImageView = itemView.findViewById(R.id.ivOrderImageItem)
+        private val tvOrderNameConfirmItem: TextView =  itemView.findViewById(R.id.tvOrderNameConfirmItem)
+        private val tvOrderTypeTransactionConfirmItem: TextView = itemView.findViewById(R.id.tvOrderTypeTransactionConfirmItem)
+        private val tvOrderMethodTransactionConfirmItem: TextView = itemView.findViewById(R.id.tvOrderMethodTransactionConfirmItem)
+        private val tvOrderQuantityTransactionConfirmItem: TextView = itemView.findViewById(R.id.tvOrderQuantityTransactionConfirmItem)
+        private val tvOrderNoteConfirmItem: TextView = itemView.findViewById(R.id.tvOrderNoteConfirmItem)
+        private val tvOrderStatusTransactionConfirmItem: TextView = itemView.findViewById(R.id.tvOrderStatusTransactionConfirmItem)
+
+        override fun onBind(data: ConfirmOrder) {
+            ivOrderImageItem.setImageURI(Uri.parse(data.product?.imgUri?:""))
+            tvOrderNameConfirmItem.text = data.product?.productName?:""
+            tvOrderTypeTransactionConfirmItem.text = data.transportType?:""
+            tvOrderMethodTransactionConfirmItem.text = data.transportMethod?:""
+            tvOrderQuantityTransactionConfirmItem.text = (data.amount?:"").toString()
+            tvOrderNoteConfirmItem.text = data.product?.note?:""
+            tvOrderStatusTransactionConfirmItem.text = data.status
+        }
+    }
+
+    inner class HeaderViewHolder(itemView: View) : BaseRclvVH<CommonEntity>(itemView) {
+        private val ivHeadIconItem: AppCompatImageView = itemView.findViewById(R.id.ivHeadIconItem)
+        private val tvHeaderTitleItem: TextView =  itemView.findViewById(R.id.tvHeaderTitleItem)
+        private val tvOrderAmount: TextView =  itemView.findViewById(R.id.tvOrderAmount)
+
+        override fun onBind(data: CommonEntity) {
+            data.icon?.let { ivHeadIconItem.setImageResource(it) }
+            tvHeaderTitleItem.text = data.getHeader()
+            tvOrderAmount.text = data.getCounter().toString()
+        }
+    }
+
+    inner class LineViewHolder(itemView: View) : BaseRclvVH<CommonEntity>(itemView) {
+        override fun onBind(data: CommonEntity) {
+
+        }
+    }
+
+    inner class UserInforConfirmViewHolder(itemView: View): BaseRclvVH<CommonEntity>(itemView){
+        private val tvUserInfoConfirmTitleItem: TextView = itemView.findViewById(R.id.tvUserInfoConfirmTitleItem)
+        private val tvUserInfoConfirmDescripItem: TextView = itemView.findViewById(R.id.tvUserInfoConfirmDescripItem)
+
+        override fun onBind(data: CommonEntity) {
+            tvUserInfoConfirmTitleItem.text = data.title
+            tvUserInfoConfirmDescripItem.text = data.description
         }
     }
 }

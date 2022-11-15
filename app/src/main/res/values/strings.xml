@@ -139,4 +139,20 @@
     <string name="str_list_product">Danh sách hàng hóa</string>
     <string name="str_user_confirm">Thông tin công ty</string>
     <string name="str_order_confirm">Đặt hàng</string>
+    <string name="str_user_name">Người đại diện</string>
+    <string name="str_choose_edit_infor">Chỉnh sửa thông tin</string>
+    <string name="str_edit_order">Chỉnh sửa thông tin người dùng</string>
+    <string name="str_edit_info">Chỉnh sửa thông tin đơn hàng</string>
+    <string name="str_choose_edit_content">Người dùng chọn 1 trong 2 để chỉnh sửa</string>
+    <string name="str_payment_info">Thông tin thanh toán</string>
+    <string name="str_payment_amount">Số tiền đơn hàng</string>
+    <string name="str_payment_voucher">Khuyến mãi</string>
+    <string name="str_payment_time">Thời gian thanh toán</string>
+    <string name="str_payment_time_success">Thanh toán sau khi nhận hàng</string>
+    <string name="str_payment_debt">Công nợ</string>
+    <string name="str_payment_debt_time">Tối đa 10 ngày sau khi nhận hàng</string>
+    <string name="str_payment_sum">Tổng tiền cần thanh toán</string>
+    <string name="str_payment_inland_trucking_amount">Tiền vận chuyển nội địa</string>
+    <string name="str_payment_service">Tiền dịch vụ \n(Bao gồm: các cước phí,\nthủ tục thông quan,..)</string>
+    <string name="str_payment_internal_trucking">Phí vận chuyển quốc tế</string>
 </resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dp32">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        app:cusfont="Bold"
+        android:textSize="@dimen/_16sp"
+        android:gravity="center"
+        android:textColor="@color/merchant_color_4a4a4a" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp8"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Regular"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/_5dp"
+        tools:text="Quý khách sẽ phải đăng nhập lại trong lần sử dụng tiếp theo, vui lòng xác nhận."
+        android:textColor="@color/merchant_color_4a4a4a" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvPreview"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/duongbien" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/btnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp32"
+        android:layout_marginTop="@dimen/_24dp"
+        android:background="@drawable/shape_ffffff_stroke_f1f0f3_width_4_corner_12"
+        app:cusfont="Bold"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp18"
+        tools:text="Xác nhận đăng xuất tài khoản"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_16sp" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/btnCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp32"
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        app:cusfont="Bold"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp18"
+        tools:text="Quay lại"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

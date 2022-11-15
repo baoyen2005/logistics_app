@@ -10,57 +10,241 @@
         android:id="@+id/confirmOrderHeader"
         layout="@layout/layout_header" />
 
-    <ScrollView
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvEditInformation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15dp"
+        android:fontFamily="@font/ssp_bold"
+        android:text="Sửa"
+        android:textColor="@color/merchant_color_004a9c"
+        android:textSize="@dimen/_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/confirmOrderHeader"
+        app:layout_constraintEnd_toEndOf="@id/confirmOrderHeader"
+        app:layout_constraintTop_toTopOf="@id/confirmOrderHeader" />
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_15dp"
         android:layout_marginBottom="@dimen/_90dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/confirmOrderHeader">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/_15dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvInfoConfirmOrder"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewConfirmOrder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:background="@drawable/bg_horizontal_dotted_line"
+                android:backgroundTint="@color/merchant_color_2ed573"
+                app:layout_constraintTop_toBottomOf="@id/rvInfoConfirmOrder" />
 
             <com.example.baseapp.view.Textview
+                android:id="@+id/tvInfoPaymentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15dp"
                 android:fontFamily="@font/ssp_bold"
-                android:text="@string/str_user_confirm"
-                android:textColor="@color/merchant_color_737378"
-                android:textSize="@dimen/_16sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvUserInfoConfirmOrder"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:text="@string/str_payment_info"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewConfirmOrder" />
 
             <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentInlandTruckingAmountTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_payment_inland_trucking_amount"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvInfoPaymentTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentInlandTruckingAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15dp"
                 android:fontFamily="@font/ssp_bold"
-                android:text="@string/str_list_product"
-                android:textColor="@color/merchant_color_737378"
-                android:textSize="@dimen/_16sp" />
+                android:text="@string/str_payment_info"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvInfoPaymentTitle" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvProductListConfirmOrder"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentServiceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_payment_service"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentInlandTruckingAmount" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </ScrollView>
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentServiceAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:text="@string/str_payment_info"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentInlandTruckingAmount" />
 
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentInternalTruckingAmountTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_payment_internal_trucking"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentServiceTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentInternalTruckingAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:text="@string/str_payment_info"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentServiceTitle" />
+
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentVoucherTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_payment_voucher"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentInternalTruckingAmountTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentVoucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:text="@string/str_payment_info"
+                android:textColor="@color/merchant_color_ffbe21"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentInternalTruckingAmountTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentTimeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_payment_time"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentVoucher" />
+
+            <com.example.baseapp.view.Textview
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:gravity="end"
+                android:text="@string/str_payment_time_success"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvPaymentTimeTitle"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentVoucher" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvPaymentDebtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_payment_debt"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentTimeTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:gravity="end"
+                android:text="@string/str_payment_debt_time"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvPaymentDebtTitle"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentTimeTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvInfoPaymentSumFinalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:text="@string/str_payment_sum"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentDebtTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvInfoPaymentSumFinal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:text="@string/str_payment_sum"
+                android:textColor="@color/merchant_color_ea5b5b"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentDebtTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
     <Button
         android:id="@+id/btnConfirmOrder"
         android:layout_width="match_parent"
