@@ -91,8 +91,8 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     destinationLon = viewModel.latLonDestinationAddress?.longitude
                 )
                 viewModel.calculateDistance(addressData)
-              //  drawMap()
-                Findroutes(viewModel.latLonOriginAddress,viewModel.latLonDestinationAddress);
+               //  drawMap()
+              //  Findroutes(viewModel.latLonOriginAddress,viewModel.latLonDestinationAddress);
             }
         }
         binding.edtOriginSearch.setOnEdittextDone = { origin ->
@@ -170,13 +170,18 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 e.printStackTrace();
             }
             val address = addressList?.get(0);
-            val latLng = address?.let { LatLng(it.latitude, it.longitude) };
-            latLng?.let { MarkerOptions().position(it).title(locationDestination) }
-                ?.let { mMap?.addMarker(it) };
+            if(address == null){
+                confirm.setNotice(getString(R.string.str_choose_address_again))
+            }
+           else{
+                val latLng = address.let { LatLng(it.latitude, it.longitude) };
+                latLng.let { MarkerOptions().position(it).title(locationDestination) }
+                    .let { mMap?.addMarker(it) };
 
-            latLng?.let { CameraUpdateFactory.newLatLngZoom(it, 10F) }
-                ?.let { mMap?.animateCamera(it) };
-            viewModel.latLonDestinationAddress = latLng
+                latLng.let { CameraUpdateFactory.newLatLngZoom(it, 10F) }
+                    .let { mMap?.animateCamera(it) };
+                viewModel.latLonDestinationAddress = latLng
+            }
         }
     }
 
@@ -223,7 +228,7 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setUpMap()
     }
 
-    fun Findroutes(Start: LatLng?, End: LatLng?) {
+    private fun Findroutes(Start: LatLng?, End: LatLng?) {
         if (Start == null || End == null) {
             Toast.makeText(this, "Unable to get location", Toast.LENGTH_LONG).show()
         } else {

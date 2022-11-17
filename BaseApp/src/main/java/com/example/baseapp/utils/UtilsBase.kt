@@ -511,45 +511,6 @@ class UtilsBase private constructor() {
         }
         return null
     }
-
-    private var FONT_BOLD: Typeface? = null
-    private var FONT_ITALIC: Typeface? = null
-    private var FONT_NORMAL: Typeface? = null
-    private var FONT_SEMI: Typeface? = null
-    private var FONT_MEDIUM: Typeface? = null
-    private var FONT_REGULAR: Typeface? = null
-    private var FONT_BLACK: Typeface? = null
-
-    fun getFont(type: Int, context: Context): Typeface? {
-        return when (type) {
-            1 -> {
-                if (FONT_MEDIUM == null) {
-                    FONT_MEDIUM = Typeface.createFromAsset(context.assets, "fonts/sf_medium.otf")
-                }
-                FONT_MEDIUM
-            }
-            2 -> {
-                if (FONT_BOLD == null) {
-                    FONT_BOLD = Typeface.createFromAsset(context.assets, "fonts/sf_bold.otf")
-                }
-                FONT_BOLD
-            }
-            3 -> {
-                if (FONT_ITALIC == null) {
-                    FONT_ITALIC =
-                        Typeface.createFromAsset(context.assets, "fonts/sf_lightitalic.otf")
-                }
-                FONT_ITALIC
-            }
-            else -> {
-                if (FONT_REGULAR == null) {
-                    FONT_REGULAR = Typeface.createFromAsset(context.assets, "fonts/sf_regular.otf")
-                }
-                FONT_REGULAR
-            }
-        }
-    }
-
     fun isValidPhone(phoneValue: String): Boolean {
         val p = Pattern.compile("^(0)+[\\d]{9}$")
         val m = p.matcher(phoneValue)

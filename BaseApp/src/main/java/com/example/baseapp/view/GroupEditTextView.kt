@@ -423,7 +423,7 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
                 onAfterTextChange?.invoke(s?.toString()?.trim() ?: "")
             }
         })
-        binding.ivClear.setSafeOnClickListener {
+        binding.ivClear.setOnClickListener {
             binding.edtGroupEditTextLayout.setText("")
             binding.edtGroupEditTextLayout.requestFocus()
             binding.edtGroupEditTextLayout.showKeyboard()

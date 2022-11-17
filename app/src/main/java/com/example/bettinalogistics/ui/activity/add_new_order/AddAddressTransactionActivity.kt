@@ -62,7 +62,7 @@ class AddAddressTransactionActivity : BaseActivity() {
                     ).toString(), OrderAddress::class.java)
                     viewModel.orderAddress = orderAddress
                     binding.tvOriginAddress.text = orderAddress?.address?.originAddress?:""
-                    binding.tvDestinationAddress.text = orderAddress?.address?.originAddress?:""
+                    binding.tvDestinationAddress.text = orderAddress?.address?.destinationAddress?:""
                 }
             }
         }

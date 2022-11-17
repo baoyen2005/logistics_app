@@ -23,7 +23,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
 
     fun confirmOrder(){
         val code  = "BT${Date().time}"
-        val orderTransaction = OrderTransaction(code = code, order = order, address = orderAddress, company = userCompany)
+     //   val orderTransaction = OrderTransaction(code = code, order = order, address = orderAddress, company = userCompany)
     }
 
     private fun getListUserInfoConfirm(

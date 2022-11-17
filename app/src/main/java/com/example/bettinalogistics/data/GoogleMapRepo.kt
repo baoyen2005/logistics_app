@@ -39,11 +39,11 @@ class GoogleMapRepoImpl : GoogleMapRepo{
                 }
 
                 override fun onSuccess(t: Result) {
-                    if(t.rows == null || t.rows!!.isEmpty()){
+                    if(t.rows.isNullOrEmpty()){
                         onComplete?.invoke(null)
                         return
                     }
-                    else if(t.rows!![0].elements == null || t.rows!![0].elements!!.isEmpty()){
+                    else if(t.rows!![0].elements.isNullOrEmpty()){
                         onComplete?.invoke(null)
                         return
                     }
@@ -51,8 +51,13 @@ class GoogleMapRepoImpl : GoogleMapRepo{
                         onComplete?.invoke(null)
                         return
                     }
+                    else if(t.rows!![0].elements!![0].distance?.text.isNullOrEmpty()){
+                        onComplete?.invoke(null)
+                        return
+                    }
                     else {
-                        onComplete?.invoke(t.rows!![0].elements!![0].distance.toString())
+                        Log.d(TAG, "onSuccess: distance = ${t.rows!![0].elements!![0].distance?.text.toString()}")
+                        onComplete?.invoke(t.rows!![0].elements!![0].distance?.text.toString())
                      }
                 }
 

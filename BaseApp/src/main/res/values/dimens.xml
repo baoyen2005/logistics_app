@@ -19,4 +19,6 @@
     <dimen name="dp6">6dp</dimen>
     <dimen name="dp12">12dp</dimen>
     <dimen name="dp48">48dp</dimen>
+    <dimen name="dp11">11dp</dimen>
+    <dimen name="dp14">14dp</dimen>
 </resources>

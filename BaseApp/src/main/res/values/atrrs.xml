@@ -42,9 +42,15 @@
         <attr name="gr_max_length" format="integer" />
         <attr name="gr_right_text" format="string" />
         <attr name="gr_right_text_edit" format="string" />
+        <attr name="gr_title" format="string" />
         <attr name="gr_right_text_color" format="integer" />
         <attr name="gr_right_text_size" format="dimension" />
         <attr name="gr_is_enable_edit" format="boolean" />
+        <attr name="gr_is_edit_text_focusable" format="boolean" />
+        <attr name="gr_background_group_edittext_drawable" format="reference" />
+        <attr name="gr_background_edittext_color" format="reference" />
+        <attr name="gr_is_show_title_right" format="boolean" />
+        <attr name="gr_text_right" format="string" />
         <attr name="android:imeOptions" />
         <attr name="android:inputType" />
     </declare-styleable>

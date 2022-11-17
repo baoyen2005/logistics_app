@@ -98,7 +98,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edtAddNewProductName" />
 
-    <com.example.baseapp.view.EditText
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtAddNewProductName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

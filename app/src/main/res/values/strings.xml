@@ -73,7 +73,7 @@
     <string name="str_product_name">Tên sản phẩm</string>
     <string name="str_product_des">Mô tả</string>
     <string name="str_product_quantity">Số lượng</string>
-    <string name="str_product_volume">Thể tích (m<sup>3</sup>)\n(1 sản phẩm)</string>
+    <string name="str_product_volume">Số khối</string>
     <string name="str_product_volume_hint">Thể tích</string>
     <string name="str_product_mass">Khối lượng \n(1 thùng-Kg)</string>
     <string name="str_product_mass_hint">Khối lượng</string>
@@ -155,4 +155,5 @@
     <string name="str_payment_inland_trucking_amount">Tiền vận chuyển nội địa</string>
     <string name="str_payment_service">Tiền dịch vụ \n(Bao gồm: các cước phí,\nthủ tục thông quan,..)</string>
     <string name="str_payment_internal_trucking">Phí vận chuyển quốc tế</string>
+    <string name="str_choose_address_again">Địa điểm không tồn tại, vui lòng chọn lại địa điểm</string>
 </resources>

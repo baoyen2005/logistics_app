@@ -28,6 +28,7 @@
             android:background="@null"
             android:fontFamily="@font/sf_bold"
             android:gravity="start"
+            android:layout_marginStart="@dimen/dp8"
             android:includeFontPadding="false"
             android:paddingTop="@dimen/dp6"
             android:paddingVertical="@dimen/_8dp"

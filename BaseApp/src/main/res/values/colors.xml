@@ -16,4 +16,6 @@
     <color name="color_dash">#f0f0f0</color>
     <color name="text_color_red">#ed1c24</color>
     <color name="bg_color_search">#f7f7f7</color>
+    <color name="merchant_color_f8f8f9">#f8f8f9</color>
+    <color name="merchant_color_737378">#737378</color>
 </resources>

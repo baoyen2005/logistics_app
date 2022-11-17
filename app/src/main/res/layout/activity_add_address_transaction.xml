@@ -54,13 +54,10 @@
             android:textColor="@color/merchant_color_4a4a4a"
             android:textSize="16sp" />
 
-        <com.example.baseapp.view.GroupEditTextView
+        <com.example.baseapp.view.GroupTextView
             android:id="@+id/edtDetailOriginAddressInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15dp"
-            android:layout_marginTop="@dimen/_8dp"
-            android:paddingHorizontal="@dimen/_12dp"
             app:gr_hint="@string/str_enter_address_detail"
             app:gr_is_show_clear_text="true"
             app:gr_text_color="@color/black"
@@ -73,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15dp"
-            android:layout_marginTop="@dimen/_12dp"
+            android:layout_marginTop="@dimen/_16dp"
             android:background="@drawable/shape_merchant_color_f2f6fa_corner_12"
             android:padding="@dimen/_16dp"
             android:text="@string/str_destination_address"
@@ -85,19 +82,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15dp"
-            android:layout_marginTop="@dimen/_12dp"
+            android:layout_marginTop="@dimen/_16dp"
             android:text="@string/str_enter_address_detail"
             android:textAllCaps="false"
             android:textColor="@color/merchant_color_4a4a4a"
             android:textSize="16sp" />
 
-        <com.example.baseapp.view.GroupEditTextView
+        <com.example.baseapp.view.GroupTextView
             android:id="@+id/edtDetailDestinationAddressInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15dp"
-            android:layout_marginTop="@dimen/_8dp"
-            android:paddingHorizontal="@dimen/_12dp"
             app:gr_hint="@string/str_enter_address_detail"
             app:gr_is_show_clear_text="true"
             app:gr_text_color="@color/black"
