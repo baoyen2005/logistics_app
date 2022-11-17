@@ -9,6 +9,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdk 32
@@ -144,5 +145,10 @@ dependencies {
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
 
     implementation 'org.osmdroid:osmdroid-android:6.0.3'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

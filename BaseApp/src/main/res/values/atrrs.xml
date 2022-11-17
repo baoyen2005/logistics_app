@@ -51,6 +51,7 @@
         <attr name="gr_background_edittext_color" format="reference" />
         <attr name="gr_is_show_title_right" format="boolean" />
         <attr name="gr_text_right" format="string" />
+        <attr name="gr_input_type" format="integer" />
         <attr name="android:imeOptions" />
         <attr name="android:inputType" />
     </declare-styleable>

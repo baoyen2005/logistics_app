@@ -156,4 +156,5 @@
     <string name="str_payment_service">Tiền dịch vụ \n(Bao gồm: các cước phí,\nthủ tục thông quan,..)</string>
     <string name="str_payment_internal_trucking">Phí vận chuyển quốc tế</string>
     <string name="str_choose_address_again">Địa điểm không tồn tại, vui lòng chọn lại địa điểm</string>
+    <string name="str_product_type">Chọn loại hàng hóa</string>
 </resources>

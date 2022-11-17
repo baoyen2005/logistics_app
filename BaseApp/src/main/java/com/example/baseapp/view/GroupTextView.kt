@@ -38,6 +38,7 @@ class GroupTextView: LinearLayout{
     private var groupEditTextBackground : Int = 0
     private var editTextBackgroundColor: Int = 0
     private var rightText: String? = null
+    private var isEnableEdit : Boolean = true
 
     private var FONT_BOLD: Typeface? = null
     private var FONT_ITALIC: Typeface? = null
@@ -187,6 +188,10 @@ class GroupTextView: LinearLayout{
         binding.tvRight.isVisible = isVisible
     }
 
+    fun setInputType(inputType : Int){
+        binding.tvRight.isVisible = isVisible
+    }
+
     private fun compound() {
         binding = LayoutGroupTextviewBinding.inflate(LayoutInflater.from(context), this)
     }
@@ -265,6 +270,10 @@ class GroupTextView: LinearLayout{
         }
         if (ta.hasValue(R.styleable.GroupEditTextView_gr_text_right)) {
             rightText = ta.getString(R.styleable.GroupEditTextView_gr_text_right)
+        }
+        if (ta.hasValue(R.styleable.GroupEditTextView_gr_is_enable_edit)) {
+            isEnableEdit = ta.getBoolean(R.styleable.GroupEditTextView_gr_is_enable_edit, true)
+            binding.edtContent.isEnabled = isEnableEdit
         }
         val maxLength = ta.getInt(R.styleable.GroupEditTextView_gr_max_length, 100)
         setMaxLength(maxLength)

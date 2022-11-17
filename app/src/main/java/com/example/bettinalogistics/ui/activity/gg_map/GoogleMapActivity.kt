@@ -25,7 +25,6 @@ import com.example.bettinalogistics.model.AddressData
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.network.RetrofitApi
 import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
-import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderActivity
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.Utils
 import com.google.android.gms.common.ConnectionResult

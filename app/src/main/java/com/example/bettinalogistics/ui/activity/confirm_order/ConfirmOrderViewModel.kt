@@ -10,7 +10,6 @@ import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmUserInfoOrd
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewModel() {
     @SuppressLint("StaticFieldLeak")

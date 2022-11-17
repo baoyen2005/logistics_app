@@ -80,12 +80,12 @@ class AddNewProductBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnAddNewProduct.setOnClickListener {
-            val name = binding.edtAddNewProductName.text.toString()
-            val des = binding.edtAddNewProductDescription.text.toString()
-            val quantity = binding.edtAddNewProductQuantity.text.toString()
-            val volume = binding.edtAddNewProductVolume.text.toString()
-            val mass = binding.edtAddNewProductMass.text.toString()
-            val numberOfCarton = binding.edtAddNewProductNumberOfCarton.text.toString()
+            val name = binding.edtAddNewProductName.getContentText()
+            val des = binding.edtAddNewProductDescription.getContentText()
+            val quantity = binding.edtAddNewProductQuantity.getContentText()
+            val volume = binding.edtAddNewProductVolume.getContentText()
+            val mass = binding.edtAddNewProductMass.getContentText()
+            val numberOfCarton = binding.edtAddNewProductNumberOfCarton.getContentText()
             mButtonAddListener?.invoke(uri, name, des, quantity, volume, mass, numberOfCarton, isLCL)
         }
     }
@@ -105,9 +105,9 @@ class AddNewProductBottomSheet : BottomSheetDialogFragment() {
         binding.tvAddNewProductNumberOfCartonTitle.visibility = View.GONE
         binding.edtAddNewProductNumberOfCarton.visibility = View.GONE
         binding.tvUriNewImageProduct.text = ""
-        binding.edtAddNewProductName.text?.clear()
-        binding.edtAddNewProductDescription.text?.clear()
-        binding.edtAddNewProductQuantity.text?.clear()
+        binding.edtAddNewProductName.setValueContent("")
+        binding.edtAddNewProductDescription.setValueContent("")
+        binding.edtAddNewProductQuantity.setValueContent("")
     }
 
     private fun setViewWhenClickLCL() {
@@ -125,9 +125,9 @@ class AddNewProductBottomSheet : BottomSheetDialogFragment() {
         binding.tvAddNewProductNumberOfCartonTitle.visibility = View.VISIBLE
         binding.edtAddNewProductNumberOfCarton.visibility = View.VISIBLE
         binding.tvUriNewImageProduct.text = ""
-        binding.edtAddNewProductName.text?.clear()
-        binding.edtAddNewProductDescription.text?.clear()
-        binding.edtAddNewProductQuantity.text?.clear()
+        binding.edtAddNewProductName.setValueContent("")
+        binding.edtAddNewProductDescription.setValueContent("")
+        binding.edtAddNewProductQuantity.setValueContent("")
     }
 
     private fun pickImage() {
