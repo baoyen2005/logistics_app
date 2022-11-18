@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
@@ -80,6 +82,8 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun initListener() {
         binding.btnFindPath.setSafeOnClickListener {
+            drawMap()
+            /*
             if (checkValidate()) {
                 val addressData = AddressData(
                     originAddress = binding.edtOriginSearch.getValueText(),
@@ -93,6 +97,8 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                //  drawMap()
               //  Findroutes(viewModel.latLonOriginAddress,viewModel.latLonDestinationAddress);
             }
+
+             */
         }
         binding.edtOriginSearch.setOnEdittextDone = { origin ->
             if (origin.isEmpty()) {
@@ -317,43 +323,39 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun drawMap() {
-//        val barcelona = LatLng(41.385064, 2.173403)
-        viewModel.latLonOriginAddress?.let { MarkerOptions().position(it).title(binding.edtOriginSearch.getValueText()) }
+        viewModel.latLonOriginAddress?.let {
+            MarkerOptions().position(it).title(binding.edtOriginSearch.getValueText())
+        }
+            ?.let { mMap!!.addMarker(it) }
+        viewModel.latLonDestinationAddress?.let {
+            MarkerOptions().position(it).title(binding.edtDestinationSearch.getValueText())
+        }
             ?.let { mMap!!.addMarker(it) }
 
-      //  val madrid = LatLng(40.416775, -3.70379)
-        viewModel.latLonDestinationAddress?.let { MarkerOptions().position(it).title(binding.edtDestinationSearch.getValueText()) }
-            ?.let { mMap!!.addMarker(it) }
-
-        val zaragoza = LatLng(41.648823, -0.889085)
-
-        //Define list to get all latlng for the route
-
-        //Define list to get all latlng for the route
         val path: MutableList<LatLng> = ArrayList()
 
-
-        //Execute Directions API request
-
-
-        //Execute Directions API request
         val context = GeoApiContext.Builder()
             .apiKey(getString(R.string.API_KEY))
             .build()
-        val req = DirectionsApi.getDirections(context, "41.385064,2.173403", "40.416775,-3.70379")
+        val req = DirectionsApi.getDirections(
+            context,
+            "${viewModel.latLonOriginAddress?.latitude ?: ""},${viewModel.latLonOriginAddress?.longitude ?: ""}",
+            "${viewModel.latLonDestinationAddress?.latitude ?: ""},${viewModel.latLonDestinationAddress?.longitude ?: ""}"
+        )
         try {
-            val res = req.await()
+            runBlocking {
+                async {
+                    val res =   req.await()
 
-            //Loop through legs and steps to get encoded polylines of each step
-            if (res.routes != null && res.routes.size > 0) {
-                val route = res.routes[0]
-                if (route.legs != null) {
-                    for (i in route.legs.indices) {
-                        val leg = route.legs[i]
-                        if (leg.steps != null) {
-                            for (j in leg.steps.indices) {
-                                val step = leg.steps[j]
-                                if (step.steps != null && step.steps.size > 0) {
+                if (res.routes != null && res.routes.isNotEmpty()) {
+                    val route = res.routes[0]
+                    if (route.legs != null) {
+                        for (i in route.legs.indices) {
+                            val leg = route.legs[i]
+                            if (leg.steps != null) {
+                                for (j in leg.steps.indices) {
+                                    val step = leg.steps[j]
+                                    if (step.steps != null && step.steps.size > 0) {
                                     for (k in step.steps.indices) {
                                         val step1 = step.steps[k]
                                         val points1 = step1.polyline
@@ -368,33 +370,28 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                                 } else {
                                     val points = step.polyline
                                     if (points != null) {
-                                        //Decode polyline and add points to list of route coordinates
                                         val coords = points.decodePath()
                                         for (coord in coords) {
                                             path.add(LatLng(coord.lat, coord.lng))
                                         }
+                                    }
                                     }
                                 }
                             }
                         }
                     }
                 }
+                if (path.size > 0) {
+                    val opts = PolylineOptions().addAll(path).color(Color.BLUE).width(5f)
+                    mMap!!.addPolyline(opts)
+                }
+
+                mMap!!.uiSettings.isZoomControlsEnabled = true
+            }
             }
         } catch (ex: Exception) {
             ex.localizedMessage?.let { Log.e(AppConstant.TAG, it) }
         }
-
-        //Draw the polyline
-
-        //Draw the polyline
-        if (path.size > 0) {
-            val opts = PolylineOptions().addAll(path).color(Color.BLUE).width(5f)
-            mMap!!.addPolyline(opts)
-        }
-
-        mMap!!.uiSettings.isZoomControlsEnabled = true
-
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(zaragoza, 6f))
 
     }
 
@@ -459,8 +456,8 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
-                placeMarkerOnMap(currentLatLong)
-                mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
+              //  placeMarkerOnMap(currentLatLong)
+               // mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
             }
 
         }
@@ -469,9 +466,9 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun placeMarkerOnMap(currentLatLong: LatLng) {
-        val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("$currentLatLong")
-        mMap?.addMarker(markerOptions)
+//        val markerOptions = MarkerOptions().position(currentLatLong)
+//        markerOptions.title("$currentLatLong")
+//        mMap?.addMarker(markerOptions)
     }
 
     override fun onMarkerClick(p0: Marker) = false

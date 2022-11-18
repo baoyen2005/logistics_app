@@ -17,6 +17,8 @@ class CommonEntity {
     private var dataToolTip: String? = null
     var isSpace: Boolean? = false
     var isHeader: Boolean? = false
+    var priceKg: Double? = 0.0
+    var priceM3 : Double? = 0.0
     var isDashLine: Boolean? = false
     var descriptColor: Int? = null
     private var iconUrl: String? = null
@@ -72,6 +74,16 @@ class CommonEntity {
 
     fun setIconUrl(url: String?): CommonEntity {
         this.iconUrl = url
+        return this
+    }
+
+    fun setPriceM3(priceM3: Double?): CommonEntity {
+        this.priceM3 = priceM3
+        return this
+    }
+
+    fun setPriceKg(priceKg: Double?): CommonEntity {
+        this.priceKg = priceKg
         return this
     }
 

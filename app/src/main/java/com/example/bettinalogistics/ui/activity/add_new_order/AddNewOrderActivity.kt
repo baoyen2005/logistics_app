@@ -7,9 +7,11 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddNewOrderBinding
 import com.example.bettinalogistics.model.Product
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.DialogCommonChooseOneItem
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.example.bettinalogistics.utils.Utils
@@ -49,13 +51,19 @@ class AddNewOrderActivity : BaseActivity() {
             setViewWhenClickFcl()
         }
 
+        binding.tvNewProductType.onRightTextListener =  {
+            val chooseOneItem = DialogCommonChooseOneItem(viewModel.getListProductType()){
+                binding.tvNewProductType.setValueContent(it.title)
+            }
+        }
+
         binding.headerAddNewOrder.ivHeaderBack.setOnClickListener {
-            if (binding.edtAddNewProductName.text.isNullOrEmpty()
-                && binding.edtAddNewProductDescription.text.isNullOrEmpty()
-                && binding.edtAddNewProductQuantity.text.isNullOrEmpty()
-                && binding.edtAddNewProductVolume.text.isNullOrEmpty()
-                && binding.edtAddNewProductMass.text.isNullOrEmpty()
-                && binding.edtAddNewProductNumberOfCarton.text.isNullOrEmpty()
+            if (binding.edtAddNewProductName.getContentText().isEmpty()
+                && binding.edtAddNewProductDescription.getContentText().isEmpty()
+                && binding.edtAddNewProductQuantity.getContentText().isEmpty()
+                && binding.edtAddNewProductVolume.getContentText().isEmpty()
+                && binding.edtAddNewProductMass.getContentText().isEmpty()
+                && binding.edtAddNewProductNumberOfCarton.getContentText().isEmpty()
                 && binding.tvUriNewImageProduct.text.isNullOrEmpty()
             ) {
                 finish()
@@ -71,16 +79,16 @@ class AddNewOrderActivity : BaseActivity() {
         }
 
         binding.btnAddNewProduct.setOnClickListener {
-            val name = binding.edtAddNewProductName.text.toString()
-            val des = binding.edtAddNewProductDescription.text.toString()
-            val quantity = binding.edtAddNewProductQuantity.text.toString()
+            val name = binding.edtAddNewProductName.getContentText().toString()
+            val des = binding.edtAddNewProductDescription.getContentText().toString()
+            val quantity = binding.edtAddNewProductQuantity.getContentText().toString()
             var volume = 0.0
             var mass = 0.0
             var numberOfCarton = 0L
             if (viewModel.isLCL) {
-                volume = binding.edtAddNewProductVolume.text.toString().toDouble()
-                mass = binding.edtAddNewProductMass.text.toString().toDouble()
-                numberOfCarton = binding.edtAddNewProductNumberOfCarton.text.toString().toLong()
+                volume = binding.edtAddNewProductVolume.getContentText().toString().toDouble()
+                mass = binding.edtAddNewProductMass.getContentText().toString().toDouble()
+                numberOfCarton = binding.edtAddNewProductNumberOfCarton.getContentText().toString().toLong()
             }
             val product =
                 Product(
@@ -129,9 +137,9 @@ class AddNewOrderActivity : BaseActivity() {
         binding.tvAddNewProductNumberOfCartonTitle.visibility = View.GONE
         binding.edtAddNewProductNumberOfCarton.visibility = View.GONE
         binding.tvUriNewImageProduct.text = ""
-        binding.edtAddNewProductName.text?.clear()
-        binding.edtAddNewProductDescription.text?.clear()
-        binding.edtAddNewProductQuantity.text?.clear()
+        binding.edtAddNewProductName.setValueContent("")
+        binding.edtAddNewProductDescription.setValueContent("")
+        binding.edtAddNewProductQuantity.setValueContent("")
     }
 
     private fun setViewWhenClickLCL() {
@@ -157,9 +165,9 @@ class AddNewOrderActivity : BaseActivity() {
         binding.tvAddNewProductNumberOfCartonTitle.visibility = View.VISIBLE
         binding.edtAddNewProductNumberOfCarton.visibility = View.VISIBLE
         binding.tvUriNewImageProduct.text = ""
-        binding.edtAddNewProductName.text?.clear()
-        binding.edtAddNewProductDescription.text?.clear()
-        binding.edtAddNewProductQuantity.text?.clear()
+        binding.edtAddNewProductName.setValueContent("")
+        binding.edtAddNewProductDescription.setValueContent("")
+        binding.edtAddNewProductQuantity.setValueContent("")
     }
 
     private fun pickImage() {

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.baseapp.utils.UtilsBase
 
 abstract class BaseRclvAdapter: RecyclerView.Adapter<BaseRclvVH<Any?>>() {
     protected var mDataSet = mutableListOf<Any?>()
@@ -96,5 +97,10 @@ abstract class BaseRclvAdapter: RecyclerView.Adapter<BaseRclvVH<Any?>>() {
 
     fun clearData() {
         mDataSet.clear()
+    }
+    fun normalization(str: String?): String {
+        var newStr: String? = str ?: return ""
+        newStr = UtilsBase.g().removeAccent(newStr!!)
+        return newStr.lowercase()
     }
 }

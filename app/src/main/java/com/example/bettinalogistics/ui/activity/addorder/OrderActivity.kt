@@ -16,7 +16,6 @@ import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OrderActivity : BaseActivity() {
-    private lateinit var addNewProductBottomSheet: AddNewProductBottomSheet
     private lateinit var addOrderAdapter: AddOrderAdapter
 
     override val viewModel: OrderViewModel by viewModel()
@@ -26,7 +25,6 @@ class OrderActivity : BaseActivity() {
     }
 
     override fun initView() {
-        addNewProductBottomSheet = AddNewProductBottomSheet()
         addOrderAdapter = AddOrderAdapter()
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.header_product)
         binding.rvOrderList.adapter = addOrderAdapter

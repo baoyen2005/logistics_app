@@ -10,7 +10,7 @@ import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.UserCompany
 import com.example.bettinalogistics.utils.Utils
-import com.vnpay.merchant.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ConfirmOrderTransportationActivity : BaseActivity() {

@@ -3,7 +3,9 @@ package com.example.bettinalogistics.ui.activity.login
 import android.app.AlertDialog
 import android.content.Intent
 import android.view.View
+import android.widget.Button
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.view.EditText
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityLoginBinding
 import com.example.bettinalogistics.ui.activity.main.MainActivity
@@ -11,7 +13,6 @@ import com.example.bettinalogistics.ui.activity.main.MainActivity.Companion.CHAN
 import com.example.bettinalogistics.ui.activity.main.MainActivity.Companion.CHECK_FORGOT_PASSWORD
 import com.example.bettinalogistics.ui.activity.signup.SignUpActivity
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
-import kotlinx.android.synthetic.main.dialog_forgot_password.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -112,8 +113,11 @@ class LoginActivity : BaseActivity() {
             .create()
         val view = layoutInflater.inflate(R.layout.dialog_forgot_password, null)
         builder.setView(view)
-        view.btnForgotPassAgreeDal.setOnClickListener {
-            val email = view.edtForgotPassEmailInputDlo.text
+        val btnForgotPassAgreeDal = view.findViewById<Button>(R.id.btnForgotPassAgreeDal)
+        val btnForgotPassCancelDal = view.findViewById<Button>(R.id.btnForgotPassCancelDal)
+        val edtForgotPassEmailInputDlo = view.findViewById<EditText>(R.id.edtForgotPassEmailInputDlo)
+        btnForgotPassAgreeDal.setOnClickListener {
+            val email = edtForgotPassEmailInputDlo.text
             if (email == null || email.isEmpty()) {
                 showAlertDialog(getString(R.string.EURROR_EMAIL))
             } else {
@@ -121,7 +125,7 @@ class LoginActivity : BaseActivity() {
                 builder.dismiss()
             }
         }
-        view.btnForgotPassCancelDal.setOnClickListener {
+        btnForgotPassCancelDal.setOnClickListener {
             builder.dismiss()
         }
         builder.setCanceledOnTouchOutside(false)

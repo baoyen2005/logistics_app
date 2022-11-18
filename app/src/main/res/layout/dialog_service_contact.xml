@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/merchant_color_ffffff"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="@dimen/dp12">
+
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:cusfont="Bold"
+        tool:text="Nghề kinh doanh" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgClose"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/ic_close" />
+
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="15dp"
+        app:gr_hint="@string/str_search"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        android:layout_marginStart="10dp"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_right_icon="@drawable/places_ic_search" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtSearch"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvNoData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/dp4"
+        android:gravity="center"
+        android:text="Không dữ liệu"
+        android:textSize="14sp"
+        app:cusfont="Bold" />
+</RelativeLayout>

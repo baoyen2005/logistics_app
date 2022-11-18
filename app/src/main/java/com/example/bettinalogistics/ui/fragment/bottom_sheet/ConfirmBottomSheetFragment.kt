@@ -1,4 +1,4 @@
-package com.vnpay.merchant.ui.fragment.bottom_sheet
+package com.example.bettinalogistics.ui.fragment.bottom_sheet
 
 import android.app.Dialog
 import android.os.Bundle

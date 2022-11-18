@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.baseapp.view.Textview xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tvInformation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/merchant_color_ffffff"
+    android:paddingVertical="16dp"
+    android:textColor="@color/merchant_color_4a4a4a"
+    android:textSize="16sp"
+    app:cusfont="SemiBold" />
