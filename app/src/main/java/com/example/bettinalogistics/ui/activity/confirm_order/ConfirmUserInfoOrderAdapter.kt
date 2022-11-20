@@ -59,7 +59,7 @@ class ConfirmUserInfoOrderAdapter : BaseRclvAdapter() {
             tvOrderTypeTransactionConfirmItem.text = data.transportType?:""
             tvOrderMethodTransactionConfirmItem.text = data.transportMethod?:""
             tvOrderQuantityTransactionConfirmItem.text = (data.amount?:"").toString()
-            tvOrderNoteConfirmItem.text = data.product?.note?:""
+         //   tvOrderNoteConfirmItem.text = data.product?.note?:""
             tvOrderStatusTransactionConfirmItem.text = data.status
         }
     }

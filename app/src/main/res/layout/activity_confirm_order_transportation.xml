@@ -141,6 +141,29 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPaymentServiceTitle" />
 
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAmountBeforeDiscountTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_regular"
+                android:text="@string/str_amount_before_discount_title"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentInternalTruckingAmountTitle" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAmountBeforeDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                android:fontFamily="@font/ssp_bold"
+                android:text="@string/str_payment_info"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentInternalTruckingAmountTitle" />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvPaymentVoucherTitle"
@@ -152,7 +175,7 @@
                 android:textColor="@color/merchant_color_4a4a4a"
                 android:textSize="@dimen/_14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvPaymentInternalTruckingAmountTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvAmountBeforeDiscountTitle" />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvPaymentVoucher"
@@ -164,7 +187,7 @@
                 android:textColor="@color/merchant_color_ffbe21"
                 android:textSize="@dimen/_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvPaymentInternalTruckingAmountTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvAmountBeforeDiscountTitle" />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvPaymentTimeTitle"

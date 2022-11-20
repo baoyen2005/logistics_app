@@ -17,13 +17,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <com.example.baseapp.view.GroupEditTextView
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtOriginSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="@dimen/_15dp"
-        android:imeOptions="actionDone"
         app:gr_hint="@string/str_origin_address_enter"
         app:gr_left_icon="@drawable/ic_location"
         app:gr_hint_text_color="@color/color_text_8"
@@ -36,13 +34,11 @@
         />
 
 
-    <com.example.baseapp.view.GroupEditTextView
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtDestinationSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="@dimen/_15dp"
-        android:imeOptions="actionDone"
+        android:layout_marginTop="15dp"
         app:gr_hint="@string/str_destination_address_enter"
         app:gr_left_icon="@drawable/ic_location_b"
         app:gr_hint_text_color="@color/color_text_8"
@@ -68,6 +64,6 @@
         android:background="@drawable/custom_bg_circle_green_bt_agree"
         app:layout_constraintTop_toBottomOf="@id/edtDestinationSearch"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/str_continue"/>
+        android:text="@string/str_confirm"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

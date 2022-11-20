@@ -78,41 +78,27 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvUriNewImageProduct" />
 
-            <com.example.baseapp.view.Textview
+            <com.example.baseapp.view.GroupTextView
                 android:id="@+id/tvUriNewImageProduct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_white_corne_8_width_1_5"
-                android:ellipsize="end"
-                android:fontFamily="@font/ssp_semi_bold"
-                android:maxLines="1"
-                android:padding="@dimen/_10dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_16sp"
-                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductName"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_enable_edit ="false"
+                app:gr_hint="@string/str_product_image_choose"
+                app:gr_right_icon = "@drawable/ic_baseline_attachment_24"
                 app:layout_constraintLeft_toRightOf="@id/tvAddNewProductImageTitle"
-                app:layout_constraintRight_toLeftOf="@+id/ivAttachmentNewImageProduct"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/ivAttachmentNewImageProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_20dp"
-                android:src="@drawable/ic_baseline_attachment_24"
-                app:layout_constraintBottom_toBottomOf="@+id/tvUriNewImageProduct"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvUriNewImageProduct" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvAddNewProductNameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/ssp_semi_regular"
                 android:text="@string/str_product_name"
                 android:textColor="@color/black"
@@ -135,7 +121,7 @@
                 android:imeOptions="actionDone"
                 app:layout_constraintLeft_toRightOf="@id/tvAddNewProductNameTitle"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAddNewProductImageTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvUriNewImageProduct" />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvAddNewProductDescriptionTitle"
@@ -188,35 +174,28 @@
                 app:gr_is_show_clear_text="true"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp"
+                android:layout_marginStart="15dp"
                 app:gr_hint_text_color="@color/color_text_8"
                 android:imeOptions="actionDone"
-                app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductQuantityTitle"
-                app:layout_constraintRight_toLeftOf="@+id/tvAddOrderTypeCont"
-                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductDescription" />
-            
-            <com.example.baseapp.view.Textview
-                android:id="@+id/tvAddOrderTypeCont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="cont 40"
-                android:textSize="@dimen/_14sp"
-                android:fontFamily="@font/ssp_semi_regular"
-                android:layout_marginEnd="@dimen/_15dp"
-                app:layout_constraintBottom_toTopOf="@id/edtAddNewProductVolume"
-                app:layout_constraintRight_toLeftOf="@+id/ivExpanseQuantityForFlc"
-                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductDescription"/>
-            
-            <ImageView
-                android:id="@+id/ivExpanseQuantityForFlc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10dp"
-                android:layout_marginEnd="@dimen/_15dp"
-                android:src="@drawable/ic_baseline_expand_more_24"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/edtAddNewProductQuantity"
+                app:layout_constraintLeft_toRightOf="@id/tvAddNewProductQuantityTitle"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edtAddNewProductQuantity" />
+                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductDescription" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/tvAddOrderTypeCont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:gr_hint="@string/str_cont_type_choose"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_enable_edit ="false"
+                android:visibility="gone"
+                app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductQuantity"
+                />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvAddNewProductVolumeTitle"
@@ -236,16 +215,17 @@
                 android:id="@+id/edtAddNewProductVolume"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:gr_hint="@string/str_product_volume_hint"
+                app:gr_hint="@string/str_product_volume"
                 app:gr_is_show_clear_text="true"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 app:gr_hint_text_color="@color/color_text_8"
                 android:imeOptions="actionDone"
                 app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductVolumeTitle"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductQuantity" />
+                app:layout_constraintTop_toBottomOf="@+id/tvAddOrderTypeCont" />
 
             <com.example.baseapp.view.Textview
                 android:id="@+id/tvAddNewProductMassTitle"
@@ -300,21 +280,21 @@
                 app:gr_hint_text_color="@color/color_text_8"
                 app:layout_constraintLeft_toRightOf="@+id/tvAddNewProductNumberOfCartonTitle"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tvNewProductType"
+                app:layout_constraintBottom_toTopOf="@id/gTvNewProductType"
                 app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductMass" />
 
             <com.example.baseapp.view.GroupTextView
-                android:id="@+id/tvNewProductType"
+                android:id="@+id/gTvNewProductType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/edtAddNewProductNumberOfCarton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:gr_hint="@string/str_product_type"
-                app:gr_is_show_clear_text="true"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp"
                 app:gr_hint_text_color="@color/color_text_8"
                 app:gr_is_enable_edit ="false"
+                app:gr_left_icon ="@drawable/places_ic_search"
                 app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

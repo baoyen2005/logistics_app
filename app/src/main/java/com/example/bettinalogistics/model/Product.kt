@@ -9,7 +9,6 @@ data class Product (
     var mass: Double?= null,
     var numberOfCarton: Long? = null,
     var isOrderLCL: Boolean = true,
-    var note: String? = null,
     var type: String? = null,
     var contType: String? = null
 )

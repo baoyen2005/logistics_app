@@ -73,7 +73,7 @@ class AddOrderAdapter : RecyclerView.Adapter<AddOrderAdapter.ViewHolder>() {
                 viewDeviceAddOrderItem.visibility = View.VISIBLE
             } else viewDeviceAddOrderItem.visibility = View.GONE
             tvAddOrderQuantityItem.text =
-                if (!product.isOrderLCL) "${product.quantity} cái" else "${product.quantity} cont"
+                if (product.isOrderLCL) "${product.quantity} cái" else "${product.quantity} cont"
         }
     }
 }

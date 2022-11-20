@@ -53,26 +53,15 @@ class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
         }
         if (binding.linearRoadTransport.isClickable) {
             binding.linearSeaTransport.isClickable = false
-            binding.linearAirTransport.isClickable = false
             binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
             binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
-            binding.linearAirTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
             typeTransaction = requireContext().getString(R.string.str_road_transport)
-        } else if (binding.linearSeaTransport.isClickable) {
-            binding.linearRoadTransport.isClickable = false
-            binding.linearAirTransport.isClickable = false
-            binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
-            binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
-            binding.linearAirTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
-            typeTransaction = requireContext().getString(R.string.str_sea_transport)
-
         } else {
             binding.linearRoadTransport.isClickable = false
-            binding.linearSeaTransport.isClickable = false
-            binding.linearAirTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
+            binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
             binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
-            binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
-            typeTransaction = requireContext().getString(R.string.str_air_transport)
+            typeTransaction = requireContext().getString(R.string.str_sea_transport)
+
         }
         binding.btnChooseTypeTransportationConfirm.setOnClickListener {
             if(typeTransaction.isNullOrEmpty()){

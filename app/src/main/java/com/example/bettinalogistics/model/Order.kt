@@ -6,7 +6,7 @@ import java.util.*
 
 data class OrderTransaction(
     val code: String?,
-    val order: Order?,
+    var productList: List<Product>?,
     val address: OrderAddress?,
     val company: UserCompany?,
     var status: String = DataConstant.ORDER_STATUS_PENDING,
@@ -16,13 +16,6 @@ data class OrderTransaction(
     var amountAfterDiscount: Double?,
     var typeTransportation : String?,
     var methodTransport : String?
-)
-
-data class Order (
-    var transportType: String?,
-    var transportMethod: String?,
-    var contNum: Int?,
-    var productList: List<Product>?,
 )
 
 data class ConfirmOrder(

@@ -42,6 +42,7 @@ class LoginActivity : BaseActivity() {
 
     override fun observeData() {
         viewModel.loginLiveData.observe(this){
+            hiddenLoading()
             if(it){
                 val intent =  Intent(this@LoginActivity, MainActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

@@ -4,20 +4,27 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
-import com.example.bettinalogistics.model.Order
+import com.example.bettinalogistics.model.OrderTransaction
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.model.UserCompany
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppConstant.Companion.ORDER_COLLECTION
 import com.example.bettinalogistics.utils.AppConstant.Companion.ORDER_IMAGE_STORAGE
+import com.example.bettinalogistics.utils.AppConstant.Companion.USER_COMPANY_COLLECTION
 import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.DataConstant.Companion.AMOUNT_AFTER_DISCOUNT
+import com.example.bettinalogistics.utils.DataConstant.Companion.AMOUNT_BEFORE_DISCOUNT
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_BUSINESS_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_TEX_CODE
-import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CONT_NUMBER
-import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ID
+import com.example.bettinalogistics.utils.DataConstant.Companion.DISCOUNT
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ADDRESS
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CODE
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_COMPANY
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_DATE
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_METHOD
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
@@ -29,27 +36,23 @@ import com.google.firebase.storage.FirebaseStorage
 
 
 interface OrderRepository {
-    suspend fun getAllOrder(): MutableLiveData<List<Order>?>
-    suspend fun addOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
+    suspend fun getAllOrderTransactions(): MutableLiveData<List<OrderTransaction>?>
+    suspend fun addOrderTransaction(orderTransaction: OrderTransaction, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany( onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
 }
 
 class OrderRepositoryImpl : OrderRepository {
-    companion object {
-        val documentReference = FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
-            .document()
-    }
 
-    private var getAllOrdersLiveData = MutableLiveData<List<Order>?>()
+    private var getAllOrdersLiveData = MutableLiveData<List<OrderTransaction>?>()
 
-    override suspend fun getAllOrder(): MutableLiveData<List<Order>?> {
-        val listOrder: ArrayList<Order> = ArrayList()
+    override suspend fun getAllOrderTransactions(): MutableLiveData<List<OrderTransaction>?> {
+        val listOrder: ArrayList<OrderTransaction> = ArrayList()
         FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
             .get()
             .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 for (query in queryDocumentSnapshots) {
-                    val order = query.toObject(Order::class.java);
+                    val order = query.toObject(OrderTransaction::class.java);
                     listOrder.add(order)
                 }
                 if (listOrder.isNotEmpty()) {
@@ -64,17 +67,25 @@ class OrderRepositoryImpl : OrderRepository {
         return getAllOrdersLiveData
     }
     var countUpLoad = 0
-    override suspend fun addOrder(order: Order, onComplete: ((Boolean) -> Unit)?) {
-        val values: HashMap<String, String?> = HashMap()
-        values[ORDER_ID] = documentReference.id
-        values[ORDER_TRANSPORT_TYPE] = order.transportType
-        values[ORDER_TRANSPORT_METHOD] = order.transportMethod
-        values[ORDER_CONT_NUMBER] = order.contNum.toString()
+    override suspend fun addOrderTransaction(orderTransaction: OrderTransaction, onComplete: ((Boolean) -> Unit)?) {
+        val values: HashMap<String, Any?> = HashMap()
+        values[ORDER_CODE] = orderTransaction.code
+        values[ORDER_ADDRESS] = orderTransaction.address
+        values[ORDER_COMPANY] = orderTransaction.company
+        values[ORDER_STATUS] = orderTransaction.status
+        values[ORDER_DATE] = orderTransaction.orderDate
+        values[AMOUNT_BEFORE_DISCOUNT] = orderTransaction.amountBeforeDiscount
+        values[DISCOUNT] = orderTransaction.discount
+        values[AMOUNT_AFTER_DISCOUNT] = orderTransaction.amountAfterDiscount
+        values[ORDER_TRANSPORT_TYPE] = orderTransaction.typeTransportation
+        values[ORDER_TRANSPORT_METHOD] = orderTransaction.methodTransport
         values[USER_ID] = AppData.g().userId
 
+        val documentReference = FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
+            .document()
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
-                order.productList?.let {listProduct->
+                orderTransaction.productList?.let {listProduct->
                     if(listProduct.isNotEmpty()){
                         upLoadPhotos(listProduct, documentReference.id,onComplete)
                     }
@@ -90,14 +101,17 @@ class OrderRepositoryImpl : OrderRepository {
 
     override suspend fun getUserCompany( onComplete: ((UserCompany?) -> Unit)?) {
         FirebaseFirestore.getInstance().collection(AppConstant.USER_COMPANY_COLLECTION)
-            .whereEqualTo(DataConstant.USER_ID, AppData.g().userId)
+            .whereEqualTo(USER_ID, AppData.g().userId)
             .get()
             .addOnCompleteListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
                     return@addOnCompleteListener
                 }
                 val company: List<UserCompany> = it.result.toObjects(UserCompany::class.java)
-                onComplete?.invoke(company[0])
+                if(company.isEmpty()){
+                    onComplete?.invoke(null)
+                }
+                else onComplete?.invoke(company[0])
             }.addOnFailureListener {
                 val company: UserCompany? = null
                 onComplete?.invoke(company)
@@ -108,6 +122,8 @@ class OrderRepositoryImpl : OrderRepository {
         userCompany: UserCompany,
         onComplete: ((Boolean) -> Unit)?
     ) {
+        val documentReference = FirebaseFirestore.getInstance().collection(USER_COMPANY_COLLECTION)
+            .document()
         val values: HashMap<String, String?> = HashMap()
         values[COMPANY_ID] = documentReference.id
         values[COMPANY_NAME] = userCompany.name

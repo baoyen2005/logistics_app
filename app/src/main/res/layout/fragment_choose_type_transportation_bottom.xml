@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15dp"
             android:layout_marginEnd="@dimen/_5dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingVertical="@dimen/_5dp">
@@ -105,7 +105,7 @@
             android:id="@+id/linearSeaTransport"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingVertical="@dimen/_5dp">
@@ -123,34 +123,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5dp"
                 android:text="@string/str_sea_transport"
-                android:textColor="@color/merchant_color_4a4a4a"
-                android:textSize="@dimen/_14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearAirTransport"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/_15dp"
-            android:orientation="vertical"
-            android:paddingVertical="@dimen/_5dp">
-
-            <ImageView
-                android:layout_width="@dimen/_40dp"
-                android:layout_height="@dimen/_30dp"
-                android:background="@drawable/shape_bg_fffff_corner_8"
-                android:clipToOutline="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/hangkhong" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5dp"
-                android:text="@string/str_air_transport"
                 android:textColor="@color/merchant_color_4a4a4a"
                 android:textSize="@dimen/_14sp" />
         </LinearLayout>

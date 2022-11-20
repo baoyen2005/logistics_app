@@ -4,6 +4,7 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import com.example.baseapp.di.Common
+import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.ui.activity.main.MainActivity
 import com.example.bettinalogistics.utils.DataConstant
@@ -17,6 +18,8 @@ class AppData {
     var currentUser : User? = Utils.g().getObjectFromJson(Utils.g().getDataString(DataConstant.USER)
         .toString(), User::class.java)
     var userId: String? = Utils.g().getDataString(USER_ID)
+    var productTypeSelected: ArrayList<CommonEntity> = ArrayList()
+    var typeContSelected: ArrayList<CommonEntity> = ArrayList()
 
     companion object {
         private var instance: AppData? = null

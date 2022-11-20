@@ -1,16 +1,19 @@
 package com.example.bettinalogistics.ui.activity.confirm_order
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import com.example.baseapp.BaseActivity
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityConfirmOrderTransportationBinding
-import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OrderAddress
+import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.model.UserCompany
-import com.example.bettinalogistics.utils.Utils
+import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
+import com.example.bettinalogistics.utils.Utils
+import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ConfirmOrderTransportationActivity : BaseActivity() {
@@ -23,33 +26,41 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
 
         fun startConfirmOrderActivity(
             context: Context,
-            order: Order,
+            products: List<Product>,
             orderAddress: OrderAddress,
             typeTransport: String,
             methodTransport: String,
-            userCompany : UserCompany?
-        ): Intent{
+            userCompany: UserCompany?
+        ): Intent {
             val intent = Intent(context, ConfirmOrderTransportationActivity::class.java)
-            intent.putExtra(ORDER_CONFIRM_ACTIVITY, Utils.g().getJsonFromObject(order))
-            intent.putExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY, Utils.g().getJsonFromObject(orderAddress))
-            intent.putExtra(USER_COMPANY_TRANSPORT_ACTIVITY, Utils.g().getJsonFromObject(userCompany))
+            intent.putExtra(ORDER_CONFIRM_ACTIVITY, Utils.g().getJsonFromObject(products))
+            intent.putExtra(
+                ORDER_ADDRESS_CONFIRM_ACTIVITY,
+                Utils.g().getJsonFromObject(orderAddress)
+            )
+            intent.putExtra(
+                USER_COMPANY_TRANSPORT_ACTIVITY,
+                Utils.g().getJsonFromObject(userCompany)
+            )
             intent.putExtra(TYPE_TRANSPORT_ACTIVITY, typeTransport)
             intent.putExtra(METHOD_TRANSPORT_ACTIVITY, methodTransport)
-            return  intent
+            return intent
         }
     }
 
     private var adapter: ConfirmUserInfoOrderAdapter? = null
 
-    override val viewModel: ConfirmOrderViewModel  by viewModel()
+    override val viewModel: ConfirmOrderViewModel by viewModel()
 
     override val binding: ActivityConfirmOrderTransportationBinding by lazy {
         ActivityConfirmOrderTransportationBinding.inflate(layoutInflater)
     }
+
+    @SuppressLint("SetTextI18n")
     override fun initView() {
-        viewModel.order = Utils.g().getObjectFromJson(
-            intent.getStringExtra(ORDER_CONFIRM_ACTIVITY).toString(),
-            Order::class.java
+        viewModel.productList = Utils.g().provideGson().fromJson(
+            intent.getStringExtra(AddAddressTransactionActivity.NEW_ORDER),
+            object : TypeToken<List<Product?>>() {}.type
         )
         viewModel.orderAddress = Utils.g().getObjectFromJson(
             intent.getStringExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY).toString(),
@@ -65,6 +76,16 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         adapter = ConfirmUserInfoOrderAdapter()
         binding.rvInfoConfirmOrder.adapter = adapter
         adapter?.reset(viewModel.getListInfoConfirm())
+        binding.tvPaymentInlandTruckingAmount.text =
+            viewModel.calculateInlandTruckingFee().toString()
+        binding.tvPaymentServiceAmount.text = viewModel.getServiceFee().toString()
+        binding.tvPaymentInternalTruckingAmount.text =
+            viewModel.calculateInternalTruckingFee().toString()
+        binding.tvAmountBeforeDiscount.text =
+            (viewModel.calculateInlandTruckingFee() + viewModel.getServiceFee() +
+                    viewModel.calculateInternalTruckingFee()).toString()
+        binding.tvPaymentVoucher.text = "0"
+        binding.tvInfoPaymentSumFinal.text = binding.tvAmountBeforeDiscount.text
     }
 
     override fun initListener() {
@@ -89,10 +110,22 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         }
 
         binding.btnConfirmOrder.setSafeOnClickListener {
-
+            viewModel.addOrderTransaction(
+                amountBeforeDiscount = binding.tvAmountBeforeDiscount.text.toString().toDouble(),
+                discount = 0.0,
+                amountAfterDiscount = binding.tvInfoPaymentSumFinal.text.toString().toDouble()
+            )
         }
     }
 
     override fun observeData() {
+        viewModel.addOrderTransactionLiveData.observe(this){
+            if(it){
+                confirm.newBuild().setNotice(getString(R.string.str_add_order_success))
+            }
+            else{
+                confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
+            }
+        }
     }
 }

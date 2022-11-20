@@ -84,8 +84,8 @@
     <string name="str_error_product_image_null">Ảnh không được để trống</string>
     <string name="str_error_product_data_blank_null">Yêu cầu nhập đủ dữ liệu về đơn hàng</string>
     <string name="header_order">Danh sách đơn hàng</string>
-    <string name="str_add_order_success">Thêm đơn hàng thành công</string>
-    <string name="str_add_order_fail">Thêm đơn hàng không thành công. Vui lòng thử lại</string>
+    <string name="str_add_order_success">Đặt hàng thành công</string>
+    <string name="str_add_order_fail">Đặt hàng không thành công. Vui lòng thử lại</string>
     <string name="str_get_all_order_fail">Mời quý khách thêm đơn hàng</string>
     <string name="str_sign_up_success">Đăng nhập thành công</string>
     <string name="str_please_signup">Vui lòng đăng nhập để sử dụng dữ liệu</string>
@@ -152,9 +152,13 @@
     <string name="str_payment_debt">Công nợ</string>
     <string name="str_payment_debt_time">Tối đa 10 ngày sau khi nhận hàng</string>
     <string name="str_payment_sum">Tổng tiền cần thanh toán</string>
-    <string name="str_payment_inland_trucking_amount">Tiền vận chuyển nội địa</string>
+    <string name="str_payment_inland_trucking_amount">Tiền vận chuyển nội địa\n(2 chiều)</string>
     <string name="str_payment_service">Tiền dịch vụ \n(Bao gồm: các cước phí,\nthủ tục thông quan,..)</string>
     <string name="str_payment_internal_trucking">Phí vận chuyển quốc tế</string>
     <string name="str_choose_address_again">Địa điểm không tồn tại, vui lòng chọn lại địa điểm</string>
     <string name="str_product_type">Chọn loại hàng hóa</string>
+    <string name="str_product_image_choose">Chọn ảnh hàng hóa</string>
+    <string name="str_cont_type_choose">Chọn loại cont</string>
+    <string name="str_new_company">Bạn là công ty mới? Vui lòng thêm thông tin về công ty.</string>
+    <string name="str_amount_before_discount_title">Tổng tiền</string>
 </resources>

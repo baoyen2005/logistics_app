@@ -2,7 +2,7 @@ package com.example.bettinalogistics.model
 
 data class OrderAddress(
     var address: AddressData?,
-    var distance :Double?,
+    var distance :String?,
 )
 data class AddressData(
     var originAddress :String?,

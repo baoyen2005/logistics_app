@@ -1,7 +1,6 @@
 package com.example.bettinalogistics.utils
 
-import com.example.bettinalogistics.R
-import com.example.bettinalogistics.model.PlaceModel
+import com.example.bettinalogistics.model.Voucher
 
 class AppConstant {
     companion object {
@@ -26,14 +25,52 @@ class AppConstant {
         const val USER_COLLECTION = "users"
         const val USER_COMPANY_COLLECTION = "user_company"
 
-        val placesName =
-            listOf<PlaceModel>(
-                PlaceModel(1, R.drawable.xetai, "Restaurant", "restaurant"),
-                PlaceModel(2, R.drawable.maybay, "ATM", "atm"),
-                PlaceModel(3, R.drawable.tau, "Gas", "gas_station"),
-                PlaceModel(4, R.drawable.duongbien, "Groceries", "supermarket"),
-                PlaceModel(5, R.drawable.duongbo, "Hotels", "hotel"),
-                PlaceModel(6, R.drawable.hangkhong, "Pharmacies", "pharmacy"),
+        // van chuyen
+        const val LAT_HUU_NGHI = 21.27419975
+        const val LON_HUU_NGHI = 106.4634293
+        const val LAT_CANG_HAI_PHONG = 20.86774
+        const val LON_CANG_HAI_PHONG = 106.69179
+        const val LAT_BANG_TUONG_TRUNG_QUOC = 21.85633
+        const val LON_BANG_TUONG_TRUNG_QUOC = 106.762038
+        const val LAT_CANG_THUONG_HAI_TRUNG_QUOC = 31.224361
+        const val LON_CANG_THUONG_HAI_TRUNG_QUOC = 121.469170
+        const val LAT_CANG_BUSAN = 35.166668
+        const val LON_CANG_BUSAN = 129.066666
+        const val SERVICE_DUONG_BO_TRUNG = 20000000
+        const val SERVICE_DUONG_BIEN_TRUNG = 24000000
+        const val SERVICE_DUONG_BIEN_HAN = 30000000
+
+        // list voucher
+        fun allListVoucher(): List<Voucher> {
+            val list = ArrayList<Voucher>()
+            list.add(
+                Voucher(
+                    id ="NEW_VOUCHER",
+                    name = "NEW VOUCHER 2%",
+                    amount = 1,
+                    predicate ="Chỉ dành cho khách hàng mới đăng ký lần đầu",
+                    discount = 0.02
+                )
             )
+            list.add(
+                Voucher(
+                    id ="FIVE_ORDER_VOUCHER",
+                    name = "FIVE ORDER VOUCHER 1%",
+                    amount = 2,
+                    predicate ="Dành cho khách hàng đặt hàng trên 5 lần",
+                    discount = 0.01
+                )
+            )
+            list.add(
+                Voucher(
+                    id ="BIRTHDAY_VOUCHER",
+                    name = "BIRTHDAY VOUCHER 1.5%",
+                    amount = 1,
+                    predicate ="Sinh nhật công ty",
+                    discount = 0.02
+                )
+            )
+            return list
+        }
     }
 }

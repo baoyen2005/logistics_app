@@ -1,15 +1,17 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.baseapp.BaseActivity
-import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddNewOrderBinding
+import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.DialogCommonChooseOneItem
 import com.example.bettinalogistics.utils.AppConstant
@@ -31,6 +33,10 @@ class AddNewOrderActivity : BaseActivity() {
     override fun initView() {
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
         binding.headerAddNewOrder.tvHeaderTitle.text = getString(R.string.str_add_new_product)
+        binding.edtAddNewProductQuantity.setInputType(InputType.TYPE_CLASS_NUMBER)
+        binding.edtAddNewProductVolume.setInputType(InputType.TYPE_CLASS_NUMBER)
+        binding.edtAddNewProductMass.setInputType(InputType.TYPE_CLASS_NUMBER)
+        binding.edtAddNewProductNumberOfCarton.setInputType(InputType.TYPE_CLASS_NUMBER)
         appPermissions = AppPermissionsUtils()
         if (!appPermissions.isStorageOk(applicationContext)) {
             appPermissions.requestStoragePermission(this)
@@ -39,7 +45,7 @@ class AddNewOrderActivity : BaseActivity() {
 
     override fun initListener() {
 
-        binding.ivAttachmentNewImageProduct.setOnClickListener {
+        binding.tvUriNewImageProduct.setOnClickListener {
             pickImage()
         }
         binding.btnAddOrderNewProductLCL.setOnClickListener {
@@ -51,10 +57,24 @@ class AddNewOrderActivity : BaseActivity() {
             setViewWhenClickFcl()
         }
 
-        binding.tvNewProductType.onRightTextListener =  {
-            val chooseOneItem = DialogCommonChooseOneItem(viewModel.getListProductType()){
-                binding.tvNewProductType.setValueContent(it.title)
+        binding.gTvNewProductType.setBackgroundClickListener {
+            val chooseOneItem = DialogCommonChooseOneItem(viewModel.getListProductType()) {
+                binding.gTvNewProductType.setValueContent(it.title)
+                if (!AppData.g().productTypeSelected.contains(it)) {
+                    AppData.g().productTypeSelected.add(it)
+                }
             }
+            chooseOneItem.show(supportFragmentManager, "aaaaaa")
+        }
+
+        binding.tvAddOrderTypeCont.setBackgroundClickListener {
+            val chooseOneItem = DialogCommonChooseOneItem(viewModel.getListContType()) {
+                binding.tvAddOrderTypeCont.setValueContent(it.title)
+                if (!AppData.g().typeContSelected.contains(it)) {
+                    AppData.g().typeContSelected.add(it)
+                }
+            }
+            chooseOneItem.show(supportFragmentManager, "aaaaaa")
         }
 
         binding.headerAddNewOrder.ivHeaderBack.setOnClickListener {
@@ -64,7 +84,9 @@ class AddNewOrderActivity : BaseActivity() {
                 && binding.edtAddNewProductVolume.getContentText().isEmpty()
                 && binding.edtAddNewProductMass.getContentText().isEmpty()
                 && binding.edtAddNewProductNumberOfCarton.getContentText().isEmpty()
-                && binding.tvUriNewImageProduct.text.isNullOrEmpty()
+                && binding.tvUriNewImageProduct.getContentText().isEmpty()
+                && binding.tvAddOrderTypeCont.getContentText().isEmpty()
+                && binding.gTvNewProductType.getContentText().isEmpty()
             ) {
                 finish()
             } else {
@@ -79,16 +101,18 @@ class AddNewOrderActivity : BaseActivity() {
         }
 
         binding.btnAddNewProduct.setOnClickListener {
-            val name = binding.edtAddNewProductName.getContentText().toString()
-            val des = binding.edtAddNewProductDescription.getContentText().toString()
-            val quantity = binding.edtAddNewProductQuantity.getContentText().toString()
+            val name = binding.edtAddNewProductName.getContentText()
+            val des = binding.edtAddNewProductDescription.getContentText()
+            val quantity = binding.edtAddNewProductQuantity.getContentText()
             var volume = 0.0
             var mass = 0.0
             var numberOfCarton = 0L
+            var typeCont: String? = null
             if (viewModel.isLCL) {
-                volume = binding.edtAddNewProductVolume.getContentText().toString().toDouble()
-                mass = binding.edtAddNewProductMass.getContentText().toString().toDouble()
-                numberOfCarton = binding.edtAddNewProductNumberOfCarton.getContentText().toString().toLong()
+                volume = binding.edtAddNewProductVolume.getContentText().toDouble()
+                mass = binding.edtAddNewProductMass.getContentText().toDouble()
+                numberOfCarton = binding.edtAddNewProductNumberOfCarton.getContentText().toLong()
+                typeCont = binding.tvAddOrderTypeCont.getContentText()
             }
             val product =
                 Product(
@@ -96,12 +120,14 @@ class AddNewOrderActivity : BaseActivity() {
                     productName = name,
                     productDes = des,
                     quantity = quantity.toLong(),
-                    volume = volume.toDouble(),
-                    mass = mass.toDouble(),
-                    numberOfCarton = numberOfCarton.toLong(),
+                    volume = volume,
+                    mass = mass,
+                    numberOfCarton = numberOfCarton,
                     isOrderLCL = viewModel.isLCL,
+                    type = binding.gTvNewProductType.getContentText(),
+                    contType = typeCont
                 )
-            if (viewModel.checkInvalidData(product, this)) {
+            if (checkInvalidData()) {
                 val i = Intent()
                 i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
                 setResult(RESULT_OK, i)
@@ -112,6 +138,64 @@ class AddNewOrderActivity : BaseActivity() {
 
     override fun observeData() {
 
+    }
+
+    private fun checkInvalidData(): Boolean {
+        var view: View? = null
+        var flag = false
+        when {
+            binding.tvUriNewImageProduct.getContentText().isEmpty() -> {
+                binding.tvUriNewImageProduct.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.tvUriNewImageProduct
+                flag = true
+            }
+            binding.edtAddNewProductName.getContentText().isEmpty() -> {
+                binding.edtAddNewProductName.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtAddNewProductName
+                flag = true
+            }
+            binding.edtAddNewProductDescription.getContentText().isEmpty() -> {
+                binding.edtAddNewProductDescription.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtAddNewProductDescription
+                flag = true
+            }
+            binding.edtAddNewProductQuantity.getContentText().isEmpty() -> {
+                binding.edtAddNewProductQuantity.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtAddNewProductQuantity
+                flag = true
+            }
+            binding.tvAddOrderTypeCont.getContentText().isEmpty() && !viewModel.isLCL -> {
+                binding.tvAddOrderTypeCont.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.tvAddOrderTypeCont
+                flag = true
+            }
+            binding.edtAddNewProductVolume.getContentText().isEmpty() && viewModel.isLCL -> {
+                binding.edtAddNewProductVolume.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtAddNewProductVolume
+                flag = true
+            }
+            binding.edtAddNewProductMass.getContentText().isEmpty() && viewModel.isLCL -> {
+                binding.edtAddNewProductMass.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtAddNewProductMass
+                flag = true
+            }
+            binding.edtAddNewProductNumberOfCarton.getContentText()
+                .isEmpty() && viewModel.isLCL -> {
+                binding.edtAddNewProductNumberOfCarton.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtAddNewProductNumberOfCarton
+                flag = true
+            }
+            binding.gTvNewProductType.getContentText().isEmpty() -> {
+                binding.gTvNewProductType.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.gTvNewProductType
+                flag = true
+            }
+        }
+        return if (flag) {
+            view?.requestFocus()
+            false
+        } else
+            true
     }
 
     private fun setViewWhenClickFcl() {
@@ -129,14 +213,14 @@ class AddNewOrderActivity : BaseActivity() {
                 com.example.baseapp.R.color.black
             )
         )
-        binding.ivExpanseQuantityForFlc.visibility = View.VISIBLE
+        binding.tvAddOrderTypeCont.visibility = View.VISIBLE
         binding.tvAddNewProductVolumeTitle.visibility = View.GONE
         binding.edtAddNewProductVolume.visibility = View.GONE
         binding.tvAddNewProductMassTitle.visibility = View.GONE
         binding.edtAddNewProductMass.visibility = View.GONE
         binding.tvAddNewProductNumberOfCartonTitle.visibility = View.GONE
         binding.edtAddNewProductNumberOfCarton.visibility = View.GONE
-        binding.tvUriNewImageProduct.text = ""
+        binding.tvUriNewImageProduct.setValueContent("")
         binding.edtAddNewProductName.setValueContent("")
         binding.edtAddNewProductDescription.setValueContent("")
         binding.edtAddNewProductQuantity.setValueContent("")
@@ -157,14 +241,14 @@ class AddNewOrderActivity : BaseActivity() {
                 com.example.baseapp.R.color.black
             )
         )
-        binding.ivExpanseQuantityForFlc.visibility = View.GONE
+        binding.tvAddOrderTypeCont.visibility = View.GONE
         binding.tvAddNewProductVolumeTitle.visibility = View.VISIBLE
         binding.edtAddNewProductVolume.visibility = View.VISIBLE
         binding.tvAddNewProductMassTitle.visibility = View.VISIBLE
         binding.edtAddNewProductMass.visibility = View.VISIBLE
         binding.tvAddNewProductNumberOfCartonTitle.visibility = View.VISIBLE
         binding.edtAddNewProductNumberOfCarton.visibility = View.VISIBLE
-        binding.tvUriNewImageProduct.text = ""
+        binding.tvUriNewImageProduct.setValueContent("")
         binding.edtAddNewProductName.setValueContent("")
         binding.edtAddNewProductDescription.setValueContent("")
         binding.edtAddNewProductQuantity.setValueContent("")
@@ -180,6 +264,7 @@ class AddNewOrderActivity : BaseActivity() {
         launcher.launch(intent)
     }
 
+    @SuppressLint("SetTextI18n")
     private val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -192,7 +277,9 @@ class AddNewOrderActivity : BaseActivity() {
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
             viewModel.uri = uri.toString()
-            binding.tvUriNewImageProduct.text = viewModel.uri.toString().substring(0, 30) + "..."
+            binding.tvUriNewImageProduct.setValueContent(
+                viewModel.uri.toString().substring(0, 40) + "..."
+            )
         } else {
             Log.d(AppConstant.TAG, "result = null: ")
         }

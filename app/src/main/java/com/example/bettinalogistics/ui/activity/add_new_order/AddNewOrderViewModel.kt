@@ -1,37 +1,23 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
-import com.example.bettinalogistics.R
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.model.*
+import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.OrderAddress
+import com.example.bettinalogistics.model.Product
+import com.example.bettinalogistics.model.UserCompany
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
     var uri: String? = null
     var isLCL: Boolean = true
-    var order: Order?= null
+    var products: List<Product>?= null
     var userCompany: UserCompany?= null
     var orderAddress: OrderAddress?= null
-    val checkValidDataOrderLiveData = MutableLiveData<String>()
 
-    fun checkInvalidData(product: Product, context: Context): Boolean {
-        if (product.imgUri == null || product.imgUri.isNullOrBlank()
-            || product.productName.isNullOrBlank()
-            || product.productDes.isNullOrBlank()
-            || product.quantity.toString().isBlank()
-            || product.volume.toString().isBlank()
-            || product.mass.toString().isBlank()
-            || product.numberOfCarton.toString().isBlank()
-        ) {
-            checkValidDataOrderLiveData.postValue(context.getString(R.string.str_error_product_data_blank_null))
-            return false
-        }
-        return true
-    }
     var getUserCompanyInfoLiveData = MutableLiveData<UserCompany?>()
     fun getUserCompanyInfo() = viewModelScope.launch(Dispatchers.IO){
         orderRepository.getUserCompany(){
@@ -44,6 +30,19 @@ class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseV
         orderRepository.addUserCompany(userCompany) {
             addCompanyInfoLiveData.postValue(it)
         }
+    }
+
+    fun getListContType(): List<CommonEntity>{
+        val list = ArrayList<CommonEntity>()
+        list.add(CommonEntity(title = "Container 10 feet", data = 16.0, quantity = 8810.0))
+        list.add(CommonEntity(title = "Container 20 feet khô thường", data = 33.2, quantity = 28110.0))
+        list.add(CommonEntity(title = "Container 20 feet lạnh", data = 28.6, quantity = 27560.0 ))
+        list.add(CommonEntity(title = "Container 40 feet khô thường", data = 67.6, quantity = 28550.0))
+        list.add(CommonEntity(title = "Container 40 feet khô - cao", data = 76.3, quantity = 28350.0))
+        list.add(CommonEntity(title = "Container 40 feet lạnh", data = 67.7, quantity = 28390.0))
+        list.add(CommonEntity(title = "Container hở mái 20 feet", data = 32.5, quantity = 28060.0))
+        list.add(CommonEntity(title = "Container hở mái 40 feet", data = 65.9, quantity = 26680.0))
+        return list
     }
 
     fun getListProductType(): List<CommonEntity> {
@@ -61,10 +60,10 @@ class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseV
         list.add(CommonEntity(title = "Thời trang, linh kiện điện tử", descript = "Trên 200kg tính theo khối").setPriceKg(16000.0).setPriceM3(3900000.0))
         list.add(CommonEntity(title = "Hàng điện tử - gia dụng", descript = "Trên 200kg tính theo khối").setPriceKg(18000.0).setPriceM3(4550000.0))
         list.add(CommonEntity(title = "Hàng tạp", descript = "Trên 200kg tính theo khối").setPriceKg(23400.0).setPriceM3(3900000.0))
-        list.add(CommonEntity(title = "Túi bóng", descript = "Kg").setPriceKg(8000.0))
+        list.add(CommonEntity(title = "Túi bóng", descript = "kg").setPriceKg(8000.0))
         list.add(CommonEntity(title = "Cám chăn nuôi/ Phân bón", descript = "Kg").setPriceKg(13000.0))
-        list.add(CommonEntity(title = "Kẹo đặc", descript = "Kg").setPriceKg(9100.0))
-        list.add(CommonEntity(title = "Kẹo lỏng", descript = "Kg").setPriceKg(10500.0))
+        list.add(CommonEntity(title = "Kẹo đặc", descript = "kg").setPriceKg(9100.0))
+        list.add(CommonEntity(title = "Kẹo lỏng", descript = "kg").setPriceKg(10500.0))
         return list
     }
 }

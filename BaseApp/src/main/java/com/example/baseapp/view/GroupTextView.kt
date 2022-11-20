@@ -8,7 +8,9 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -21,6 +23,7 @@ class GroupTextView: LinearLayout{
     var onTextChange: ((CharSequence?) -> Unit)? = null
     var onClearText: (() -> Unit)? = null
     var onRightTextListener: (() -> Unit)? = null
+    var setOnEdittextDone: ((String) -> Unit)? = null
 
     private var hintText: String? = null
     private var title: String? = null
@@ -182,6 +185,7 @@ class GroupTextView: LinearLayout{
 
     fun setRequestFocusEdittext(){
         binding.edtContent.requestFocus()
+        showKeyboard()
     }
 
     fun setVisibleRightText(isVisible: Boolean){
@@ -189,7 +193,7 @@ class GroupTextView: LinearLayout{
     }
 
     fun setInputType(inputType : Int){
-        binding.tvRight.isVisible = isVisible
+        binding.edtContent.inputType = inputType
     }
 
     private fun compound() {
@@ -347,6 +351,17 @@ class GroupTextView: LinearLayout{
             }
             onFocusChange?.invoke(hasFocus)
         }
+
+        binding.edtContent.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                setOnEdittextDone?.invoke(binding.edtContent.text.toString())
+                binding.edtContent.clearFocus()
+                binding.edtContent.hideKeyboard()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
         binding.ivClear.setSafeOnClickListener {
             binding.edtContent.setText("")
             binding.edtContent.requestFocus()

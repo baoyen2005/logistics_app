@@ -25,6 +25,8 @@ class CommonEntity {
     private var iconUrlVip: String? = null
     private var refundAmount: String? = null
     private var objData: Any? = null
+    var data: Double = 0.0
+    var quantity : Double = 0.0
 
     fun setIsSpace(isSpace: Boolean): CommonEntity {
         this.isSpace = isSpace
@@ -138,6 +140,12 @@ class CommonEntity {
     constructor(title: String, descript: String?) {
         this.title = title
         this.description = descript
+    }
+
+    constructor(title: String, data:Double, quantity: Double) {
+        this.title = title
+        this.data = data
+        this.quantity = quantity
     }
 
     constructor(title: String, descript: String?, typeLayout: Int) {

@@ -6,7 +6,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityOrderBinding
-import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderActivity
@@ -51,9 +50,8 @@ class OrderActivity : BaseActivity() {
         }
         binding.btnOrderContinued.setOnClickListener {
 //            showLoading()
-            val order = Order(transportMethod = "bien", transportType = "net", contNum = 3, productList = viewModel.productList)
     //        viewModel.addOrder(order)
-            resultLauncherAddAddress.launch(AddAddressTransactionActivity.startAddAddressTransactionActivity(this, order))
+            resultLauncherAddAddress.launch(AddAddressTransactionActivity.startAddAddressTransactionActivity(this, viewModel.productList))
         }
     }
 
