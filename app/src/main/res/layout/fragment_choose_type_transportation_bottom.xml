@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
     tools:context=".ui.activity.add_new_order.AddAddressTransactionActivity">
 
     <View

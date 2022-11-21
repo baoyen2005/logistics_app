@@ -223,16 +223,10 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val context = GeoApiContext.Builder()
             .apiKey(getString(R.string.API_KEY))
             .build()
-        val req = DirectionsApi.getDirections(
-            context,
-            "${viewModel.latLonOriginAddress?.latitude ?: ""},${viewModel.latLonOriginAddress?.longitude ?: ""}",
-            "${viewModel.latLonDestinationAddress?.latitude ?: ""},${viewModel.latLonDestinationAddress?.longitude ?: ""}"
-        )
-        try {
-            runBlocking {
-                async {
-                    val res =   req.await()
-
+        viewModel.requestGgApi(context)
+        viewModel.requestApiLiveData.observe(this) {
+            try {
+                val res =  it.await()
                 if (res.routes != null && res.routes.isNotEmpty()) {
                     val route = res.routes[0]
                     if (route.legs != null) {
@@ -242,25 +236,25 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                                 for (j in leg.steps.indices) {
                                     val step = leg.steps[j]
                                     if (step.steps != null && step.steps.size > 0) {
-                                    for (k in step.steps.indices) {
-                                        val step1 = step.steps[k]
-                                        val points1 = step1.polyline
-                                        if (points1 != null) {
-                                            //Decode polyline and add points to list of route coordinates
-                                            val coords1 = points1.decodePath()
-                                            for (coord1 in coords1) {
-                                                path.add(LatLng(coord1.lat, coord1.lng))
+                                        for (k in step.steps.indices) {
+                                            val step1 = step.steps[k]
+                                            val points1 = step1.polyline
+                                            if (points1 != null) {
+                                                //Decode polyline and add points to list of route coordinates
+                                                val coords1 = points1.decodePath()
+                                                for (coord1 in coords1) {
+                                                    path.add(LatLng(coord1.lat, coord1.lng))
+                                                }
                                             }
                                         }
-                                    }
-                                } else {
-                                    val points = step.polyline
-                                    if (points != null) {
-                                        val coords = points.decodePath()
-                                        for (coord in coords) {
-                                            path.add(LatLng(coord.lat, coord.lng))
+                                    } else {
+                                        val points = step.polyline
+                                        if (points != null) {
+                                            val coords = points.decodePath()
+                                            for (coord in coords) {
+                                                path.add(LatLng(coord.lat, coord.lng))
+                                            }
                                         }
-                                    }
                                     }
                                 }
                             }
@@ -273,10 +267,9 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 }
 
                 mMap!!.uiSettings.isZoomControlsEnabled = true
+            } catch (ex: Exception) {
+                ex.localizedMessage?.let { Log.e(AppConstant.TAG, it) }
             }
-            }
-        } catch (ex: Exception) {
-            ex.localizedMessage?.let { Log.e(AppConstant.TAG, it) }
         }
 
     }

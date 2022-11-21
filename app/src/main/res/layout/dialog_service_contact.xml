@@ -4,7 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/merchant_color_ffffff"
+    android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
     android:paddingHorizontal="16dp"
     android:paddingBottom="@dimen/dp12">
 

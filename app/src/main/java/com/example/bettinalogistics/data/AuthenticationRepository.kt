@@ -176,7 +176,12 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
                     return@addOnCompleteListener
                 }
                 val users: List<User> = it.result.toObjects(User::class.java)
-                onComplete?.invoke(users[0])
+                if(users.isEmpty()){
+                    onComplete?.invoke(null)
+                }
+                else{
+                    onComplete?.invoke(users[0])
+                }
             }.addOnFailureListener {
                 val user: User? = null
                 onComplete?.invoke(user)

@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.ui.activity.gg_map
 
 import android.content.ContentValues
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,9 @@ import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.data.GoogleMapRepo
 import com.example.bettinalogistics.model.AddressData
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.DirectionsApi
+import com.google.maps.DirectionsApiRequest
+import com.google.maps.GeoApiContext
 import com.google.maps.android.SphericalUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,5 +59,14 @@ class GoogleMapViewmodel(val googleMapRepo: GoogleMapRepo) : BaseViewModel() {
             e.printStackTrace()
         }
         return null
+    }
+    val requestApiLiveData = MutableLiveData<DirectionsApiRequest>()
+    fun requestGgApi(context: GeoApiContext) =  viewModelScope.launch(Dispatchers.IO){
+        val req = DirectionsApi.getDirections(
+            context,
+            "${latLonOriginAddress?.latitude ?: ""},${latLonOriginAddress?.longitude ?: ""}",
+            "${latLonDestinationAddress?.latitude ?: ""},${latLonDestinationAddress?.longitude ?: ""}"
+        )
+        requestApiLiveData.postValue(req)
     }
 }
