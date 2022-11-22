@@ -44,24 +44,31 @@ class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initListener() {
-        if (binding.checkBoxPayFullTax.isChecked) {
-            binding.checkBoxPayLumpsum.isChecked = false
-            methodTransaction = binding.checkBoxPayFullTax.text.toString()
-        } else {
-            binding.checkBoxPayFullTax.isChecked = false
-            methodTransaction = binding.checkBoxPayLumpsum.text.toString()
+        binding.checkBoxPayLumpsum.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.checkBoxPayFullTax.isSelected = !isChecked
+            methodTransaction = if (isChecked) {
+                binding.checkBoxPayLumpsum.text.toString()
+            } else {
+                binding.checkBoxPayFullTax.text.toString()
+            }
         }
-        if (binding.linearRoadTransport.isClickable) {
-            binding.linearSeaTransport.isClickable = false
+        binding.checkBoxPayFullTax.setOnCheckedChangeListener { _, isChecked ->
+            binding.checkBoxPayLumpsum.isSelected = !isChecked
+            methodTransaction = if (isChecked) {
+                binding.checkBoxPayFullTax.text.toString()
+            } else {
+                binding.checkBoxPayLumpsum.text.toString()
+            }
+        }
+        binding.linearRoadTransport.setOnClickListener {
             binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
             binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
             typeTransaction = requireContext().getString(R.string.str_road_transport)
-        } else {
-            binding.linearRoadTransport.isClickable = false
+        }
+        binding.linearSeaTransport.setOnClickListener {
             binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
             binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
             typeTransaction = requireContext().getString(R.string.str_sea_transport)
-
         }
         binding.btnChooseTypeTransportationConfirm.setOnClickListener {
             if(typeTransaction.isNullOrEmpty()){

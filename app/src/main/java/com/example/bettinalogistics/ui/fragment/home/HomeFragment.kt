@@ -2,6 +2,7 @@ package com.example.bettinalogistics.ui.fragment.home
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -11,6 +12,8 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentHomeBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.login.LoginActivity
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ChooseTypeTransportationBottomSheet
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_FULL_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_IMAGE
 import com.example.bettinalogistics.utils.Utils
@@ -37,6 +40,13 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initListener() {
+        binding.tvHomeIntroduceTransportMethods.setOnClickListener{
+            val test = ChooseTypeTransportationBottomSheet()
+            test.confirmChooseTypeTransaction = {type , method->
+                Log.d(TAG, "test xong xóa đii : $type $method")
+            }
+            test.show(requireActivity().supportFragmentManager, "sss")
+        }
         binding.tvHomeSignUp.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }

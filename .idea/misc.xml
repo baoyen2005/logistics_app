@@ -111,12 +111,17 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable-v24/custom_background_edt_email.xml" value="0.1" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable-v24/custom_background_linear_email.xml" value="0.1" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable-v24/ic_checkbox_checked.xml" value="0.1585" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable-v24/ic_checkbox_uncheck.xml" value="0.1585" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable-v24/shape_merchant_color_f8f8f9_corner_8.xml" value="0.1585" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/custom_background_img_view.xml" value="0.1" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.1" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.16" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/ic_close.xml" value="0.176" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/selector_f8f8f9_color_004a9c_selected_corner_8.xml" value="0.1585" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/shape_bg_fffff_corner_12.xml" value="0.1" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/drawable/shape_ffffff_stroke_004a9c_corner_12.xml" value="0.1585" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/activity_add_new_order.xml" value="0.2421875" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/activity_login.xml" value="0.2421875" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
@@ -126,8 +131,9 @@
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/custom_layout_edittext_round.xml" value="0.2421875" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/customer_company_info_layout.xml" value="0.13697916666666668" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/dialog_service_contact.xml" value="0.2421875" />
-        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/fragment_choose_type_transportation_bottom.xml" value="0.1" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/fragment_choose_type_transportation_bottom.xml" value="0.16" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/fragment_confirm_bottom_dialog.xml" value="0.13697916666666668" />
+        <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/fragment_home.xml" value="0.2421875" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/home_transport_method_item.xml" value="0.2421875" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/item_service_contact.xml" value="0.2421875" />
         <entry key="..\:/YenLbClone/logistics_app/app/src/main/res/layout/layout_header.xml" value="0.2421875" />
