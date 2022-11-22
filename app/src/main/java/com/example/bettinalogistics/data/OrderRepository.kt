@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
-import com.example.bettinalogistics.model.OrderTransaction
+import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.model.UserCompany
 import com.example.bettinalogistics.utils.AppConstant
@@ -36,23 +36,23 @@ import com.google.firebase.storage.FirebaseStorage
 
 
 interface OrderRepository {
-    suspend fun getAllOrderTransactions(): MutableLiveData<List<OrderTransaction>?>
-    suspend fun addOrderTransaction(orderTransaction: OrderTransaction, onComplete: ((Boolean) -> Unit)?)
+    suspend fun getAllOrderTransactions(): MutableLiveData<List<Order>?>
+    suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany( onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
 }
 
 class OrderRepositoryImpl : OrderRepository {
 
-    private var getAllOrdersLiveData = MutableLiveData<List<OrderTransaction>?>()
+    private var getAllOrdersLiveData = MutableLiveData<List<Order>?>()
 
-    override suspend fun getAllOrderTransactions(): MutableLiveData<List<OrderTransaction>?> {
-        val listOrder: ArrayList<OrderTransaction> = ArrayList()
+    override suspend fun getAllOrderTransactions(): MutableLiveData<List<Order>?> {
+        val listOrder: ArrayList<Order> = ArrayList()
         FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
             .get()
             .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 for (query in queryDocumentSnapshots) {
-                    val order = query.toObject(OrderTransaction::class.java);
+                    val order = query.toObject(Order::class.java);
                     listOrder.add(order)
                 }
                 if (listOrder.isNotEmpty()) {
@@ -67,25 +67,25 @@ class OrderRepositoryImpl : OrderRepository {
         return getAllOrdersLiveData
     }
     var countUpLoad = 0
-    override suspend fun addOrderTransaction(orderTransaction: OrderTransaction, onComplete: ((Boolean) -> Unit)?) {
+    override suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?) {
         val values: HashMap<String, Any?> = HashMap()
-        values[ORDER_CODE] = orderTransaction.code
-        values[ORDER_ADDRESS] = orderTransaction.address
-        values[ORDER_COMPANY] = orderTransaction.company
-        values[ORDER_STATUS] = orderTransaction.status
-        values[ORDER_DATE] = orderTransaction.orderDate
-        values[AMOUNT_BEFORE_DISCOUNT] = orderTransaction.amountBeforeDiscount
-        values[DISCOUNT] = orderTransaction.discount
-        values[AMOUNT_AFTER_DISCOUNT] = orderTransaction.amountAfterDiscount
-        values[ORDER_TRANSPORT_TYPE] = orderTransaction.typeTransportation
-        values[ORDER_TRANSPORT_METHOD] = orderTransaction.methodTransport
+        values[ORDER_CODE] = order.code
+        values[ORDER_ADDRESS] = order.address
+        values[ORDER_COMPANY] = order.company
+        values[ORDER_STATUS] = order.status
+        values[ORDER_DATE] = order.orderDate
+        values[AMOUNT_BEFORE_DISCOUNT] = order.amountBeforeDiscount
+        values[DISCOUNT] = order.discount
+        values[AMOUNT_AFTER_DISCOUNT] = order.amountAfterDiscount
+        values[ORDER_TRANSPORT_TYPE] = order.typeTransportation
+        values[ORDER_TRANSPORT_METHOD] = order.methodTransport
         values[USER_ID] = AppData.g().userId
 
         val documentReference = FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
             .document()
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
-                orderTransaction.productList?.let {listProduct->
+                order.productList?.let { listProduct->
                     if(listProduct.isNotEmpty()){
                         upLoadPhotos(listProduct, documentReference.id,onComplete)
                     }

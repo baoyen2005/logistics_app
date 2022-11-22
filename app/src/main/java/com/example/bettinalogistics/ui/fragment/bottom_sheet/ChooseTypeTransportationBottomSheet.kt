@@ -44,21 +44,15 @@ class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initListener() {
-        binding.checkBoxPayLumpsum.setOnCheckedChangeListener { buttonView, isChecked ->
-            binding.checkBoxPayFullTax.isSelected = !isChecked
-            methodTransaction = if (isChecked) {
-                binding.checkBoxPayLumpsum.text.toString()
-            } else {
-                binding.checkBoxPayFullTax.text.toString()
-            }
+        binding.llChinhNgach.setOnClickListener{
+            binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_checked)
+            binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
+            methodTransaction = binding.tvChinhNgachTitle.text.toString()
         }
-        binding.checkBoxPayFullTax.setOnCheckedChangeListener { _, isChecked ->
-            binding.checkBoxPayLumpsum.isSelected = !isChecked
-            methodTransaction = if (isChecked) {
-                binding.checkBoxPayFullTax.text.toString()
-            } else {
-                binding.checkBoxPayLumpsum.text.toString()
-            }
+        binding.llTieuNgach.setOnClickListener{
+            binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_checked)
+            binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
+            methodTransaction = binding.tvTieuNgachTitle.text.toString()
         }
         binding.linearRoadTransport.setOnClickListener {
             binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)

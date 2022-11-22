@@ -160,12 +160,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvErrorTypeTransaction" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="hori">
-
-    </LinearLayout>
-    <LinearLayout
         android:id="@+id/linearChooseMethodTransport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -176,14 +170,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMethodTransportTitle">
 
-        <CheckBox
-            android:id="@+id/checkBoxPayLumpsum"
+        <LinearLayout
+            android:id="@+id/llChinhNgach"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_weight="1"
-            android:text="@string/str_tieu_ngach" />
-    </LinearLayout>
+            >
+            <ImageView
+                android:id="@+id/icCheckBoxChinhNgach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_checkbox_uncheck"
+                />
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvChinhNgachTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ssp_regular"
+                android:layout_marginStart="@dimen/_10dp"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="14sp"
+                android:text="@string/str_chinh_ngach"/>
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llTieuNgach"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+            <ImageView
+                android:id="@+id/ivCheckBoxTieuNgach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_checkbox_uncheck"
+                />
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvTieuNgachTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ssp_regular"
+                android:layout_marginStart="@dimen/_10dp"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="14sp"
+                android:text="@string/str_chinh_ngach"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <com.example.baseapp.view.Textview
         android:id="@+id/tvErrorMethodTransaction"

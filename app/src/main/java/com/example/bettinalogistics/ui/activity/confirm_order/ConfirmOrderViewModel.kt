@@ -35,7 +35,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     fun addOrderTransaction(amountBeforeDiscount: Double, discount: Double, amountAfterDiscount: Double) =
         viewModelScope.launch (Dispatchers.IO){
             val code = "BT${Date().time}"
-            val orderTransaction = OrderTransaction(
+            val order = Order(
                 code = code,
                 productList = productList,
                 address = orderAddress,
@@ -46,7 +46,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
                 typeTransportation = typeTransport,
                 methodTransport = methodTransport
             )
-            orderRepository.addOrderTransaction(orderTransaction){
+            orderRepository.addOrderTransaction(order){
                 addOrderTransactionLiveData.postValue(it)
             }
         }

@@ -40,13 +40,6 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        binding.tvHomeIntroduceTransportMethods.setOnClickListener{
-            val test = ChooseTypeTransportationBottomSheet()
-            test.confirmChooseTypeTransaction = {type , method->
-                Log.d(TAG, "test xong xóa đii : $type $method")
-            }
-            test.show(requireActivity().supportFragmentManager, "sss")
-        }
         binding.tvHomeSignUp.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
