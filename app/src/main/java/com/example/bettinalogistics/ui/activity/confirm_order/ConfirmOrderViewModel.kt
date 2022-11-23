@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.data.AddedProductToDbRepo
 import com.example.bettinalogistics.data.OrderRepository
+import com.example.bettinalogistics.data.database.ProductDatabase
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmUserInfoOrderAdapter.Companion.TYPE_ITEM_USER
@@ -25,19 +27,39 @@ import java.util.*
 class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewModel() {
     @SuppressLint("StaticFieldLeak")
     private val context = Common.currentActivity
-    var productList: List<Product>? = null
+    var products: List<Product>? = null
     var orderAddress: OrderAddress? = null
     var typeTransport: String? = null
     var methodTransport: String? = null
     var userCompany: UserCompany? = null
     var addOrderTransactionLiveData = MutableLiveData<Boolean>()
+    private var addedProductToDbRepo: AddedProductToDbRepo? = null
 
-    fun addOrderTransaction(amountBeforeDiscount: Double, discount: Double, amountAfterDiscount: Double) =
-        viewModelScope.launch (Dispatchers.IO){
+    init {
+        val dao = ProductDatabase.getDatabase(Common.currentActivity!!.applicationContext)
+            .productOrderDao()
+        addedProductToDbRepo = AddedProductToDbRepo(dao)
+    }
+
+    fun deleteAddedProduct() = viewModelScope.launch(Dispatchers.IO) {
+        addedProductToDbRepo?.deleteAllAddedProduct()
+    }
+
+
+    fun deleteProduct() = viewModelScope.launch(Dispatchers.IO) {
+        addedProductToDbRepo?.deleteAllProduct()
+    }
+
+    fun addOrderTransaction(
+        amountBeforeDiscount: Double,
+        discount: Double,
+        amountAfterDiscount: Double
+    ) =
+        viewModelScope.launch(Dispatchers.IO) {
             val code = "BT${Date().time}"
             val order = Order(
                 code = code,
-                productList = productList,
+                product = products,
                 address = orderAddress,
                 company = userCompany,
                 amountBeforeDiscount = amountBeforeDiscount,
@@ -53,13 +75,14 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
 
     fun calculateInternalTruckingFee(): Double {
         var res = 0.0
-        productList?.forEachIndexed { index, product ->
+        products?.forEachIndexed { index, product ->
             val typeSelected = AppData.g().productTypeSelected[index]
             val contSelected = AppData.g().typeContSelected[index]
             if (product.isOrderLCL) {
                 when {
                     typeSelected.description?.lowercase() == "kg" -> {
-                        res = (typeSelected.priceKg ?: 0.0) * (product.mass ?: 0.0)  * (product.numberOfCarton?:0)
+                        res = (typeSelected.priceKg ?: 0.0) * (product.mass
+                            ?: 0.0) * (product.numberOfCarton ?: 0)
                     }
                     typeSelected.description?.lowercase()?.contains("khối") == true
                             && (product.volume ?: 0.0) >= 200 -> {
@@ -208,10 +231,10 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     fun getListInfoConfirm(): ArrayList<Any> {
         val list = ArrayList<Any>()
         list.addAll(getListUserInfoConfirm())
-        productList?.forEach {
+        products?.forEach {
             val orderConfirm = ConfirmOrder(
                 transportType = typeTransport, transportMethod = methodTransport,
-                product = it, amount = productList!!.size
+                product = it, amount = products?.size ?: 0
             )
             list.add(orderConfirm)
         }

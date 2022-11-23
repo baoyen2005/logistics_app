@@ -85,7 +85,7 @@ class OrderRepositoryImpl : OrderRepository {
             .document()
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
-                order.productList?.let { listProduct->
+                order.addedProduct?.productList?.let { listProduct->
                     if(listProduct.isNotEmpty()){
                         upLoadPhotos(listProduct, documentReference.id,onComplete)
                     }

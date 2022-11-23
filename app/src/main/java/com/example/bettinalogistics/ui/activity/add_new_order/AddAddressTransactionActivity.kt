@@ -10,12 +10,14 @@ import com.example.baseapp.BaseActivity
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
+import com.example.bettinalogistics.model.AddedProduct
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderTransportationActivity
 import com.example.bettinalogistics.ui.activity.gg_map.GoogleMapActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ChooseTypeTransportationBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
+import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,34 +26,45 @@ class AddAddressTransactionActivity : BaseActivity() {
     companion object{
         const val NEW_ORDER = "newOrder"
         const val NEW_ADDRESS_ORDER ="newAddressOrder"
-        fun startAddAddressTransactionActivity(context: Context, product: List<Product>): Intent {
+        fun startAddAddressTransactionActivity(context: Context, products: List<Product>): Intent {
             val intent = Intent(context, AddAddressTransactionActivity::class.java)
-            intent.putExtra(NEW_ORDER, Utils.g().getJsonFromObject(product))
+            intent.putExtra(NEW_ORDER, Utils.g().getJsonFromObject(products))
             return intent
         }
     }
 
-    override val viewModel: AddNewOrderViewModel by viewModel()
+    override val viewModel: AddNewProductViewModel by viewModel()
 
     override val binding: ActivityAddAddressTransactionBinding by lazy {
         ActivityAddAddressTransactionBinding.inflate(layoutInflater)
     }
     override fun initView() {
-        val products: List<Product> = Utils.g().provideGson().fromJson(
-            intent.getStringExtra(NEW_ORDER),
-            object : TypeToken<List<Product?>>() {}.type
-        )
-        viewModel.products = products
-        Log.d(TAG, "initView: order = $products")
+        viewModel.products  = Utils.g().provideGson()
+            .fromJson(intent.getStringExtra(NEW_ORDER), object :
+                TypeToken<List<Product>>() {}.type)?:  listOf()
+        Log.d(TAG, "initView: order = ${viewModel.products}")
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_address_order)
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             finish()
+        }
+        val orderAddress = Utils.g().getDataString(DataConstant.ORDER_ADDRESS)
+            ?.let { Utils.g().getObjectFromJson(it, OrderAddress::class.java) }
+        if (orderAddress != null) {
+            binding.tvOriginAddress.text = orderAddress.address?.originAddress ?: ""
+            binding.edtDetailDestinationAddressInput.visibility = View.GONE
+            binding.edtDetailOriginAddressInput.visibility = View.GONE
+            binding.tvDestinationAddress.text = orderAddress.address?.destinationAddress ?: ""
+        } else {
+            binding.edtDetailDestinationAddressInput.visibility = View.VISIBLE
+            binding.edtDetailOriginAddressInput.visibility = View.VISIBLE
         }
     }
 
     override fun initListener() {
         binding.tvChooseOriginAddress.setSafeOnClickListener {
             resultLauncher.launch(Intent(this, GoogleMapActivity::class.java))
+            binding.edtDetailDestinationAddressInput.visibility = View.VISIBLE
+            binding.edtDetailOriginAddressInput.visibility = View.VISIBLE
         }
         binding.btnAddAddressContinued.setSafeOnClickListener {
             if (checkValidate()) {
@@ -121,12 +134,18 @@ class AddAddressTransactionActivity : BaseActivity() {
                 viewModel.userCompany = it
                 val chooseTypeTransportationBottomSheet = ChooseTypeTransportationBottomSheet()
                 chooseTypeTransportationBottomSheet.confirmChooseTypeTransaction = { type, method ->
+                    Utils.g().saveDataString(
+                        DataConstant.ORDER_ADDRESS,
+                        Utils.g().getJsonFromObject(viewModel.orderAddress)
+                    )
+                    Utils.g().saveDataString(DataConstant.ORDER_TRANSPORT_TYPE, type)
+                    Utils.g().saveDataString(DataConstant.ORDER_TRANSPORT_METHOD, method)
                     startActivity(
-                        viewModel.products?.let { products ->
+                        viewModel.products?.let { producs ->
                             viewModel.orderAddress?.let { orderAddress ->
                                 ConfirmOrderTransportationActivity.startConfirmOrderActivity(
                                     context = this,
-                                    products = products,
+                                    product = producs,
                                     orderAddress = orderAddress,
                                     typeTransport = type,
                                     methodTransport = method,

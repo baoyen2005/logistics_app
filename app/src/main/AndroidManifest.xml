@@ -52,7 +52,7 @@
             android:name=".ui.activity.add_new_order.AddAddressTransactionActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.add_new_order.AddNewOrderActivity"
+            android:name=".ui.activity.add_new_order.AddNewProductActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />

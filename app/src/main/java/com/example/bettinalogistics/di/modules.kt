@@ -4,7 +4,7 @@ import com.example.baseapp.di.AndroidResourceProvider
 import com.example.baseapp.di.ResourceProvider
 import com.example.baseapp.di.dialogs
 import com.example.bettinalogistics.data.*
-import com.example.bettinalogistics.ui.activity.add_new_order.AddNewOrderViewModel
+import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductViewModel
 import com.example.bettinalogistics.ui.activity.addorder.OrderViewModel
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderViewModel
 import com.example.bettinalogistics.ui.activity.gg_map.GoogleMapViewmodel
@@ -36,7 +36,7 @@ val models = module {
         OrderViewModel(get())
     }
     viewModel {
-        AddNewOrderViewModel(get())
+        AddNewProductViewModel(get())
     }
     viewModel {
         GoogleMapViewmodel(get())

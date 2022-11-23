@@ -1,22 +1,31 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
+import android.provider.ContactsContract
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
+import com.example.baseapp.di.Common
+import com.example.bettinalogistics.data.AddedProductToDbRepo
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.model.CommonEntity
-import com.example.bettinalogistics.model.OrderAddress
-import com.example.bettinalogistics.model.Product
-import com.example.bettinalogistics.model.UserCompany
+import com.example.bettinalogistics.data.database.ProductDatabase
+import com.example.bettinalogistics.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
+class AddNewProductViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
     var uri: String? = null
     var isLCL: Boolean = true
     var products: List<Product>?= null
     var userCompany: UserCompany?= null
     var orderAddress: OrderAddress?= null
+    var isEdit : Boolean = false
+    var editProduct: Product? = null
+    private var addedProductToDbRepo : AddedProductToDbRepo? = null
+
+    init {
+        val dao = ProductDatabase.getDatabase(Common.currentActivity!!.applicationContext).productOrderDao()
+        addedProductToDbRepo = AddedProductToDbRepo(dao)
+    }
 
     var getUserCompanyInfoLiveData = MutableLiveData<UserCompany?>()
     fun getUserCompanyInfo() = viewModelScope.launch(Dispatchers.IO){
@@ -30,6 +39,14 @@ class AddNewOrderViewModel(private val orderRepository: OrderRepository) : BaseV
         orderRepository.addUserCompany(userCompany) {
             addCompanyInfoLiveData.postValue(it)
         }
+    }
+
+    fun insertProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
+        addedProductToDbRepo?.insertProduct(product)
+    }
+
+    fun updateProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
+        addedProductToDbRepo?.updateProduct(product)
     }
 
     fun getListContType(): List<CommonEntity>{

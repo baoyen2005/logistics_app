@@ -108,4 +108,29 @@ class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
         bottomSheet.layoutParams = layoutParams
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
+
+    fun setValue(type:String?, method: String? ){
+        if(type.isNullOrEmpty() && method.isNullOrEmpty()){
+            binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
+            binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
+        }
+        else{
+            typeTransaction = type
+            methodTransaction = method
+            if(type == requireContext().getString(R.string.str_road_transport)){
+                binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
+            }
+            else {
+                binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
+            }
+            if(method == binding.tvChinhNgachTitle.text.toString()){
+                binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
+                binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_checked)
+            }
+            else{
+                binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
+                binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_checked)
+            }
+        }
+    }
 }

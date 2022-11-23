@@ -19,12 +19,15 @@ import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AddNewOrderActivity : BaseActivity() {
+class AddNewProductActivity : BaseActivity() {
     companion object {
         const val ADD_NEW_PRODUCT = "new_product"
+        const val IS_EDIT = "is_edit"
+        const val PRODUCT_EDIT = "product_edit"
     }
+
     private lateinit var appPermissions: AppPermissionsUtils
-    override val viewModel: AddNewOrderViewModel by viewModel()
+    override val viewModel: AddNewProductViewModel by viewModel()
 
     override val binding: ActivityAddNewOrderBinding by lazy {
         ActivityAddNewOrderBinding.inflate(layoutInflater)
@@ -37,6 +40,36 @@ class AddNewOrderActivity : BaseActivity() {
         binding.edtAddNewProductVolume.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtAddNewProductMass.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtAddNewProductNumberOfCarton.setInputType(InputType.TYPE_CLASS_NUMBER)
+        val isEdit = intent.getBooleanExtra(IS_EDIT, false)
+        viewModel.isEdit = isEdit
+        if (isEdit) {
+            val product =
+                intent.getStringExtra(PRODUCT_EDIT)
+                    ?.let { Utils.g().getObjectFromJson(it, Product::class.java) }
+            viewModel.editProduct = product
+            binding.tvUriNewImageProduct.setValueContent(product?.imgUri ?: "")
+            binding.edtAddNewProductDescription.setValueContent(product?.productDes ?: "")
+            binding.edtAddNewProductName.setValueContent(product?.productName ?: "")
+            binding.edtAddNewProductQuantity.setValueContent((product?.quantity ?: 0).toString())
+            binding.tvAddOrderTypeCont.setValueContent(product?.contType ?: "")
+            binding.edtAddNewProductVolume.setValueContent((product?.volume ?: 0).toString())
+            binding.edtAddNewProductMass.setValueContent((product?.mass ?: 0.0).toString())
+            binding.edtAddNewProductNumberOfCarton.setValueContent((product?.numberOfCarton ?: 0).toString())
+            binding.gTvNewProductType.setValueContent(product?.type ?: "0")
+            binding.btnAddNewProduct.text = getString(R.string.str_update)
+        }
+        else{
+            binding.tvUriNewImageProduct.clearContent()
+            binding.edtAddNewProductDescription.clearContent()
+            binding.edtAddNewProductName.clearContent()
+            binding.edtAddNewProductQuantity.clearContent()
+            binding.tvAddOrderTypeCont.clearContent()
+            binding.edtAddNewProductVolume.clearContent()
+            binding.edtAddNewProductMass.clearContent()
+            binding.edtAddNewProductNumberOfCarton.clearContent()
+            binding.gTvNewProductType.clearContent()
+            binding.btnAddNewProduct.text = getString(R.string.str_create_product)
+        }
         appPermissions = AppPermissionsUtils()
         if (!appPermissions.isStorageOk(applicationContext)) {
             appPermissions.requestStoragePermission(this)
@@ -128,8 +161,14 @@ class AddNewOrderActivity : BaseActivity() {
                     contType = typeCont
                 )
             if (checkInvalidData()) {
+                if(viewModel.isEdit){
+                    viewModel.updateProduct(product)
+                }
+                else{
+                    viewModel.insertProduct(product)
+                }
                 val i = Intent()
-                i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
+                // i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
                 setResult(RESULT_OK, i)
                 finish()
             }

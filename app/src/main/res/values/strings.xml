@@ -161,4 +161,8 @@
     <string name="str_cont_type_choose">Chọn loại cont</string>
     <string name="str_new_company">Bạn là công ty mới? Vui lòng thêm thông tin về công ty.</string>
     <string name="str_amount_before_discount_title">Tổng tiền</string>
+    <string name="str_product_empty">Quý khách chưa có sản phẩm nào, vui lòng thêm sản phẩm</string>
+    <string name="str_del_product">Xóa sản phẩm</string>
+    <string name="str_edt_product">Chỉnh sửa sản phẩm</string>
+    <string name="str_update">Cập nhật</string>
 </resources>

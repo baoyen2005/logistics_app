@@ -7,10 +7,12 @@ import com.example.baseapp.BaseActivity
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityConfirmOrderTransportationBinding
+import com.example.bettinalogistics.model.AddedProduct
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.model.UserCompany
 import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
+import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.utils.Utils
 import com.google.gson.reflect.TypeToken
@@ -26,14 +28,14 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
 
         fun startConfirmOrderActivity(
             context: Context,
-            products: List<Product>,
+            product: List<Product>,
             orderAddress: OrderAddress,
             typeTransport: String,
             methodTransport: String,
             userCompany: UserCompany?
         ): Intent {
             val intent = Intent(context, ConfirmOrderTransportationActivity::class.java)
-            intent.putExtra(ORDER_CONFIRM_ACTIVITY, Utils.g().getJsonFromObject(products))
+            intent.putExtra(ORDER_CONFIRM_ACTIVITY, Utils.g().getJsonFromObject(product))
             intent.putExtra(
                 ORDER_ADDRESS_CONFIRM_ACTIVITY,
                 Utils.g().getJsonFromObject(orderAddress)
@@ -58,10 +60,9 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
-        viewModel.productList = Utils.g().provideGson().fromJson(
-            intent.getStringExtra(AddAddressTransactionActivity.NEW_ORDER),
-            object : TypeToken<List<Product?>>() {}.type
-        )
+        viewModel.products  = Utils.g().provideGson()
+            .fromJson(intent.getStringExtra(AddAddressTransactionActivity.NEW_ORDER), object :
+                TypeToken<List<Product>>() {}.type)?:  listOf()
         viewModel.orderAddress = Utils.g().getObjectFromJson(
             intent.getStringExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY).toString(),
             OrderAddress::class.java
@@ -104,7 +105,8 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
             }
             dialog.setCancelListener {
                 //show trang chinh sua hang hoa
-                //startActivity(IntentUtil.buildCallIntent(getString(R.string.str_hotline_phone_number)))
+               // startActivity(IntentUtil.buildCallIntent(getString(R.string.str_hotline_phone_number)))
+                startActivity(Intent(this, OrderActivity::class.java))
             }
             dialog.show(supportFragmentManager, "ConfirmBottomSheetFragment")
         }

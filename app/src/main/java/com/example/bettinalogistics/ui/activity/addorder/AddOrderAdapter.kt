@@ -17,7 +17,7 @@ class AddOrderAdapter : RecyclerView.Adapter<AddOrderAdapter.ViewHolder>() {
     private lateinit var context: Context
     private var productList = ArrayList<Product>()
 
-    var itemExpandOnClick: ((Product?) -> Unit)? = null
+    var itemExpandOnClick: ((Product?, View) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -58,7 +58,9 @@ class AddOrderAdapter : RecyclerView.Adapter<AddOrderAdapter.ViewHolder>() {
 
         init {
             ivAddOrderExpandItem.setOnClickListener {
-                itemExpandOnClick?.invoke(productList[adapterPosition])
+                if(bindingAdapterPosition > -1){
+                    itemExpandOnClick?.invoke(productList[bindingAdapterPosition], ivAddOrderExpandItem)
+                }
             }
         }
 
