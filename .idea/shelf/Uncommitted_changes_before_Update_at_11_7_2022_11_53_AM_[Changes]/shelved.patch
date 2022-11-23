@@ -1,0 +1,29 @@
+Index: app/src/main/java/com/example/bettinalogistics/MapsActivity.kt
+===================================================================
+diff --git a/app/src/main/java/com/example/bettinalogistics/MapsActivity.kt b/app/src/main/java/com/example/bettinalogistics/ui/activity/google_map/MapsActivity.kt
+rename from app/src/main/java/com/example/bettinalogistics/MapsActivity.kt
+rename to app/src/main/java/com/example/bettinalogistics/ui/activity/google_map/MapsActivity.kt
+--- a/app/src/main/java/com/example/bettinalogistics/MapsActivity.kt	
++++ b/app/src/main/java/com/example/bettinalogistics/ui/activity/google_map/MapsActivity.kt	
+@@ -1,4 +1,4 @@
+-package com.example.bettinalogistics
++package com.example.bettinalogistics.ui.activity.google_map
+ 
+ import android.Manifest
+ import android.content.pm.PackageManager
+@@ -6,6 +6,7 @@
+ import androidx.appcompat.app.AppCompatActivity
+ import android.os.Bundle
+ import androidx.core.app.ActivityCompat
++import com.example.bettinalogistics.R
+ 
+ import com.google.android.gms.maps.CameraUpdateFactory
+ import com.google.android.gms.maps.GoogleMap
+@@ -75,7 +76,6 @@
+ 
+         }
+ 
+-
+     }
+ 
+     private fun placeMarkerOnMap(currentLatLong: LatLng) {

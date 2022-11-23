@@ -3,6 +3,7 @@ package com.example.bettinalogistics.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.bettinalogistics.model.Product
 
 @Dao
@@ -12,8 +13,8 @@ interface ProductOrderDao {
 
     // below is the delete method
     // for deleting our note.
-    @Delete
-    suspend fun delete(note: Note)
+    @Query("DELETE FROM MyModel")
+    open fun delete()
 
     // below is the method to read all the notes
     // from our database we have specified the query for it.
