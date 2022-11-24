@@ -12,7 +12,7 @@ interface ProductOrderDao {
     suspend fun insertProduct(product: Product)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAddedProduct(addedProduct: String)
+    suspend fun insertAddedProduct(addedProduct: AddedProduct)
 
     @Query("DELETE FROM AddedProduct")
     suspend fun deleteAllAddedProduct()
@@ -21,20 +21,20 @@ interface ProductOrderDao {
     suspend fun deleteAllProduct()
 
     @Delete
-    suspend fun deleteAddedProduct(addedProduct: String)
+    suspend fun deleteAddedProduct(addedProduct: AddedProduct)
 
     @Delete
     suspend fun deleteProduct(product: Product)
 
     @Query("Select * from AddedProduct order by id ASC")
-    fun getAllAddedProduct(): MutableLiveData<List<AddedProduct>>
+    fun getAllAddedProduct(): LiveData<List<AddedProduct>>
 
     @Query("Select * from Product order by id ASC")
-    fun getAllProduct(): MutableLiveData<List<Product>>
+    fun getAllProduct(): LiveData<List<Product>>
 
     @Update
     suspend fun updateProduct(product: Product)
 
     @Update
-    suspend fun updateAddedProduct(addedProduct: String)
+    suspend fun updateAddedProduct(addedProduct: AddedProduct)
 }

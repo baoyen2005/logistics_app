@@ -1,7 +1,6 @@
 package com.example.bettinalogistics.ui.activity.addorder
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import com.example.baseapp.BaseActivity
@@ -13,8 +12,6 @@ import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransact
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.IS_EDIT
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.PRODUCT_EDIT
-import com.example.bettinalogistics.utils.AppConstant
-import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.Utils
 import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -102,24 +99,7 @@ class OrderActivity : BaseActivity() {
         }
     }
 
-    override fun observeData(){
-        viewModel.addOrderLiveData.observe(this){
-            Log.d(TAG, "observerData: $it")
-            if (it) {
-                hiddenLoading()
-                confirm.newBuild().setNotice(getString(R.string.str_add_order_success))
-                    .addButtonAgree {
-                        finish()
-                    }
-            } else {
-                hiddenLoading()
-                confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
-                    .addButtonAgree {
-                        finish()
-                    }
-            }
-        }
-
+    override fun observeData() {
         viewModel.getAllAddedProductLiveData.observe(this) {
             hiddenLoading()
             if (it.isNullOrEmpty()) {
@@ -129,10 +109,10 @@ class OrderActivity : BaseActivity() {
                 }
             } else {
                 it.let {
-                    it.forEach{
+                    it.forEach {
                         val listProduct: List<Product> = Utils.g().provideGson()
                             .fromJson(it.productList, object :
-                                TypeToken<List<Product>>() {}.type)?:  listOf()
+                                TypeToken<List<Product>>() {}.type) ?: listOf()
                         viewModel.productList.addAll(listProduct)
                     }
                 }
@@ -141,6 +121,7 @@ class OrderActivity : BaseActivity() {
 
         viewModel.getAllProductLiveData.observe(this)
         {
+            hiddenLoading()
             it?.let { viewModel.productList.addAll(it) }
             addOrderAdapter.resetOrderList(viewModel.productList)
         }
@@ -158,7 +139,7 @@ class OrderActivity : BaseActivity() {
                 }
             }
         }
-private var resultLauncherAddAddress =
+    private var resultLauncherAddAddress =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {

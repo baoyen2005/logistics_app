@@ -1,5 +1,8 @@
 package com.example.bettinalogistics.ui.activity.addorder
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
@@ -9,10 +12,8 @@ import com.example.bettinalogistics.data.OrderRepository
 import com.example.bettinalogistics.data.database.ProductDatabase
 import com.example.bettinalogistics.model.AddedProduct
 import com.example.bettinalogistics.model.Product
-import com.example.bettinalogistics.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.Util
 
 class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
     var productList = ArrayList<Product>()
@@ -24,30 +25,30 @@ class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewMod
         addedProductToDbRepo = AddedProductToDbRepo(dao)
     }
 
-    var getAllProductLiveData = MutableLiveData<List<Product>>()
+    var getAllProductLiveData: LiveData<List<Product>> = MutableLiveData()
     fun getAllProduct(){
         val response = addedProductToDbRepo?.getAllProduct()
         response?.let{
+            Log.d(TAG, "getAllAddedProduct: ${it.value?.get(0)?.productName?:"cccccccccc"}")
             getAllProductLiveData = it
         }
     }
 
-    var getAllAddedProductLiveData = MutableLiveData<List<AddedProduct>>()
+    var getAllAddedProductLiveData: LiveData<List<AddedProduct>> = MutableLiveData()
     fun getAllAddedProduct() {
         val response = addedProductToDbRepo?.getAllAddedProduct()
         response?.let{
+            Log.d(TAG, "getAllAddedProduct: ${it.value?.get(0)?.productList?.length?:0}")
             getAllAddedProductLiveData = it
         }
     }
 
     fun updateAddedProduct(addedProduct: AddedProduct) =  viewModelScope.launch (Dispatchers.IO){
-        Utils.g().getJsonFromObject(addedProduct)
-            ?.let { addedProductToDbRepo?.updateAddedProduct(it) }
+        addedProductToDbRepo?.updateAddedProduct(addedProduct)
     }
 
     fun insertAddedProduct(addedProduct: AddedProduct) =  viewModelScope.launch (Dispatchers.IO){
-        Utils.g().getJsonFromObject(addedProduct)
-            ?.let { addedProductToDbRepo?.insertAddedProduct(it) }
+        addedProductToDbRepo?.insertAddedProduct(addedProduct)
     }
 
     fun deleteProduct(product: Product) =  viewModelScope.launch {

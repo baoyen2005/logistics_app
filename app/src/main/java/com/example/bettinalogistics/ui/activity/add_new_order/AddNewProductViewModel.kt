@@ -22,7 +22,7 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     var editProduct: Product? = null
     private var addedProductToDbRepo : AddedProductToDbRepo? = null
 
-    init {
+    fun initDao() {
         val dao = ProductDatabase.getDatabase(Common.currentActivity!!.applicationContext).productOrderDao()
         addedProductToDbRepo = AddedProductToDbRepo(dao)
     }

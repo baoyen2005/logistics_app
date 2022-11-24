@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "Product")
-class Product (
+data class Product (
     var imgUri: String? = null,
     var productName : String ? = null,
     var productDes : String? = null,
