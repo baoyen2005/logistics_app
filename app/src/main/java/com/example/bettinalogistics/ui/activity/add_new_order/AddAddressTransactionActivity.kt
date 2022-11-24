@@ -43,7 +43,7 @@ class AddAddressTransactionActivity : BaseActivity() {
             .fromJson(intent.getStringExtra(NEW_ORDER), object :
                 TypeToken<List<Product>>() {}.type)?:  listOf()
         Log.d(TAG, "initView: order = ${viewModel.products}")
-        viewModel.initDao()
+        viewModel.initDao(this)
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_address_order)
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             finish()

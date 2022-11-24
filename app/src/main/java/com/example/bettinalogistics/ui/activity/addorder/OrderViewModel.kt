@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.ui.activity.addorder
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,8 +21,8 @@ class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewMod
     var addOrderLiveData = MutableLiveData<Boolean>()
     private var addedProductToDbRepo : AddedProductToDbRepo? = null
 
-    fun initDatabase() {
-        val dao = ProductDatabase.getDatabase(Common.currentActivity!!.applicationContext).productOrderDao()
+    fun initDatabase(context: Context) {
+        val dao = ProductDatabase.getDatabase(context.applicationContext).productOrderDao()
         addedProductToDbRepo = AddedProductToDbRepo(dao)
     }
 
@@ -29,7 +30,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewMod
     fun getAllProduct(){
         val response = addedProductToDbRepo?.getAllProduct()
         response?.let{
-            Log.d(TAG, "getAllAddedProduct: ${it.value?.get(0)?.productName?:"cccccccccc"}")
+            Log.d(TAG, "getAllAddedProduct: ${it.value?.size?:"cccccccccc"}")
             getAllProductLiveData = it
         }
     }

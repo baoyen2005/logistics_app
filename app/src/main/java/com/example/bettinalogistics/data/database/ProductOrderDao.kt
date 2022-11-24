@@ -9,10 +9,10 @@ import com.example.bettinalogistics.model.Product
 @Dao
 interface ProductOrderDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertProduct(product: Product)
+    fun insertProduct(product: Product) : Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAddedProduct(addedProduct: AddedProduct)
+    suspend fun insertAddedProduct(addedProduct: AddedProduct):Long
 
     @Query("DELETE FROM AddedProduct")
     suspend fun deleteAllAddedProduct()

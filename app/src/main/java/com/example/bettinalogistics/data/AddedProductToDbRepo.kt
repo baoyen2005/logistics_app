@@ -8,9 +8,9 @@ import com.example.bettinalogistics.model.AddedProduct
 import com.example.bettinalogistics.model.Product
 
 class AddedProductToDbRepo(private val productOrderDao: ProductOrderDao) {
-    suspend fun insertProduct(product: Product) = productOrderDao.insertProduct(product)
+    fun insertProduct(product: Product): Long = productOrderDao.insertProduct(product)
 
-    suspend fun insertAddedProduct(addedProduct: AddedProduct) = productOrderDao.insertAddedProduct(addedProduct)
+    suspend fun insertAddedProduct(addedProduct: AddedProduct):Long = productOrderDao.insertAddedProduct(addedProduct)
 
     suspend fun deleteAllAddedProduct() = productOrderDao.deleteAllAddedProduct()
 

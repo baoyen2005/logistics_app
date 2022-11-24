@@ -30,7 +30,7 @@ class OrderActivity : BaseActivity() {
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.header_product)
         binding.rvOrderList.adapter = addOrderAdapter
         showLoading()
-        viewModel.initDatabase()
+        viewModel.initDatabase(this)
         viewModel.getAllAddedProduct()
     }
 

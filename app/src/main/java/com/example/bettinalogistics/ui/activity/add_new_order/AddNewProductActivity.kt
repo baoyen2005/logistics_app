@@ -34,7 +34,7 @@ class AddNewProductActivity : BaseActivity() {
     }
 
     override fun initView() {
-        viewModel.initDao()
+        viewModel.initDao(this)
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
         binding.headerAddNewOrder.tvHeaderTitle.text = getString(R.string.str_add_new_product)
         binding.edtAddNewProductQuantity.setInputType(InputType.TYPE_CLASS_NUMBER)

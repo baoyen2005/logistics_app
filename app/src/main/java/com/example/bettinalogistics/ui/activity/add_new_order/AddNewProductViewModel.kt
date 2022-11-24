@@ -1,6 +1,8 @@
 package com.example.bettinalogistics.ui.activity.add_new_order
 
-import android.provider.ContactsContract
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
@@ -8,7 +10,10 @@ import com.example.baseapp.di.Common
 import com.example.bettinalogistics.data.AddedProductToDbRepo
 import com.example.bettinalogistics.data.OrderRepository
 import com.example.bettinalogistics.data.database.ProductDatabase
-import com.example.bettinalogistics.model.*
+import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.OrderAddress
+import com.example.bettinalogistics.model.Product
+import com.example.bettinalogistics.model.UserCompany
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,8 +27,9 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     var editProduct: Product? = null
     private var addedProductToDbRepo : AddedProductToDbRepo? = null
 
-    fun initDao() {
-        val dao = ProductDatabase.getDatabase(Common.currentActivity!!.applicationContext).productOrderDao()
+    fun initDao(context: Context) {
+        val dao = ProductDatabase.getDatabase(context.applicationContext)
+            .productOrderDao()
         addedProductToDbRepo = AddedProductToDbRepo(dao)
     }
 
@@ -41,8 +47,9 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
         }
     }
 
-    fun insertProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
-        addedProductToDbRepo?.insertProduct(product)
+    fun insertProduct(product: Product) = viewModelScope.launch (Dispatchers.IO) {
+        val res = addedProductToDbRepo?.insertProduct(product)
+        Log.d(TAG, "insertProduct: $res")
     }
 
     fun updateProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
