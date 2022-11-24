@@ -65,13 +65,13 @@ class AddOrderAdapter : RecyclerView.Adapter<AddOrderAdapter.ViewHolder>() {
         }
 
         fun bind(product: Product) {
-            Glide.with(context).load(Uri.parse(product.imgUri)).into(ivAddOrderImageItem)
+            Glide.with(context).load(product.imgUri).into(ivAddOrderImageItem)
             addOrderNameItem.text = product.productName
             addOrderTypeItem.text =
                 if (product.isOrderLCL) context.getString(R.string.str_order_lcl) else context.getString(
                     R.string.str_order_fcl
                 )
-            if (adapterPosition != productList.size - 1) {
+            if (bindingAdapterPosition != productList.size - 1) {
                 viewDeviceAddOrderItem.visibility = View.VISIBLE
             } else viewDeviceAddOrderItem.visibility = View.GONE
             tvAddOrderQuantityItem.text =

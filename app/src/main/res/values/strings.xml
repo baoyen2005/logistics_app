@@ -165,4 +165,7 @@
     <string name="str_del_product">Xóa sản phẩm</string>
     <string name="str_edt_product">Chỉnh sửa sản phẩm</string>
     <string name="str_update">Cập nhật</string>
+    <string name="str_add_new_product_tocart_fail">Thêm sản phẩm vào giỏ không thành công, vui lòng thao tác lại</string>
+    <string name="str_korea">Hàn Quốc</string>
+    <string name="str_china">Trung Quốc</string>
 </resources>

@@ -34,7 +34,6 @@ class AddNewProductActivity : BaseActivity() {
     }
 
     override fun initView() {
-        viewModel.initDao(this)
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
         binding.headerAddNewOrder.tvHeaderTitle.text = getString(R.string.str_add_new_product)
         binding.edtAddNewProductQuantity.setInputType(InputType.TYPE_CLASS_NUMBER)
@@ -163,21 +162,29 @@ class AddNewProductActivity : BaseActivity() {
                 )
             if (checkInvalidData()) {
                 if(viewModel.isEdit){
-                    viewModel.updateProduct(product)
+                //    viewModel.updateProduct(product)
                 }
                 else{
+                    showLoading()
                     viewModel.insertProduct(product)
                 }
-                val i = Intent()
-                // i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
-                setResult(RESULT_OK, i)
-                finish()
             }
         }
     }
 
     override fun observeData() {
-
+        viewModel.insertProductLiveData.observe(this){
+            hiddenLoading()
+            if(it){
+                val i = Intent()
+                // i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
+                setResult(RESULT_OK, i)
+                finish()
+            }
+            else{
+                confirm.newBuild().setNotice(getString(R.string.str_add_new_product_tocart_fail))
+            }
+        }
     }
 
     private fun checkInvalidData(): Boolean {

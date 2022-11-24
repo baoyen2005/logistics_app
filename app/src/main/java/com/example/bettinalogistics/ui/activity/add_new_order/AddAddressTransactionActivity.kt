@@ -10,7 +10,6 @@ import com.example.baseapp.BaseActivity
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
-import com.example.bettinalogistics.model.AddedProduct
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderTransportationActivity
@@ -43,22 +42,12 @@ class AddAddressTransactionActivity : BaseActivity() {
             .fromJson(intent.getStringExtra(NEW_ORDER), object :
                 TypeToken<List<Product>>() {}.type)?:  listOf()
         Log.d(TAG, "initView: order = ${viewModel.products}")
-        viewModel.initDao(this)
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_address_order)
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             finish()
         }
-        val orderAddress = Utils.g().getDataString(DataConstant.ORDER_ADDRESS)
+        viewModel.orderAddress = Utils.g().getDataString(DataConstant.ORDER_ADDRESS)
             ?.let { Utils.g().getObjectFromJson(it, OrderAddress::class.java) }
-        if (orderAddress != null) {
-            binding.tvOriginAddress.text = orderAddress.address?.originAddress ?: ""
-            binding.edtDetailDestinationAddressInput.visibility = View.GONE
-            binding.edtDetailOriginAddressInput.visibility = View.GONE
-            binding.tvDestinationAddress.text = orderAddress.address?.destinationAddress ?: ""
-        } else {
-            binding.edtDetailDestinationAddressInput.visibility = View.VISIBLE
-            binding.edtDetailOriginAddressInput.visibility = View.VISIBLE
-        }
     }
 
     override fun initListener() {
@@ -134,6 +123,7 @@ class AddAddressTransactionActivity : BaseActivity() {
             if(it != null) {
                 viewModel.userCompany = it
                 val chooseTypeTransportationBottomSheet = ChooseTypeTransportationBottomSheet()
+                chooseTypeTransportationBottomSheet.origin = viewModel.orderAddress?.address?.originAddress?:""
                 chooseTypeTransportationBottomSheet.confirmChooseTypeTransaction = { type, method ->
                     Utils.g().saveDataString(
                         DataConstant.ORDER_ADDRESS,

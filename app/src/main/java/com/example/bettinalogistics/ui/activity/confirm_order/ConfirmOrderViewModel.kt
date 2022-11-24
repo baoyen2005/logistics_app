@@ -8,9 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.data.AddedProductToDbRepo
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.data.database.ProductDatabase
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmUserInfoOrderAdapter.Companion.TYPE_ITEM_USER
@@ -22,6 +20,8 @@ import com.google.maps.android.SphericalUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.UnsupportedEncodingException
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewModel() {
@@ -33,22 +33,6 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     var methodTransport: String? = null
     var userCompany: UserCompany? = null
     var addOrderTransactionLiveData = MutableLiveData<Boolean>()
-    private var addedProductToDbRepo: AddedProductToDbRepo? = null
-
-    init {
-        val dao = ProductDatabase.getDatabase(Common.currentActivity!!.applicationContext)
-            .productOrderDao()
-        addedProductToDbRepo = AddedProductToDbRepo(dao)
-    }
-
-    fun deleteAddedProduct() = viewModelScope.launch(Dispatchers.IO) {
-        addedProductToDbRepo?.deleteAllAddedProduct()
-    }
-
-
-    fun deleteProduct() = viewModelScope.launch(Dispatchers.IO) {
-        addedProductToDbRepo?.deleteAllProduct()
-    }
 
     fun addOrderTransaction(
         amountBeforeDiscount: Double,
@@ -111,7 +95,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
         when {
             typeTransport == context!!.getString(R.string.str_road_transport) &&
                     orderAddress?.address?.originAddress?.lowercase()
-                        ?.contains("Trung Quốc") == true -> {
+                        ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
                 result = calculateDistance(
                     latFrom = orderAddress?.address?.originAddressLat ?: 0.0,
                     lonFrom = orderAddress?.address?.originAddressLon ?: 0.0,
@@ -125,7 +109,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
                     orderAddress?.address?.originAddress?.lowercase()
-                        ?.contains("Hàn Quốc") == true -> {
+                        ?.contains(context.getString(R.string.str_korea).lowercase()) == true -> {
                 result = calculateDistance(
                     latFrom = orderAddress?.address?.originAddressLat ?: 0.0,
                     lonFrom = orderAddress?.address?.originAddressLon ?: 0.0,
@@ -139,7 +123,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
                     orderAddress?.address?.originAddress?.lowercase()
-                        ?.contains("Trung Quốc") == true -> {
+                        ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
                 result = calculateDistance(
                     latFrom = orderAddress?.address?.originAddressLat ?: 0.0,
                     lonFrom = orderAddress?.address?.originAddressLon ?: 0.0,
@@ -163,12 +147,12 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
                     orderAddress?.address?.originAddress?.lowercase()
-                        ?.contains("Trung Quốc") == true -> {
+                        ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
                 return AppConstant.SERVICE_DUONG_BIEN_TRUNG
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
                     orderAddress?.address?.originAddress?.lowercase()
-                        ?.contains("Hàn Quốc") == true -> {
+                        ?.contains(context.getString(R.string.str_korea).lowercase()) == true -> {
                 return AppConstant.SERVICE_DUONG_BIEN_TRUNG
             }
         }
@@ -186,11 +170,17 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
             val latLonDestination = LatLng(latTo, lonTo)
             val distance = SphericalUtil.computeDistanceBetween(latLonOrigin, latLonDestination);
             Log.d(ContentValues.TAG, "calculateDistance: ${distance / 1000} km")
-            return distance / 1000
+            return roundOffDecimal((distance / 1000))
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
         }
         return 0.0
+    }
+
+    private fun roundOffDecimal(number: Double): Double {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(number).toDouble()
     }
 
     private fun getListUserInfoConfirm(

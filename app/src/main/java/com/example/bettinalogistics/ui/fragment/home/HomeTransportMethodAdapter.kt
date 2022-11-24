@@ -42,9 +42,9 @@ class HomeTransportMethodAdapter(var listCommonEntity: List<CommonEntity>) :
             icon = view.findViewById<ImageView>(R.id.ivHomeTransportMethodIconItem)
             title = view.findViewById<TextView>(R.id.tvHomeTransportMethodTitleItem)
             llTransportMethodItem.setOnClickListener {
-                if(adapterPosition != -1)
+                if(bindingAdapterPosition != -1)
                 {
-                    itemTransportMethodListener?.invoke(listCommonEntity[adapterPosition])
+                    itemTransportMethodListener?.invoke(listCommonEntity[bindingAdapterPosition])
                 }
             }
         }

@@ -6,10 +6,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
-import com.example.baseapp.di.Common
-import com.example.bettinalogistics.data.AddedProductToDbRepo
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.data.database.ProductDatabase
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
@@ -25,13 +22,6 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     var orderAddress: OrderAddress?= null
     var isEdit : Boolean = false
     var editProduct: Product? = null
-    private var addedProductToDbRepo : AddedProductToDbRepo? = null
-
-    fun initDao(context: Context) {
-        val dao = ProductDatabase.getDatabase(context.applicationContext)
-            .productOrderDao()
-        addedProductToDbRepo = AddedProductToDbRepo(dao)
-    }
 
     var getUserCompanyInfoLiveData = MutableLiveData<UserCompany?>()
     fun getUserCompanyInfo() = viewModelScope.launch(Dispatchers.IO){
@@ -46,15 +36,16 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
             addCompanyInfoLiveData.postValue(it)
         }
     }
-
+    var insertProductLiveData = MutableLiveData<Boolean>()
     fun insertProduct(product: Product) = viewModelScope.launch (Dispatchers.IO) {
-        val res = addedProductToDbRepo?.insertProduct(product)
-        Log.d(TAG, "insertProduct: $res")
+        orderRepository.addProduct(product){
+            insertProductLiveData.postValue(it)
+        }
     }
 
-    fun updateProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
-        addedProductToDbRepo?.updateProduct(product)
-    }
+//    fun updateProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
+//        addedProductToDbRepo?.updateProduct(product)
+//    }
 
     fun getListContType(): List<CommonEntity>{
         val list = ArrayList<CommonEntity>()

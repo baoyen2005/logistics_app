@@ -21,7 +21,7 @@ class DataConstant {
         const val PRODUCT_MASS = "mass"
         const val PRODUCT_NUMBER_OF_CARTON = "numberOfCarton"
         const val PRODUCT_IS_ORDER_LCL = "isOrderLCL"
-        const val PRODUCT_IMAGE_URL = "urlProductImage"
+        const val PRODUCT_IMAGE_URL = "imgUri"
         const val PRODUCT_TYPE ="productType"
         const val PRODUCT_CONT_TYPE = "productContType"
         //

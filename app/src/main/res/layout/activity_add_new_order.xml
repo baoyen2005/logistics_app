@@ -294,7 +294,6 @@
                 app:gr_text_size="@dimen/_16sp"
                 app:gr_hint_text_color="@color/color_text_8"
                 app:gr_is_enable_edit ="false"
-                app:gr_left_icon ="@drawable/places_ic_search"
                 app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

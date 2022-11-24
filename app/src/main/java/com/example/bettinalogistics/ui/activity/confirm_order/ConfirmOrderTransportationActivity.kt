@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.view.getAmount
+import com.example.baseapp.view.getAmountVND
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityConfirmOrderTransportationBinding
@@ -79,12 +81,12 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         adapter?.reset(viewModel.getListInfoConfirm())
         binding.tvPaymentInlandTruckingAmount.text =
             viewModel.calculateInlandTruckingFee().toString()
-        binding.tvPaymentServiceAmount.text = viewModel.getServiceFee().toString()
+        binding.tvPaymentServiceAmount.text = viewModel.getServiceFee().toString().getAmount()
         binding.tvPaymentInternalTruckingAmount.text =
-            viewModel.calculateInternalTruckingFee().toString()
+            viewModel.calculateInternalTruckingFee().toString().getAmount()
         binding.tvAmountBeforeDiscount.text =
             (viewModel.calculateInlandTruckingFee() + viewModel.getServiceFee() +
-                    viewModel.calculateInternalTruckingFee()).toString()
+                    viewModel.calculateInternalTruckingFee()).toString().getAmount()
         binding.tvPaymentVoucher.text = "0"
         binding.tvInfoPaymentSumFinal.text = binding.tvAmountBeforeDiscount.text
     }

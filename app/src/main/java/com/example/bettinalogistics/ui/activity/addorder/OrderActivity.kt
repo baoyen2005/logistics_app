@@ -30,8 +30,7 @@ class OrderActivity : BaseActivity() {
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.header_product)
         binding.rvOrderList.adapter = addOrderAdapter
         showLoading()
-        viewModel.initDatabase(this)
-        viewModel.getAllAddedProduct()
+        viewModel.getAllProduct()
     }
 
     override fun initListener() {
@@ -63,9 +62,6 @@ class OrderActivity : BaseActivity() {
                     resultLauncher.launch(intent)
                 }
             } else {
-                val addedProduct = AddedProduct(Utils.g().getJsonFromObject(viewModel.productList))
-                viewModel.deleteAllAddedProduct()
-                viewModel.insertAddedProduct(addedProduct)
                 resultLauncherAddAddress.launch(
                     AddAddressTransactionActivity.startAddAddressTransactionActivity(
                         this,
@@ -88,7 +84,7 @@ class OrderActivity : BaseActivity() {
 
                     R.id.action_delete_product -> {
                         if (product != null) {
-                            viewModel.deleteProduct(product)
+//                            viewModel.deleteProduct(product)
                             viewModel.getAllProduct()
                         }
                     }
@@ -100,7 +96,7 @@ class OrderActivity : BaseActivity() {
     }
 
     override fun observeData() {
-        viewModel.getAllAddedProductLiveData.observe(this) {
+        viewModel.getAllProductLiveData.observe(this) {
             hiddenLoading()
             if (it.isNullOrEmpty()) {
                 confirm.newBuild().setNotice(getString(R.string.str_product_empty)).addButtonAgree {
@@ -108,22 +104,10 @@ class OrderActivity : BaseActivity() {
                     resultLauncher.launch(intent)
                 }
             } else {
-                it.let {
-                    it.forEach {
-                        val listProduct: List<Product> = Utils.g().provideGson()
-                            .fromJson(it.productList, object :
-                                TypeToken<List<Product>>() {}.type) ?: listOf()
-                        viewModel.productList.addAll(listProduct)
-                    }
-                }
+                viewModel.productList.clear()
+                viewModel.productList.addAll(it)
+                addOrderAdapter.resetOrderList(viewModel.productList)
             }
-        }
-
-        viewModel.getAllProductLiveData.observe(this)
-        {
-            hiddenLoading()
-            it?.let { viewModel.productList.addAll(it) }
-            addOrderAdapter.resetOrderList(viewModel.productList)
         }
     }
 

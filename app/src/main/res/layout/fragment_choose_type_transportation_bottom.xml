@@ -215,7 +215,7 @@
                 android:layout_marginStart="@dimen/_10dp"
                 android:textColor="@color/merchant_color_4a4a4a"
                 android:textSize="14sp"
-                android:text="@string/str_chinh_ngach"/>
+                android:text="@string/str_tieu_ngach"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentChooseTypeTransportationBottomBinding
@@ -15,8 +16,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
-    var typeTransaction: String? = null
-    var methodTransaction: String? = null
+    private var typeTransaction: String? = null
+    private var methodTransaction: String? = null
+    var origin:String? = null
     var confirmChooseTypeTransaction: ((String, String) -> Unit)? = null
     val binding: FragmentChooseTypeTransportationBottomBinding by lazy {
         FragmentChooseTypeTransportationBottomBinding.inflate(layoutInflater)
@@ -44,12 +46,12 @@ class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initListener() {
-        binding.llChinhNgach.setOnClickListener{
+        binding.llChinhNgach.setOnClickListener {
             binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_checked)
             binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
             methodTransaction = binding.tvChinhNgachTitle.text.toString()
         }
-        binding.llTieuNgach.setOnClickListener{
+        binding.llTieuNgach.setOnClickListener {
             binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_checked)
             binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
             methodTransaction = binding.tvTieuNgachTitle.text.toString()
@@ -83,6 +85,7 @@ class ChooseTypeTransportationBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initView() {
+        binding.linearRoadTransport.isVisible = origin!!.contains( requireContext().getString(R.string.str_korea))
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
