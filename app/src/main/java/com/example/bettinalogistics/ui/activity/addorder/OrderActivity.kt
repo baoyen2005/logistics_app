@@ -6,14 +6,13 @@ import androidx.appcompat.widget.PopupMenu
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityOrderBinding
-import com.example.bettinalogistics.model.AddedProduct
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity
+import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.ADD_NEW_PRODUCT
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.IS_EDIT
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.PRODUCT_EDIT
 import com.example.bettinalogistics.utils.Utils
-import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OrderActivity : BaseActivity() {
@@ -53,8 +52,6 @@ class OrderActivity : BaseActivity() {
             resultLauncher.launch(intent)
         }
         binding.btnOrderContinued.setOnClickListener {
-//            showLoading()
-            //        viewModel.addOrder(order)
             if (viewModel.productList.isNullOrEmpty()) {
                 confirm.newBuild().setNotice(getString(R.string.str_product_empty)).addButtonAgree {
                     intent.putExtra(IS_EDIT, false)
@@ -73,7 +70,7 @@ class OrderActivity : BaseActivity() {
         addOrderAdapter.itemExpandOnClick = { product, view ->
             val popupMenu: PopupMenu = PopupMenu(this, view)
             popupMenu.menuInflater.inflate(R.menu.product_item_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_edit_product -> {
                         val intent = Intent(this, AddNewProductActivity::class.java)
@@ -90,7 +87,7 @@ class OrderActivity : BaseActivity() {
                     }
                 }
                 true
-            })
+            }
             popupMenu.show()
         }
     }
@@ -115,14 +112,16 @@ class OrderActivity : BaseActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-                    showLoading()
-                    viewModel.getAllProduct()
-                    //    val product =  Utils.g().getObjectFromJson(result.data?.getStringExtra(ADD_NEW_PRODUCT).toString(),Product::class.java)
-//                    product?.let { viewModel.productList.add(it) }
-//                    addOrderAdapter.resetOrderList(viewModel.productList)
+                    val product = Utils.g().getObjectFromJson(
+                        result.data?.getStringExtra(ADD_NEW_PRODUCT).toString(),
+                        Product::class.java
+                    )
+                    product?.let { viewModel.productList.add(it) }
+                    addOrderAdapter.resetOrderList(viewModel.productList)
                 }
             }
         }
+
     private var resultLauncherAddAddress =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {

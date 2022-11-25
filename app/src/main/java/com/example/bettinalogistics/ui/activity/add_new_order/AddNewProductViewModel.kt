@@ -7,10 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.model.CommonEntity
-import com.example.bettinalogistics.model.OrderAddress
-import com.example.bettinalogistics.model.Product
-import com.example.bettinalogistics.model.UserCompany
+import com.example.bettinalogistics.model.*
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,6 +20,11 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     var orderAddress: OrderAddress?= null
     var isEdit : Boolean = false
     var editProduct: Product? = null
+    var latLonOriginAddress: LatLng? = null
+    var latLonDestinationAddress: LatLng? = null
+    var distance: String? = null
+    var typeTransaction: String? = null
+    var methodTransaction: String? = null
 
     var getUserCompanyInfoLiveData = MutableLiveData<UserCompany?>()
     fun getUserCompanyInfo() = viewModelScope.launch(Dispatchers.IO){

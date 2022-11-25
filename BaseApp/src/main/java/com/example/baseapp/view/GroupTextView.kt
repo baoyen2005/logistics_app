@@ -323,7 +323,10 @@ class GroupTextView: LinearLayout{
     private fun initView() {
         binding.edtContent.hint = hintText ?: ""
         binding.edtContent.typeface = hintFont
-        binding.tvTitle.text = title ?: ""
+        if(!title.isNullOrEmpty()){
+            binding.tvTitle.isVisible = true
+            binding.tvTitle.text = title ?: ""
+        }
         if (contentTextSize != 0f) {
             binding.edtContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, contentTextSize)
         }

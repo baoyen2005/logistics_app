@@ -155,7 +155,7 @@
     <string name="str_payment_inland_trucking_amount">Tiền vận chuyển nội địa\n(2 chiều)</string>
     <string name="str_payment_service">Tiền dịch vụ \n(Bao gồm: các cước phí,\nthủ tục thông quan,..)</string>
     <string name="str_payment_internal_trucking">Phí vận chuyển quốc tế</string>
-    <string name="str_choose_address_again">Địa điểm không tồn tại, vui lòng chọn lại địa điểm</string>
+    <string name="str_choose_address_again">Địa điểm không chính xác, vui lòng nhập lại địa điểm</string>
     <string name="str_product_type">Chọn loại hàng hóa</string>
     <string name="str_product_image_choose">Chọn ảnh hàng hóa</string>
     <string name="str_cont_type_choose">Chọn loại cont</string>
@@ -168,4 +168,6 @@
     <string name="str_add_new_product_tocart_fail">Thêm sản phẩm vào giỏ không thành công, vui lòng thao tác lại</string>
     <string name="str_korea">Hàn Quốc</string>
     <string name="str_china">Trung Quốc</string>
+    <string name="str_infomation_transaction">Thông tin vận chuyển</string>
+    <string name="str_infor_order">Thông tin đơn hàng</string>
 </resources>

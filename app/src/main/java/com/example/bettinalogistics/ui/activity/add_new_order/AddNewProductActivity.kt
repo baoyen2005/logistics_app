@@ -177,7 +177,7 @@ class AddNewProductActivity : BaseActivity() {
             hiddenLoading()
             if(it){
                 val i = Intent()
-                // i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
+                i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
                 setResult(RESULT_OK, i)
                 finish()
             }

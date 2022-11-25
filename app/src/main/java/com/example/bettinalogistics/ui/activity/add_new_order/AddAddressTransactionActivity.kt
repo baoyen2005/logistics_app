@@ -3,10 +3,14 @@ package com.example.bettinalogistics.ui.activity.add_new_order
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.view.removeAccentNormalize
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
@@ -18,8 +22,12 @@ import com.example.bettinalogistics.ui.fragment.bottom_sheet.ChooseTypeTransport
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.IOException
 
 class AddAddressTransactionActivity : BaseActivity() {
     companion object{
@@ -42,31 +50,93 @@ class AddAddressTransactionActivity : BaseActivity() {
             .fromJson(intent.getStringExtra(NEW_ORDER), object :
                 TypeToken<List<Product>>() {}.type)?:  listOf()
         Log.d(TAG, "initView: order = ${viewModel.products}")
-        binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_address_order)
+        binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_infor_order)
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             finish()
         }
         viewModel.orderAddress = Utils.g().getDataString(DataConstant.ORDER_ADDRESS)
             ?.let { Utils.g().getObjectFromJson(it, OrderAddress::class.java) }
+        viewModel.typeTransaction = Utils.g().getDataString(DataConstant.ORDER_TRANSPORT_TYPE)
+        viewModel.methodTransaction = Utils.g().getDataString(DataConstant.ORDER_TRANSPORT_METHOD)
+        if(!viewModel.orderAddress.isNullOrEmpty())
+        binding.linearRoadTransport.isVisible = binding.edtOriginSearch.getContentText().contains(getString(R.string.str_korea))
     }
 
     override fun initListener() {
-        binding.tvChooseOriginAddress.setSafeOnClickListener {
-            resultLauncher.launch(Intent(this, GoogleMapActivity::class.java))
-            binding.edtDetailDestinationAddressInput.visibility = View.VISIBLE
-            binding.edtDetailOriginAddressInput.visibility = View.VISIBLE
-        }
         binding.btnAddAddressContinued.setSafeOnClickListener {
             if (checkValidate()) {
                 showLoading()
-                viewModel.orderAddress?.address?.originAddress =
-                    binding.edtDetailOriginAddressInput.getContentText() + " " +
-                            binding.tvOriginAddress.text.toString()
-                viewModel.orderAddress?.address?.destinationAddress =
-                    binding.edtDetailDestinationAddressInput.getContentText() + " " +
-                            binding.tvDestinationAddress.text.toString()
+                setUpOriginLatLon()
+                setUpDestinationLatLon()
+                viewModel.orderAddress?.originAddress =
+                    binding.edtOriginSearch.getContentText()
+                viewModel.orderAddress?.destinationAddress =?
+                        +
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        .
+                    binding.edtDestinationSearch.getContentText()
                 viewModel.getUserCompanyInfo()
             }
+        }
+        binding.llChinhNgach.setOnClickListener {
+            binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_checked)
+            binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
+            viewModel.methodTransaction = binding.tvChinhNgachTitle.text.toString()
+        }
+        binding.llTieuNgach.setOnClickListener {
+            binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_checked)
+            binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
+            viewModel.methodTransaction = binding.tvTieuNgachTitle.text.toString()
+        }
+        binding.linearRoadTransport.setOnClickListener {
+            binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
+            binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
+            viewModel.typeTransaction = getString(R.string.str_road_transport)
+        }
+        binding.linearSeaTransport.setOnClickListener {
+            binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
+            binding.linearRoadTransport.setBackgroundResource(R.drawable.shape_bg_fffff_corner_12)
+            viewModel.typeTransaction = getString(R.string.str_sea_transport)
         }
     }
 
@@ -74,79 +144,64 @@ class AddAddressTransactionActivity : BaseActivity() {
         var view: View? = null
         var flag = false
         when {
-            binding.tvOriginAddress.text.isNullOrEmpty() -> {
-                binding.tvOriginAddress.error = getString(R.string.invalid_field)
-                view = binding.tvOriginAddress
+            binding.edtOriginSearch.getContentText().isEmpty() -> {
+                binding.edtOriginSearch.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtOriginSearch
                 flag = true
             }
-            binding.edtDetailOriginAddressInput.getContentText().isEmpty() -> {
-                binding.edtDetailOriginAddressInput.setVisibleMessageError(getString(R.string.invalid_field))
-                view = binding.edtDetailOriginAddressInput
+            binding.edtDestinationSearch.getContentText().isEmpty() -> {
+                binding.edtDestinationSearch.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtDestinationSearch
                 flag = true
             }
-            binding.tvDestinationAddress.text.isNullOrEmpty() -> {
-                binding.tvDestinationAddress.error = getString(R.string.invalid_field)
-                view = binding.tvDestinationAddress
+            viewModel.typeTransaction.isNullOrEmpty() ->{
+                binding.tvErrorTypeTransaction.visibility = View.VISIBLE
+                binding.tvErrorTypeTransaction.text = getString(R.string.tr_choose_type_transportation)
                 flag = true
+                view = binding.tvErrorTypeTransaction
             }
-            binding.edtDetailDestinationAddressInput.getContentText().isEmpty() -> {
-                binding.edtDetailDestinationAddressInput.setVisibleMessageError(getString(R.string.invalid_field))
-                view = binding.edtDetailDestinationAddressInput
+            viewModel.methodTransaction.isNullOrEmpty() ->{
+                binding.tvErrorMethodTransaction.visibility = View.VISIBLE
+                binding.tvErrorMethodTransaction.text = getString(R.string.tr_choose_method_transportation)
                 flag = true
+                view = binding.tvErrorMethodTransaction
             }
         }
         return if (flag) {
             view?.requestFocus()
             false
-        } else
+        } else {
+            binding.tvErrorTypeTransaction.visibility = View.GONE
+            binding.tvErrorMethodTransaction.visibility = View.GONE
             true
+        }
     }
 
-    private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when (result.resultCode) {
-                RESULT_OK -> {
-                    val orderAddress = Utils.g().getObjectFromJson(
-                        result.data?.getStringExtra(
-                            NEW_ADDRESS_ORDER
-                        ).toString(), OrderAddress::class.java
-                    )
-                    viewModel.orderAddress = orderAddress
-                    binding.tvOriginAddress.text = orderAddress?.address?.originAddress ?: ""
-                    binding.tvDestinationAddress.text = orderAddress?.address?.destinationAddress?:""
-                }
-            }
-        }
     override fun observeData() {
         viewModel.getUserCompanyInfoLiveData.observe(this){
             hiddenLoading()
             if(it != null) {
                 viewModel.userCompany = it
-                val chooseTypeTransportationBottomSheet = ChooseTypeTransportationBottomSheet()
-                chooseTypeTransportationBottomSheet.origin = viewModel.orderAddress?.address?.originAddress?:""
-                chooseTypeTransportationBottomSheet.confirmChooseTypeTransaction = { type, method ->
-                    Utils.g().saveDataString(
-                        DataConstant.ORDER_ADDRESS,
-                        Utils.g().getJsonFromObject(viewModel.orderAddress)
-                    )
-                    Utils.g().saveDataString(DataConstant.ORDER_TRANSPORT_TYPE, type)
-                    Utils.g().saveDataString(DataConstant.ORDER_TRANSPORT_METHOD, method)
-                    startActivity(
-                        viewModel.products?.let { producs ->
-                            viewModel.orderAddress?.let { orderAddress ->
-                                ConfirmOrderTransportationActivity.startConfirmOrderActivity(
-                                    context = this,
-                                    product = producs,
-                                    orderAddress = orderAddress,
-                                    typeTransport = type,
-                                    methodTransport = method,
-                                    userCompany = it
-                                )
-                            }
+                Utils.g().saveDataString(
+                    DataConstant.ORDER_ADDRESS,
+                    Utils.g().getJsonFromObject(viewModel.orderAddress)
+                )
+                Utils.g().saveDataString(DataConstant.ORDER_TRANSPORT_TYPE, viewModel.typeTransaction)
+                Utils.g().saveDataString(DataConstant.ORDER_TRANSPORT_METHOD, viewModel.methodTransaction)
+                startActivity(
+                    viewModel.products?.let { producs ->
+                        viewModel.orderAddress?.let { orderAddress ->
+                            ConfirmOrderTransportationActivity.startConfirmOrderActivity(
+                                context = this,
+                                product = producs,
+                                orderAddress = orderAddress,
+                                typeTransport = viewModel.typeTransaction?:"",
+                                methodTransport = viewModel.methodTransaction?:"",
+                                userCompany = it
+                            )
                         }
-                    )
-                }
-                chooseTypeTransportationBottomSheet.show(supportFragmentManager, "sssssss")
+                    }
+                )
             } else {
                 confirm.newBuild().setNotice(getString(R.string.str_new_company))
                     .addButtonAgree {
@@ -168,4 +223,40 @@ class AddAddressTransactionActivity : BaseActivity() {
         }
     }
 
+    private fun setUpOriginLatLon() {
+        val locationOrigin = binding.edtOriginSearch.getContentText().removeAccentNormalize()
+        var addressList: List<Address>? = null;
+        if (locationOrigin.isNotEmpty()) {
+            val geocoder = Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(locationOrigin, 1);
+            } catch (e: IOException) {
+                e.printStackTrace();
+            }
+            val address = addressList?.get(0);
+            val latLng = address?.let { LatLng(it.latitude, it.longitude) };
+            viewModel.latLonOriginAddress = latLng
+        }
+    }
+
+    private fun setUpDestinationLatLon() {
+        val locationDestination = binding.edtDestinationSearch.getContentText().removeAccentNormalize()
+        var addressList: List<Address>? = null;
+        if (locationDestination.isNotEmpty()) {
+            val geocoder = Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(locationDestination, 1);
+            } catch (e: IOException) {
+                e.printStackTrace();
+            }
+            val address = addressList?.get(0);
+            if(address == null){
+                confirm.setNotice(getString(R.string.str_choose_address_again))
+            }
+            else{
+                val latLng = address.let { LatLng(it.latitude, it.longitude) };
+                viewModel.latLonDestinationAddress = latLng
+            }
+        }
+    }
 }
