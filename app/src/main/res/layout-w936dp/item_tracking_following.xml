@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/_10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/merchant_color_f2f6fa"
+        >
+
+        <com.example.baseapp.view.Textview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_16sp"
+            android:paddingVertical="@dimen/_10dp"
+            android:fontFamily="@font/ssp_bold"
+            android:textColor="@color/merchant_color_4a4a4a"
+            tool:text ="12/2/2022"/>
+
+        <com.example.baseapp.view.Textview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textSize="@dimen/_16sp"
+            android:fontFamily="@font/ssp_regular"
+            tool:text ="12/2/2022"
+            android:textColor="@color/merchant_color_4a4a4a"/>
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/ivOrderImageItem"
+            android:layout_width="@dimen/_80dp"
+            android:layout_height="@dimen/_80dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:orientation="vertical">
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvOrderNameConfirmItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="@dimen/_14sp"
+                android:layout_marginTop="@dimen/_8dp"
+                app:cusfont="SemiBold"
+                tool:text="yene" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvOrderTypeTransactionConfirmItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/merchant_color_737378"
+                android:textSize="@dimen/_14sp"
+                android:layout_marginTop="@dimen/_8dp"
+                app:cusfont="Regular"
+                tool:text="aaaaaaaaaa" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvOrderMethodTransactionConfirmItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/merchant_color_737378"
+                android:textSize="@dimen/_14sp"
+                android:layout_marginTop="@dimen/_8dp"
+                app:cusfont="Regular"
+                tool:text="aaaaaaaaaa" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvOrderStatusTransactionConfirmItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:textColor="@color/merchant_color_737378"
+                    android:textSize="@dimen/_14sp"
+                    app:cusfont="Regular"
+                    tool:text="aaaaaaaaaa"
+                    android:layout_alignParentStart="true"
+                    />
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvOrderQuantityTransactionConfirmItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:textColor="@color/merchant_color_737378"
+                    android:textSize="@dimen/_14sp"
+                    app:cusfont="Regular"
+                    tool:text="aaaaaaaaaa"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:id="@+id/tvOrderNoteConfirmItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tool:text = "ssssssssss"
+        android:layout_marginTop="@dimen/_15dp"
+        android:textColor="@color/merchant_color_ea5b5b"
+        android:fontFamily="@font/ssp_bold"
+        android:textSize="@dimen/_14sp"/>
+</LinearLayout>

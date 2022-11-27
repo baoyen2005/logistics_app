@@ -52,6 +52,11 @@ class CommonEntity {
         return this
     }
 
+    fun setTitle(title: String): CommonEntity {
+        this.title = title
+        return this
+    }
+
     fun setRefundAmountString(amount : String) : CommonEntity{
         refundAmount = amount
         return this

@@ -15,7 +15,6 @@ import com.example.baseapp.view.removeAccentNormalize
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityGoogleMapBinding
-import com.example.bettinalogistics.model.AddressData
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
 import com.example.bettinalogistics.utils.AppConstant
@@ -30,10 +29,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
@@ -62,7 +58,7 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun initListener() {
         binding.btnFindPath.setSafeOnClickListener {
             if (checkValidate()) {
-                val addressData = AddressData(
+                val addressData = OrderAddress(
                     originAddress = binding.edtOriginSearch.getContentText(),
                     originAddressLat = viewModel.latLonOriginAddress?.latitude,
                     originAddressLon = viewModel.latLonOriginAddress?.longitude,
@@ -151,7 +147,7 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
             val address = addressList?.get(0);
             if(address == null){
-                confirm.setNotice(getString(R.string.str_choose_address_again))
+                confirm.setNotice(getString(R.string.str_choose_destination_address_again))
             }
            else{
                 val latLng = address.let { LatLng(it.latitude, it.longitude) };
@@ -182,7 +178,7 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         viewModel.calculateDistanceLiveData.observe(this) {
             if(it != null){
                 viewModel.distance = it
-                val addressData = AddressData(
+                val addressData = OrderAddress(
                     originAddress = binding.edtOriginSearch.getContentText(),
                     originAddressLat = viewModel.latLonOriginAddress?.latitude,
                     originAddressLon = viewModel.latLonOriginAddress?.longitude,
@@ -190,9 +186,10 @@ class GoogleMapActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     destinationLat = viewModel.latLonDestinationAddress?.latitude,
                     destinationLon = viewModel.latLonDestinationAddress?.longitude
                 )
-                val orderAddress = OrderAddress(addressData, it)
                 val i = Intent()
-                i.putExtra(AddAddressTransactionActivity.NEW_ADDRESS_ORDER, Utils.g().getJsonFromObject(orderAddress))
+                i.putExtra(AddAddressTransactionActivity.NEW_ADDRESS_ORDER, Utils.g().getJsonFromObject(
+                    addressData
+                ))
                 setResult(RESULT_OK, i)
                 finish()
             }

@@ -11,9 +11,10 @@ import com.example.baseapp.view.Textview
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.TypeCommonEntity
 
 class CommonChooseOneItemAdapter(
-    val listener: (CommonEntity) -> Unit
+    val listener: (TypeCommonEntity) -> Unit
 ) :
     BaseRclvAdapter(), Filterable {
     private val listFilter = mutableListOf<CommonContactVHData>()
@@ -34,7 +35,7 @@ class CommonChooseOneItemAdapter(
         return listFilter[position]
     }
 
-    fun setData(dataList: List<CommonEntity>) {
+    fun setData(dataList: List<Any>) {
         val datas = mutableListOf<CommonContactVHData>()
         dataList.forEachIndexed {index, data->
             datas.add(CommonContactVHData(data))
@@ -52,14 +53,14 @@ class CommonChooseOneItemAdapter(
                 if (position > -1){
                     val data = listFilter[position]
                     data.realData?.let {
-                        listener.invoke(it as CommonEntity)
+                        listener.invoke(it as TypeCommonEntity)
                     }
                 }
             }
         }
 
         override fun onBind(data: CommonContactVHData) {
-            tvInformation.text = (data.realData as CommonEntity?)?.title?: ""
+            tvInformation.text = (data.realData as TypeCommonEntity?)?.title?: ""
         }
     }
 
@@ -83,7 +84,7 @@ class CommonChooseOneItemAdapter(
                     mDataSet.forEach { data ->
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (data is CommonContactVHData && (normalization((data.realData as CommonEntity).title).contains(key))) {
+                        if (data is CommonContactVHData && (normalization((data.realData as TypeCommonEntity).title).contains(key))) {
                             filteredList.add(data)
                         }
                     }

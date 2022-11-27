@@ -155,7 +155,8 @@
     <string name="str_payment_inland_trucking_amount">Tiền vận chuyển nội địa\n(2 chiều)</string>
     <string name="str_payment_service">Tiền dịch vụ \n(Bao gồm: các cước phí,\nthủ tục thông quan,..)</string>
     <string name="str_payment_internal_trucking">Phí vận chuyển quốc tế</string>
-    <string name="str_choose_address_again">Địa điểm không chính xác, vui lòng nhập lại địa điểm</string>
+    <string name="str_choose_origin_address_again">Địa điểm gửi hàng không chính xác, vui lòng nhập lại địa điểm</string>
+    <string name="str_choose_destination_address_again">Địa điểm nhận hàng không chính xác, vui lòng nhập lại địa điểm</string>
     <string name="str_product_type">Chọn loại hàng hóa</string>
     <string name="str_product_image_choose">Chọn ảnh hàng hóa</string>
     <string name="str_cont_type_choose">Chọn loại cont</string>
@@ -170,4 +171,12 @@
     <string name="str_china">Trung Quốc</string>
     <string name="str_infomation_transaction">Thông tin vận chuyển</string>
     <string name="str_infor_order">Thông tin đơn hàng</string>
+    <string name="str_user_info">Thông tin nhận hàng</string>
+    <string name="str_product_info">Thông tin sản phẩm</string>
+    <string name="str_confirm_infor">Xác nhận thông tin đặt hàng</string>
+    <string name="str_delete_success">Xóa sản phẩm thành công</string>
+    <string name="str_delete_fail">Xóa sản phẩm không thành công, mời bạn thử lại</string>
+    <string name="str_update_product_faid">Cập nhật sản phẩm không thành công, vui lòng thao tác lại</string>
+    <string name="str_tracking">Theo dõi đơn hàng</string>
+    <string name="str_search_tracking">Nhập tên hoặc mã đơn hàng để tìm kiếm</string>
 </resources>

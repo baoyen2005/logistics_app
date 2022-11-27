@@ -1,23 +1,29 @@
 package com.example.baseapp
 
+import android.R
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.example.baseapp.di.Common
 import com.example.baseapp.dialog.BaseDialog
 import com.example.baseapp.dialog.ConfirmDialog
 import com.example.baseapp.dialog.LoadingDialog
+import com.example.baseapp.dialog.LoadingDialogVn
 import org.koin.android.ext.android.inject
+
 
 abstract class BaseActivity :
     AppCompatActivity() {
     val confirm by inject<ConfirmDialog>()
+    val loading by inject<LoadingDialogVn>()
     protected open val binding: ViewBinding? = null
     abstract val viewModel: BaseViewModel
 
@@ -36,11 +42,11 @@ abstract class BaseActivity :
     abstract fun observeData()
 
     fun showLoading() {
-        LoadingDialog.getInstance(this)?.show()
+        loading.show()
     }
 
     fun hiddenLoading() {
-        LoadingDialog.getInstance(this)?.hidden()
+        loading.dismiss()
     }
 
     fun showToast(message: String){

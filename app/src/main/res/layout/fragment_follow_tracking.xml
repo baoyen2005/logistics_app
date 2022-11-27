@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.followtrask.FollowTrackingFragment">
+
+    <LinearLayout
+        android:id="@+id/linearNotificationTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/layoutFollowTrackHeader"
+            layout="@layout/layout_header"/>
+
+        <com.example.baseapp.view.GroupTextView
+            android:id="@+id/edtFollowTrackingSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            app:gr_hint="@string/str_search_tracking"
+            app:gr_left_icon="@drawable/places_ic_search"
+            app:gr_hint_text_color="@color/color_text_8"
+            app:gr_is_show_clear_text="true"
+            app:gr_text_color="@color/black"
+            app:gr_text_size="@dimen/_16sp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTabTracking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFollowTrackOrder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:background="@drawable/bg_gray_color_corner_12"
+        android:layout_marginTop="@dimen/_20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearNotificationTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

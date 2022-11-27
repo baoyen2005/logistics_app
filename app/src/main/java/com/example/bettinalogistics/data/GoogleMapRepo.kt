@@ -4,7 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.model.AddressData
+import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Result
 import com.example.bettinalogistics.network.RetrofitApi
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -15,11 +15,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface GoogleMapRepo {
-    suspend fun calculateDistance(orderAddress: AddressData,onComplete: ((String?) ->Unit)?)
+    suspend fun calculateDistance(orderAddress: OrderAddress,onComplete: ((String?) ->Unit)?)
 }
 
 class GoogleMapRepoImpl : GoogleMapRepo{
-    override suspend fun calculateDistance(orderAddress: AddressData, onComplete: ((String?) ->Unit)?) {
+    override suspend fun calculateDistance(orderAddress: OrderAddress, onComplete: ((String?) ->Unit)?) {
         val BASE_URL = "https://maps.googleapis.com/"
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())

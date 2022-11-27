@@ -19,6 +19,25 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="CircleProgressBar">
+        <attr name="inner_radius" format="dimension" />
+        <attr name="background_color" format="color" />
+        <attr name="progress_color" format="color" />
+        <attr name="progress_stoke_width" format="dimension" />
+        <attr name="show_arrow" format="boolean" />
+        <attr name="enable_circle_background" format="boolean" />
+        <attr name="arrow_width" format="dimension" />
+        <attr name="arrow_height" format="dimension" />
+        <attr name="progress" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="progress_text_size" format="dimension" />
+        <attr name="progress_text_color" format="color" />
+        <attr name="progress_text_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+
     <style name="HintTextAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/color_text_8</item>
         <item name="android:textSize">@dimen/_12sp</item>

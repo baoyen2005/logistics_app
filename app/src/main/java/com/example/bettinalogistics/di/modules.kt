@@ -12,6 +12,7 @@ import com.example.bettinalogistics.ui.activity.login.LoginViewModel
 import com.example.bettinalogistics.ui.activity.main.MainViewModel
 import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
 import com.example.bettinalogistics.ui.activity.splash.SplashViewModel
+import com.example.bettinalogistics.ui.fragment.followtrask.FollowTrackingViewModel
 import com.example.bettinalogistics.ui.fragment.home.HomeViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -43,6 +44,9 @@ val models = module {
     }
     viewModel {
         ConfirmOrderViewModel(get())
+    }
+    viewModel {
+        FollowTrackingViewModel()
     }
 }
 

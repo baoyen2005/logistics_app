@@ -14,11 +14,19 @@ import kotlinx.coroutines.launch
 
 class OrderViewModel(private val orderRepository: OrderRepository) : BaseViewModel() {
     var productList = ArrayList<Product>()
-
+    var isEdit = false
+    var beforeEditProductPosition : Int = -1
     var getAllProductLiveData = MutableLiveData<List<Product>>()
     fun getAllProduct() = viewModelScope.launch(Dispatchers.IO) {
         orderRepository.getAllProduct {
             getAllProductLiveData.postValue(it)
+        }
+    }
+
+    var deleteProductLiveData = MutableLiveData<Boolean>()
+    fun deleteProduct(product: Product) = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.deleteProduct(product) {
+            deleteProductLiveData.postValue(it)
         }
     }
 }

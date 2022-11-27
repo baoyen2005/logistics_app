@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import com.bumptech.glide.Glide
 import com.example.baseapp.BaseRclvAdapter
 import com.example.baseapp.BaseRclvVH
 import com.example.bettinalogistics.R
@@ -24,16 +25,16 @@ class ConfirmUserInfoOrderAdapter : BaseRclvAdapter() {
         when (viewType) {
             TYPE_HEADER -> R.layout.item_order_confirm_header
             TYPE_LINE -> R.layout.item_order_confirm_line
-            TYPE_ITEM_ORDER -> R.layout.item_order_info_confirm
-            else -> R.layout.item_user_info_confirm
+            TYPE_ITEM_USER -> R.layout.item_user_info_confirm
+            else -> R.layout.item_order_info_confirm
         }
 
     override fun onCreateVH(itemView: View, viewType: Int): BaseRclvVH<*> =
         when (viewType) {
             TYPE_HEADER -> HeaderViewHolder(itemView)
-            TYPE_ITEM_ORDER -> OrderInforConfirmViewHolder(itemView)
+            TYPE_LINE -> LineViewHolder(itemView)
             TYPE_ITEM_USER -> UserInforConfirmViewHolder(itemView)
-            else -> LineViewHolder(itemView)
+            else -> OrderInforConfirmViewHolder(itemView)
         }
 
     override fun getItemViewType(position: Int): Int {
@@ -54,7 +55,7 @@ class ConfirmUserInfoOrderAdapter : BaseRclvAdapter() {
         private val tvOrderStatusTransactionConfirmItem: TextView = itemView.findViewById(R.id.tvOrderStatusTransactionConfirmItem)
 
         override fun onBind(data: ConfirmOrder) {
-            ivOrderImageItem.setImageURI(Uri.parse(data.product?.imgUri?:""))
+            Glide.with(itemView.context).load(data.product?.imgUri?:"").into(ivOrderImageItem)
             tvOrderNameConfirmItem.text = data.product?.productName?:""
             tvOrderTypeTransactionConfirmItem.text = data.transportType?:""
             tvOrderMethodTransactionConfirmItem.text = data.transportMethod?:""

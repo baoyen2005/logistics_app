@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.data.GoogleMapRepo
-import com.example.bettinalogistics.model.AddressData
+import com.example.bettinalogistics.model.OrderAddress
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.DirectionsApi
 import com.google.maps.DirectionsApiRequest
@@ -21,9 +21,9 @@ class GoogleMapViewmodel(val googleMapRepo: GoogleMapRepo) : BaseViewModel() {
     var latLonOriginAddress: LatLng? = null
     var latLonDestinationAddress: LatLng? = null
     var distance: String? = null
-    var addressData: AddressData? = null
+    var addressData: OrderAddress? = null
     var calculateDistanceLiveData = MutableLiveData<String?>()
-    fun calculateDistance(orderAddress: AddressData) = viewModelScope.launch(Dispatchers.IO) {
+    fun calculateDistance(orderAddress: OrderAddress) = viewModelScope.launch(Dispatchers.IO) {
         googleMapRepo.calculateDistance(orderAddress) {
            if(!it.isNullOrEmpty()){
                calculateDistanceLiveData.postValue(it)

@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.ui.activity.main
 
 import android.content.Intent
+import androidx.viewpager2.widget.ViewPager2
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityMainBinding
@@ -101,6 +102,25 @@ class MainActivity : BaseActivity() {
     private fun setupViewPager() {
         val adapter = MainViewPagerAdapter(this, 4)
         binding.viewPagerMain.adapter = adapter
+        binding.viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                        setFirstFragmentItem()
+                    }
+                    1 -> {
+                        setSecondFragmentItem()
+                    }
+                    2 -> {
+                        setThirdFragmentItem()
+                    }
+                    else -> {
+                        setFourthFragmentItem()
+                    }
+                }
+                super.onPageSelected(position)
+            }
+        })
         when(binding.viewPagerMain.currentItem){
             0 -> {
                 setFirstFragmentItem()
@@ -152,8 +172,6 @@ class MainActivity : BaseActivity() {
     override fun onBackPressed() {
         val viewPager = binding.viewPagerMain
         if (viewPager.currentItem == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed()
         } else {
             // Otherwise, select the previous step.

@@ -14,14 +14,15 @@ import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.DialogServiceContactBinding
 import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.TypeCommonEntity
 import com.example.bettinalogistics.ui.common_adapter.CommonChooseOneItemAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class DialogCommonChooseOneItem(
-    val dataList: List<CommonEntity>,
-    val listener: (CommonEntity) -> Unit
+    val dataList: List<TypeCommonEntity>,
+    val listener: (TypeCommonEntity) -> Unit
 ) : BottomSheetDialogFragment() {
 
     val binding : DialogServiceContactBinding by lazy {

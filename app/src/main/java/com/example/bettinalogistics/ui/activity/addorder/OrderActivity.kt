@@ -52,7 +52,7 @@ class OrderActivity : BaseActivity() {
             resultLauncher.launch(intent)
         }
         binding.btnOrderContinued.setOnClickListener {
-            if (viewModel.productList.isNullOrEmpty()) {
+            if (viewModel.productList.isEmpty()) {
                 confirm.newBuild().setNotice(getString(R.string.str_product_empty)).addButtonAgree {
                     intent.putExtra(IS_EDIT, false)
                     val intent = Intent(this, AddNewProductActivity::class.java)
@@ -67,12 +67,14 @@ class OrderActivity : BaseActivity() {
                 )
             }
         }
-        addOrderAdapter.itemExpandOnClick = { product, view ->
+        addOrderAdapter.itemExpandOnClick = { product, position, view ->
             val popupMenu: PopupMenu = PopupMenu(this, view)
             popupMenu.menuInflater.inflate(R.menu.product_item_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_edit_product -> {
+                        viewModel.isEdit = true
+                        viewModel.beforeEditProductPosition = position
                         val intent = Intent(this, AddNewProductActivity::class.java)
                         intent.putExtra(IS_EDIT, true)
                         intent.putExtra(PRODUCT_EDIT, Utils.g().getJsonFromObject(product))
@@ -81,8 +83,10 @@ class OrderActivity : BaseActivity() {
 
                     R.id.action_delete_product -> {
                         if (product != null) {
-//                            viewModel.deleteProduct(product)
-                            viewModel.getAllProduct()
+                            showLoading()
+                            viewModel.productList.remove(product)
+                            addOrderAdapter.resetOrderList(viewModel.productList)
+                            viewModel.deleteProduct(product)
                         }
                     }
                 }
@@ -106,6 +110,14 @@ class OrderActivity : BaseActivity() {
                 addOrderAdapter.resetOrderList(viewModel.productList)
             }
         }
+        viewModel.deleteProductLiveData.observe(this) {
+            hiddenLoading()
+            if (it) {
+                confirm.newBuild().setNotice(getString(R.string.str_delete_success))
+            } else {
+                confirm.newBuild().setNotice(getString(R.string.str_delete_fail))
+            }
+        }
     }
 
     private var resultLauncher =
@@ -116,7 +128,16 @@ class OrderActivity : BaseActivity() {
                         result.data?.getStringExtra(ADD_NEW_PRODUCT).toString(),
                         Product::class.java
                     )
-                    product?.let { viewModel.productList.add(it) }
+                    if (viewModel.isEdit) {
+                        product?.let {
+                            viewModel.productList.set(viewModel.beforeEditProductPosition,
+                                it
+                            )
+                        }
+
+                    } else {
+                        product?.let { viewModel.productList.add(it) }
+                    }
                     addOrderAdapter.resetOrderList(viewModel.productList)
                 }
             }

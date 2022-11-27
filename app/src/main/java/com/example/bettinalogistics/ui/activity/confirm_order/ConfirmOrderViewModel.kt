@@ -2,6 +2,7 @@ package com.example.bettinalogistics.ui.activity.confirm_order
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,7 +10,6 @@ import com.example.baseapp.BaseViewModel
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.data.OrderRepository
-import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmUserInfoOrderAdapter.Companion.TYPE_ITEM_USER
 import com.example.bettinalogistics.utils.AppConstant
@@ -43,7 +43,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
             val code = "BT${Date().time}"
             val order = Order(
                 code = code,
-                product = products,
+                productList = products,
                 address = orderAddress,
                 company = userCompany,
                 amountBeforeDiscount = amountBeforeDiscount,
@@ -52,92 +52,99 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
                 typeTransportation = typeTransport,
                 methodTransport = methodTransport
             )
-            orderRepository.addOrderTransaction(order){
+            Log.d(TAG, "addOrderTransaction: $products")
+            orderRepository.addOrderTransaction(order) {
                 addOrderTransactionLiveData.postValue(it)
             }
         }
 
-    fun calculateInternalTruckingFee(): Double {
+    fun deleteAddedProducts() =
+        viewModelScope.launch(Dispatchers.IO) {
+            orderRepository.deleteAddedProduct(products?.size ?: 0)
+        }
+
+    fun calculateInternalTruckingFee(): Long {
         var res = 0.0
-        products?.forEachIndexed { index, product ->
-            val typeSelected = AppData.g().productTypeSelected[index]
-            val contSelected = AppData.g().typeContSelected[index]
+        products?.forEach { product ->
+            val typeSelected = product.type
             if (product.isOrderLCL) {
                 when {
-                    typeSelected.description?.lowercase() == "kg" -> {
+                    typeSelected?.descript?.lowercase() == "kg" -> {
                         res = (typeSelected.priceKg ?: 0.0) * (product.mass
                             ?: 0.0) * (product.numberOfCarton ?: 0)
                     }
-                    typeSelected.description?.lowercase()?.contains("khối") == true
+                    typeSelected?.descript?.lowercase()?.contains("khối") == true
                             && (product.volume ?: 0.0) >= 200 -> {
                         res = (typeSelected.priceM3 ?: 0.0) * (product.volume ?: 0.0)
                     }
                 }
             } else {
+                val contSelected = product.contType
                 when {
-                    typeSelected.description?.lowercase() == "kg" -> {
+                    typeSelected?.descript?.lowercase() == "kg" -> {
                         res = (typeSelected.priceKg
-                            ?: 0.0) * contSelected.quantity * (product.quantity ?: 0)
+                            ?: 0.0) * (contSelected?.quantity ?: 0.0) * (product.quantity ?: 0)
                     }
-                    typeSelected.description?.lowercase()?.contains("khối") == true
+                    typeSelected?.descript?.lowercase()?.contains("khối") == true
                             && (product.volume ?: 0.0) >= 200 -> {
-                        res = (typeSelected.priceM3 ?: 0.0) * contSelected.data * (product.quantity
+                        res = (typeSelected.priceM3 ?: 0.0) * (contSelected?.volumeMaxOfCont
+                            ?: 0.0) * (product.quantity
                             ?: 0)
                     }
                 }
             }
         }
-        return res
+        return res.toLong()
     }
 
-    fun calculateInlandTruckingFee(): Double {
+    fun calculateInlandTruckingFee(): Long {
         var result = 0.0
         when {
             typeTransport == context!!.getString(R.string.str_road_transport) &&
-                    orderAddress?.address?.originAddress?.lowercase()
+                    orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
                 result = calculateDistance(
-                    latFrom = orderAddress?.address?.originAddressLat ?: 0.0,
-                    lonFrom = orderAddress?.address?.originAddressLon ?: 0.0,
+                    latFrom = orderAddress?.originAddressLat ?: 0.0,
+                    lonFrom = orderAddress?.originAddressLon ?: 0.0,
                     latTo = AppConstant.LAT_BANG_TUONG_TRUNG_QUOC,
                     lonTo = AppConstant.LON_BANG_TUONG_TRUNG_QUOC
                 ) * 80000 + calculateDistance(
                     latFrom = AppConstant.LAT_HUU_NGHI, lonFrom = AppConstant.LON_HUU_NGHI,
-                    latTo = orderAddress?.address?.destinationLat ?: 0.0,
-                    lonTo = orderAddress?.address?.destinationLon ?: 0.0
+                    latTo = orderAddress?.destinationLat ?: 0.0,
+                    lonTo = orderAddress?.destinationLon ?: 0.0
                 ) * 50000
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
-                    orderAddress?.address?.originAddress?.lowercase()
+                    orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_korea).lowercase()) == true -> {
                 result = calculateDistance(
-                    latFrom = orderAddress?.address?.originAddressLat ?: 0.0,
-                    lonFrom = orderAddress?.address?.originAddressLon ?: 0.0,
+                    latFrom = orderAddress?.originAddressLat ?: 0.0,
+                    lonFrom = orderAddress?.originAddressLon ?: 0.0,
                     latTo = AppConstant.LAT_CANG_BUSAN, lonTo = AppConstant.LON_CANG_BUSAN
                 ) * 70000 + calculateDistance(
                     latFrom = AppConstant.LAT_CANG_HAI_PHONG,
                     lonFrom = AppConstant.LON_CANG_HAI_PHONG,
-                    latTo = orderAddress?.address?.destinationLat ?: 0.0,
-                    lonTo = orderAddress?.address?.destinationLon ?: 0.0
+                    latTo = orderAddress?.destinationLat ?: 0.0,
+                    lonTo = orderAddress?.destinationLon ?: 0.0
                 ) * 50000
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
-                    orderAddress?.address?.originAddress?.lowercase()
+                    orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
                 result = calculateDistance(
-                    latFrom = orderAddress?.address?.originAddressLat ?: 0.0,
-                    lonFrom = orderAddress?.address?.originAddressLon ?: 0.0,
+                    latFrom = orderAddress?.originAddressLat ?: 0.0,
+                    lonFrom = orderAddress?.originAddressLon ?: 0.0,
                     latTo = AppConstant.LAT_CANG_THUONG_HAI_TRUNG_QUOC,
                     lonTo = AppConstant.LON_CANG_THUONG_HAI_TRUNG_QUOC
                 ) * 80000 + calculateDistance(
                     latFrom = AppConstant.LAT_CANG_HAI_PHONG,
                     lonFrom = AppConstant.LON_CANG_HAI_PHONG,
-                    latTo = orderAddress?.address?.destinationLat ?: 0.0,
-                    lonTo = orderAddress?.address?.destinationLon ?: 0.0
+                    latTo = orderAddress?.destinationLat ?: 0.0,
+                    lonTo = orderAddress?.destinationLon ?: 0.0
                 ) * 50000
             }
         }
-        return result
+        return result.toLong()
     }
 
     fun getServiceFee(): Int {
@@ -146,12 +153,12 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
                 return AppConstant.SERVICE_DUONG_BO_TRUNG
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
-                    orderAddress?.address?.originAddress?.lowercase()
+                    orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
                 return AppConstant.SERVICE_DUONG_BIEN_TRUNG
             }
             typeTransport == context.getString(R.string.str_sea_transport) &&
-                    orderAddress?.address?.originAddress?.lowercase()
+                    orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_korea).lowercase()) == true -> {
                 return AppConstant.SERVICE_DUONG_BIEN_TRUNG
             }
@@ -186,6 +193,12 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     private fun getListUserInfoConfirm(
     ): ArrayList<CommonEntity> {
         val list = ArrayList<CommonEntity>()
+        list.add(
+            CommonEntity(
+                header = context!!.getString(R.string.str_user_info),
+                typeLayout = ConfirmUserInfoOrderAdapter.TYPE_HEADER
+            )
+        )
         val companyName =
             CommonEntity(
                 title = context!!.getString(R.string.str_company_name),
@@ -204,11 +217,11 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
         ).setTypeLayout(TYPE_ITEM_USER)
         val origin = CommonEntity(
             title = context.getString(R.string.str_origin_address),
-            descript = orderAddress?.address?.originAddress ?: ""
+            descript = orderAddress?.originAddress ?: ""
         ).setTypeLayout(TYPE_ITEM_USER)
         val destination = CommonEntity(
             title = context.getString(R.string.str_destination_address),
-            descript = orderAddress?.address?.destinationAddress ?: ""
+            descript = orderAddress?.destinationAddress ?: ""
         ).setTypeLayout(TYPE_ITEM_USER)
         list.add(companyName)
         list.add(userName)
@@ -221,6 +234,13 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     fun getListInfoConfirm(): ArrayList<Any> {
         val list = ArrayList<Any>()
         list.addAll(getListUserInfoConfirm())
+        list.add(
+            CommonEntity(
+                header = context!!.getString(R.string.str_product_info),
+                typeLayout = ConfirmUserInfoOrderAdapter.TYPE_HEADER
+            )
+        )
+        list.add(CommonEntity().setTypeLayout(ConfirmUserInfoOrderAdapter.TYPE_LINE))
         products?.forEach {
             val orderConfirm = ConfirmOrder(
                 transportType = typeTransport, transportMethod = methodTransport,

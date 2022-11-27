@@ -8,6 +8,7 @@ import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.ui.activity.main.MainActivity
 import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
 import com.example.bettinalogistics.utils.Utils
@@ -18,8 +19,6 @@ class AppData {
     var currentUser : User? = Utils.g().getObjectFromJson(Utils.g().getDataString(DataConstant.USER)
         .toString(), User::class.java)
     var userId: String? = Utils.g().getDataString(USER_ID)
-    var productTypeSelected: ArrayList<CommonEntity> = ArrayList()
-    var typeContSelected: ArrayList<CommonEntity> = ArrayList()
 
     companion object {
         private var instance: AppData? = null
@@ -56,5 +55,18 @@ class AppData {
         Utils.g().saveDataString(DataConstant.USER_PHONE, user.phone)
         Utils.g().saveDataString(DataConstant.USER_FULL_NAME, user.fullName)
         Utils.g().saveDataString(DataConstant.USER, Utils.g().getJsonFromObject(user))
+    }
+
+    fun clearOrderInfo(){
+        Utils.g().saveDataString(
+            DataConstant.ORDER_ADDRESS,
+            null
+        )
+        Utils.g()
+            .saveDataString(DataConstant.ORDER_TRANSPORT_TYPE, null)
+        Utils.g().saveDataString(
+            DataConstant.ORDER_TRANSPORT_METHOD,
+            null
+        )
     }
 }

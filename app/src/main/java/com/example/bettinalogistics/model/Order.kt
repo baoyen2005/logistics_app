@@ -8,10 +8,11 @@ import java.util.*
 
 data class Order(
     val code: String?,
-    var product: List<Product>?,
+    var productList: List<Product>?,
     val address: OrderAddress?,
     val company: UserCompany?,
-    var status: String = DataConstant.ORDER_STATUS_PENDING,
+    var statusOrder: String = DataConstant.ORDER_STATUS_PENDING,
+    var statusPayment: String = DataConstant.ORDER_STATUS_PAYMENT_WAITING,
     var orderDate: String = dateToString(Calendar.getInstance().time),
     var amountBeforeDiscount : Double?,
     var discount: Double,

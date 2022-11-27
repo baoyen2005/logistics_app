@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,8 +27,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/_30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnConfirmOrder"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/confirmOrderHeader">
 
@@ -205,7 +206,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15dp"
-                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
                 android:fontFamily="@font/ssp_bold"
                 android:gravity="end"
                 android:text="@string/str_payment_time_success"
@@ -219,7 +220,7 @@
                 android:id="@+id/tvPaymentDebtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
                 android:fontFamily="@font/ssp_regular"
                 android:text="@string/str_payment_debt"
                 android:textColor="@color/merchant_color_4a4a4a"
@@ -231,7 +232,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15dp"
-                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
                 android:fontFamily="@font/ssp_bold"
                 android:gravity="end"
                 android:text="@string/str_payment_debt_time"
@@ -245,7 +246,7 @@
                 android:id="@+id/tvInfoPaymentSumFinalTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
                 android:fontFamily="@font/ssp_bold"
                 android:text="@string/str_payment_sum"
                 android:textColor="@color/merchant_color_4a4a4a"
