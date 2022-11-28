@@ -1,10 +1,10 @@
-package com.example.bettinalogistics.ui.fragment.followtrask
+package com.example.bettinalogistics.ui.fragment.user.followtrask
 
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.utils.DataConstant
 
-class FollowTrackingViewModel : BaseViewModel() {
+class UserFollowTrackingViewModel : BaseViewModel() {
 
     fun getLisTrackingTab(): List<CommonEntity>{
         val list = mutableListOf<CommonEntity>()

@@ -179,4 +179,6 @@
     <string name="str_update_product_faid">Cập nhật sản phẩm không thành công, vui lòng thao tác lại</string>
     <string name="str_tracking">Theo dõi đơn hàng</string>
     <string name="str_search_tracking">Nhập tên hoặc mã đơn hàng để tìm kiếm</string>
+    <string name="str_order_list">Danh sách đơn đặt hàng</string>
+    <string name="str_view_detail">Xem chi tiết</string>
 </resources>

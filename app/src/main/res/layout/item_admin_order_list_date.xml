@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/merchant_color_f8f8f9"
+    android:paddingHorizontal="@dimen/_16dp"
+    android:paddingTop="@dimen/dp18"
+    android:paddingBottom="@dimen/_10dp">
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvAdminOrderListDateItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:cusfont="SemiBold"
+        android:textColor="@color/merchant_color_a2a2a5"
+        tool:text="Hom qua, 16/09/2022" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvAdminOrderListAmountItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16dp"
+        app:cusfont="SemiBold"
+        android:gravity="end"
+        android:textColor="@color/merchant_color_a2a2a5"
+        tool:text="03 giao dịch" />
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -4,23 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.user.followtrask.UserFollowTrackingFragment">
+    tools:context=".ui.fragment.admin.order.AdminOrderListFragment">
 
     <LinearLayout
         android:id="@+id/linearNotificationTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-       app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <include
-            android:id="@+id/layoutFollowTrackHeader"
+            android:id="@+id/adminOrderListHeader"
             layout="@layout/layout_header"/>
 
         <com.example.baseapp.view.GroupTextView
-            android:id="@+id/edtFollowTrackingSearch"
+            android:id="@+id/edtAdminOrderListSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15dp"
@@ -33,7 +33,7 @@
             />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTabTracking"
+            android:id="@+id/rvAdminTabOrderList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15dp"
@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFollowTrackOrder"
+        android:id="@+id/rvAdminOrderList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_15dp"
@@ -56,5 +56,4 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearNotificationTitle" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

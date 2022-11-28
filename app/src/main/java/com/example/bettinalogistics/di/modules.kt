@@ -12,8 +12,9 @@ import com.example.bettinalogistics.ui.activity.login.LoginViewModel
 import com.example.bettinalogistics.ui.activity.main.MainViewModel
 import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
 import com.example.bettinalogistics.ui.activity.splash.SplashViewModel
-import com.example.bettinalogistics.ui.fragment.followtrask.FollowTrackingViewModel
-import com.example.bettinalogistics.ui.fragment.home.HomeViewModel
+import com.example.bettinalogistics.ui.fragment.admin.order.AdminOrderListViewModel
+import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingViewModel
+import com.example.bettinalogistics.ui.fragment.user.home.UserHomeViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -31,7 +32,7 @@ val models = module {
         MainViewModel(get())
     }
     viewModel {
-        HomeViewModel()
+        UserHomeViewModel()
     }
     viewModel {
         OrderViewModel(get())
@@ -46,7 +47,10 @@ val models = module {
         ConfirmOrderViewModel(get())
     }
     viewModel {
-        FollowTrackingViewModel()
+        UserFollowTrackingViewModel()
+    }
+    viewModel {
+        AdminOrderListViewModel(get())
     }
 }
 
@@ -61,6 +65,10 @@ val impls = module {
 
     single<GoogleMapRepo>  {
         GoogleMapRepoImpl()
+    }
+
+    single<AdminOrderRepo>  {
+        AdminOrderRepoImpl()
     }
 }
 

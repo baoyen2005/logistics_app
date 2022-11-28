@@ -1,8 +1,7 @@
-package com.example.bettinalogistics.ui.fragment.home
+package com.example.bettinalogistics.ui.fragment.user.home
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -12,8 +11,6 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentHomeBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.login.LoginActivity
-import com.example.bettinalogistics.ui.fragment.bottom_sheet.ChooseTypeTransportationBottomSheet
-import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_FULL_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_IMAGE
 import com.example.bettinalogistics.utils.Utils
@@ -22,11 +19,11 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
 
-class HomeFragment : BaseFragment() {
-    private var homeTransportMethodAdapter: HomeTransportMethodAdapter? = null
-    private var homeTransportTypeAdapter: HomeTransportTypeAdapter? = null
+class UserHomeFragment : BaseFragment() {
+    private var userHomeTransportMethodAdapter: UserHomeTransportMethodAdapter? = null
+    private var userHomeTransportTypeAdapter: UserHomeTransportTypeAdapter? = null
 
-    override val viewModel: HomeViewModel by sharedViewModel()
+    override val viewModel: UserHomeViewModel by sharedViewModel()
 
     override val binding: FragmentHomeBinding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
@@ -43,7 +40,7 @@ class HomeFragment : BaseFragment() {
         binding.tvHomeSignUp.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
-        homeTransportMethodAdapter?.itemTransportMethodListener = {
+        userHomeTransportMethodAdapter?.itemTransportMethodListener = {
            if(!AppData.g().isLogin()){
                confirm.newBuild().setNotice(getString(R.string.str_please_signup))
                    .addButtonAgree(R.string.close) {
@@ -66,10 +63,15 @@ class HomeFragment : BaseFragment() {
             binding.tvHomeDate.text = dateToString(Date())
             binding.imgHomeAvatar.visibility = View.VISIBLE
             binding.tvHomeSignUp.visibility = View.GONE
-            Glide.with(this)
-                .load(Uri.parse(Utils.g().getDataString(USER_IMAGE)))
-                .transform(CircleCrop())
-                .into(binding.imgHomeAvatar)
+            if(Utils.g().getDataString(USER_IMAGE) != null){
+                Glide.with(this)
+                    .load(Uri.parse(Utils.g().getDataString(USER_IMAGE)))
+                    .transform(CircleCrop())
+                    .into(binding.imgHomeAvatar)
+            }
+            else{
+                binding.imgHomeAvatar.setImageResource(R.drawable.ic_user)
+            }
         } else {
             binding.tvHomeSignUp.visibility = View.VISIBLE
             binding.imgHomeAvatar.visibility = View.GONE
@@ -81,9 +83,9 @@ class HomeFragment : BaseFragment() {
     private fun setAdapter() {
         val transportMethodList = viewModel.getTransportMethodList(requireContext())
         val transportTypeList = viewModel.getTransportTypeList(requireContext())
-        homeTransportMethodAdapter = HomeTransportMethodAdapter(transportMethodList)
-        binding.rvHomeTransportMethods.adapter = homeTransportMethodAdapter
-        homeTransportTypeAdapter = HomeTransportTypeAdapter(transportTypeList)
-        binding.rvHomeTransportType.adapter = homeTransportTypeAdapter
+        userHomeTransportMethodAdapter = UserHomeTransportMethodAdapter(transportMethodList)
+        binding.rvHomeTransportMethods.adapter = userHomeTransportMethodAdapter
+        userHomeTransportTypeAdapter = UserHomeTransportTypeAdapter(transportTypeList)
+        binding.rvHomeTransportType.adapter = userHomeTransportTypeAdapter
     }
 }

@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.ui.activity.main
 
 import android.content.Intent
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
@@ -44,6 +45,7 @@ class MainActivity : BaseActivity() {
             }
         }
       else{
+            viewModel.role = AppData.g().currentUser?.role
             setupViewPager()
             binding.viewPagerMain.currentItem = 0
             binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
@@ -100,9 +102,25 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupViewPager() {
-        val adapter = MainViewPagerAdapter(this, 4)
-        binding.viewPagerMain.adapter = adapter
-        binding.viewPagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        when (viewModel.role) {
+            "user" -> {
+                val adapter = MainViewPagerAdapter(this, 4)
+                binding.viewPagerMain.adapter = adapter
+                binding.btnFloatTingMainAdd.isVisible = true
+            }
+            "ship" -> {
+                val adapter = ShipUnitMainViewPagerAdapter(this, 4)
+                binding.viewPagerMain.adapter = adapter
+                binding.btnFloatTingMainAdd.isVisible = false
+            }
+            else -> {
+                val adapter = AdminMainViewPagerAdapter(this, 4)
+                binding.viewPagerMain.adapter = adapter
+                binding.btnFloatTingMainAdd.isVisible = false
+            }
+        }
+        binding.viewPagerMain.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 when (position) {
                     0 -> {

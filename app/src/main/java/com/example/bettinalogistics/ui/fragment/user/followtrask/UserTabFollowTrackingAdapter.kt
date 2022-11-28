@@ -1,22 +1,16 @@
-package com.example.bettinalogistics.ui.fragment.followtrask
+package com.example.bettinalogistics.ui.fragment.user.followtrask
 
-import android.content.Context
-import android.net.Uri
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
-import com.bumptech.glide.Glide
 import com.example.baseapp.BaseRclvAdapter
 import com.example.baseapp.BaseRclvVH
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.CommonEntity
-import com.example.bettinalogistics.model.ConfirmOrder
 
 
-class TabFollowTrackingAdapter() : BaseRclvAdapter() {
+class UserTabFollowTrackingAdapter() : BaseRclvAdapter() {
     private var onItemClickListener: ((CommonEntity) ->Unit)? = null
 
     override fun getLayoutResource(viewType: Int): Int = R.layout.item_follow_tracking_tab

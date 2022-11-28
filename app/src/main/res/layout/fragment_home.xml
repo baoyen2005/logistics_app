@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".ui.fragment.home.HomeFragment">
+    tools:context=".ui.fragment.user.home.UserHomeFragment">
 
     <LinearLayout
         android:id="@+id/linearHomeIvMenu"

@@ -1,4 +1,4 @@
-package com.example.bettinalogistics.ui.fragment.followtrask
+package com.example.bettinalogistics.ui.fragment.user.followtrask
 
 import android.view.View
 import com.example.baseapp.BaseFragment
@@ -6,9 +6,9 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentFollowTrackingBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FollowTrackingFragment : BaseFragment() {
-    private val tabFollowTrackingAdapter: TabFollowTrackingAdapter by lazy { TabFollowTrackingAdapter() }
-    override val viewModel: FollowTrackingViewModel by viewModel()
+class UserFollowTrackingFragment : BaseFragment() {
+    private val userTabFollowTrackingAdapter: UserTabFollowTrackingAdapter by lazy { UserTabFollowTrackingAdapter() }
+    override val viewModel: UserFollowTrackingViewModel by viewModel()
 
     override val binding: FragmentFollowTrackingBinding by lazy {
         FragmentFollowTrackingBinding.inflate(layoutInflater)
@@ -17,9 +17,9 @@ class FollowTrackingFragment : BaseFragment() {
     override fun initView() {
         binding.layoutFollowTrackHeader.ivHeaderBack.visibility = View.GONE
         binding.layoutFollowTrackHeader.tvHeaderTitle.text = getString(R.string.str_tracking)
-        binding.rvTabTracking.adapter = tabFollowTrackingAdapter
+        binding.rvTabTracking.adapter = userTabFollowTrackingAdapter
         val listTab = viewModel.getLisTrackingTab()
-        tabFollowTrackingAdapter.reset(listTab)
+        userTabFollowTrackingAdapter.reset(listTab)
     }
 
     override fun initListener() {

@@ -1,10 +1,10 @@
-package com.example.bettinalogistics.ui.fragment.person
+package com.example.bettinalogistics.ui.fragment.ship.person
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.bettinalogistics.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -14,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PersonFragment.newInstance] factory method to
+ * Use the [ShipAccountFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PersonFragment : Fragment() {
+class ShipAccountFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +35,7 @@ class PersonFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_person, container, false)
+        return inflater.inflate(R.layout.fragment_ship_account, container, false)
     }
 
     companion object {
@@ -45,12 +45,12 @@ class PersonFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PersonFragment.
+         * @return A new instance of fragment ShipAccountFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PersonFragment().apply {
+            ShipAccountFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

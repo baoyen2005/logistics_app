@@ -1,4 +1,4 @@
-package com.example.bettinalogistics.ui.fragment.home
+package com.example.bettinalogistics.ui.fragment.user.home
 
 import android.content.Context
 import com.denzcoskun.imageslider.models.SlideModel
@@ -6,7 +6,7 @@ import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.CommonEntity
 
-class HomeViewModel :BaseViewModel() {
+class UserHomeViewModel :BaseViewModel() {
 
     fun getTransportMethodList(context: Context) : List<CommonEntity>{
         val list = ArrayList<CommonEntity>()

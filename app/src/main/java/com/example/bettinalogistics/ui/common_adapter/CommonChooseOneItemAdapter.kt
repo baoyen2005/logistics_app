@@ -1,6 +1,5 @@
 package com.example.bettinalogistics.ui.common_adapter
 
-import android.text.TextUtils
 import android.view.View
 import android.widget.Filter
 import android.widget.Filterable
@@ -10,7 +9,6 @@ import com.example.baseapp.BaseVHData
 import com.example.baseapp.view.Textview
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.TypeCommonEntity
 
 class CommonChooseOneItemAdapter(

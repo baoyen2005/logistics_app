@@ -181,6 +181,7 @@ class OrderRepositoryImpl : OrderRepository {
     override suspend fun getAllOrderTransactions(onComplete: ((List<Order>?) -> Unit)?) {
         val listOrder: ArrayList<Order> = ArrayList()
         FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
+            .whereEqualTo(USER_ID, AppData.g().userId)
             .get()
             .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 for (query in queryDocumentSnapshots) {

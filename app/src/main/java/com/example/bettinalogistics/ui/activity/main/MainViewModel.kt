@@ -10,12 +10,13 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(val authenticationRepo: AuthenticationRepository) : BaseViewModel() {
     var changedPassword :String? = null
-    var email :String? = null
-
+    var email: String? = null
+    var role: String? = "user"
     var getUserLiveData = MutableLiveData<User?>()
     fun getUser(email: String) = viewModelScope.launch(Dispatchers.IO){
         authenticationRepo.getUser(email){
             getUserLiveData.postValue(it)
+            role = it?.role ?: ""
         }
     }
 
