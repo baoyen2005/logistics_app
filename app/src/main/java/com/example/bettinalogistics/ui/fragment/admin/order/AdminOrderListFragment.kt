@@ -1,10 +1,10 @@
 package com.example.bettinalogistics.ui.fragment.admin.order
 
 import android.view.View
+import androidx.core.view.isVisible
 import com.example.baseapp.BaseFragment
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentAdminOrderListBinding
-import com.example.bettinalogistics.ui.fragment.user.followtrask.UserTabFollowTrackingAdapter
 import com.example.bettinalogistics.utils.DataConstant
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -33,7 +33,16 @@ class AdminOrderListFragment : BaseFragment() {
     }
 
     override fun observerData() {
-
+        viewModel.getListOrderByStatusLiveData.observe(this) {
+            if (it.isNullOrEmpty()) {
+                binding.emptyAdminListOrder.root.isVisible = true
+                binding.rvAdminOrderList.isVisible = false
+            } else {
+                binding.emptyAdminListOrder.root.isVisible = false
+                binding.rvAdminOrderList.isVisible = true
+                adminTabOrderListAdapter.reset(it)
+            }
+        }
     }
 
 }

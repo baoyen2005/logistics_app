@@ -1,10 +1,10 @@
 package com.example.bettinalogistics.model
 
 data class OrderAddress(
-    var originAddress :String?,
-    var originAddressLat :Double?,
-    var originAddressLon :Double?,
-    var destinationAddress :String?,
-    var destinationLat :Double?,
-    var destinationLon :Double?,
+    var originAddress: String? = null,
+    var originAddressLat: Double? = null,
+    var originAddressLon: Double? = null,
+    var destinationAddress: String? = null,
+    var destinationLat: Double? = null,
+    var destinationLon: Double? = null,
 )

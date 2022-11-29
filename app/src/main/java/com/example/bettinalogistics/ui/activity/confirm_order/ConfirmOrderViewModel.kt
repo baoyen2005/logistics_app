@@ -42,7 +42,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
         viewModelScope.launch(Dispatchers.IO) {
             val code = "BT${Date().time}"
             val order = Order(
-                code = code,
+                orderCode = code,
                 productList = products,
                 address = orderAddress,
                 company = userCompany,

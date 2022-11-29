@@ -47,7 +47,7 @@ val models = module {
         ConfirmOrderViewModel(get())
     }
     viewModel {
-        UserFollowTrackingViewModel()
+        UserFollowTrackingViewModel(get())
     }
     viewModel {
         AdminOrderListViewModel(get())

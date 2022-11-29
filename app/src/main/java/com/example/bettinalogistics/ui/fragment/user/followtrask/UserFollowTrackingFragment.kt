@@ -1,13 +1,24 @@
 package com.example.bettinalogistics.ui.fragment.user.followtrask
 
+import android.text.format.DateUtils
 import android.view.View
+import androidx.core.view.isVisible
 import com.example.baseapp.BaseFragment
+import com.example.baseapp.view.getTimeInMillisecond
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentFollowTrackingBinding
+import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.Order
+import com.example.bettinalogistics.ui.fragment.admin.order.AdminListOrderAdapter
+import com.example.bettinalogistics.ui.fragment.admin.order.AdminTabOrderListAdapter
+import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.Utils
+import com.example.bettinalogistics.utils.Utils_Date
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFollowTrackingFragment : BaseFragment() {
     private val userTabFollowTrackingAdapter: UserTabFollowTrackingAdapter by lazy { UserTabFollowTrackingAdapter() }
+    private val orderListAdapter: AdminListOrderAdapter by lazy { AdminListOrderAdapter() }
     override val viewModel: UserFollowTrackingViewModel by viewModel()
 
     override val binding: FragmentFollowTrackingBinding by lazy {
@@ -20,14 +31,62 @@ class UserFollowTrackingFragment : BaseFragment() {
         binding.rvTabTracking.adapter = userTabFollowTrackingAdapter
         val listTab = viewModel.getLisTrackingTab()
         userTabFollowTrackingAdapter.reset(listTab)
+        binding.rvFollowTrackOrder.adapter = orderListAdapter
+        showLoading()
+        viewModel.getAllOrderByStatusAndUser(DataConstant.ORDER_STATUS_PENDING)
     }
 
     override fun initListener() {
-
+        userTabFollowTrackingAdapter.onItemClickListener = {
+            showLoading()
+            viewModel.getAllOrderByStatusAndUser(it.title)
+        }
     }
 
     override fun observerData() {
-
+        viewModel.getAllOrderByStatusAndUserLiveData.observe(this) {
+            hiddenLoading()
+            if (it.isNullOrEmpty()) {
+                binding.emptyOrderTracking.root.isVisible = true
+                binding.rvFollowTrackOrder.isVisible = false
+            } else {
+                binding.emptyOrderTracking.root.isVisible = false
+                binding.rvFollowTrackOrder.isVisible = true
+                orderListAdapter.reset(convertToListData(it))
+            }
+        }
     }
-
+    private fun convertToListData(listEntity: List<Order>): List<Any> {
+        val list = mutableListOf<Any>()
+        val listDate = listEntity.map {
+            it.orderDate?.let { date ->
+                Utils.g()
+                    .convertDate(
+                        Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,
+                        Utils_Date.DATE_PATTERN_ddMMYYYY,
+                        date
+                    )
+            }
+        }.toSet()
+        listDate.forEach { stringDate ->
+            val longDate = stringDate.getTimeInMillisecond(Utils_Date.DATE_PATTERN_ddMMYYYY)
+            val listTranInThisDay =
+                listEntity.filter { it.orderDate?.contains(stringDate.toString()) == true }
+            list.add(
+                CommonEntity(
+                    when {
+                        DateUtils.isToday(longDate) -> getString(R.string.today_date, stringDate)
+                        DateUtils.isToday(longDate + DateUtils.DAY_IN_MILLIS) -> getString(
+                            R.string.yesterday_date,
+                            stringDate
+                        )
+                        else -> stringDate.toString()
+                    },
+                    getString(R.string.number_of_transaction, listTranInThisDay.size.toString())
+                )
+            )
+            list.addAll(listTranInThisDay)
+        }
+        return list
+    }
 }

@@ -11,7 +11,7 @@ import com.example.bettinalogistics.model.CommonEntity
 
 
 class UserTabFollowTrackingAdapter() : BaseRclvAdapter() {
-    private var onItemClickListener: ((CommonEntity) ->Unit)? = null
+    var onItemClickListener: ((CommonEntity) ->Unit)? = null
 
     override fun getLayoutResource(viewType: Int): Int = R.layout.item_follow_tracking_tab
 

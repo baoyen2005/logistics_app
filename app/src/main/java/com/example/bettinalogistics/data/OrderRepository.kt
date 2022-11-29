@@ -201,7 +201,7 @@ class OrderRepositoryImpl : OrderRepository {
     var countUpLoad = 0
     override suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?) {
         val values: HashMap<String, Any?> = HashMap()
-        values[ORDER_CODE] = order.code
+        values[ORDER_CODE] = order.orderCode
         values[ORDER_ADDRESS] = order.address
         values[ORDER_COMPANY] = order.company
         values[ORDER_STATUS] = order.statusOrder

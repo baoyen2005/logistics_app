@@ -1,4 +1,4 @@
-package com.vnpay.merchant.ui.fragment.history
+package com.example.bettinalogistics.ui.fragment.admin.order
 
 import android.view.View
 import android.widget.Filter
@@ -17,13 +17,6 @@ import com.example.bettinalogistics.utils.DataConstant
 class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
     companion object {
         const val TYPE_DATE = 1
-        const val SUCCESS = "1"
-        const val FAILED = "2"
-        const val SUSPECT = "3"
-        const val CANCEL_FAILED = "4"
-        const val CANCEL_SUCCESS = "5"
-        const val PROCESSING = "6"
-        const val SUSPECT_CHEAT = "7"
     }
 
     private var onItemClickListener: OnItemClickListener? = null
@@ -39,7 +32,7 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
 
     override fun onCreateVH(itemView: View, viewType: Int): BaseRclvVH<*> =
         when (viewType) {
-            TYPE_DATE -> DateHistoryViewHolder(itemView)
+            TYPE_DATE -> DateOrderViewHolder(itemView)
             else -> OrderListViewHolder(itemView)
         }
 
@@ -74,10 +67,10 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
         override fun onBind(data: Order) {
             tvAdminTypeTransport.text = data.typeTransportation ?: ""
             tvAdminOrderAmountItem.text =
-                UtilsBase.g().getDotMoneyHasCcy(data.amountAfterDiscount.toString(), "đ")
-            tvAdminOrderCode.text = data.code ?: ""
+                UtilsBase.g().getDotMoneyHasCcy(data.amountBeforeDiscount.toString(), "đ")
+            tvAdminOrderCode.text = data.orderCode ?: ""
             tvAdminStatusOrderItem.text = data.statusOrder ?: ""
-           // ivImageIcon.setImageResource(getIconTransaction())
+            ivImageIcon.setImageResource(getIconTransaction(data.statusOrder))
 
             when (data.statusOrder) {
                 DataConstant.ORDER_STATUS_CONFIRM,
@@ -98,15 +91,26 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
 
     }
 
-    fun getIconTransaction(status: String?, paymentSource: Long?): Int {
-        val listSuccess = listOf(SUCCESS, CANCEL_SUCCESS)
-        val listFaild = listOf(FAILED, CANCEL_FAILED)
-        val listProcess = listOf(SUSPECT, PROCESSING, SUSPECT_CHEAT)
-        return R.drawable.icon_facebook
-
+    fun getIconTransaction(status: String?): Int {
+        val listSuccess =
+            listOf(DataConstant.ORDER_STATUS_DELIVERED, DataConstant.ORDER_STATUS_PAYMENT_PAID)
+        val listFaild = listOf(DataConstant.ORDER_STATUS_CANCEL)
+        val listProcess =
+            listOf(DataConstant.ORDER_STATUS_PENDING, DataConstant.ORDER_STATUS_PAYMENT_WAITING)
+        return when {
+            listSuccess.contains(status) -> {
+                R.drawable.ic_order_success
+            }
+            listFaild.contains(status) -> {
+                R.drawable.ic_order_fail
+            }
+            else -> {
+                R.drawable.ic_order_process
+            }
+        }
     }
 
-    inner class DateHistoryViewHolder(itemView: View) : BaseRclvVH<CommonEntity>(itemView) {
+    inner class DateOrderViewHolder(itemView: View) : BaseRclvVH<CommonEntity>(itemView) {
         private val tvDate: TextView by lazy { itemView.findViewById(R.id.tvAdminOrderListDateItem) }
         private val tvAdminOrderAmountItem: TextView by lazy { itemView.findViewById(R.id.tvAdminOrderListAmountItem) }
 
@@ -135,7 +139,7 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
                         val order = data as Order
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (normalization((order.code)).contains(key)
+                        if (normalization((order.orderCode)).contains(key)
                             || normalization(order.typeTransportation).contains(key)
                         ) {
                             filteredList.add(data)

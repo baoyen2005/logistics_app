@@ -55,7 +55,7 @@ class FollowOrderTrackingAdapter : BaseRclvAdapter() {
         }
 
         override fun onBind(data: Order) {
-            tvOrderCode.text = data.code ?: ""
+            tvOrderCode.text = data.orderCode ?: ""
             tvTransportType.text = data.typeTransportation ?: ""
             tvAmountOrderItem.text = data.amountBeforeDiscount.toString().getAmountVND()
             tvOrderStatusItem.text = data.statusOrder

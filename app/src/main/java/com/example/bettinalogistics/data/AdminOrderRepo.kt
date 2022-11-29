@@ -16,12 +16,23 @@ class AdminOrderRepoImpl : AdminOrderRepo{
     ) {
         val listOrder: ArrayList<Order> = ArrayList()
         FirebaseFirestore.getInstance().collection(AppConstant.ORDER_COLLECTION)
-            .whereEqualTo(DataConstant.ORDER_STATUS, status)
             .get()
             .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 for (query in queryDocumentSnapshots) {
                     val order = query.toObject(Order::class.java);
-                    listOrder.add(order)
+                    if(status == DataConstant.ORDER_STATUS_PAYMENT_WAITING || status == DataConstant.ORDER_STATUS_PAYMENT_PAID)
+                    {
+                        if(order.statusPayment == status)
+                        {
+                            listOrder.add(order)
+                        }
+                    }
+                    else{
+                        if(order.statusOrder == status)
+                        {
+                            listOrder.add(order)
+                        }
+                    }
                 }
                 if (listOrder.isNotEmpty()) {
                     onComplete?.invoke(listOrder)
