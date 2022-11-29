@@ -37,7 +37,7 @@ class SplashScreen : BaseActivity() {
             val token = task.result
 //            model.handleSaveToken(token)
             // Log and toast
-            Log.d(TAG, "token $token")
+            Log.d(TAG, "token sssss =  $token")
         })
     }
 

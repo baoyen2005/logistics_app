@@ -184,4 +184,5 @@
     <string name="today_date">Hôm nay, %s</string>
     <string name="yesterday_date">Hôm qua, %s</string>
     <string name="number_of_transaction">%s giao dịch</string>
+    <string name="lable_VNPAYMobilePos">aaaaaaa</string>
 </resources>
