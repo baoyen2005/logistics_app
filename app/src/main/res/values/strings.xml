@@ -181,4 +181,7 @@
     <string name="str_search_tracking">Nhập tên hoặc mã đơn hàng để tìm kiếm</string>
     <string name="str_order_list">Danh sách đơn đặt hàng</string>
     <string name="str_view_detail">Xem chi tiết</string>
+    <string name="today_date">Hôm nay, %s</string>
+    <string name="yesterday_date">Hôm qua, %s</string>
+    <string name="number_of_transaction">%s giao dịch</string>
 </resources>

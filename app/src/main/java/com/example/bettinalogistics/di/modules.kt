@@ -70,6 +70,10 @@ val impls = module {
     single<AdminOrderRepo>  {
         AdminOrderRepoImpl()
     }
+
+    single<FollowTrackingRepo>  {
+        FollowTrackingRepoImpl()
+    }
 }
 
 val utilities = module{

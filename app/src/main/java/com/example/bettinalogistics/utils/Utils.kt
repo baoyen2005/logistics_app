@@ -14,6 +14,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 class Utils private constructor() {
@@ -63,6 +65,16 @@ class Utils private constructor() {
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun convertDate(fromFormat: String?, toFormat: String?, strDate: String): String {
+        try {
+            val simpleDateFormat = SimpleDateFormat(fromFormat)
+            val simpleTo = SimpleDateFormat(toFormat)
+            return simpleTo.format(simpleDateFormat.parse(strDate))
+        } catch (ex: ParseException) {
+        }
+        return strDate
     }
 
     fun isValidEmail(target: CharSequence): Boolean {

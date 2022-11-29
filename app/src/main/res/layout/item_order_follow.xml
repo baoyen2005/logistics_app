@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/merchant_color_ffffff"
+    android:padding="@dimen/_16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivOrderStatusItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_order_process" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvAmountOrderItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        app:cusfont="Bold"
+        android:maxLines="1"
+        android:textColor="@color/merchant_color_004a9c"
+        android:textSize="@dimen/_16sp"
+        tool:text="99.120 đ" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvOrderStatusItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAmountOrderItem"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_2dp"
+        android:maxLines="1"
+        android:textColor="@color/merchant_color_004a9c"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Regular"
+        tool:text="Thanh cong" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvOrderCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp8"
+        android:layout_toStartOf="@id/tvAmountOrderItem"
+        android:layout_toEndOf="@id/ivOrderStatusItem"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Bold"
+        tool:text="Nguyen Van Anh" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTransportType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvOrderCode"
+        android:layout_marginHorizontal="@dimen/dp8"
+        android:layout_marginTop="@dimen/_2dp"
+        android:layout_toStartOf="@id/tvOrderStatusItem"
+        android:layout_toEndOf="@id/ivOrderStatusItem"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/merchant_color_a2a2a5"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Regular"
+        tool:text="Nguyen Van Anh" />
+
+</RelativeLayout>

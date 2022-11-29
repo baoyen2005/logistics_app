@@ -1,0 +1,146 @@
+Index: app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/TabFollowTrackingAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bettinalogistics.ui.fragment.followtrask\r\n\r\nimport android.content.Context\r\nimport android.net.Uri\r\nimport android.view.View\r\nimport android.widget.ImageView\r\nimport android.widget.TextView\r\nimport androidx.appcompat.widget.AppCompatImageView\r\nimport androidx.core.view.isVisible\r\nimport com.bumptech.glide.Glide\r\nimport com.example.baseapp.BaseRclvAdapter\r\nimport com.example.baseapp.BaseRclvVH\r\nimport com.example.baseapp.view.setSafeOnClickListener\r\nimport com.example.bettinalogistics.R\r\nimport com.example.bettinalogistics.model.CommonEntity\r\nimport com.example.bettinalogistics.model.ConfirmOrder\r\n\r\n\r\nclass TabFollowTrackingAdapter() : BaseRclvAdapter() {\r\n    private var onItemClickListener: ((CommonEntity) ->Unit)? = null\r\n\r\n    override fun getLayoutResource(viewType: Int): Int = R.layout.item_follow_tracking_tab\r\n\r\n    override fun onCreateVH(itemView: View, viewType: Int): BaseRclvVH<*> = FollowTrackingTabViewHolder(itemView)\r\n\r\n    inner class FollowTrackingTabViewHolder(itemView: View) :\r\n        BaseRclvVH<CommonEntity>(itemView) {\r\n        private val viewTrackingTabItem : View = itemView.findViewById(R.id.viewTrackingTabItem)\r\n        private val tvTrackingTabTitleItem: TextView =  itemView.findViewById(R.id.tvTrackingTabTitleItem)\r\n        init {\r\n            itemView.setSafeOnClickListener {\r\n                val position = bindingAdapterPosition\r\n                if(position > -1){\r\n                    mDataSet.forEachIndexed { index, any ->\r\n                        if ((any as CommonEntity).isHightLight) {\r\n                            if (index == position) return@forEachIndexed\r\n                            any.isHightLight = false\r\n                            notifyItemChanged(index)\r\n                        }\r\n                        if (index == position) {\r\n                            any.isHightLight = true\r\n                            notifyItemChanged(index)\r\n                        }\r\n                    }\r\n                    onItemClickListener?.invoke(mDataSet[position] as CommonEntity)\r\n                }\r\n            }\r\n        }\r\n        override fun onBind(data: CommonEntity) {\r\n            tvTrackingTabTitleItem.text = data.title\r\n            viewTrackingTabItem.isVisible = data.isHightLight\r\n        }\r\n    }\r\n\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/TabFollowTrackingAdapter.kt b/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/TabFollowTrackingAdapter.kt
+--- a/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/TabFollowTrackingAdapter.kt	
++++ b/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/TabFollowTrackingAdapter.kt	
+@@ -17,7 +17,7 @@
+ 
+ 
+ class TabFollowTrackingAdapter() : BaseRclvAdapter() {
+-    private var onItemClickListener: ((CommonEntity) ->Unit)? = null
++    var onItemClickListener: ((CommonEntity) ->Unit)? = null
+ 
+     override fun getLayoutResource(viewType: Int): Int = R.layout.item_follow_tracking_tab
+ 
+Index: app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bettinalogistics.ui.fragment.followtrask\r\n\r\nimport com.example.baseapp.BaseViewModel\r\nimport com.example.bettinalogistics.model.CommonEntity\r\nimport com.example.bettinalogistics.utils.DataConstant\r\n\r\nclass FollowTrackingViewModel : BaseViewModel() {\r\n\r\n    fun getLisTrackingTab(): List<CommonEntity>{\r\n        val list = mutableListOf<CommonEntity>()\r\n        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PENDING).setHightLight(true))\r\n        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_CONFIRM))\r\n        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_DELIVERED))\r\n        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_CANCEL))\r\n        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PAYMENT_PAID))\r\n        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PAYMENT_WAITING))\r\n        return list\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingViewModel.kt b/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingViewModel.kt
+--- a/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingViewModel.kt	
++++ b/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingViewModel.kt	
+@@ -1,12 +1,19 @@
+ package com.example.bettinalogistics.ui.fragment.followtrask
+ 
++import androidx.lifecycle.MutableLiveData
++import androidx.lifecycle.viewModelScope
+ import com.example.baseapp.BaseViewModel
++import com.example.bettinalogistics.data.FollowTrackingRepo
+ import com.example.bettinalogistics.model.CommonEntity
++import com.example.bettinalogistics.model.Order
+ import com.example.bettinalogistics.utils.DataConstant
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.launch
+ 
+-class FollowTrackingViewModel : BaseViewModel() {
++class FollowTrackingViewModel(val followTrackingRepo: FollowTrackingRepo) : BaseViewModel() {
++    var tabChecked = DataConstant.ORDER_STATUS_PENDING
+ 
+-    fun getLisTrackingTab(): List<CommonEntity>{
++    fun getLisTrackingTab(): List<CommonEntity> {
+         val list = mutableListOf<CommonEntity>()
+         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PENDING).setHightLight(true))
+         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_CONFIRM))
+@@ -16,4 +23,11 @@
+         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PAYMENT_WAITING))
+         return list
+     }
++
++    val getAllOrderByStatusLiveData = MutableLiveData<List<Order>>()
++    fun getAllOrderByStatus(status: String) = viewModelScope.launch(Dispatchers.IO) {
++        followTrackingRepo.getAllOrderByStatus(status){
++            getAllOrderByStatusLiveData.postValue(it)
++        }
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bettinalogistics.ui.fragment.followtrask\r\n\r\nimport android.view.View\r\nimport com.example.baseapp.BaseFragment\r\nimport com.example.bettinalogistics.R\r\nimport com.example.bettinalogistics.databinding.FragmentFollowTrackingBinding\r\nimport org.koin.androidx.viewmodel.ext.android.viewModel\r\n\r\nclass FollowTrackingFragment : BaseFragment() {\r\n    private val tabFollowTrackingAdapter: TabFollowTrackingAdapter by lazy { TabFollowTrackingAdapter() }\r\n    override val viewModel: FollowTrackingViewModel by viewModel()\r\n\r\n    override val binding: FragmentFollowTrackingBinding by lazy {\r\n        FragmentFollowTrackingBinding.inflate(layoutInflater)\r\n    }\r\n\r\n    override fun initView() {\r\n        binding.layoutFollowTrackHeader.ivHeaderBack.visibility = View.GONE\r\n        binding.layoutFollowTrackHeader.tvHeaderTitle.text = getString(R.string.str_tracking)\r\n        binding.rvTabTracking.adapter = tabFollowTrackingAdapter\r\n        val listTab = viewModel.getLisTrackingTab()\r\n        tabFollowTrackingAdapter.reset(listTab)\r\n    }\r\n\r\n    override fun initListener() {\r\n\r\n    }\r\n\r\n    override fun observerData() {\r\n\r\n    }\r\n\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingFragment.kt b/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingFragment.kt
+--- a/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingFragment.kt	
++++ b/app/src/main/java/com/example/bettinalogistics/ui/fragment/followtrask/FollowTrackingFragment.kt	
+@@ -1,13 +1,20 @@
+ package com.example.bettinalogistics.ui.fragment.followtrask
+ 
++import android.text.format.DateUtils
+ import android.view.View
+ import com.example.baseapp.BaseFragment
++import com.example.baseapp.view.getTimeInMillisecond
+ import com.example.bettinalogistics.R
+ import com.example.bettinalogistics.databinding.FragmentFollowTrackingBinding
++import com.example.bettinalogistics.model.CommonEntity
++import com.example.bettinalogistics.model.Order
++import com.example.bettinalogistics.utils.Utils
++import com.example.bettinalogistics.utils.Utils_Date
+ import org.koin.androidx.viewmodel.ext.android.viewModel
+ 
+ class FollowTrackingFragment : BaseFragment() {
+     private val tabFollowTrackingAdapter: TabFollowTrackingAdapter by lazy { TabFollowTrackingAdapter() }
++    private val followOrderTrackingAdapter: FollowOrderTrackingAdapter by lazy { FollowOrderTrackingAdapter() }
+     override val viewModel: FollowTrackingViewModel by viewModel()
+ 
+     override val binding: FragmentFollowTrackingBinding by lazy {
+@@ -20,14 +27,53 @@
+         binding.rvTabTracking.adapter = tabFollowTrackingAdapter
+         val listTab = viewModel.getLisTrackingTab()
+         tabFollowTrackingAdapter.reset(listTab)
++        binding.rvFollowTrackOrder.adapter = followOrderTrackingAdapter
++        viewModel.getAllOrderByStatus(viewModel.tabChecked)
+     }
+ 
+     override fun initListener() {
+-
++        tabFollowTrackingAdapter.onItemClickListener = {
++            viewModel.getAllOrderByStatus(it.title?:"")
++        }
+     }
+ 
+     override fun observerData() {
++        viewModel.getAllOrderByStatusLiveData.observe(this){
++            followOrderTrackingAdapter.reset(convertToListData(it))
++        }
++    }
+ 
++    private fun convertToListData(listEntity: List<Order>): List<Any> {
++        val list = mutableListOf<Any>()
++        val listDate = listEntity.map {
++            it.orderDate.let { date ->
++                Utils.g()
++                    .convertDate(
++                        Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,
++                        Utils_Date.DATE_PATTERN_ddMMYYYY,
++                        date
++                    )
++            }
++        }.toSet()
++        listDate.forEach { stringDate ->
++            val longDate = stringDate.getTimeInMillisecond(Utils_Date.DATE_PATTERN_ddMMYYYY)
++            val listTranInThisDay =
++                listEntity.filter { it.orderDate.contains(stringDate) }
++            list.add(
++                CommonEntity(
++                    when {
++                        DateUtils.isToday(longDate) -> getString(R.string.today_date, stringDate)
++                        DateUtils.isToday(longDate + DateUtils.DAY_IN_MILLIS) -> getString(
++                            R.string.yesterday_date,
++                            stringDate
++                        )
++                        else -> stringDate.toString()
++                    },
++                    getString(R.string.number_of_transaction, listTranInThisDay.size.toString())
++                )
++            )
++            list.addAll(listTranInThisDay)
++        }
++        return list
+     }
+-
+ }
+\ No newline at end of file
