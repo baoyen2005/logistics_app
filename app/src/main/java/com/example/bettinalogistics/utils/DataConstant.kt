@@ -50,7 +50,7 @@ class DataConstant {
         const val PRODUCT_LIST = "productList"
         const val ORDER_TRANSPORT_TYPE = "typeTransportation"
         const val ORDER_TRANSPORT_METHOD = "methodTransport"
-        const val ORDER_CODE= "code"
+        const val ORDER_CODE= "orderCode"
         const val AMOUNT_BEFORE_DISCOUNT= "amountBeforeDiscount"
         const val AMOUNT_AFTER_DISCOUNT= "discount"
         const val DISCOUNT= "amountAfterDiscount"

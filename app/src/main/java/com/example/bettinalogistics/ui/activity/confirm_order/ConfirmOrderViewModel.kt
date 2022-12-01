@@ -85,8 +85,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
                         res = (typeSelected.priceKg
                             ?: 0.0) * (contSelected?.quantity ?: 0.0) * (product.quantity ?: 0)
                     }
-                    typeSelected?.descript?.lowercase()?.contains("khối") == true
-                            && (product.volume ?: 0.0) >= 200 -> {
+                    typeSelected?.descript?.lowercase()?.contains("khối") == true -> {
                         res = (typeSelected.priceM3 ?: 0.0) * (contSelected?.volumeMaxOfCont
                             ?: 0.0) * (product.quantity
                             ?: 0)

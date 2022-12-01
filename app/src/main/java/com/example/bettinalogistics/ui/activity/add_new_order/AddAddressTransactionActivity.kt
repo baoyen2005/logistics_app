@@ -13,6 +13,7 @@ import com.example.baseapp.view.removeAccentNormalize
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
+import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderTransportationActivity
@@ -100,11 +101,36 @@ class AddAddressTransactionActivity : BaseActivity() {
         binding.btnAddAddressContinued.setSafeOnClickListener {
             if (checkValidate()) {
                 showLoading()
-                viewModel.orderAddress?.originAddress = binding.edtOriginSearch.getContentText()
-                viewModel.orderAddress?.destinationAddress =
-                    binding.edtDestinationSearch.getContentText()
-                setUpOriginLatLon()
-                setUpDestinationLatLon()
+                val locationOrigin = binding.edtOriginSearch.getContentText().removeAccentNormalize()
+                val locationDestination = binding.edtDestinationSearch.getContentText().removeAccentNormalize()
+                var addressListOrigin: List<Address>? = null;
+                var addressListDes: List<Address>? = null;
+                if (locationOrigin.isNotEmpty()) {
+                    val geocoder = Geocoder(this);
+                    try {
+                        addressListOrigin = geocoder.getFromLocationName(locationOrigin, 1);
+                        addressListDes = geocoder.getFromLocationName(locationDestination, 1);
+                    } catch (e: IOException) {
+                        e.printStackTrace();
+                    }
+                    val addressDes = addressListDes?.get(0);
+                    val addressOrigin = addressListOrigin?.get(0);
+                    // val latLng = address?.let { LatLng(it.latitude, it.longitude) };
+
+                    if (addressDes == null || addressOrigin == null) {
+                        confirm.setNotice(getString(R.string.str_payment_internal_trucking))
+                    } else {
+                       val orderAddress = OrderAddress(
+                           originAddress = binding.edtOriginSearch.getContentText(),
+                           originAddressLat = addressOrigin.latitude,
+                           originAddressLon = addressOrigin.longitude,
+                           destinationAddress = binding.edtDestinationSearch.getContentText(),
+                           destinationLat = addressDes.latitude,
+                           destinationLon = addressDes.longitude
+                       )
+                        viewModel.orderAddress = orderAddress
+                    }
+                }
                 viewModel.getUserCompanyInfo()
             }
         }
