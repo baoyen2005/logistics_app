@@ -4,11 +4,13 @@ import android.net.Uri
 import android.util.Log
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.model.UserCompany
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppConstant.Companion.ORDER_COLLECTION
+import com.example.bettinalogistics.utils.AppConstant.Companion.SEND_NOTIFICATION
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.AppConstant.Companion.TERM_PRODUCT_LIST
 import com.example.bettinalogistics.utils.AppConstant.Companion.USER_COMPANY_COLLECTION
@@ -20,11 +22,15 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_BUSINES
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_TEX_CODE
+import com.example.bettinalogistics.utils.DataConstant.Companion.CONFIRM_DATE_NOTIFICATION
+import com.example.bettinalogistics.utils.DataConstant.Companion.CONTENT_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.DISCOUNT
+import com.example.bettinalogistics.utils.DataConstant.Companion.ID_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CODE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_COMPANY
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_DATE
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_METHOD
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_TYPE
@@ -41,6 +47,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_NUMBER_
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_QUANTITY
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_VOLUME
+import com.example.bettinalogistics.utils.DataConstant.Companion.TIME_ESTIMATE_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
 import com.example.bettinalogistics.utils.dateToString
 import com.google.android.gms.tasks.Task
@@ -62,6 +69,7 @@ interface OrderRepository {
     suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
+    suspend fun sendNotiRequest(notification: Notification, onComplete: ((Boolean) -> Unit)?)
 }
 
 class OrderRepositoryImpl : OrderRepository {
@@ -264,6 +272,31 @@ class OrderRepositoryImpl : OrderRepository {
         values[COMPANY_ADDRESS] = userCompany.address
         values[COMPANY_TEX_CODE] = userCompany.texCode
         values[COMPANY_BUSINESS_TYPE] = userCompany.businessType
+        values[USER_ID] = AppData.g().userId
+
+        documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
+            if (it.isSuccessful) {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnCompleteListener
+                } else onComplete?.invoke(true)
+            } else {
+                onComplete?.invoke(false)
+            }
+        }
+    }
+
+    override suspend fun sendNotiRequest(
+        notification: Notification,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val documentReference = FirebaseFirestore.getInstance().collection(SEND_NOTIFICATION)
+            .document()
+        val values: HashMap<String, Any?> = HashMap()
+        values[ID_NOTIFICATION] = documentReference.id
+        values[CONTENT_NOTIFICATION] = notification.contentNoti?: ""
+        values[ORDER_NOTIFICATION] = notification.order
+        values[CONFIRM_DATE_NOTIFICATION] = notification.confirmDate
+        values[TIME_ESTIMATE_NOTIFICATION] = notification.timeTransactionEstimate
         values[USER_ID] = AppData.g().userId
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->

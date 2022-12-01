@@ -25,6 +25,7 @@ class AppConstant {
         const val USER_COLLECTION = "users"
         const val USER_COMPANY_COLLECTION = "user_company"
         const val TERM_PRODUCT_LIST = "addedProductList"
+        const val SEND_NOTIFICATION = "notification"
 
         // van chuyen
         const val LAT_HUU_NGHI = 21.27419975

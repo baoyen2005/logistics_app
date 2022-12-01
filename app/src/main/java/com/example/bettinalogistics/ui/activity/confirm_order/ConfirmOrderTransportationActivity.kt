@@ -10,10 +10,7 @@ import com.example.baseapp.view.*
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityConfirmOrderTransportationBinding
 import com.example.bettinalogistics.di.AppData
-import com.example.bettinalogistics.model.AddedProduct
-import com.example.bettinalogistics.model.OrderAddress
-import com.example.bettinalogistics.model.Product
-import com.example.bettinalogistics.model.UserCompany
+import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity
 import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
@@ -135,10 +132,20 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
 
     override fun observeData() {
         viewModel.addOrderTransactionLiveData.observe(this){
-            hiddenLoading()
             if(it){
                 viewModel.deleteAddedProducts()
                 AppData.g().clearOrderInfo()
+                val notification = Notification(contentNoti = getString(R.string.str_noti_order), order = viewModel.customerOrder)
+                viewModel.sendNotification(notification)
+            }
+            else{
+                hiddenLoading()
+                confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
+            }
+        }
+        viewModel.sendNotificationLiveData.observe(this){
+            hiddenLoading()
+            if(it){
                 confirm.newBuild().setNotice(getString(R.string.str_add_order_success)).addButtonAgree {
                     val i = Intent()
                     setResult(RESULT_OK, i)
@@ -146,6 +153,7 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
                 }
             }
             else{
+                hiddenLoading()
                 confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
             }
         }

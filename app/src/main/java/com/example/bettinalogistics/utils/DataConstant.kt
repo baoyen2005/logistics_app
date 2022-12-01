@@ -1,5 +1,8 @@
 package com.example.bettinalogistics.utils
 
+import com.example.bettinalogistics.model.Order
+import java.util.*
+
 class DataConstant {
     companion object{
         // user
@@ -61,5 +64,12 @@ class DataConstant {
         const val COMPANY_ADDRESS = "address"
         const val COMPANY_TEX_CODE= "texCode"
         const val COMPANY_BUSINESS_TYPE = "businessType"
+
+        // notification
+        const val CONTENT_NOTIFICATION = "contentNoti"
+        const val ID_NOTIFICATION = "notificationId"
+        const val ORDER_NOTIFICATION = "order"
+        const val CONFIRM_DATE_NOTIFICATION = "confirmDate"
+        const val TIME_ESTIMATE_NOTIFICATION = "timeTransactionEstimate"
     }
 }

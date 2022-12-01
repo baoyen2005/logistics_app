@@ -33,7 +33,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     var methodTransport: String? = null
     var userCompany: UserCompany? = null
     var addOrderTransactionLiveData = MutableLiveData<Boolean>()
-
+    var customerOrder : Order? = null
     fun addOrderTransaction(
         amountBeforeDiscount: Double,
         discount: Double,
@@ -52,6 +52,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
                 typeTransportation = typeTransport,
                 methodTransport = methodTransport
             )
+            customerOrder = order
             Log.d(TAG, "addOrderTransaction: $products")
             orderRepository.addOrderTransaction(order) {
                 addOrderTransactionLiveData.postValue(it)
@@ -62,6 +63,13 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
         viewModelScope.launch(Dispatchers.IO) {
             orderRepository.deleteAddedProduct(products?.size ?: 0)
         }
+
+    var sendNotificationLiveData = MutableLiveData<Boolean>()
+    fun sendNotification(notification: Notification) = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.sendNotiRequest(notification){
+            sendNotificationLiveData.postValue(it)
+        }
+    }
 
     fun calculateInternalTruckingFee(): Long {
         var res = 0.0

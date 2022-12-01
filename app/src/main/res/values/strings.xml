@@ -186,4 +186,5 @@
     <string name="number_of_transaction">%s giao dịch</string>
     <string name="lable_VNPAYMobilePos">aaaaaaa</string>
     <string name="str_empty_search">Không có đơn hàng nào</string>
+    <string name="str_noti_order">Đơn hàng %s đã được đặt thành công, đang chờ phê duyệt</string>
 </resources>
