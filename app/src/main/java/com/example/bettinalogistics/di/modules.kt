@@ -13,8 +13,10 @@ import com.example.bettinalogistics.ui.activity.main.MainViewModel
 import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
 import com.example.bettinalogistics.ui.activity.splash.SplashViewModel
 import com.example.bettinalogistics.ui.fragment.admin.order.AdminOrderListViewModel
+import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailUserOrderViewModel
 import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingViewModel
 import com.example.bettinalogistics.ui.fragment.user.home.UserHomeViewModel
+import com.example.bettinalogistics.ui.fragment.user.notification.UserNotificationViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -44,13 +46,19 @@ val models = module {
         GoogleMapViewmodel(get())
     }
     viewModel {
-        ConfirmOrderViewModel(get())
+        ConfirmOrderViewModel(get(),get())
     }
     viewModel {
         UserFollowTrackingViewModel(get())
     }
     viewModel {
         AdminOrderListViewModel(get())
+    }
+    viewModel {
+        UserNotificationViewModel(get())
+    }
+    viewModel {
+        DetailUserOrderViewModel(get(),get())
     }
 }
 
@@ -73,6 +81,9 @@ val impls = module {
 
     single<FollowTrackingRepo>  {
         FollowTrackingRepoImpl()
+    }
+    single<OTTFirebaseRepo>  {
+        OttFirebaseRepoImpl()
     }
 }
 

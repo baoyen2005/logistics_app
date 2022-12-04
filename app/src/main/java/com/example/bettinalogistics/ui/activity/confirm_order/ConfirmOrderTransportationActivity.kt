@@ -6,13 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.baseapp.BaseActivity
-import com.example.baseapp.view.*
+import com.example.baseapp.UtilsBase
+import com.example.baseapp.view.getAmount
+import com.example.baseapp.view.getAmountServer
+import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityConfirmOrderTransportationBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.*
-import com.example.bettinalogistics.ui.activity.add_new_order.AddAddressTransactionActivity
-import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity
 import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.utils.Utils
@@ -61,9 +62,11 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
-        viewModel.products  = Utils.g().provideGson()
+        showLoading()
+        viewModel.getOttTokenList()
+        viewModel.products = Utils.g().provideGson()
             .fromJson(intent.getStringExtra(PRODUCT_LIST_CONFIRM_ACTIVITY), object :
-                TypeToken<List<Product>>() {}.type)?:  listOf()
+                TypeToken<List<Product>>() {}.type) ?: listOf()
         Log.d(TAG, "initView: ${viewModel.products}")
         viewModel.orderAddress = Utils.g().getObjectFromJson(
             intent.getStringExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY).toString(),
@@ -132,30 +135,73 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
 
     override fun observeData() {
         viewModel.addOrderTransactionLiveData.observe(this){
-            if(it){
+            if (it) {
                 viewModel.deleteAddedProducts()
                 AppData.g().clearOrderInfo()
-                val notification = Notification(contentNoti = getString(R.string.str_noti_order), order = viewModel.customerOrder)
+                val notification = Notification(
+                    contentNoti = getString(
+                        R.string.str_noti_order,
+                        viewModel.customerOrder?.company?.name ?: "",
+                        AppData.g().currentUser?.phone ?: "",
+                        viewModel.customerOrder?.orderCode,
+                        UtilsBase.g().getDotMoneyHasCcy(
+                            (viewModel.customerOrder?.amountAfterDiscount ?: 0L).toString(), "VND"
+                        ),
+                        viewModel.customerOrder?.orderDate ?: ""
+                    ),
+                    notificationType = getString(R.string.str_request_order),
+                    notiTo = "admin",
+                    confirmDate = "null",
+                    order = viewModel.customerOrder
+                )
                 viewModel.sendNotification(notification)
-            }
-            else{
+                val content = getString(
+                    R.string.str_request_ott,
+                    viewModel.userCompany?.name ?: "",
+                    viewModel.customerOrder?.orderCode ?: ""
+                )
+                val listToken = mutableListOf<String>()
+                viewModel.allTokenList.forEach {
+                    if (it.role == "admin") {
+                        it.token?.let { it1 -> listToken.add(it1) }
+                    }
+                }
+                val request = OttRequest(
+                    requestId = viewModel.customerOrder?.orderCode,
+                    serialNumbers = listToken, content = content, title = "Thông báo đặt hàng",
+                    notificationType = "142341234"
+                )
+                viewModel.sentOtt(request)
+            } else {
                 hiddenLoading()
                 confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
             }
         }
-        viewModel.sendNotificationLiveData.observe(this){
+        viewModel.sendNotificationLiveData.observe(this) {
             hiddenLoading()
-            if(it){
-                confirm.newBuild().setNotice(getString(R.string.str_add_order_success)).addButtonAgree {
-                    val i = Intent()
-                    setResult(RESULT_OK, i)
-                    finish()
-                }
-            }
-            else{
-                hiddenLoading()
+            if (it) {
+                confirm.newBuild().setNotice(getString(R.string.str_add_order_success))
+                    .addButtonAgree {
+                        val i = Intent()
+                        setResult(RESULT_OK, i)
+                        finish()
+                    }
+            } else {
                 confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
             }
+        }
+        viewModel.getOttTokenListLiveData.observe(this) {
+            hiddenLoading()
+            if (it.isNullOrEmpty()) {
+                Log.e(TAG, "observeData:tokenlist roongx ")
+            } else {
+                viewModel.allTokenList.addAll(it)
+            }
+        }
+
+        viewModel.sentOttLiveData.observe(this) {
+            hiddenLoading()
+            Log.d(TAG, "observeData send ott: ${it?.code} - ${it?.data}")
         }
     }
 }

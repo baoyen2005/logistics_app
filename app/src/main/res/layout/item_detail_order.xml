@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvDetailTransactionTitleItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cusfont="Regular"
+        android:layout_weight="1"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_16sp" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvDetailTransactionDescripItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:cusfont="SemiBold"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@id/tvDetailTransactionTitleItem"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_16sp"
+        app:layout_constraintTop_toTopOf="@id/tvDetailTransactionTitleItem"
+        app:layout_constraintRight_toRightOf="parent"
+        tool:text="aaaaaaaaaa" />
+
+</LinearLayout>

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.data.OTTFirebaseRepo
 import com.example.bettinalogistics.data.OrderRepository
 import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmUserInfoOrderAdapter.Companion.TYPE_ITEM_USER
@@ -24,7 +25,7 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 
-class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewModel() {
+class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo) : BaseViewModel() {
     @SuppressLint("StaticFieldLeak")
     private val context = Common.currentActivity
     var products: List<Product>? = null
@@ -34,6 +35,8 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
     var userCompany: UserCompany? = null
     var addOrderTransactionLiveData = MutableLiveData<Boolean>()
     var customerOrder : Order? = null
+    var allTokenList = mutableListOf<TokenOtt>()
+
     fun addOrderTransaction(
         amountBeforeDiscount: Double,
         discount: Double,
@@ -66,8 +69,22 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository) : BaseViewMode
 
     var sendNotificationLiveData = MutableLiveData<Boolean>()
     fun sendNotification(notification: Notification) = viewModelScope.launch(Dispatchers.IO) {
-        orderRepository.sendNotiRequest(notification){
+        orderRepository.sendNotiRequest(notification) {
             sendNotificationLiveData.postValue(it)
+        }
+    }
+
+    var getOttTokenListLiveData = MutableLiveData<List<TokenOtt>>()
+    fun getOttTokenList() = viewModelScope.launch(Dispatchers.IO) {
+        ottFirebaseRepo.getAllToken {
+            getOttTokenListLiveData.postValue(it)
+        }
+    }
+
+    var sentOttLiveData = MutableLiveData<OttResponse?>()
+    fun sentOtt(ottRequest: OttRequest) = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.sendOtt(ottRequest){
+            sentOttLiveData.postValue(it)
         }
     }
 

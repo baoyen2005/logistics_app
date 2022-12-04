@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.user.person.EditUserAccountActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearImageSignup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200dp"
+            android:background="@color/primary_dodger_blue_1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_signup" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvEditUserAvartar"
+                android:layout_width="@dimen/_80dp"
+                android:layout_height="@dimen/_80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:cardCornerRadius="@dimen/_40dp">
+
+                <ImageView
+                    android:id="@+id/ivEditUserAvatar"
+                    android:layout_width="@dimen/_80dp"
+                    android:layout_height="@dimen/_80dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/custom_bg_circle_white_image"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+            </androidx.cardview.widget.CardView>
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtEditUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                app:gr_hint="@string/full_name"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_left_icon="@drawable/ic_baseline_account_box_24"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtEditUserPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                app:gr_hint="@string/phone"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_left_icon="@drawable/ic_baseline_contact_phone_24"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:background="@drawable/shape_merchant_color_f8f8f9_corner_12"
+                android:paddingVertical="@dimen/_5dp">
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvEditUserDateOfBirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40dp"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:padding="@dimen/_10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16sp" />
+
+                <ImageView
+                    android:id="@+id/ivEditUserChooseDob"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_date_range_24"
+
+                    />
+            </RelativeLayout>
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtEditUserEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                app:gr_hint="@string/email"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_left_icon="@drawable/ic_baseline_email_24"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtEditUserPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                app:gr_hint="@string/password"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_left_icon="@drawable/ic_baseline_lock_24"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtEditUserAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15dp"
+                app:gr_hint="@string/password"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_left_icon="@drawable/ic_baseline_home_24"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp" />
+
+            <Button
+                android:id="@+id/btnEditUserSave"
+                style="@style/login"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginBottom="@dimen/_15dp"
+                android:text="@string/str_save"
+                android:textColor="@color/white"
+                app:backgroundTint="@null"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_address_signup" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

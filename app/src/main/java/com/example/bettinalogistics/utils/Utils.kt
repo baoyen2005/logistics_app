@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.utils
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
@@ -30,7 +31,6 @@ class Utils private constructor() {
             return instance!!
         }
     }
-
     private var gson: Gson? = null
 
     //Validate tên quá dài

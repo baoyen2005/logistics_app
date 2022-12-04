@@ -17,7 +17,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.vnpay.merchant.utils.UtilsBase
+import com.example.baseapp.UtilsBase
 import org.json.JSONObject
 import org.koin.androidx.scope.BuildConfig
 import java.math.BigDecimal

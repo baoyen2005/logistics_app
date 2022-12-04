@@ -47,12 +47,14 @@ class SignUpActivity : BaseActivity() {
         }
 
         binding.btnSignup.setOnClickListener {
+            showLoading()
             saveUser()
         }
     }
 
     override fun observeData() {
         viewModel.signUpLiveData.observe(this){
+            hiddenLoading()
             if(it) {
                 AppData.g().saveUser(
                     User(

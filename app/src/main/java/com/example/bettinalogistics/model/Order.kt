@@ -5,6 +5,7 @@ import com.example.bettinalogistics.utils.dateToString
 import java.util.*
 
 data class Order(
+    var id: String? = null,
     val orderCode: String? = null,
     var productList: List<Product>? = null,
     val address: OrderAddress? = null,

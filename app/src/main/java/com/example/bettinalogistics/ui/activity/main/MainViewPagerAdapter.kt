@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingFragment
 import com.example.bettinalogistics.ui.fragment.user.home.UserHomeFragment
 import com.example.bettinalogistics.ui.fragment.user.notification.NotificationFragment
-import com.example.bettinalogistics.ui.fragment.user.person.PersonFragment
+import com.example.bettinalogistics.ui.fragment.user.person.UserPersonFragment
 
 class MainViewPagerAdapter (fragmentActivity: FragmentActivity, private var totalCount: Int) :
     FragmentStateAdapter(fragmentActivity) {
@@ -19,7 +19,7 @@ class MainViewPagerAdapter (fragmentActivity: FragmentActivity, private var tota
             0 -> UserHomeFragment()
             1 -> UserFollowTrackingFragment()
             2 -> NotificationFragment()
-            else -> PersonFragment()
+            else -> UserPersonFragment()
         }
     }
 }

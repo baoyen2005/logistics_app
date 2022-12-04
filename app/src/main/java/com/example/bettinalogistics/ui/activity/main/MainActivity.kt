@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.ui.activity.main
 
 import android.content.Intent
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baseapp.BaseActivity
@@ -8,6 +9,7 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityMainBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
 import com.example.bettinalogistics.utils.Utils
 import com.google.firebase.auth.ktx.auth
@@ -48,6 +50,7 @@ class MainActivity : BaseActivity() {
             viewModel.role = AppData.g().currentUser?.role
             setupViewPager()
             binding.viewPagerMain.currentItem = 0
+            viewModel.saveTokenByUser()
             binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
             binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
             binding.ivMainNotification.setImageResource(R.drawable.ic_baseline_notifications_24)
@@ -87,6 +90,7 @@ class MainActivity : BaseActivity() {
                 )
                 AppData.g().currentUserAuth = Firebase.auth.currentUser.toString()
                 setupViewPager()
+                viewModel.saveTokenByUser()
                 binding.viewPagerMain.currentItem = 0
                 binding.ivMainHome.setImageResource(R.drawable.ic_baseline_home_24_clicked)
                 binding.ivMainFollowTrack.setImageResource(R.drawable.ic_baseline_source_24)
@@ -98,6 +102,9 @@ class MainActivity : BaseActivity() {
                     confirm.dismiss()
                 }
             }
+        }
+        viewModel.saveTokenByUserLiveData.observe(this){
+            Log.d(TAG, "saveTokenByUserLiveData:  $it")
         }
     }
 

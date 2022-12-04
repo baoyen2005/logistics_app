@@ -6,10 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.bettinalogistics.ui.fragment.admin.noti.AdminNotificationFragment
 import com.example.bettinalogistics.ui.fragment.admin.order.AdminOrderListFragment
 import com.example.bettinalogistics.ui.fragment.admin.person.AdminAccountFragment
-import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingFragment
 import com.example.bettinalogistics.ui.fragment.user.home.UserHomeFragment
-import com.example.bettinalogistics.ui.fragment.user.notification.NotificationFragment
-import com.example.bettinalogistics.ui.fragment.user.person.PersonFragment
 
 class AdminMainViewPagerAdapter (fragmentActivity: FragmentActivity, private var totalCount: Int) :
     FragmentStateAdapter(fragmentActivity) {

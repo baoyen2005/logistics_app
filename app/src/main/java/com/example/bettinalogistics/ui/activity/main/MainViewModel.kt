@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.data.AuthenticationRepository
+import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.model.TokenOtt
 import com.example.bettinalogistics.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +26,13 @@ class MainViewModel(val authenticationRepo: AuthenticationRepository) : BaseView
     fun updatePassword(password: String) = viewModelScope.launch(Dispatchers.IO){
         authenticationRepo.updatePassword(password){
             updatePasswordLiveData.postValue(it)
+        }
+    }
+
+    var saveTokenByUserLiveData = MutableLiveData<Boolean>()
+    fun saveTokenByUser() = viewModelScope.launch(Dispatchers.IO) {
+        authenticationRepo.saveTokenByUser(AppData.g().token){
+            saveTokenByUserLiveData.postValue(it)
         }
     }
 }

@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.databinding.ActivitySplashScreenBinding
+import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.activity.login.LoginActivity
 import com.example.bettinalogistics.ui.activity.main.MainActivity
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
@@ -36,7 +37,7 @@ class SplashScreen : BaseActivity() {
             // Get new FCM registration token
             val token = task.result
 //            model.handleSaveToken(token)
-            // Log and toast
+            AppData.g().token = token
             Log.d(TAG, "token sssss =  $token")
         })
     }

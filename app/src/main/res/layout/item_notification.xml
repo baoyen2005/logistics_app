@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/merchant_color_ffffff"
+    android:padding="@dimen/_16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="@dimen/_40dp"
+        android:layout_height="@dimen/_40dp"
+        app:srcCompat="@drawable/ic_order_success" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvNotifyTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_toEndOf="@id/ivIcon"
+        app:cusfont="Bold"
+        android:textColor="@drawable/color_737378_selected_004a9c"
+        android:textSize="@dimen/_16sp"
+        tool:text="Khách hàng thanh toán thành công" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNotifyTitle"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginTop="@dimen/_2dp"
+        android:layout_toEndOf="@id/ivIcon"
+        app:cusfont="Regular"
+        tool:text="2 min ago" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvNotifyDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivIcon"
+        android:layout_marginTop="@dimen/dp12"
+        app:cusfont="Regular"
+        android:lineSpacingExtra="6.4sp"
+        android:textColor="@color/merchant_color_4a4a4a"
+        tool:text="Bạn nhận được + 45.000 đ từ Vũ Tùng, số điện thoại đuôi 0816, số tài khoản 123xxx001.Tại Đại lý Bluenotes, điểm bán Bluenotes Láng Hạ.Mã giao dịch 133567899." />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvInfoOTT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNotifyDes"
+        android:layout_marginVertical="@dimen/_16dp"
+        android:visibility="gone"
+        tool:visibility="visible" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvViewDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rvInfoOTT"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="@dimen/_10dp"
+        android:layout_marginTop="@dimen/_16dp"
+        app:cusfont="Bold"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/_16dp"
+        android:text="@string/view_detail"
+        android:textColor="@color/merchant_color_004a9c"
+        android:textSize="@dimen/_16sp"
+        android:visibility="gone"
+        app:right="@drawable/ic_back_header_004a9c"
+        tool:visibility="visible" />
+</RelativeLayout>

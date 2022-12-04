@@ -4,8 +4,12 @@ import android.net.Uri
 import com.example.baseapp.BaseRepository
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.model.TokenOtt
 import com.example.bettinalogistics.model.User
+import com.example.bettinalogistics.utils.AppConstant.Companion.TOKEN_OTT
 import com.example.bettinalogistics.utils.AppConstant.Companion.USER_COLLECTION
+import com.example.bettinalogistics.utils.DataConstant.Companion.TOKEN
+import com.example.bettinalogistics.utils.DataConstant.Companion.TOKEN_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_DATE_OF_BIRTH
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
@@ -35,9 +39,11 @@ interface AuthenticationRepository {
         email: String, onComplete: ((Boolean) -> Unit)?
     )
 
-    suspend fun getUser(email: String,onComplete: ((User?) -> Unit)?)
+    suspend fun getUser(email: String, onComplete: ((User?) -> Unit)?)
 
-    suspend fun updatePassword(password: String,onComplete: ((Boolean) -> Unit)?)
+    suspend fun updatePassword(password: String, onComplete: ((Boolean) -> Unit)?)
+
+    suspend fun saveTokenByUser(token: String?, onComplete: ((Boolean) -> Unit)?)
 }
 
 class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository {
@@ -206,5 +212,49 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
                     }
                 }
         }
+    }
+
+    override suspend fun saveTokenByUser(token: String?, onComplete: ((Boolean) -> Unit)?) {
+        val documentReference = FirebaseFirestore.getInstance().collection(TOKEN_OTT)
+            .document()
+        FirebaseFirestore.getInstance().collection(TOKEN_OTT)
+            .whereEqualTo(USER_ID, AppData.g().userId)
+            .get()
+            .addOnCompleteListener {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnCompleteListener
+                }
+                val tokenOttList: List<TokenOtt> = it.result.toObjects(TokenOtt::class.java)
+                if (tokenOttList.isEmpty()) {
+                    val values: HashMap<String, String?> = HashMap()
+                    values[USER_ID] = AppData.g().userId
+                    values[TOKEN_ID] = documentReference.id
+                    values[TOKEN] = token
+                    values[USER_ROLE] = AppData.g().currentUser?.role ?: ""
+                    documentReference.set(values, SetOptions.merge())
+                        .addOnSuccessListener {
+                            if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                                onComplete?.invoke(false)
+                                return@addOnSuccessListener
+                            } else onComplete?.invoke(true)
+                        }.addOnFailureListener {
+                            onComplete?.invoke(false)
+                        }
+                } else {
+                    val token = tokenOttList.firstOrNull()
+                    token?.token = AppData.g().token
+                    val doc = token?.id?.let { it1 ->
+                        FirebaseFirestore.getInstance().collection(TOKEN_OTT)
+                            .document(it1)
+                    }
+                    doc?.set(token, SetOptions.merge())?.addOnSuccessListener {
+                        onComplete?.invoke(true)
+                    }?.addOnFailureListener {
+                        onComplete?.invoke(false)
+                    }
+                }
+            }.addOnFailureListener {
+                onComplete?.invoke(false)
+            }
     }
 }

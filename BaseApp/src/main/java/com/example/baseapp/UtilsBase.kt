@@ -1,4 +1,4 @@
-package com.vnpay.merchant.utils
+package com.example.baseapp
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
@@ -53,11 +53,47 @@ class UtilsBase private constructor() {
             return instance!!
         }
     }
-
+    private var FONT_BOLD: Typeface? = null
+    private var FONT_ITALIC: Typeface? = null
+    private var FONT_NORMAL: Typeface? = null
+    private var FONT_SEMI: Typeface? = null
+    private var FONT_MEDIUM: Typeface? = null
+    private var FONT_REGULAR: Typeface? = null
+    private var FONT_BLACK: Typeface? = null
     val CURRENCY = "VND"
     val TAG = "TAG"
     private var widthScreen = 0
     private var heightScreen = 0
+
+    fun getFont(type: Int, context: Context): Typeface? {
+        return when (type) {
+            1 -> {
+                if (FONT_MEDIUM == null) {
+                    FONT_MEDIUM = Typeface.createFromAsset(context.assets, "fonts/ssp_regular.otf")
+                }
+                FONT_MEDIUM
+            }
+            2 -> {
+                if (FONT_BOLD == null) {
+                    FONT_BOLD = Typeface.createFromAsset(context.assets, "fonts/ssp_bold.otf")
+                }
+                FONT_BOLD
+            }
+            3 -> {
+                if (FONT_ITALIC == null) {
+                    FONT_ITALIC =
+                        Typeface.createFromAsset(context.assets, "fonts/ssp_regular.otf")
+                }
+                FONT_ITALIC
+            }
+            else -> {
+                if (FONT_REGULAR == null) {
+                    FONT_REGULAR = Typeface.createFromAsset(context.assets, "fonts/ssp_regular.otf")
+                }
+                FONT_REGULAR
+            }
+        }
+    }
 
     fun changeToForiegnLanguage(ctx: Context, isForiegn: Boolean) {
         val locale = Locale(if (isForiegn) "en" else "vi_VN")

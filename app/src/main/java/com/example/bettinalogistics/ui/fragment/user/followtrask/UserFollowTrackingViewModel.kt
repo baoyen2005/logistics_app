@@ -7,10 +7,12 @@ import com.example.bettinalogistics.data.FollowTrackingRepo
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS_PENDING
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserFollowTrackingViewModel(val followTrackingRepo: FollowTrackingRepo) : BaseViewModel() {
+    var tabSelected: String? = ORDER_STATUS_PENDING
     fun getLisTrackingTab(): List<CommonEntity> {
         val list = mutableListOf<CommonEntity>()
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PENDING).setHightLight(true))

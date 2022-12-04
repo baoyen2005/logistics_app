@@ -19,6 +19,7 @@ class AppData {
     var currentUser : User? = Utils.g().getObjectFromJson(Utils.g().getDataString(DataConstant.USER)
         .toString(), User::class.java)
     var userId: String? = Utils.g().getDataString(USER_ID)
+    var token : String? = null
 
     companion object {
         private var instance: AppData? = null

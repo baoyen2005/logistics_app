@@ -235,8 +235,9 @@ class AddAddressTransactionActivity : BaseActivity() {
         viewModel.addCompanyInfoLiveData.observe(this) {
             hiddenLoading()
             if (it) {
-                confirm.setNotice(getString(R.string.str_add_company_success))
-                viewModel.getUserCompanyInfo()
+                confirm.setNotice(getString(R.string.str_add_company_success)).addButtonAgree{
+                    viewModel.getUserCompanyInfo()
+                }
             } else confirm.setNotice(getString(R.string.str_add_company_failed))
         }
     }

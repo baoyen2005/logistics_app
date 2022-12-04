@@ -5,8 +5,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.baseapp.BaseRclvAdapter
 import com.example.baseapp.BaseRclvVH
+import com.example.baseapp.BaseVHData
 import com.example.baseapp.utils.UtilsBase
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
@@ -18,11 +20,26 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
     companion object {
         const val TYPE_DATE = 1
     }
+    private val listFilter = mutableListOf<OrderVHData>()
+    var onItemClickListener: ((Order) -> Unit)? = null
+    var onSearchResult: ((Int) -> Unit)? = null
 
-    private var onItemClickListener: OnItemClickListener? = null
+    override fun getItemCount(): Int {
+        return listFilter.size
+    }
 
-    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
-        this.onItemClickListener = onItemClickListener
+    override fun getItemDataAtPosition(position: Int): Any {
+        return listFilter[position]
+    }
+
+    fun setData(dataList: List<Any>) {
+        val datas = mutableListOf<OrderVHData>()
+        dataList.forEachIndexed {index, data->
+            datas.add(OrderVHData(data))
+        }
+        listFilter.clear()
+        listFilter.addAll(datas)
+        reset(listFilter)
     }
 
     override fun getLayoutResource(viewType: Int): Int = when (viewType) {
@@ -37,17 +54,20 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
         }
 
     override fun getItemViewType(position: Int): Int {
-        if (mDataSet[position] is CommonEntity)
+        if (listFilter[position].realData is CommonEntity)
             return TYPE_DATE
         return super.getItemViewType(position)
     }
+    class OrderVHData(data: Any) : BaseVHData<Any>(data){
 
-    inner class OrderListViewHolder(itemView: View) : BaseRclvVH<Order>(itemView) {
+    }
+    inner class OrderListViewHolder(itemView: View) : BaseRclvVH<OrderVHData>(itemView) {
         private val tvAdminTypeTransport: TextView by lazy { itemView.findViewById(R.id.tvAdminTypeTransport) }
         private val tvAdminOrderCode: TextView by lazy { itemView.findViewById(R.id.tvAdminOrderCode) }
         private val tvAdminOrderAmountItem: TextView by lazy { itemView.findViewById(R.id.tvAdminOrderAmountItem) }
         private val tvAdminStatusOrderItem: TextView by lazy { itemView.findViewById(R.id.tvAdminStatusOrderItem) }
         private val ivImageIcon: ImageView by lazy { itemView.findViewById(R.id.ivImageIcon) }
+        private val llViewDetail: LinearLayoutCompat by lazy { itemView.findViewById(R.id.llViewDetail) }
         private val colorSuccess: Int by lazy {
             itemView.resources.getColor(R.color.merchant_color_004a9c)
         }
@@ -59,12 +79,18 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
         }
 
         init {
-            itemView.setSafeOnClickListener {
-                onItemClickListener?.onClick(mDataSet[bindingAdapterPosition] as Order)
+            llViewDetail.setSafeOnClickListener {
+                if(bindingAdapterPosition > -1){
+                    val data = listFilter[bindingAdapterPosition]
+                    data.realData?.let {
+                        onItemClickListener?.invoke(it as Order)
+                    }
+                }
             }
         }
 
-        override fun onBind(data: Order) {
+        override fun onBind(orderVHData: OrderVHData) {
+            val data = orderVHData.realData as Order
             tvAdminTypeTransport.text = data.typeTransportation ?: ""
             tvAdminOrderAmountItem.text =
                 UtilsBase.g().getDotMoneyHasCcy(data.amountBeforeDiscount.toString(), "đ")
@@ -110,16 +136,15 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
         }
     }
 
-    inner class DateOrderViewHolder(itemView: View) : BaseRclvVH<CommonEntity>(itemView) {
+    inner class DateOrderViewHolder(itemView: View) : BaseRclvVH<OrderVHData>(itemView) {
         private val tvDate: TextView by lazy { itemView.findViewById(R.id.tvAdminOrderListDateItem) }
         private val tvAdminOrderAmountItem: TextView by lazy { itemView.findViewById(R.id.tvAdminOrderListAmountItem) }
 
-        override fun onBind(data: CommonEntity) {
-            tvDate.text = data.title
-            tvAdminOrderAmountItem.text = data.description
+        override fun onBind(data: OrderVHData) {
+            tvDate.text = (data.realData as CommonEntity).title
+            tvAdminOrderAmountItem.text =  (data.realData as CommonEntity).description
         }
     }
-
 
     interface OnItemClickListener {
         fun onClick(item: Order)
@@ -136,11 +161,8 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
                     val results = FilterResults()
                     val key = normalization(charString)
                     mDataSet.forEach { data ->
-                        val order = data as Order
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (normalization((order.orderCode)).contains(key)
-                            || normalization(order.typeTransportation).contains(key)
+                        if (data is OrderVHData && data.realData is Order && normalization(((data.realData as Order).orderCode?.lowercase())).contains(key.lowercase())
+                            ||data is OrderVHData && data.realData is Order && normalization((data.realData as Order).typeTransportation?.lowercase()).contains(key.lowercase())
                         ) {
                             filteredList.add(data)
                         }
@@ -151,13 +173,13 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
             }
 
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults?) {
-                mDataSet.clear()
+                listFilter.clear()
                 if (filterResults?.values == null) {
-
-                    mDataSet.addAll(mDataSet as ArrayList<Any>)
+                    listFilter.addAll(mDataSet as ArrayList<OrderVHData>)
                 } else {
-                    mDataSet.addAll(filterResults.values as ArrayList<Any>)
+                    listFilter.addAll(filterResults.values as ArrayList<OrderVHData>)
                 }
+                onSearchResult?.invoke(listFilter.size)
                 notifyDataSetChanged()
             }
         }

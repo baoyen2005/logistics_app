@@ -4,10 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
-import com.example.bettinalogistics.model.Notification
-import com.example.bettinalogistics.model.Order
-import com.example.bettinalogistics.model.Product
-import com.example.bettinalogistics.model.UserCompany
+import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppConstant.Companion.ORDER_COLLECTION
 import com.example.bettinalogistics.utils.AppConstant.Companion.SEND_NOTIFICATION
@@ -30,11 +27,13 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CODE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_COMPANY
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_DATE
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_METHOD
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.PAYMENT_STATUS
+import com.example.bettinalogistics.utils.DataConstant.Companion.PERSON_RECEIVER_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_CONT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_DES
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_DOCUMENT_ID
@@ -56,6 +55,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 
@@ -67,9 +69,11 @@ interface OrderRepository {
     suspend fun updateProduct(product: Product, onComplete: ((Boolean) -> Unit)?)
     suspend fun getAllOrderTransactions(onComplete: ((List<Order>?) -> Unit)?)
     suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?)
+    suspend fun cancelOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
     suspend fun sendNotiRequest(notification: Notification, onComplete: ((Boolean) -> Unit)?)
+    suspend fun sendOtt(ottRequest: OttRequest, onComplete: ((OttResponse?) -> Unit)?)
 }
 
 class OrderRepositoryImpl : OrderRepository {
@@ -209,6 +213,8 @@ class OrderRepositoryImpl : OrderRepository {
     var countUpLoad = 0
     override suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?) {
         val values: HashMap<String, Any?> = HashMap()
+        val documentReference = FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
+            .document()
         values[ORDER_CODE] = order.orderCode
         values[ORDER_ADDRESS] = order.address
         values[ORDER_COMPANY] = order.company
@@ -221,9 +227,8 @@ class OrderRepositoryImpl : OrderRepository {
         values[ORDER_TRANSPORT_TYPE] = order.typeTransportation
         values[ORDER_TRANSPORT_METHOD] = order.methodTransport
         values[USER_ID] = AppData.g().userId
+        values[ORDER_ID] = documentReference.id
 
-        val documentReference = FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
-            .document()
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
                 if (order.productList.isNullOrEmpty()) {
@@ -241,7 +246,19 @@ class OrderRepositoryImpl : OrderRepository {
         }
     }
 
-    override suspend fun getUserCompany( onComplete: ((UserCompany?) -> Unit)?) {
+    override suspend fun cancelOrder(order: Order, onComplete: ((Boolean) -> Unit)?) {
+        val doc = order.id?.let {
+            FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
+                .document(it)
+        }
+        doc?.set(order, SetOptions.merge())?.addOnSuccessListener {
+            onComplete?.invoke(true)
+        }?.addOnFailureListener {
+            onComplete?.invoke(false)
+        }
+    }
+
+    override suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?) {
         FirebaseFirestore.getInstance().collection(AppConstant.USER_COMPANY_COLLECTION)
             .whereEqualTo(USER_ID, AppData.g().userId)
             .get()
@@ -293,11 +310,12 @@ class OrderRepositoryImpl : OrderRepository {
             .document()
         val values: HashMap<String, Any?> = HashMap()
         values[ID_NOTIFICATION] = documentReference.id
-        values[CONTENT_NOTIFICATION] = notification.contentNoti?: ""
+        values[CONTENT_NOTIFICATION] = notification.contentNoti ?: ""
         values[ORDER_NOTIFICATION] = notification.order
         values[CONFIRM_DATE_NOTIFICATION] = notification.confirmDate
-        values[TIME_ESTIMATE_NOTIFICATION] = notification.timeTransactionEstimate
+        values[PERSON_RECEIVER_NOTIFICATION] = notification.notiTo
         values[USER_ID] = AppData.g().userId
+        values[TIME_ESTIMATE_NOTIFICATION] = notification.timeTransactionEstimate
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
@@ -308,6 +326,40 @@ class OrderRepositoryImpl : OrderRepository {
                 onComplete?.invoke(false)
             }
         }
+    }
+
+    override suspend fun sendOtt(ottRequest: OttRequest, onComplete: ((OttResponse?) -> Unit)?) {
+        val apiService = ServiceBuilder.getInstance().create(OttFirebaseApi::class.java)
+        val call = apiService.sendOttFirebase(ottRequest)
+        Log.d(TAG, "sendOtt: $ottRequest")
+        call.enqueue(object : Callback<OttResponse?> {
+            override fun onResponse(call: Call<OttResponse?>, response: Response<OttResponse?>) {
+                val statusCode: Int = response.code()
+                Log.d(AppConstant.TAG, "onResponse: $statusCode")
+                val ottResponse = response.body()
+                onComplete?.invoke(ottResponse)
+                // Catching Responses From Retrofit
+                Log.d("TAG", "onResponseisSuccessful: " + response.isSuccessful());
+                Log.d("TAG", "onResponsebody: " + response.body());
+                Log.d("TAG", "onResponseerrorBody: " + response.errorBody());
+                Log.d("TAG", "onResponsemessage: " + response.message());
+                Log.d("TAG", "onResponsecode: " + response.code());
+                Log.d("TAG", "onResponseheaders: " + response.headers());
+                Log.d("TAG", "onResponseraw: " + response.raw());
+                Log.d("TAG", "onResponsetoString: " + response.toString());
+            }
+
+            override fun onFailure(call: Call<OttResponse?>, t: Throwable) {
+                Log.d(AppConstant.TAG, "onFailure: $t")
+                Log.d("TAG", "onFailuregetLocalizedMessage: " + t.getLocalizedMessage());
+                Log.d("TAG", "onFailuregetMessage: " + t.message);
+                Log.d("TAG", "onFailuretoString: " + t.toString());
+                Log.d("TAG", "onFailurefillInStackTrace: " + t.fillInStackTrace());
+                Log.d("TAG", "onFailuregetCause: " + t.cause);
+                Log.d("TAG", "onFailuregetStackTrace: " + Arrays.toString(t.getStackTrace()));
+                Log.d("TAG", "getSuppressed: " + Arrays.toString(t.getSuppressed()));
+            }
+        })
     }
 
     private fun deleteCollectionAddedProduct(collection: CollectionReference, batchSize: Int) {
