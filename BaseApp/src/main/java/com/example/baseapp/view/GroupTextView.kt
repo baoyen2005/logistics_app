@@ -137,8 +137,16 @@ class GroupTextView: LinearLayout{
         binding.rlGroupTv.background = ContextCompat.getDrawable(context, focusBackground)
     }
 
+    fun isTvErrorVisible():Boolean {
+        return binding.tvError.isVisible
+    }
+
     fun getContentText(): String {
         return binding.edtContent.text.toString().trim()
+    }
+
+    fun getEditText(): EditText {
+        return binding.edtContent
     }
 
     fun hasFocusInput(): Boolean {

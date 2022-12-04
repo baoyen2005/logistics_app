@@ -17,8 +17,10 @@ import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.utils.Utils
+import com.example.bettinalogistics.utils.Utils_Date
 import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class ConfirmOrderTransportationActivity : BaseActivity() {
     companion object {
@@ -152,6 +154,7 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
                     notificationType = getString(R.string.str_request_order),
                     notiTo = "admin",
                     confirmDate = "null",
+                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_ddMMYYYY),
                     order = viewModel.customerOrder
                 )
                 viewModel.sendNotification(notification)

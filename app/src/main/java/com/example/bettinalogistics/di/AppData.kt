@@ -4,11 +4,9 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import com.example.baseapp.di.Common
-import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.User
-import com.example.bettinalogistics.ui.activity.main.MainActivity
+import com.example.bettinalogistics.ui.activity.login.LoginActivity
 import com.example.bettinalogistics.utils.DataConstant
-import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_EMAIL
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
 import com.example.bettinalogistics.utils.Utils
@@ -41,12 +39,13 @@ class AppData {
     fun logout() {
         userId = null
         currentUserAuth = null
-        val intent = Intent(Common.currentActivity, MainActivity::class.java)
+        val intent = Intent(Common.currentActivity, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         Common.currentActivity!!.startActivity(intent)
         Common.currentActivity!!.overridePendingTransition(0, 0);
         ActivityCompat.finishAffinity(Common.currentActivity!!)
         Common.currentActivity!!.finish()
+        clear()
     }
 
     fun saveUser(user: User){
@@ -56,6 +55,15 @@ class AppData {
         Utils.g().saveDataString(DataConstant.USER_PHONE, user.phone)
         Utils.g().saveDataString(DataConstant.USER_FULL_NAME, user.fullName)
         Utils.g().saveDataString(DataConstant.USER, Utils.g().getJsonFromObject(user))
+    }
+
+    fun clear(){
+        Utils.g().saveDataString(USER_EMAIL, "")
+        Utils.g().saveDataString(DataConstant.USER_ID, "")
+        Utils.g().saveDataString(DataConstant.USER_IMAGE, "")
+        Utils.g().saveDataString(DataConstant.USER_PHONE, "")
+        Utils.g().saveDataString(DataConstant.USER_FULL_NAME, "")
+        Utils.g().saveDataString(DataConstant.USER, "")
     }
 
     fun clearOrderInfo(){

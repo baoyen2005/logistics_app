@@ -188,6 +188,8 @@
     <string name="str_empty_search">Không có đơn hàng nào</string>
     <string name="str_noti_order">Khách hàng %s với số điện thoại %s vừa gửi yêu cầu đặt hàng với mã vận đơn %s, giá trị đơn hàng %s,ngày đặt hàng %s</string>
     <string name="str_noti_order_cancel">Khách hàng %s với số điện thoại %s vừa hủy đơn hàng với mã vận đơn %s, giá trị đơn hàng %s,ngày đặt hàng %s</string>
+    <string name="str_noti_admin_reject_order">Đơn hàng có mã vận đơn %s của khách hàng %s đã bị công ty vận chuyển từ chối</string>
+    <string name="str_noti_admin_approved_order">Đơn hàng có mã vận đơn %s của khách hàng %s đã được công ty chấp nhận</string>
     <string name="str_request_ott">Khách hàng %s vừa gửi yêu cầu đặt hàng với mã vận đơn %s</string>
     <string name="str_request_ott_cancel">Khách hàng %s vừa hủy đơn hàng với mã vận đơn %s</string>
     <string name="str_emtpy_notification">Không có thông báo nào mới</string>
@@ -211,4 +213,19 @@
     <string name="str_membership">Hạng thành viên</string>
     <string name="str_rank_level0">Thành viên mới</string>
     <string name="str_save">Lưu</string>
+    <string name="str_empty_input">%s không được để trống</string>
+    <string name="str_invalid_input">%s không hợp lệ</string>
+    <string name="str_invalid_password">Mật khẩu không hợp lệ, yêu cầu ít nhất 8 kí tự và có chữ hoa chữ thường</string>
+    <string name="str_edit_user_success">Cập nhật thông tin thành công</string>
+    <string name="str_edit_user_fail">Cập nhật thông tin thất bại, vui lòng thử lại</string>
+    <string name="str_bank_name">Tên ngân hàng</string>
+    <string name="str_card_number">Số thẻ</string>
+    <string name="str_account_number">Số tài khoản</string>
+    <string name="str_date_expired">Ngày hết hạn: mm/yyyy</string>
+    <string name="st_dont_connect_card">Bạn chưa liên kết thẻ? Liên kết ngay</string>
+    <string name="str_connect_card_succes">Liên kết thẻ thành công</string>
+    <string name="str_connect_card_fail">Liên kết thẻ thất bại</string>
+    <string name="str_approve">Chấp nhận</string>
+    <string name="str_noti_cancel_order">Thông báo hủy đơn hàng</string>
+    <string name="str_noti_approve_order">Thông báo xác nhận đơn hàng</string>
 </resources>

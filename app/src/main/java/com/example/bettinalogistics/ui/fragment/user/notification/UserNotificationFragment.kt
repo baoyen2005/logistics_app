@@ -14,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class NotificationFragment : BaseFragment() {
-    private val notificationAdapter : NotificationAdapter  by lazy { NotificationAdapter() }
+    private val adminNotificationAdapter : UserNotificationAdapter by lazy { UserNotificationAdapter() }
     override val viewModel: UserNotificationViewModel by sharedViewModel()
 
     override val binding: FragmentNotificationBinding by lazy {
@@ -25,7 +25,7 @@ class NotificationFragment : BaseFragment() {
         showLoading()
         viewModel.getAllNotification("user")
         binding.emptyNotification.tvEmptyLayoutTitle.text = getString(R.string.str_emtpy_notification)
-        binding.rvNotification.adapter = notificationAdapter
+        binding.rvNotification.adapter = adminNotificationAdapter
         binding.layoutNotificationHeader.ivHeaderBack.isVisible =false
         binding.layoutNotificationHeader.tvHeaderTitle.text = getString(R.string.str_noti)
     }
@@ -43,7 +43,7 @@ class NotificationFragment : BaseFragment() {
             else{
                 binding.rvNotification.isVisible = true
                 binding.emptyNotification.root.isVisible = false
-                notificationAdapter.reset(convertToListData(it))
+                adminNotificationAdapter.reset(convertToListData(it))
             }
         }
     }
@@ -51,7 +51,7 @@ class NotificationFragment : BaseFragment() {
     private fun convertToListData(listEntity: List<Notification>): List<Any> {
         val list = mutableListOf<Any>()
         val listDate = listEntity.map {
-            it.confirmDate.let { date ->
+            it.confirmDate?.let { date ->
                 Utils.g()
                     .convertDate(
                         Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,

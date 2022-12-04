@@ -108,7 +108,8 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
                     tvAdminStatusOrderItem.setTextColor(colorFailed)
                     tvAdminOrderAmountItem.setTextColor(colorFailed)
                 }
-                DataConstant.ORDER_STATUS_PENDING -> {
+                DataConstant.ORDER_STATUS_PENDING,
+                DataConstant.ORDER_STATUS_DELIVERING  -> {
                     tvAdminStatusOrderItem.setTextColor(colorProcess)
                     tvAdminOrderAmountItem.setTextColor(colorProcess)
                 }
@@ -122,7 +123,11 @@ class AdminListOrderAdapter : BaseRclvAdapter(), Filterable {
             listOf(DataConstant.ORDER_STATUS_DELIVERED, DataConstant.ORDER_STATUS_PAYMENT_PAID)
         val listFaild = listOf(DataConstant.ORDER_STATUS_CANCEL)
         val listProcess =
-            listOf(DataConstant.ORDER_STATUS_PENDING, DataConstant.ORDER_STATUS_PAYMENT_WAITING)
+            listOf(
+                DataConstant.ORDER_STATUS_PENDING,
+                DataConstant.ORDER_STATUS_PAYMENT_WAITING,
+                DataConstant.ORDER_STATUS_DELIVERING
+            )
         return when {
             listSuccess.contains(status) -> {
                 R.drawable.ic_order_success

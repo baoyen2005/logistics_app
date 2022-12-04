@@ -103,6 +103,15 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         return binding.edtGroupEditTextLayout.text.toString().trim()
     }
 
+    fun getEditText(): EditText {
+        return binding.edtGroupEditTextLayout
+    }
+
+    fun clearEditText() {
+        binding.edtGroupEditTextLayout.setText("")
+        binding.edtGroupEditTextLayout.clearFocus()
+    }
+
     fun hasFocusInput(): Boolean {
         return binding.edtGroupEditTextLayout.hasFocus()
     }

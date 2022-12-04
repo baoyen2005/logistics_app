@@ -1,4 +1,4 @@
-package com.example.bettinalogistics.ui.fragment.user.detail_order
+package com.example.bettinalogistics.ui.fragment.admin.detail_order
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -15,8 +15,9 @@ import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailOrderAda
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo) : BaseViewModel() {
+class DetailAdminOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo) : BaseViewModel() {
     var order: Order? = null
+    var isCancel : Boolean  = false
     var allTokenList = mutableListOf<TokenOtt>()
 
     fun getListDetailOrderCommonEntity(
@@ -95,10 +96,10 @@ class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRe
         return list
     }
 
-    val cancelOrderLiveData = MutableLiveData<Boolean>()
-    fun cancelOder(order: Order) = viewModelScope.launch(Dispatchers.IO) {
+    val updateOrderLiveData = MutableLiveData<Boolean>()
+    fun updateOrder(order: Order) = viewModelScope.launch(Dispatchers.IO) {
         orderRepo.updateOrder(order) {
-            cancelOrderLiveData.postValue(it)
+            updateOrderLiveData.postValue(it)
         }
     }
     var sendNotiRequestFirebaseLiveData = MutableLiveData<Boolean>()

@@ -18,6 +18,7 @@ class UserFollowTrackingViewModel(val followTrackingRepo: FollowTrackingRepo) : 
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PENDING).setHightLight(true))
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_CONFIRM))
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_DELIVERED))
+        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_DELIVERING))
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_CANCEL))
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PAYMENT_PAID))
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PAYMENT_WAITING))

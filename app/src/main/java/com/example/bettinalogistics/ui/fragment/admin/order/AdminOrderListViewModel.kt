@@ -11,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AdminOrderListViewModel(val adminOrderRepo: AdminOrderRepo) : BaseViewModel() {
+    var tabSelected : String = DataConstant.ORDER_STATUS_PENDING
+
     fun getAdminOrderListTab(): List<CommonEntity> {
         val list = mutableListOf<CommonEntity>()
         list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_PENDING).setHightLight(true))

@@ -1,4 +1,4 @@
-package com.example.bettinalogistics.ui.fragment.user.detail_order
+package com.example.bettinalogistics.ui.fragment.admin.detail_order
 
 import android.content.ContentValues
 import android.content.Context
@@ -9,23 +9,22 @@ import androidx.core.view.isVisible
 import com.example.baseapp.BaseActivity
 import com.example.baseapp.UtilsBase
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.databinding.ActivityUserDetailOrderBinding
-import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.databinding.ActivityAdminDetailOrderBinding
 import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OttRequest
+import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailOrderAdapter
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class UserDetailOrderActivity : BaseActivity() {
+class AdminDetailOrderActivity : BaseActivity() {
     companion object {
         const val DETAIL_ORDER = "detailOrder"
-
         fun startDetailOrderActivity(context: Context, order: Order): Intent {
-            val intent = Intent(context, UserDetailOrderActivity::class.java)
+            val intent = Intent(context, AdminDetailOrderActivity::class.java)
             intent.putExtra(
                 DETAIL_ORDER,
                 Utils.g().getJsonFromObject(order)
@@ -36,10 +35,10 @@ class UserDetailOrderActivity : BaseActivity() {
 
     private val detailOrderAdapter: DetailOrderAdapter by lazy { DetailOrderAdapter() }
 
-    override val viewModel: DetailUserOrderViewModel by viewModel()
+    override val viewModel: DetailAdminOrderViewModel by viewModel()
 
-    override val binding: ActivityUserDetailOrderBinding by lazy {
-        ActivityUserDetailOrderBinding.inflate(layoutInflater)
+    override val binding: ActivityAdminDetailOrderBinding by lazy {
+        ActivityAdminDetailOrderBinding.inflate(layoutInflater)
     }
 
     override fun initView() {
@@ -50,7 +49,8 @@ class UserDetailOrderActivity : BaseActivity() {
                 ?.let { Utils.g().getObjectFromJson(it, Order::class.java) }
         viewModel.order = order
         binding.tvDetailOrderAmount.text =
-            UtilsBase.g().getDotMoney((order?.amountBeforeDiscount?:0.0).toLong().toString()) + " VND"
+            UtilsBase.g()
+                .getDotMoney((order?.amountBeforeDiscount ?: 0.0).toLong().toString()) + " VND"
         binding.tvDetailOrderCode.text = order?.orderCode ?: ""
         binding.tvDetailCompany.text = order?.company?.name ?: ""
         binding.tvDetailOrderOriginAddress.text = order?.address?.originAddress ?: ""
@@ -58,7 +58,9 @@ class UserDetailOrderActivity : BaseActivity() {
         binding.tvDetailStatusOrder.text = order?.statusOrder ?: ""
         binding.rvDetailOrder.adapter = detailOrderAdapter
         detailOrderAdapter.reset(order?.let { viewModel.getListDetailOrderCommonEntity(it, this) })
-        binding.btnCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
+        binding.btnAdminCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
+        binding.btnAdminApprove.isVisible =
+            (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_PENDING,
             DataConstant.ORDER_STATUS_PAYMENT_WAITING,
@@ -98,53 +100,90 @@ class UserDetailOrderActivity : BaseActivity() {
         binding.ivDetailTransactionBack.setOnClickListener {
             finish()
         }
-        binding.btnCancel.setOnClickListener {
+        binding.btnAdminApprove.setOnClickListener {
+            showLoading()
+            val order = viewModel.order
+            order?.statusOrder = DataConstant.ORDER_STATUS_CONFIRM
+            order?.let { it1 -> viewModel.updateOrder(it1) }
+            viewModel.isCancel = false
+            binding.btnAdminCancel.isVisible = false
+        }
+        binding.btnAdminCancel.setOnClickListener {
             showLoading()
             val order = viewModel.order
             order?.statusOrder = DataConstant.ORDER_STATUS_CANCEL
-            order?.let { it1 -> viewModel.cancelOder(it1) }
+            order?.let { it1 -> viewModel.updateOrder(it1) }
+            viewModel.isCancel = true
+            binding.btnAdminApprove.isVisible = false
         }
     }
 
     override fun observeData() {
-        viewModel.cancelOrderLiveData.observe(this) {
+        viewModel.updateOrderLiveData.observe(this) {
             hiddenLoading()
             if (it) {
-                val notification = Notification(
-                    contentNoti = getString(
-                        R.string.str_noti_order_cancel,
-                        viewModel.order?.company?.name ?: "",
-                        AppData.g().currentUser?.phone ?: "",
-                        viewModel.order?.orderCode,
-                        UtilsBase.g().getDotMoneyHasCcy(
-                            (viewModel.order?.amountAfterDiscount ?: 0L).toLong().toString(), "VND"
-                        ),
-                        viewModel.order?.orderDate ?: ""
-                    ),
-                    notificationType = getString(R.string.str_cancel_order),
-                    notiTo = "admin",
-                    confirmDate = "null",
-                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_ddMMYYYY),
-                    order = viewModel.order
-                )
-                viewModel.sendNotiRequestFirebase(notification)
-                val content = getString(
-                    R.string.str_request_ott_cancel,
-                    viewModel.order?.company?.name ?: "",
-                    viewModel.order?.orderCode ?: ""
-                )
                 val listToken = mutableListOf<String>()
                 viewModel.allTokenList.forEach {
-                    if (it.role == "admin") {
+                    if (it.role == "user") {
                         it.token?.let { it1 -> listToken.add(it1) }
                     }
                 }
-                val request = OttRequest(
-                    requestId = viewModel.order?.orderCode,
-                    serialNumbers = listToken, content = content, title = "Thông báo đặt hàng",
-                    notificationType = "142341234"
-                )
-                viewModel.sendOttServer(request)
+                if (viewModel.isCancel) {
+                    val notification = Notification(
+                        contentNoti = getString(
+                            R.string.str_noti_admin_reject_order,
+                            viewModel.order?.orderCode ?: "",
+                            viewModel.order?.company?.name ?: "",
+                        ),
+                        notificationType = getString(R.string.str_cancel_order),
+                        notiTo = "user",
+                        confirmDate = Utils_Date.convertformDate(
+                            Date(),
+                            Utils_Date.DATE_PATTERN_ddMMYYYY
+                        ),
+                        order = viewModel.order
+                    )
+                    viewModel.sendNotiRequestFirebase(notification)
+                    val content = getString(
+                        R.string.str_noti_admin_reject_order,
+                        viewModel.order?.orderCode ?: "",
+                        viewModel.order?.company?.name ?: ""
+                    )
+                    val request = OttRequest(
+                        requestId = viewModel.order?.orderCode,
+                        serialNumbers = listToken, content = content, title = getString(R.string.str_noti_cancel_order),
+                        notificationType = "142341234"
+                    )
+                    viewModel.sendOttServer(request)
+                }
+                else{
+                    val notification = Notification(
+                        contentNoti = getString(
+                            R.string.str_noti_admin_approved_order,
+                            viewModel.order?.orderCode ?: "",
+                            viewModel.order?.company?.name ?: "",
+                        ),
+                        notificationType = getString(R.string.str_noti_approve_order),
+                        notiTo = "user",
+                        confirmDate = Utils_Date.convertformDate(
+                            Date(),
+                            Utils_Date.DATE_PATTERN_ddMMYYYY
+                        ),
+                        order = viewModel.order
+                    )
+                    viewModel.sendNotiRequestFirebase(notification)
+                    val content = getString(
+                        R.string.str_noti_admin_reject_order,
+                        viewModel.order?.orderCode ?: "",
+                        viewModel.order?.company?.name ?: ""
+                    )
+                    val request = OttRequest(
+                        requestId = viewModel.order?.orderCode,
+                        serialNumbers = listToken, content = content, title = getString(R.string.str_noti_cancel_order),
+                        notificationType = "142341234"
+                    )
+                    viewModel.sendOttServer(request)
+                }
             } else {
                 confirm.setNotice(getString(R.string.str_cancel_failed))
             }

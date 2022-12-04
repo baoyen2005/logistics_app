@@ -67,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15dp"
                 app:gr_hint="@string/phone"
+                app:gr_max_length = "10"
                 app:gr_hint_text_color="@color/color_text_8"
                 app:gr_is_show_clear_text="true"
                 app:gr_left_icon="@drawable/ic_baseline_contact_phone_24"
@@ -99,10 +100,19 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_baseline_date_range_24"
-
                     />
             </RelativeLayout>
 
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvDateOfbError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_24dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:textColor="@color/merchant_color_ea5b5b"
+                android:textSize="@dimen/_14sp"
+                app:cusfont="Bold" />
             <com.example.baseapp.view.GroupTextView
                 android:id="@+id/edtEditUserEmail"
                 android:layout_width="match_parent"

@@ -1,11 +1,10 @@
-package com.example.bettinalogistics.ui.fragment.user.notification
+package com.example.bettinalogistics.ui.fragment.admin.noti
 
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
-import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +21,7 @@ import com.example.bettinalogistics.utils.Utils_Date
 import com.example.bettinalogistics.utils.Utils_Date.DATE_PATTERN_ddMMYYYY
 import com.example.bettinalogistics.utils.toDate
 
-class NotificationAdapter : BaseRclvAdapter() {
+class AdminNotificationAdapter : BaseRclvAdapter() {
 
     companion object {
 
@@ -62,9 +61,9 @@ class NotificationAdapter : BaseRclvAdapter() {
             tvTitle.text = data.notificationType ?: ""
             tvNotifyDes.text = data.contentNoti
             tvNotifyDes.visibility = View.VISIBLE
-            tvTime.text = data.confirmDate.toDate(DATE_PATTERN_ddMMYYYY)?.let {
+            tvTime.text = data.requestDate?.toDate(DATE_PATTERN_ddMMYYYY)?.let {
                 Utils_Date.getCurrentTimeByFormat(
-                    Utils_Date.DATE_PATTERN_SS_MM_HH_DD_MM_YYYY,
+                    Utils_Date.DATE_PATTERN_ddMMYYYY,
                     it.time
                 )
             }

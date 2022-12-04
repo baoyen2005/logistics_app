@@ -43,6 +43,7 @@ class DataConstant {
         const val ORDER_STATUS_PENDING = "Đang chờ duyệt"
         const val ORDER_STATUS_CONFIRM = "Đã xác nhận"
         const val ORDER_STATUS_DELIVERED= "Đã giao"
+        const val ORDER_STATUS_DELIVERING= "Đang giao"
         const val ORDER_STATUS_PAYMENT_PAID= "Đã thanh toán"
         const val ORDER_STATUS_PAYMENT_WAITING= "Chờ thanh toán"
         const val ORDER_STATUS_CANCEL= "Đã hủy"
@@ -74,5 +75,12 @@ class DataConstant {
         //token
         const val TOKEN_ID = "id"
         const val TOKEN = "token"
+
+        //card
+        const val BANK_NAME = "name"
+        const val CARD_ID = "id"
+        const val ACCOUNT_NUMBER = "accountNumber"
+        const val CARD_NUMBER = "cardNumber"
+        const val DARE_OF_EXPIRED= "dateOfExpired"
     }
 }

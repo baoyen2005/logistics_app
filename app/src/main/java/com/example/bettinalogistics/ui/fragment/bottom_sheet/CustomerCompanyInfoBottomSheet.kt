@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
     var onConfirmListener: ((UserCompany) -> Unit)? = null
+    var company: UserCompany? = null
 
     val binding: CustomerCompanyInfoLayoutBinding by lazy {
         CustomerCompanyInfoLayoutBinding.inflate(layoutInflater)
@@ -87,6 +88,17 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initView() {
+        if (company == null) {
+            binding.edtCompanyName.clearEditText()
+            binding.edtCompanyAddress.clearEditText()
+            binding.edtCompanyTexCode.clearEditText()
+            binding.edtCompanyBusinessType.clearEditText()
+        } else {
+            binding.edtCompanyName.setValueText(company?.name?:"")
+            binding.edtCompanyAddress.setValueText(company?.address?:"")
+            binding.edtCompanyTexCode.setValueText(company?.texCode?:"")
+            binding.edtCompanyBusinessType.setValueText(company?.businessType?:"")
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

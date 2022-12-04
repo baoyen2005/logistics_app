@@ -1,8 +1,5 @@
 package com.example.bettinalogistics.model
 
-import com.example.bettinalogistics.utils.dateToString
-import java.util.*
-
 data class Notification(
     var uid: String? = null,
     var notificationType : String?= null,
@@ -10,6 +7,7 @@ data class Notification(
     var contentNoti: String? = null,
     var notiTo: String? = null,
     var order: Order? = null,
-    var confirmDate: String = dateToString(Calendar.getInstance().time),
+    var confirmDate: String? = null,
+    var requestDate: String? = null,
     var timeTransactionEstimate: String? = null
 )

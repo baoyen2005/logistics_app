@@ -17,6 +17,7 @@ import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailUserOrde
 import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingViewModel
 import com.example.bettinalogistics.ui.fragment.user.home.UserHomeViewModel
 import com.example.bettinalogistics.ui.fragment.user.notification.UserNotificationViewModel
+import com.example.bettinalogistics.ui.fragment.user.person.UserPersonViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -60,6 +61,9 @@ val models = module {
     viewModel {
         DetailUserOrderViewModel(get(),get())
     }
+    viewModel {
+        UserPersonViewModel(get())
+    }
 }
 
 val impls = module {
@@ -82,6 +86,7 @@ val impls = module {
     single<FollowTrackingRepo>  {
         FollowTrackingRepoImpl()
     }
+
     single<OTTFirebaseRepo>  {
         OttFirebaseRepoImpl()
     }

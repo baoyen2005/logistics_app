@@ -69,7 +69,7 @@ interface OrderRepository {
     suspend fun updateProduct(product: Product, onComplete: ((Boolean) -> Unit)?)
     suspend fun getAllOrderTransactions(onComplete: ((List<Order>?) -> Unit)?)
     suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?)
-    suspend fun cancelOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
+    suspend fun updateOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
     suspend fun sendNotiRequest(notification: Notification, onComplete: ((Boolean) -> Unit)?)
@@ -246,7 +246,7 @@ class OrderRepositoryImpl : OrderRepository {
         }
     }
 
-    override suspend fun cancelOrder(order: Order, onComplete: ((Boolean) -> Unit)?) {
+    override suspend fun updateOrder(order: Order, onComplete: ((Boolean) -> Unit)?) {
         val doc = order.id?.let {
             FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
                 .document(it)

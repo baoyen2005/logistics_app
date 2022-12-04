@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background = "@drawable/shape_merchant_color_ffffff_corner_top_24"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:fontFamily="@font/ssp_bold"
+        android:gravity="center"
+        android:text="@string/str_connect_card"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp" />
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtCardName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        app:gr_hint="@string/str_bank_name"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"/>
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtCardNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        app:gr_hint="@string/str_card_number"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"/>
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtAccountNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        app:gr_hint="@string/str_account_number"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"/>
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtDateExpired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        app:gr_hint="@string/str_date_expired"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"
+        />
+
+    <Button
+        android:id="@+id/btnCustomerInforContinued"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:layout_marginTop="@dimen/_40dp"
+        app:backgroundTint="@null"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:gravity="center"
+        android:visibility="gone"
+        android:paddingVertical="@dimen/dp8"
+        android:text="@string/str_save"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/ssp_bold"
+        android:layout_marginHorizontal="@dimen/_15dp" />
+</androidx.appcompat.widget.LinearLayoutCompat>

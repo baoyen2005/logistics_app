@@ -8,12 +8,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.UtilsBase
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityEditUserAccountBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppPermissionsUtils
+import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.dateToString
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -77,12 +79,83 @@ class EditUserAccountActivity : BaseActivity() {
                     address = binding.edtEditUserAddress.getContentText(),
                     role = "user",
                 )
+                showLoading()
+                viewModel.editUser(userEdit)
             }
         }
     }
 
     override fun observeData() {
+        viewModel.editUserLiveData.observe(this){
+            hiddenLoading()
+            if(it){
+                confirm.newBuild().setNotice(getString(R.string.str_edit_user_success)).addButtonAgree {
+                    finish()
+                }
+            }
+            else{
+                confirm.newBuild().setNotice(getString(R.string.str_edit_user_fail))
+            }
+        }
+    }
 
+    private fun checkValidate(): Boolean {
+        if (binding.edtEditUserName.getContentText().isEmpty()) {
+            binding.edtEditUserName.setVisibleMessageError(
+                getString(
+                    R.string.str_empty_input,
+                    getString(R.string.full_name)
+                )
+            )
+        }
+        if (binding.edtEditUserPhone.getContentText().isEmpty()) {
+            binding.edtEditUserPhone.setVisibleMessageError(
+                getString(
+                    R.string.str_empty_input,
+                    getString(R.string.phone)
+                )
+            )
+        }
+        if (!UtilsBase.g().isValidPhone(binding.edtEditUserPhone.getContentText())) {
+            binding.edtEditUserPhone.setVisibleMessageError(
+                getString(
+                    R.string.str_invalid_input,
+                    getString(R.string.phone)
+                )
+            )
+        }
+        if (binding.edtEditUserPassword.getContentText().isEmpty()) {
+            binding.edtEditUserPhone.setVisibleMessageError(
+                getString(
+                    R.string.str_empty_input,
+                    getString(R.string.password)
+                )
+            )
+        }
+        if (!Utils.g().verifyPassword(binding.edtEditUserPhone.getContentText())) {
+            binding.edtEditUserPhone.setVisibleMessageError(getString(R.string.str_invalid_password))
+        }
+        if (binding.edtEditUserAddress.getContentText().isEmpty()) {
+            binding.edtEditUserAddress.setVisibleMessageError(
+                getString(
+                    R.string.str_empty_input,
+                    getString(R.string.address)
+                )
+            )
+        }
+        if (binding.tvEditUserDateOfBirth.text.isNullOrEmpty()) {
+            binding.tvDateOfbError.isVisible = true
+            binding.tvDateOfbError.text =
+                getString(R.string.str_empty_input, getString(R.string.date_of_birth))
+        }
+        else{
+            binding.tvDateOfbError.isVisible = false
+        }
+        return !binding.tvDateOfbError.isVisible
+                && !binding.edtEditUserName.isTvErrorVisible()
+                && !binding.edtEditUserPassword.isTvErrorVisible()
+                && !binding.edtEditUserPhone.isTvErrorVisible()
+                && !binding.edtEditUserAddress.isTvErrorVisible()
     }
 
     private fun pickImage() {
@@ -120,6 +193,7 @@ class EditUserAccountActivity : BaseActivity() {
         datePicker.addOnPositiveButtonClickListener {
             val date = dateToString(Date(it))
             binding.tvEditUserDateOfBirth.text = date
+            binding.tvDateOfbError.isVisible = false
         }
         datePicker.addOnNegativeButtonClickListener {
             showToast("${datePicker.headerText} is cancelled")
