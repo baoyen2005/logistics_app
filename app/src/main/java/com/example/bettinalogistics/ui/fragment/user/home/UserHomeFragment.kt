@@ -56,7 +56,7 @@ class UserHomeFragment : BaseFragment() {
     }
 
     private fun checkLogin(){
-        if (!AppData.g().isSignUp().isNullOrEmpty()) {
+        if (!AppData.g().isLogin()) {
             binding.tvHomeUserName.visibility = View.VISIBLE
             binding.tvHomeDate.visibility = View.VISIBLE
             binding.tvHomeUserName.text = String.format(getString(R.string.str_hello), Utils.g().getDataString(USER_FULL_NAME))

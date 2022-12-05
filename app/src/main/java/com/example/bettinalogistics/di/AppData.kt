@@ -1,7 +1,6 @@
 package com.example.bettinalogistics.di
 
 import android.content.Intent
-import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.model.User
@@ -33,7 +32,7 @@ class AppData {
     }
 
     fun isLogin(): Boolean {
-        return !TextUtils.isEmpty(g().currentUserAuth)
+        return currentUser != null
     }
 
     fun logout() {

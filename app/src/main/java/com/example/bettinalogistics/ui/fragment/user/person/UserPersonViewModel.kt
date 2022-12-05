@@ -61,4 +61,13 @@ class UserPersonViewModel(val authenticationRepository: AuthenticationRepository
             }
         }
     }
+
+    var getNewUserLiveData = MutableLiveData<User>()
+    fun getNewUser() = viewModelScope.launch(Dispatchers.IO) {
+        AppData.g().currentUser?.email?.let {
+            authenticationRepository.getUser(it) {
+                getNewUserLiveData.postValue(it)
+            }
+        }
+    }
 }

@@ -66,17 +66,17 @@ class AdminOrderListFragment : BaseFragment() {
         }
         orderListAdapter.onSearchResult = {
             binding.tvResultSearchTitle.isVisible =
-                it != 0 && binding.edtFollowTrackingSearch.getContentText().isNotEmpty()
+                it != 0 && binding.edtAdminOrderListSearch.getContentText().isNotEmpty()
             binding.tvResultSearch.isVisible =
-                it != 0 && binding.edtFollowTrackingSearch.getContentText().isNotEmpty()
+                it != 0 && binding.edtAdminOrderListSearch.getContentText().isNotEmpty()
             binding.tvResultSearch.text =
                 getString(R.string.str_result_search, UtilsBase.g().getBeautyNumber(it))
             if (it == 0) {
-                binding.rvFollowTrackOrder.isVisible = false
-                binding.emptyOrderTracking.root.isVisible = true
+                binding.rvAdminOrderList.isVisible = false
+                binding.emptyAdminListOrder.root.isVisible = true
             } else {
-                binding.rvFollowTrackOrder.isVisible = true
-                binding.emptyOrderTracking.root.isVisible = false
+                binding.rvAdminOrderList.isVisible = true
+                binding.emptyAdminListOrder.root.isVisible = false
             }
         }
     }

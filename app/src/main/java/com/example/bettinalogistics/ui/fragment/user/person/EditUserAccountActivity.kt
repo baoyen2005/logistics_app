@@ -38,9 +38,11 @@ class EditUserAccountActivity : BaseActivity() {
         Glide.with(this).load(user?.image).into(binding.ivEditUserAvatar)
         binding.edtEditUserEmail.setEnableEdittext(false)
         binding.edtEditUserName.setValueContent(user?.fullName)
-        binding.tvEditUserDateOfBirth.text = user?.phone ?: ""
+        binding.edtEditUserPhone.setValueContent(user?.phone)
+        binding.tvEditUserDateOfBirth.text = user?.dateOfBirth ?: ""
         binding.edtEditUserEmail.setValueContent(user?.email)
         binding.edtEditUserPassword.setValueContent(user?.password)
+        binding.edtEditUserPassword.setEnableEdittext(false)
         binding.edtEditUserAddress.setValueContent(user?.address)
 
         binding.edtEditUserName.onTextChange = {
@@ -87,14 +89,21 @@ class EditUserAccountActivity : BaseActivity() {
 
     override fun observeData() {
         viewModel.editUserLiveData.observe(this){
-            hiddenLoading()
             if(it){
-                confirm.newBuild().setNotice(getString(R.string.str_edit_user_success)).addButtonAgree {
-                    finish()
-                }
+                viewModel.getNewUser()
             }
             else{
+                hiddenLoading()
                 confirm.newBuild().setNotice(getString(R.string.str_edit_user_fail))
+            }
+        }
+        viewModel.getNewUserLiveData.observe(this){
+            hiddenLoading()
+            AppData.g().clear()
+            AppData.g().saveUser(it)
+            AppData.g().currentUser = it
+            confirm.newBuild().setNotice(getString(R.string.str_edit_user_success)).addButtonAgree {
+                finish()
             }
         }
     }
@@ -125,15 +134,15 @@ class EditUserAccountActivity : BaseActivity() {
             )
         }
         if (binding.edtEditUserPassword.getContentText().isEmpty()) {
-            binding.edtEditUserPhone.setVisibleMessageError(
+            binding.edtEditUserPassword.setVisibleMessageError(
                 getString(
                     R.string.str_empty_input,
                     getString(R.string.password)
                 )
             )
         }
-        if (!Utils.g().verifyPassword(binding.edtEditUserPhone.getContentText())) {
-            binding.edtEditUserPhone.setVisibleMessageError(getString(R.string.str_invalid_password))
+        if (!Utils.g().verifyPassword(binding.edtEditUserPassword.getContentText())) {
+            binding.edtEditUserPassword.setVisibleMessageError(getString(R.string.str_invalid_password))
         }
         if (binding.edtEditUserAddress.getContentText().isEmpty()) {
             binding.edtEditUserAddress.setVisibleMessageError(
@@ -178,8 +187,10 @@ class EditUserAccountActivity : BaseActivity() {
             viewModel.uri = photoUri
             viewModel.isChangeAvt = true
             binding.ivEditUserAvatar.setImageURI(photoUri)
+            binding.btnEditUserSave.isVisible = true
         } else {
             viewModel.isChangeAvt = false
+            Glide.with(this).load(AppData.g().currentUser?.image).into(binding.ivEditUserAvatar)
             showToast(AppConstant.CHOOSE_IMAGE)
         }
     }

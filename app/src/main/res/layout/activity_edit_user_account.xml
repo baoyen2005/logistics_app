@@ -44,9 +44,8 @@
                     android:layout_width="@dimen/_80dp"
                     android:layout_height="@dimen/_80dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/custom_bg_circle_white_image"
                     android:scaleType="centerCrop"
-                    android:visibility="gone" />
+                    />
             </androidx.cardview.widget.CardView>
 
             <com.example.baseapp.view.GroupTextView
@@ -153,7 +152,7 @@
                 style="@style/login"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_20dp"
-                android:layout_marginBottom="@dimen/_15dp"
+                android:layout_marginBottom="@dimen/_40dp"
                 android:text="@string/str_save"
                 android:textColor="@color/white"
                 app:backgroundTint="@null"
