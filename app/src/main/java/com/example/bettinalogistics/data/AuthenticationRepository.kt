@@ -39,16 +39,15 @@ import com.google.firebase.storage.FirebaseStorage
 
 interface AuthenticationRepository {
     suspend fun login(email: String, password: String, onComplete: ((Boolean) -> Unit)?)
-    suspend fun signUp(
-        user: User,
-        onComplete: ((Boolean) -> Unit)?
-    )
+    suspend fun signUp(user: User, onComplete: ((Boolean) -> Unit)?)
 
-    suspend fun forgetPassword(
-        email: String, onComplete: ((Boolean) -> Unit)?
-    )
+    suspend fun forgetPassword(email: String, onComplete: ((Boolean) -> Unit)?)
 
     suspend fun getUser(email: String, onComplete: ((User?) -> Unit)?)
+
+    suspend fun getAllUsers(onComplete: ((List<User>?) -> Unit)?)
+
+    suspend fun deleteUser(user: User, onComplete: ((Boolean) -> Unit)?)
 
     suspend fun updatePassword(password: String, onComplete: ((Boolean) -> Unit)?)
 
@@ -213,6 +212,37 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
                 val user: User? = null
                 onComplete?.invoke(user)
             }
+    }
+
+    override suspend fun getAllUsers(onComplete: ((List<User>?) -> Unit)?) {
+        FirebaseFirestore.getInstance().collection(USER_COLLECTION)
+            .get()
+            .addOnCompleteListener {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnCompleteListener
+                }
+                val users: List<User> = it.result.toObjects(User::class.java)
+                if(users.isEmpty()){
+                    onComplete?.invoke(null)
+                }
+                else{
+                    onComplete?.invoke(users)
+                }
+            }.addOnFailureListener {
+                onComplete?.invoke(null)
+            }
+    }
+
+    override suspend fun deleteUser(user: User, onComplete: ((Boolean) -> Unit)?) {
+        user.uid?.let {
+            FirebaseFirestore.getInstance().collection(USER_COLLECTION).document(
+                it
+            ).delete().addOnSuccessListener {
+                onComplete?.invoke(true)
+            }.addOnFailureListener {
+                onComplete?.invoke(false)
+            }
+        }
     }
 
     override suspend fun updatePassword(password: String,onComplete: ((Boolean) -> Unit)?) {

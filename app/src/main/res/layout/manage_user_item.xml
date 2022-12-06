@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/constUserItem"
+    android:layout_marginTop="@dimen/_10dp"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvAvt"
+        android:layout_width="@dimen/_50dp"
+        android:layout_height="@dimen/_50dp"
+        app:cardCornerRadius="@dimen/_25dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivUserAvtAdminItem"
+            android:layout_width="@dimen/_50dp"
+            android:layout_height="@dimen/_50dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/osm_ic_center_map" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvUserNameAdminItem"
+        tool:text="99.120 đ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:maxLines="1"
+        android:textColor="@color/merchant_color_000000"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Bold"
+        app:layout_constraintLeft_toRightOf="@+id/cvAvt"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvUserEmailAdminItem"
+        tool:text="Thanh cong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_2dp"
+        android:maxLines="1"
+        android:textColor="@color/merchant_color_000000"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Regular"
+        app:layout_constraintLeft_toRightOf="@id/cvAvt"
+        app:layout_constraintTop_toBottomOf="@id/tvUserNameAdminItem" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:src="@drawable/ic_baseline_info_24"
+        app:layout_constraintBottom_toBottomOf="@id/tvUserEmailAdminItem"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvUserNameAdminItem" />
+</androidx.constraintlayout.widget.ConstraintLayout>

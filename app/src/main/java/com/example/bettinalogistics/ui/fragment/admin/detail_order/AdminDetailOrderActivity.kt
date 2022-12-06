@@ -61,6 +61,8 @@ class AdminDetailOrderActivity : BaseActivity() {
         binding.btnAdminCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
         binding.btnAdminApprove.isVisible =
             (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
+        binding.btnAdminApprove.isVisible =
+            (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERING)
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_PENDING,
             DataConstant.ORDER_STATUS_PAYMENT_WAITING,
@@ -115,6 +117,9 @@ class AdminDetailOrderActivity : BaseActivity() {
             order?.let { it1 -> viewModel.updateOrder(it1) }
             viewModel.isCancel = true
             binding.btnAdminApprove.isVisible = false
+        }
+        binding.btnAdminApprove.setOnClickListener {
+            //show manf follow
         }
     }
 
@@ -191,9 +196,8 @@ class AdminDetailOrderActivity : BaseActivity() {
         viewModel.sendNotiRequestFirebaseLiveData.observe(this) {
             hiddenLoading()
             if (it) {
-                confirm.setNotice(getString(R.string.str_cancel_success)).addButtonAgree {
-                    val i = Intent()
-                    setResult(RESULT_OK, i)
+                confirm.setNotice(getString(R.string.str_edit_user_success)).addButtonAgree {
+                    setResult(RESULT_OK)
                     finish()
                 }
             } else {

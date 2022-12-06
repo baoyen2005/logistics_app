@@ -1,60 +1,48 @@
 package com.example.bettinalogistics.ui.fragment.admin.person
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.Intent
+import androidx.core.view.isVisible
+import com.example.baseapp.BaseFragment
+import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.databinding.FragmentAdminAccountBinding
+import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
+import com.google.firebase.auth.FirebaseAuth
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AdminAccountFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AdminAccountFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class AdminAccountFragment : BaseFragment() {
+    override val viewModel: AdminAccountViewModel by sharedViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override val binding: FragmentAdminAccountBinding by lazy {
+        FragmentAdminAccountBinding.inflate(layoutInflater)
+    }
+
+    override fun initView() {
+        binding.ivAdminAccAvt.setBackgroundResource(R.drawable.ic_user)
+        binding.tvAdminName.text = AppData.g().currentUser?.fullName
+        binding.tvAdminEmail.text = AppData.g().currentUser?.email
+        binding.headerUserPerson.ivHeaderBack.isVisible = false
+        binding.headerUserPerson.tvHeaderTitle.text = getString(R.string.str_admin_info)
+        hiddenLoading()
+    }
+
+    override fun initListener() {
+        binding.rlAdminManageUsers.setSafeOnClickListener {
+            startActivity(Intent(requireContext(), ManageUsersActivity::class.java))
+        }
+
+        binding.rlAdminLogout.setSafeOnClickListener {
+            val confirmBottomSheetFragment = ConfirmBottomSheetFragment()
+            confirmBottomSheetFragment.setConfirmListener {
+                FirebaseAuth.getInstance().signOut()
+                AppData.g().logout()
+            }
+            confirmBottomSheetFragment.show(requireActivity().supportFragmentManager, "ssssssss")
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_account, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AdminAccountFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AdminAccountFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun observerData() {
     }
 }
