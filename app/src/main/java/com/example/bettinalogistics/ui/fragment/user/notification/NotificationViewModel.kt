@@ -8,7 +8,7 @@ import com.example.bettinalogistics.model.Notification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserNotificationViewModel(val ottFirebaseRepo: OTTFirebaseRepo) : BaseViewModel() {
+class NotificationViewModel(val ottFirebaseRepo: OTTFirebaseRepo) : BaseViewModel() {
     var getAllNotificationLiveData = MutableLiveData<List<Notification>>()
     fun getAllNotification(role: String) = viewModelScope.launch(Dispatchers.IO) {
         ottFirebaseRepo.getAllNotification(role) {

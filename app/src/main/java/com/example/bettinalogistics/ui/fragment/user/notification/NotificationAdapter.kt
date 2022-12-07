@@ -20,7 +20,7 @@ import com.example.bettinalogistics.utils.Utils_Date
 import com.example.bettinalogistics.utils.Utils_Date.DATE_PATTERN_ddMMYYYY
 import com.example.bettinalogistics.utils.toDate
 
-class UserNotificationAdapter : BaseRclvAdapter() {
+class NotificationAdapter : BaseRclvAdapter() {
 
     companion object {
 

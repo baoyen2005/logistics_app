@@ -14,8 +14,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class NotificationFragment : BaseFragment() {
-    private val adminNotificationAdapter : UserNotificationAdapter by lazy { UserNotificationAdapter() }
-    override val viewModel: UserNotificationViewModel by sharedViewModel()
+    private val adminNotificationAdapter : NotificationAdapter by lazy { NotificationAdapter() }
+    override val viewModel: NotificationViewModel by sharedViewModel()
 
     override val binding: FragmentNotificationBinding by lazy {
         FragmentNotificationBinding.inflate(layoutInflater)
