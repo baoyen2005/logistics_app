@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.admin.person.AdminAccountFragment">
+    <include
+        android:id="@+id/headerUserPerson"
+        layout="@layout/layout_header" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/secondary_sea_green_3"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ivAdminAccAvt"
+            android:layout_width="@dimen/_60dp"
+            android:layout_height="@dimen/_60dp"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginBottom="@dimen/_10dp"
+            android:orientation="vertical"
+            app:cardCornerRadius="@dimen/_30dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/slide1" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginBottom="@dimen/_10dp"
+            android:orientation="vertical">
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAdminName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ssp_bold"
+                android:textColor="@color/merchant_color_ffffff"
+                android:textSize="@dimen/_18sp"
+                tools:text="ssssssssssss" />
+
+            <com.example.baseapp.view.Textview
+                android:id="@+id/tvAdminEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5dp"
+                android:fontFamily="@font/ssp_bold"
+                android:textColor="@color/merchant_color_ffffff"
+                android:textSize="@dimen/_16sp"
+                tools:text="ss" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <RelativeLayout
+        android:id="@+id/rlAdminInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp">
+
+        <com.example.baseapp.view.Textview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ssp_regular"
+            android:text="@string/str_user"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_back_header_004a9c" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlAdminManageUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp">
+
+        <com.example.baseapp.view.Textview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ssp_regular"
+            android:text="@string/str_list_user"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_back_header_004a9c" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rlAdminLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp">
+
+        <com.example.baseapp.view.Textview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ssp_regular"
+            android:text="@string/str_logout"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_back_header_004a9c" />
+    </RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

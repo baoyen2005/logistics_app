@@ -14,7 +14,7 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentAdminOrderListBinding
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.Order
-import com.example.bettinalogistics.ui.fragment.user.detail_order.UserDetailOrderActivity
+import com.example.bettinalogistics.ui.fragment.admin.detail_order.AdminDetailOrderActivity
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
@@ -59,7 +59,7 @@ class AdminOrderListFragment : BaseFragment() {
             viewModel.getListOrderByStatus(it.title)
         }
         orderListAdapter.onItemClickListener = {
-            launcher.launch(UserDetailOrderActivity.startDetailOrderActivity(requireContext(), it))
+            launcher.launch(AdminDetailOrderActivity.startDetailOrderActivity(requireContext(), it))
         }
         binding.edtAdminOrderListSearch.onTextChange = {
             orderListAdapter.filter.filter(it)

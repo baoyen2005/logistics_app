@@ -21,6 +21,15 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/layout_loading.xml" value="0.13796296296296295" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/loading_dialog.xml" value="0.18697916666666667" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/BaseApp/src/main/res/layout/loading_dialog_vn.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/bg_horizontal_dotted_line.xml" value="0.1495" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_email_signup.xml" value="0.171" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/shape_merchant_color_ffe21_corner_12.xml" value="0.1285" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/bg_avt_cirle_corner_25dp.xml" value="0.1285" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/color_737378_selected_004a9c.xml" value="0.1355" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_img_avatar_circle.xml" value="0.1285" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/custom_background_img_view.xml" value="0.142" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/ic_back_header_004a9c.xml" value="0.1355" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.1345" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/bg_horizontal_dotted_line.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_edittext.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/drawable-v24/custom_background_edt_email.xml" value="0.1" />
@@ -72,6 +81,13 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout-w936dp/item_tracking_following.xml" value="0.21" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout-w936dp/item_tracking_tab.xml" value="0.144140625" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_add_address_transaction.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_add_new_order.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_admin_detail_order.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_confirm_order_transportation.xml" value="0.33" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_edit_user_account.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_google_map.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_main.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_manage_users.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_add_new_order.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_confirm_order_transportation.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/activity_direction.xml" value="0.18" />
@@ -89,6 +105,8 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/confirm_order_transportation_item.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/custom_layout_edittext_round.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/customer_company_info_layout.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/empty_search_layout.xml" value="0.19114583333333332" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_admin_notification.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/dialog_forgot_password.xml" value="0.18" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_admin_order_list.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_choose_type_transportation_bottom.xml" value="0.25" />
@@ -101,6 +119,11 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_saved_place.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/header_layout.xml" value="0.12" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/info_window_layout.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_notification.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_person.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_ship_order_list.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/fragment_user_account.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/header_layout.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_admin_order_list_date.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_admin_order_list_item.xml" value="0.25" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_follow_tracking_tab.xml" value="0.1921875" />
@@ -111,6 +134,13 @@
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_user_info_confirm.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/layout_header.xml" value="0.18802083333333333" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/layout_item_places.xml" value="0.18" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_notification.xml" value="0.33" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_order_confirm_header.xml" value="0.1921875" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_order_confirm_line.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_order_info_confirm.xml" value="0.1" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/item_user_info_confirm.xml" value="0.15" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/layout_header.xml" value="0.25" />
+        <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/manage_user_item.xml" value="0.1921875" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/navigation_drawer_layout.xml" value="0.1" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/place_item_layout.xml" value="0.22" />
         <entry key="..\:/Code/Logistics/Code/BettinaLogistics/app/src/main/res/layout/saved_item_layout.xml" value="0.1921875" />

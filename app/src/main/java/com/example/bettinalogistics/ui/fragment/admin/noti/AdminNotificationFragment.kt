@@ -1,60 +1,85 @@
 package com.example.bettinalogistics.ui.fragment.admin.noti
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.text.format.DateUtils
+import androidx.core.view.isVisible
+import com.example.baseapp.BaseFragment
+import com.example.baseapp.view.getTimeInMillisecond
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.databinding.FragmentAdminNotificationBinding
+import com.example.bettinalogistics.model.CommonEntity
+import com.example.bettinalogistics.model.Notification
+import com.example.bettinalogistics.ui.fragment.user.notification.NotificationAdapter
+import com.example.bettinalogistics.ui.fragment.user.notification.NotificationViewModel
+import com.example.bettinalogistics.utils.Utils
+import com.example.bettinalogistics.utils.Utils_Date
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AdminNotificationFragment : BaseFragment() {
+    private val adminNotificationAdapter : NotificationAdapter by lazy { NotificationAdapter() }
+    override val viewModel: NotificationViewModel by sharedViewModel()
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AdminNotificationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AdminNotificationFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override val binding: FragmentAdminNotificationBinding by lazy {
+        FragmentAdminNotificationBinding.inflate(layoutInflater)
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun initView() {
+        showLoading()
+        viewModel.getAllNotification("admin")
+        binding.emptyAdminNotification.tvEmptyLayoutTitle.text = getString(R.string.str_emtpy_notification)
+        binding.rvAdminNotification.adapter = adminNotificationAdapter
+        binding.layoutAdminNotificationHeader.ivHeaderBack.isVisible =false
+        binding.layoutAdminNotificationHeader.tvHeaderTitle.text = getString(R.string.str_noti)
+    }
+
+    override fun initListener() {
+
+    }
+
+    override fun observerData() {
+        viewModel.getAllNotificationLiveData.observe(this){
+            if(it.isNullOrEmpty()){
+                binding.rvAdminNotification.isVisible = false
+                binding.emptyAdminNotification.root.isVisible = true
+            }
+            else{
+                binding.rvAdminNotification.isVisible = true
+                binding.emptyAdminNotification.root.isVisible = false
+                adminNotificationAdapter.reset(convertToListData(it))
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_notification, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AdminNotificationFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AdminNotificationFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun convertToListData(listEntity: List<Notification>): List<Any> {
+        val list = mutableListOf<Any>()
+        val listDate = listEntity.map {
+            it.confirmDate?.let { date ->
+                Utils.g()
+                    .convertDate(
+                        Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,
+                        Utils_Date.DATE_PATTERN_ddMMYYYY,
+                        date
+                    )
             }
+        }.toSet()
+        listDate.forEach { stringDate ->
+            val longDate = stringDate.getTimeInMillisecond(Utils_Date.DATE_PATTERN_ddMMYYYY)
+            val listTranInThisDay =
+                listEntity.filter { it.confirmDate?.contains(stringDate.toString()) == true }
+            list.add(
+                CommonEntity(
+                    when {
+                        DateUtils.isToday(longDate) -> getString(R.string.today_date, stringDate)
+                        DateUtils.isToday(longDate + DateUtils.DAY_IN_MILLIS) -> getString(
+                            R.string.yesterday_date,
+                            stringDate
+                        )
+                        else -> stringDate.toString()
+                    },
+                    getString(R.string.number_of_transaction, listTranInThisDay.size.toString())
+                )
+            )
+            list.addAll(listTranInThisDay)
+        }
+        return list
     }
 }

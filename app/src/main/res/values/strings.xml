@@ -228,5 +228,11 @@
     <string name="str_approve">Chấp nhận</string>
     <string name="str_noti_cancel_order">Thông báo hủy đơn hàng</string>
     <string name="str_noti_approve_order">Thông báo xác nhận đơn hàng</string>
+    <string name="str_follow">Theo dõi đơn hàng</string>
+    <string name="str_list_user">Danh sách người dùng</string>
+    <string name="str_admin_info">Thông tin admin</string>
+    <string name="str_search_user">Nhập tên/ số điện thoại/ email để tìm kiếm</string>
+    <string name="str_user_list_empty">Danh sách người dùng rỗng</string>
+    <string name="str_delete_user">Xóa người dùng</string>
     <string name="str_account">Tài khoản cá nhân</string>
 </resources>

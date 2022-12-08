@@ -16,7 +16,7 @@ import com.example.bettinalogistics.ui.fragment.admin.order.AdminOrderListViewMo
 import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailUserOrderViewModel
 import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingViewModel
 import com.example.bettinalogistics.ui.fragment.user.home.UserHomeViewModel
-import com.example.bettinalogistics.ui.fragment.user.notification.UserNotificationViewModel
+import com.example.bettinalogistics.ui.fragment.user.notification.NotificationViewModel
 import com.example.bettinalogistics.ui.fragment.user.person.UserPersonViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -56,7 +56,7 @@ val models = module {
         AdminOrderListViewModel(get())
     }
     viewModel {
-        UserNotificationViewModel(get())
+        NotificationViewModel(get())
     }
     viewModel {
         DetailUserOrderViewModel(get(),get())

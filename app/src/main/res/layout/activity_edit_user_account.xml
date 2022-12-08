@@ -156,6 +156,7 @@
                 android:text="@string/str_save"
                 android:textColor="@color/white"
                 app:backgroundTint="@null"
+                android:textSize="@dimen/_14sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
