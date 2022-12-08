@@ -2,11 +2,14 @@ package com.example.bettinalogistics.ui.fragment.user.person
 
 import android.content.Intent
 import android.util.Log
+import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.example.baseapp.BaseFragment
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentPersonBinding
 import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
@@ -22,6 +25,12 @@ class UserPersonFragment : BaseFragment() {
 
     override fun initView() {
         hiddenLoading()
+        val user = AppData.g().currentUser
+        Glide.with(this).load(user?.image).into(binding.ivUserPersonAvt)
+        binding.tvUserPersonName.text = user?.fullName
+        binding.tvUserPersonEmail.text = user?.email
+        binding.headerUserPerson.tvHeaderTitle.text = getString(R.string.str_account)
+        binding.headerUserPerson.ivHeaderBack.isVisible = false
         viewModel.getCompany()
     }
 
@@ -44,8 +53,15 @@ class UserPersonFragment : BaseFragment() {
             viewModel.getCard()
         }
         binding.rlUserLogout.setSafeOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            AppData.g().logout()
+            val confirmBottomSheetFragment = ConfirmBottomSheetFragment()
+            confirmBottomSheetFragment.setConfirmListener {
+                FirebaseAuth.getInstance().signOut()
+                AppData.g().logout()
+            }
+            confirmBottomSheetFragment.setCancelListener {
+                confirmBottomSheetFragment.dismiss()
+            }
+            confirmBottomSheetFragment.show(requireActivity().supportFragmentManager, "Sss")
         }
     }
 

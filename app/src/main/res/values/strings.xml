@@ -228,4 +228,5 @@
     <string name="str_approve">Chấp nhận</string>
     <string name="str_noti_cancel_order">Thông báo hủy đơn hàng</string>
     <string name="str_noti_approve_order">Thông báo xác nhận đơn hàng</string>
+    <string name="str_account">Tài khoản cá nhân</string>
 </resources>

@@ -138,6 +138,11 @@ class Utils private constructor() {
         return  sharedPreference?.getInt(key,-1)
     }
 
+    fun clearData(key: String){
+        val myPrefs =  Common.currentActivity?.getSharedPreferences("PREFERENCE_LOGISTICS_NAME", Context.MODE_PRIVATE)
+        myPrefs?.edit()?.remove(key)?.apply()
+    }
+
     fun setSearchHistory(type: Int, searchKey: String, isDelete: Boolean = false) {
         val searchKeysStorage =
             Utils.g().provideGson()

@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/ivUserPersonAvtu"
+            android:id="@+id/cvUserPersonAvtu"
             android:layout_width="@dimen/_60dp"
             android:layout_height="@dimen/_60dp"
             android:layout_marginStart="@dimen/_15dp"
@@ -29,6 +29,7 @@
             app:cardCornerRadius="@dimen/_30dp">
 
             <ImageView
+                android:id="@+id/ivUserPersonAvt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"

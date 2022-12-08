@@ -41,7 +41,6 @@ class AppData {
         val intent = Intent(Common.currentActivity, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         Common.currentActivity!!.startActivity(intent)
-        Common.currentActivity!!.overridePendingTransition(0, 0);
         ActivityCompat.finishAffinity(Common.currentActivity!!)
         Common.currentActivity!!.finish()
         clear()
@@ -57,12 +56,12 @@ class AppData {
     }
 
     fun clear(){
-        Utils.g().saveDataString(USER_EMAIL, "")
-        Utils.g().saveDataString(DataConstant.USER_ID, "")
-        Utils.g().saveDataString(DataConstant.USER_IMAGE, "")
-        Utils.g().saveDataString(DataConstant.USER_PHONE, "")
-        Utils.g().saveDataString(DataConstant.USER_FULL_NAME, "")
-        Utils.g().saveDataString(DataConstant.USER, "")
+        Utils.g().clearData(USER_EMAIL)
+        Utils.g().clearData(DataConstant.USER_ID)
+        Utils.g().clearData(DataConstant.USER_IMAGE)
+        Utils.g().clearData(DataConstant.USER_PHONE)
+        Utils.g().clearData(DataConstant.USER_FULL_NAME)
+        Utils.g().clearData(DataConstant.USER)
     }
 
     fun clearOrderInfo(){
