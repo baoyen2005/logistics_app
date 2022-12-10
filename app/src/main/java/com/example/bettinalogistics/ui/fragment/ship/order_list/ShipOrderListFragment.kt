@@ -7,13 +7,11 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.baseapp.BaseActivity
-import com.example.baseapp.BaseViewModel
+import com.example.baseapp.BaseFragment
 import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.getTimeInMillisecond
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentFollowTrackingBinding
-import com.example.bettinalogistics.databinding.FragmentShipOrderListBinding
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.ui.fragment.admin.order.AdminListOrderAdapter
@@ -26,7 +24,7 @@ import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ShipOrderListFragment : BaseActivity() {
+class ShipOrderListFragment : BaseFragment() {
     private val userTabFollowTrackingAdapter: UserTabFollowTrackingAdapter by lazy { UserTabFollowTrackingAdapter() }
     private val orderListAdapter: AdminListOrderAdapter by lazy { AdminListOrderAdapter() }
 
@@ -102,7 +100,7 @@ class ShipOrderListFragment : BaseActivity() {
     private fun convertToListData(listEntity: List<Order>): List<Any> {
         val list = mutableListOf<Any>()
         val listDate = listEntity.map {
-            it.orderDate?.let { date ->
+            it.orderDate.let { date ->
                 Utils.g()
                     .convertDate(
                         Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,

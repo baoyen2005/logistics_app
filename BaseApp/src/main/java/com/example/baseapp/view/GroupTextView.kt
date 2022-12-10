@@ -1,73 +1,66 @@
 package com.example.baseapp.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.text.InputFilter
+import android.text.InputType
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.example.baseapp.R
+import com.example.baseapp.UtilsBase
 import com.example.baseapp.databinding.LayoutGroupTextviewBinding
 import com.vnpay.merchant.ui.views.AbstractTextWatcher
+
 
 class GroupTextView: LinearLayout{
     var onFocusChange: ((Boolean) -> Unit)? = null
     var onTextChange: ((CharSequence?) -> Unit)? = null
     var onClearText: (() -> Unit)? = null
+    var onEditTextClick: (() -> Unit)? = null
     var onRightTextListener: (() -> Unit)? = null
-    var setOnEdittextDone: ((String) -> Unit)? = null
 
     private var hintText: String? = null
+    private var textContent: String? = null
     private var title: String? = null
     private var leftIconRes = 0
     private var rightIconRes = 0
-    private var isShowTitleRight : Boolean = false
+    private var isRequiredLabel : Boolean = false
+    private var isTitleRightHtml : Boolean = false
     private var isShowClear: Boolean = false
     private var contentTextSize = 0f
     private var isEditTextFocusable: Boolean = true
+    private var isGoneTitle: Boolean = false
     private lateinit var binding: LayoutGroupTextviewBinding
     private var hintFont: Typeface? = null
     private var valueFont: Typeface? = null
-    private var focusBackground: Int = R.drawable.shape_merchant_color_f8f8f9_corner_12_stroke_1_5_004a9c
+    private var focusBackground: Int = R.drawable.shape_ffffff_stroke_004a9c_corner_12
     private var lostFocusBackground: Int = R.drawable.shape_merchant_color_f8f8f9_corner_12
     private var groupEditTextBackground : Int = 0
     private var editTextBackgroundColor: Int = 0
     private var rightText: String? = null
-    private var isEnableEdit : Boolean = true
 
-    private var FONT_BOLD: Typeface? = null
-    private var FONT_ITALIC: Typeface? = null
-    private var FONT_NORMAL: Typeface? = null
-    private var FONT_SEMI: Typeface? = null
-    private var FONT_MEDIUM: Typeface? = null
-    private var FONT_REGULAR: Typeface? = null
-    private var FONT_BLACK: Typeface? = null
-
-    private val textChangeListener = object : AbstractTextWatcher(){
+    private val textChangeListener = object :AbstractTextWatcher(){
         override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             if (s.toString().isNotEmpty()) {
                 binding.edtContent.typeface = valueFont
+                if(!rightText.isNullOrEmpty()){
+                    binding.tvRight.isVisible = false
+                }
             } else {
+                if(!rightText.isNullOrEmpty()){
+                    binding.tvRight.isVisible = true
+                }
                 binding.edtContent.typeface = hintFont
             }
-            setGoneViews(binding.tvError)
+            UtilsBase.g().setGoneViews(binding.tvError)
             binding.ivClear.isVisible =
-                !s?.toString().isNullOrEmpty() && isShowClear
-            onTextChange?.invoke(s)
-        }
-    }
-
-    private fun setGoneViews(vararg views: View) {
-        views.forEach {
-            if (it.visibility != View.GONE) it.visibility = View.GONE
+                !s?.toString()?.trim().isNullOrEmpty() && isShowClear
+            onTextChange?.invoke(s.toString().trim())
         }
     }
 
@@ -103,12 +96,22 @@ class GroupTextView: LinearLayout{
         binding.tvTitle.text = title
     }
 
+    fun setTitleHtml(title: String?) {
+        binding.tvTitle.text = title?.html()
+    }
+
+    fun setVisibleTitle(isVisible: Boolean) {
+        binding.tvTitle.isVisible = isVisible
+    }
+
     fun setHint(hint: String?) {
         binding.edtContent.hint = hint
     }
 
     fun setValueContent(content: String?) {
-        binding.edtContent.setText(content?: "")
+        binding.edtContent.removeTextChangedListener(textChangeListener)
+        binding.edtContent.setText(content ?: "")
+        binding.edtContent.addTextChangedListener(textChangeListener)
         if (content.isNullOrEmpty()) {
             binding.edtContent.typeface = hintFont
         } else {
@@ -117,8 +120,8 @@ class GroupTextView: LinearLayout{
 
     }
 
-    fun clearContent() {
-        setValueContent("")
+    fun setInputType(type: Int) {
+        binding.edtContent.inputType = type
     }
 
     fun setEnableEdittext(enable: Boolean) {
@@ -133,24 +136,19 @@ class GroupTextView: LinearLayout{
     }
 
     fun setGoneMessageError() {
-        setGoneViews(binding.tvError)
-        binding.rlGroupTv.background = ContextCompat.getDrawable(context, focusBackground)
-    }
-
-    fun isTvErrorVisible():Boolean {
-        return binding.tvError.isVisible
+        UtilsBase.g().setGoneViews(binding.tvError)
     }
 
     fun getContentText(): String {
         return binding.edtContent.text.toString().trim()
     }
 
-    fun getEditText(): EditText {
-        return binding.edtContent
-    }
-
     fun hasFocusInput(): Boolean {
         return binding.rlGroupTv.requestFocus()
+    }
+
+    fun setFocusableEditText(enable: Boolean) {
+        binding.edtContent.isFocusable = enable
     }
 
 
@@ -191,150 +189,155 @@ class GroupTextView: LinearLayout{
         binding.rlGroupTv.background = ContextCompat.getDrawable(context, lostFocusBackground)
     }
 
+    fun isTvErrorVisible(): Boolean{
+        return binding.tvError.isVisible
+    }
+
+    fun getEditText() : EditText{
+        return binding.edtContent
+    }
+
     fun setRequestFocusEdittext(){
         binding.edtContent.requestFocus()
-        showKeyboard()
+    }
+
+    fun clearFocusEdittext(){
+        binding.edtContent.clearFocus()
+        hideKeyboard()
     }
 
     fun setVisibleRightText(isVisible: Boolean){
         binding.tvRight.isVisible = isVisible
     }
 
-    fun setInputType(inputType : Int){
-        binding.edtContent.inputType = inputType
+    fun setRightTextClickListener(onSafeClick: (View) -> Unit) {
+        binding.tvRight.setSafeOnClickListener(onSafeClick)
+    }
+    fun showClearIcon(isShow: Boolean) {
+        binding.ivClear.isVisible = isShow
+    }
+    fun focusEditText(isFocus: Boolean) {
+        if (isFocus) {
+            binding.edtContent.requestFocus()
+        } else {
+            binding.edtContent.clearFocus()
+            binding.edtContent.hideKeyboard()
+        }
     }
 
     private fun compound() {
         binding = LayoutGroupTextviewBinding.inflate(LayoutInflater.from(context), this)
     }
 
-    @SuppressLint("CustomViewStyleable")
     private fun init(context: Context, attrs: AttributeSet?) {
         val ta =
-            context.obtainStyledAttributes(attrs, R.styleable.GroupEditTextView, 0, 0)
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_left_icon)) {
+            context.obtainStyledAttributes(attrs, R.styleable.GroupTextView, 0, 0)
+        if (ta.hasValue(R.styleable.GroupTextView_gr_left_icon)) {
             leftIconRes = ta.getResourceId(
-                R.styleable.GroupEditTextView_gr_left_icon,
+                R.styleable.GroupTextView_gr_left_icon,
                 0
             )
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_right_icon)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_right_icon)) {
             rightIconRes = ta.getResourceId(
-                R.styleable.GroupEditTextView_gr_right_icon,
+                R.styleable.GroupTextView_gr_right_icon,
                 0
             )
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_text_size)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_text_size)) {
             contentTextSize = ta.getDimension(
-                R.styleable.GroupEditTextView_gr_text_size,
+                R.styleable.GroupTextView_gr_text_size,
                 0f
             )
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_text_size)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_text_size)) {
             contentTextSize = ta.getDimension(
-                R.styleable.GroupEditTextView_gr_text_size,
+                R.styleable.GroupTextView_gr_text_size,
                 0f
             )
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_hint)) {
-            hintText = ta.getString(R.styleable.GroupEditTextView_gr_hint)
-        }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_title)) {
-            title = ta.getString(R.styleable.GroupEditTextView_gr_title)
+        if (ta.hasValue(R.styleable.GroupTextView_gr_hint)) {
+            hintText = ta.getString(R.styleable.GroupTextView_gr_hint)
         }
 
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_is_edit_text_focusable)) {
-            isEditTextFocusable = ta.getBoolean(R.styleable.GroupEditTextView_gr_is_edit_text_focusable, true)
+        if(ta.hasValue(R.styleable.GroupTextView_gr_text)) {
+            textContent = ta.getString(R.styleable.GroupTextView_gr_text)
+        }
+
+        if (ta.hasValue(R.styleable.GroupTextView_gr_title)) {
+            title = ta.getString(R.styleable.GroupTextView_gr_title)
+        }
+
+        if (ta.hasValue(R.styleable.GroupTextView_gr_is_edit_text_focusable)) {
+            isEditTextFocusable = ta.getBoolean(R.styleable.GroupTextView_gr_is_edit_text_focusable, true)
             binding.edtContent.isFocusable = isEditTextFocusable
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_is_show_clear_text)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_is_show_clear_text)) {
             isShowClear = ta.getBoolean(
-                R.styleable.GroupEditTextView_gr_is_show_clear_text,
+                R.styleable.GroupTextView_gr_is_show_clear_text,
                 false
             )
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_background_focus)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_background_focus)) {
             focusBackground = ta.getResourceId(
-                R.styleable.GroupEditTextView_gr_background_focus,
+                R.styleable.GroupTextView_gr_background_focus,
                 0
             )
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_background_group_edittext_drawable)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_background_group_edittext_drawable)) {
             groupEditTextBackground = ta.getResourceId(
-                R.styleable.GroupEditTextView_gr_background_group_edittext_drawable,
+                R.styleable.GroupTextView_gr_background_group_edittext_drawable,
                 0
             )
             if(groupEditTextBackground != 0){
                 binding.rlGroupTv.setBackgroundResource(groupEditTextBackground)
             }
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_background_edittext_color)) {
+        if (ta.hasValue(R.styleable.GroupTextView_gr_background_edittext_color)) {
             editTextBackgroundColor = ta.getResourceId(
-                R.styleable.GroupEditTextView_gr_background_edittext_color,
+                R.styleable.GroupTextView_gr_background_edittext_color,
                 0
             )
             if(editTextBackgroundColor != 0){
                 binding.edtContent.setBackgroundResource(editTextBackgroundColor)
             }
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_is_show_title_right)) {
-            isShowTitleRight = ta.getBoolean(R.styleable.GroupEditTextView_gr_is_show_title_right, false)
+        if (ta.hasValue(R.styleable.GroupTextView_gr_is_required_label)) {
+            isRequiredLabel = ta.getBoolean(R.styleable.GroupTextView_gr_is_required_label, false)
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_text_right)) {
-            rightText = ta.getString(R.styleable.GroupEditTextView_gr_text_right)
+        if (ta.hasValue(R.styleable.GroupTextView_gr_text_right)) {
+            rightText = ta.getString(R.styleable.GroupTextView_gr_text_right)
         }
-        if (ta.hasValue(R.styleable.GroupEditTextView_gr_is_enable_edit)) {
-            isEnableEdit = ta.getBoolean(R.styleable.GroupEditTextView_gr_is_enable_edit, true)
-            binding.edtContent.isEnabled = isEnableEdit
+        if (ta.hasValue(R.styleable.GroupTextView_gr_is_gone_title)) {
+            isGoneTitle = ta.getBoolean(R.styleable.GroupTextView_gr_is_gone_title, false)
         }
-        val maxLength = ta.getInt(R.styleable.GroupEditTextView_gr_max_length, 100)
+        if (ta.hasValue(R.styleable.GroupTextView_gr_is_title_html)) {
+            isTitleRightHtml = ta.getBoolean(R.styleable.GroupTextView_gr_is_title_html, false)
+        }
+        if(isGoneTitle){
+            binding.tvTitle.visibility = View.GONE
+        }
+        val maxLength = ta.getInt(R.styleable.GroupTextView_gr_max_length, 100)
         setMaxLength(maxLength)
 
-        hintFont = getFont(3, context)
-        valueFont = getFont(2, context)
+        val inputType = ta.getInt(R.styleable.GroupTextView_android_inputType, InputType.TYPE_CLASS_TEXT)
+        setInputType(inputType)
+
+        hintFont = UtilsBase.g().getFont(1, context)
+        valueFont = UtilsBase.g().getFont(2, context)
         binding.edtContent.addTextChangedListener(textChangeListener)
 
         initView()
         ta.recycle()
     }
 
-    private fun getFont(type: Int, context: Context): Typeface? {
-        return when (type) {
-            1 -> {
-                if (FONT_MEDIUM == null) {
-                    FONT_MEDIUM = ResourcesCompat.getFont(context, R.font.sf_medium)
-                }
-                FONT_MEDIUM
-            }
-            2 -> {
-                if (FONT_BOLD == null) {
-                    FONT_BOLD = ResourcesCompat.getFont(context, R.font.ssp_bold)
-                }
-                FONT_BOLD
-            }
-            3 -> {
-                if (FONT_ITALIC == null) {
-                    FONT_ITALIC = ResourcesCompat.getFont(context, R.font.sf_lightitalic)
-                }
-                FONT_ITALIC
-            }
-            else -> {
-                if (FONT_REGULAR == null) {
-                    FONT_REGULAR = ResourcesCompat.getFont(context, R.font.ssp_regular)
-                }
-                FONT_REGULAR
-            }
-        }
-    }
-
 
     private fun initView() {
         binding.edtContent.hint = hintText ?: ""
         binding.edtContent.typeface = hintFont
-        if(!title.isNullOrEmpty()){
-            binding.tvTitle.isVisible = true
-            binding.tvTitle.text = title ?: ""
-        }
+        binding.tvTitle.text = title ?: ""
+        setValueContent(textContent)
+
         if (contentTextSize != 0f) {
             binding.edtContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, contentTextSize)
         }
@@ -347,32 +350,28 @@ class GroupTextView: LinearLayout{
             binding.ivIconRight.isVisible = true
             binding.ivIconRight.setImageResource(rightIconRes)
         }
-        if (isShowTitleRight){
-            binding.tvTitleRight.visibility = View.VISIBLE
+        if (isRequiredLabel){
+            binding.tvRequiredLabel.visibility = View.VISIBLE
         }
+
         binding.tvRight.text = rightText?:""
 
+        if(isTitleRightHtml){
+            binding.tvTitle.text = title?.html()
+        }
         binding.edtContent.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                binding.ivClear.isVisible = isShowClear
+                if(!rightText.isNullOrEmpty()){
+                    binding.tvRight.isVisible = true
+                    binding.ivClear.isVisible = false
+                }
                 binding.rlGroupTv.background = ContextCompat.getDrawable(context, focusBackground)
             } else {
-                binding.ivClear.isVisible = false
+                binding.tvRight.isVisible = false
                 binding.rlGroupTv.background = ContextCompat.getDrawable(context, lostFocusBackground)
             }
             onFocusChange?.invoke(hasFocus)
         }
-
-        binding.edtContent.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                setOnEdittextDone?.invoke(binding.edtContent.text.toString())
-                binding.edtContent.clearFocus()
-                binding.edtContent.hideKeyboard()
-                return@OnEditorActionListener true
-            }
-            false
-        })
-
         binding.ivClear.setSafeOnClickListener {
             binding.edtContent.setText("")
             binding.edtContent.requestFocus()
@@ -383,6 +382,11 @@ class GroupTextView: LinearLayout{
             binding.edtContent.clearFocus()
             hideKeyboard()
             binding.tvRight.isVisible = false
+        }
+        binding.llGroupTv.setSafeOnClickListener {
+            binding.edtContent.requestFocus()
+            binding.edtContent.showKeyboard()
+            onEditTextClick?.invoke()
         }
     }
 }

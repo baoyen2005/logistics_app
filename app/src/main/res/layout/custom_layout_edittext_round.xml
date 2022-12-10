@@ -4,8 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/_15dp"
-    android:paddingVertical="@dimen/dp18"
     android:gravity="center_vertical"
     android:background="@color/merchant_color_ffffff"
     android:orientation="horizontal">
@@ -14,8 +12,10 @@
         android:id="@+id/imgLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16dp"
+        android:layout_marginVertical="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp8"
-        />
+        app:srcCompat="@drawable/ic_baseline_person_24" />
 
     <com.example.baseapp.view.EditText
         android:id="@+id/edtRound"
@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ellipsize="end"
-        android:layout_marginEnd="@dimen/dp8"
         android:background="@null"
         app:cusfont="Bold"
         android:textSize="@dimen/_16sp" />
@@ -32,7 +31,7 @@
         android:id="@+id/imgShowPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_15dp"
+        android:layout_marginEnd="@dimen/_16dp"
         android:visibility="gone"
         android:tag="hide"
         app:srcCompat="@drawable/ic_icon_hide_password" />
@@ -40,10 +39,26 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgClear"
-        android:visibility="invisible"
+        android:visibility="gone"
+        android:paddingStart="@dimen/dp8"
+        android:paddingVertical="@dimen/dp18"
+        android:paddingEnd="@dimen/_16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_quick_del" />
 
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:text="@string/cancel"
+        android:paddingVertical="@dimen/dp18"
+        android:paddingEnd="@dimen/dp18"
+        android:paddingStart="@dimen/dp8"
+        android:textColor="@color/merchant_color_004a9c"
+        android:textSize="@dimen/_14sp"
+        android:visibility="gone"
+        app:cusfont="Bold" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

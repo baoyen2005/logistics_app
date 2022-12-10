@@ -24,7 +24,7 @@ class AppConstant {
         const val ORDER_IMAGE_STORAGE = "product_images"
         const val USER_COLLECTION = "users"
         const val USER_COMPANY_COLLECTION = "user_company"
-        const val TERM_PRODUCT_LIST = "addedProductList"
+        const val TERM_PRODUCT_LIST = "cart"
         const val SEND_NOTIFICATION = "notification"
         const val TOKEN_OTT = "tokenOtt"
         const val CARD_COLLECTION = "card"

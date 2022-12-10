@@ -43,10 +43,10 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
     private fun initListener() {
         binding.btnCustomerInforContinued.setSafeOnClickListener {
             val userCompany = UserCompany(
-                name = binding.edtCompanyName.getValueText(),
-                address = binding.edtCompanyAddress.getValueText(),
-                texCode = binding.edtCompanyTexCode.getValueText(),
-                businessType = binding.edtCompanyBusinessType.getValueText()
+                name = binding.edtCompanyName.getContentText(),
+                address = binding.edtCompanyAddress.getContentText(),
+                texCode = binding.edtCompanyTexCode.getContentText(),
+                businessType = binding.edtCompanyBusinessType.getContentText()
             )
             if (checkValidate()) {
                 onConfirmListener?.invoke(userCompany)
@@ -56,10 +56,10 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun checkValidate(): Boolean {
-        val name = binding.edtCompanyName.getValueText()
-        val address = binding.edtCompanyAddress.getValueText()
-        val texCode = binding.edtCompanyTexCode.getValueText()
-        val businessType = binding.edtCompanyBusinessType.getValueText()
+        val name = binding.edtCompanyName.getContentText()
+        val address = binding.edtCompanyAddress.getContentText()
+        val texCode = binding.edtCompanyTexCode.getContentText()
+        val businessType = binding.edtCompanyBusinessType.getContentText()
         when {
             name.isEmpty() -> {
                 binding.edtCompanyName.setVisibleMessageError(getString(R.string.invalid_field))
@@ -89,15 +89,15 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
 
     private fun initView() {
         if (company == null) {
-            binding.edtCompanyName.clearEditText()
-            binding.edtCompanyAddress.clearEditText()
-            binding.edtCompanyTexCode.clearEditText()
-            binding.edtCompanyBusinessType.clearEditText()
+            binding.edtCompanyName.clearText()
+            binding.edtCompanyAddress.clearText()
+            binding.edtCompanyTexCode.clearText()
+            binding.edtCompanyBusinessType.clearText()
         } else {
-            binding.edtCompanyName.setValueText(company?.name?:"")
-            binding.edtCompanyAddress.setValueText(company?.address?:"")
-            binding.edtCompanyTexCode.setValueText(company?.texCode?:"")
-            binding.edtCompanyBusinessType.setValueText(company?.businessType?:"")
+            binding.edtCompanyName.setValueContent(company?.name?:"")
+            binding.edtCompanyAddress.setValueContent(company?.address?:"")
+            binding.edtCompanyTexCode.setValueContent(company?.texCode?:"")
+            binding.edtCompanyBusinessType.setValueContent(company?.businessType?:"")
         }
     }
 

@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.example.baseapp.view.hideKeyboard
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.baseapp.view.showKeyboard
@@ -27,13 +28,19 @@ class EditTextRound : RelativeLayout {
     var onClearData: (() -> Unit)? = null
     var onBackPress: (() -> Unit)? = null
     var onActionDone: (() -> Unit)? = null
+    var onActionDelete: (() -> Unit)? = null
     var onTextChange: ((CharSequence?) -> Unit)? = null
     var onEditClick: (() -> Unit)? = null
     var onFocusChange: ((Boolean) -> Unit)? = null
+    var viewText = ""
+    var onCancelButtonClick: (() -> Unit)? = null
+    var isShowCancelBtn: Boolean = false
+
     private lateinit var binding: CustomLayoutEdittextRoundBinding
     
-    val textChangeListener = object : AbstractTextWatcher(){
+    private val textChangeListener = object : AbstractTextWatcher(){
         override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            viewText = s.toString()
             if (s.toString().isNotEmpty()) {
                 if (!isHideClear){
                      binding.imgClear.visibility = View.VISIBLE
@@ -43,11 +50,14 @@ class EditTextRound : RelativeLayout {
                 if (isPassword){
                      binding.imgShowPassword.visibility = View.VISIBLE
                 }
-                 binding.edtRound.setTypeface(valueFont)
+                binding.edtRound.setTypeface(valueFont)
             } else {
                  binding.edtRound.setTypeface(hintFont)
                  binding.imgClear.visibility = View.GONE
                  binding.imgShowPassword.visibility = View.GONE
+            }
+            if (isShowCancelBtn) {
+                binding.tvCancel.isVisible = s.toString().isEmpty()
             }
             onTextChange?.invoke(s)
         }
@@ -80,28 +90,40 @@ class EditTextRound : RelativeLayout {
     ) {
         init(context, attrs)
     }
+
     private fun compound() {
         binding = CustomLayoutEdittextRoundBinding.inflate(LayoutInflater.from(context), this,true)
     }
+
+    override fun onDetachedFromWindow() {
+        onClearData = null
+        onFocusChange = null
+        onTextChange = null
+        onEditClick = null
+        onActionDone = null
+        onBackPress = null
+        super.onDetachedFromWindow()
+    }
+
     private fun init(context: Context?, attrs: AttributeSet?) {
         val density = getContext().resources.displayMetrics.density
         val typedArray: TypedArray =
             getContext().obtainStyledAttributes(attrs, R.styleable.EditTextRound)
 
-        val textValueColor = typedArray.getColor(R.styleable.EditTextRound_android_textColor, ContextCompat.getColor(getContext(),R.color.merchant_color_4a4a4a) )
+        val textValueColor = typedArray.getColor(R.styleable.EditTextRound_valueColor, ContextCompat.getColor(getContext(),R.color.merchant_color_4a4a4a) )
          binding.edtRound.setTextColor(textValueColor)
 
         val hintString = typedArray.getString(R.styleable.EditTextRound_android_hint) ?: ""
          binding.edtRound.hint = hintString
 
-        val hintStringColor = typedArray.getColor(R.styleable.EditTextRound_android_textColorHint, ContextCompat.getColor(getContext(),R.color.merchant_color_d0d0d2))
+        val hintStringColor = typedArray.getColor(R.styleable.EditTextRound_hintColor, ContextCompat.getColor(getContext(),R.color.merchant_color_d0d0d2))
          binding.edtRound.setHintTextColor(hintStringColor)
 
-        val maxLength = typedArray.getInt(R.styleable.EditTextRound_android_maxLength, 100)
+        val maxLength = typedArray.getInt(R.styleable.EditTextRound_maxLength, 100)
         setMaxLength(maxLength)
 
-//        hintFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_hintFont,0))
-//        valueFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_valueFont,1))
+        hintFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_hintFont,0))
+        valueFont = getTypeFace(typedArray.getInt(R.styleable.EditTextRound_valueFont,1))
 
 
         val iconLeftDrawable = typedArray.getDrawable(R.styleable.EditTextRound_srcIconLeft)
@@ -118,6 +140,9 @@ class EditTextRound : RelativeLayout {
         val imeOption = typedArray.getInteger(R.styleable.EditTextRound_android_imeOptions, EditorInfo.IME_ACTION_DONE)
          binding.edtRound.imeOptions = imeOption
 
+        val isShowCancelBtn = typedArray.getBoolean(R.styleable.EditTextRound_showCancelButton, false)
+        setShowCancelButton(isShowCancelBtn)
+
         val inputType = typedArray.getInteger(R.styleable.EditTextRound_android_inputType, InputType.TYPE_CLASS_TEXT)
          binding.edtRound.inputType = inputType
 
@@ -128,20 +153,22 @@ class EditTextRound : RelativeLayout {
          binding.edtRound.typeface = hintFont
 
          binding.edtRound.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                if (!isHideClear){
+             if (hasFocus) {
+                 if (viewText.isNotEmpty()){
+                     if (!isHideClear) {
                          binding.imgClear.visibility = View.VISIBLE
-                    }else {
+                     } else {
                          binding.imgClear.visibility = View.GONE
-                    }
-                    if (isPassword){
+                     }
+                     if (isPassword) {
                          binding.imgShowPassword.visibility = View.VISIBLE
-                    }
-                onEditClick?.invoke()
-            }else {
-                     binding.imgClear.visibility = View.GONE
-                     binding.imgShowPassword.visibility = View.GONE
-                }
+                     }
+                 }
+                 binding.edtRound.performClick()
+             } else {
+                 binding.imgClear.visibility = View.GONE
+                 binding.imgShowPassword.visibility = View.GONE
+             }
             onFocusChange?.invoke(hasFocus)
 
         }
@@ -150,7 +177,14 @@ class EditTextRound : RelativeLayout {
          binding.edtRound.setSafeOnClickListener {
              binding.edtRound.requestFocus()
              binding.edtRound.showKeyboard()
+             if (isShowCancelBtn && viewText.isEmpty()) {
+                 binding.tvCancel.isVisible = true
+             }
             onEditClick?.invoke()
+        }
+
+        binding.root.setSafeOnClickListener {
+            binding.edtRound.requestFocus()
         }
          binding.edtRound.setOnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {
@@ -158,7 +192,8 @@ class EditTextRound : RelativeLayout {
                  binding.edtRound.clearFocus()
                  binding.edtRound.hideKeyboard()
                 true
-            } else {
+            }
+            else {
                 false
             }
         }
@@ -166,8 +201,13 @@ class EditTextRound : RelativeLayout {
         binding.imgClear.setSafeOnClickListener {
             binding.edtRound.setText("")
             binding.edtRound.requestFocus()
-            binding.edtRound.showKeyboard()
             onClearData?.invoke()
+        }
+
+        binding.tvCancel.setSafeOnClickListener {
+            it.isVisible = false
+            clearFocusEdittext()
+            onCancelButtonClick?.invoke()
         }
 
         if (isPassword) {
@@ -206,23 +246,35 @@ class EditTextRound : RelativeLayout {
          binding.edtRound.hint = hint
     }
 
-    fun editTextRequestFocus() {
-         binding.edtRound.requestFocus()
+    fun focusEditText(isFocus: Boolean) {
+        if (isFocus) {
+            binding.edtRound.requestFocus()
+        } else {
+            binding.edtRound.clearFocus()
+            binding.edtRound.hideKeyboard()
+        }
     }
 
     fun editTextAddTextChange() {
          binding.edtRound.requestFocus()
     }
 
+    fun setIconLeftShow(isShow: Boolean) {
+         binding.imgLeft.isVisible = isShow
+    }
+
     fun setEditText(message: String) {
-         binding.edtRound.removeTextChangedListener(textChangeListener)
-         binding.edtRound.setText(message)
-         binding.edtRound.addTextChangedListener(textChangeListener)
-       if (TextUtils.isEmpty(message)) {
-            binding.edtRound.setTypeface(hintFont)
-       } else {
-            binding.edtRound.setTypeface(valueFont)
-       }
+        binding.edtRound.removeTextChangedListener(textChangeListener)
+        binding.edtRound.setText(message)
+        viewText = message
+        binding.edtRound.addTextChangedListener(textChangeListener)
+        binding.tvCancel.isVisible = message.isEmpty()
+        binding.imgClear.isVisible = message.isNotEmpty()
+        if (TextUtils.isEmpty(message)) {
+            binding.edtRound.typeface = hintFont
+        } else {
+            binding.edtRound.typeface = valueFont
+        }
 
     }
 
@@ -250,12 +302,17 @@ class EditTextRound : RelativeLayout {
         binding.edtRound.inputType = type
     }
 
+    fun clearFocusEdittext(){
+        binding.edtRound.clearFocus()
+        hideKeyboard()
+    }
+
     fun setSelection(type: Int){
         binding.edtRound.setSelection( type)
     }
 
     fun getTextEdit(): String{
-        return  binding.edtRound.text.toString()
+        return  binding.edtRound.text.toString().trim()
     }
 
     fun setMaxLength(maxLength: Int) {
@@ -268,7 +325,7 @@ class EditTextRound : RelativeLayout {
             var typeface: Typeface? = null
             when (value) {
                 0 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.ssp_semi_regular)
+                    typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.ssp_regular)
 
                 }
                 1 -> {
@@ -283,7 +340,7 @@ class EditTextRound : RelativeLayout {
 
                 }
                 4 -> {
-                    typeface = ResourcesCompat.getFont(context, R.font.ssp_semi_bold)
+                    typeface = ResourcesCompat.getFont(context, com.example.baseapp.R.font.ssp_semibold)
 
                 }
             }
@@ -296,5 +353,12 @@ class EditTextRound : RelativeLayout {
 
     fun editPerformClick(){
         binding.edtRound.performClick()
+    }
+
+    fun showClearIcon(isShow: Boolean) {
+        binding.imgClear.isVisible = isShow
+    }
+    fun setShowCancelButton(isShow: Boolean) {
+        isShowCancelBtn = isShow
     }
 }

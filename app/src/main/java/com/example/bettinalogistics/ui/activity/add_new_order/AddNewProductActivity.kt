@@ -36,6 +36,9 @@ class AddNewProductActivity : BaseActivity() {
     }
 
     override fun initView() {
+        binding.tvUriNewImageProduct.setEnableEdittext(false)
+        binding.tvAddOrderTypeCont.setEnableEdittext(false)
+        binding.gTvNewProductType.setEnableEdittext(false)
         binding.btnAddOrderNewProductLCL.setBackgroundResource(R.drawable.custom_bg_secondary_sea_green_button_corner_20)
         binding.headerAddNewOrder.tvHeaderTitle.text = getString(R.string.str_add_new_product)
         binding.edtAddNewProductQuantity.setInputType(InputType.TYPE_CLASS_NUMBER)
@@ -70,15 +73,15 @@ class AddNewProductActivity : BaseActivity() {
             binding.btnAddNewProduct.text = getString(R.string.str_update)
         }
         else{
-            binding.tvUriNewImageProduct.clearContent()
-            binding.edtAddNewProductDescription.clearContent()
-            binding.edtAddNewProductName.clearContent()
-            binding.edtAddNewProductQuantity.clearContent()
-            binding.tvAddOrderTypeCont.clearContent()
-            binding.edtAddNewProductVolume.clearContent()
-            binding.edtAddNewProductMass.clearContent()
-            binding.edtAddNewProductNumberOfCarton.clearContent()
-            binding.gTvNewProductType.clearContent()
+            binding.tvUriNewImageProduct.clearText()
+            binding.edtAddNewProductDescription.clearText()
+            binding.edtAddNewProductName.clearText()
+            binding.edtAddNewProductQuantity.clearText()
+            binding.tvAddOrderTypeCont.clearText()
+            binding.edtAddNewProductVolume.clearText()
+            binding.edtAddNewProductMass.clearText()
+            binding.edtAddNewProductNumberOfCarton.clearText()
+            binding.gTvNewProductType.clearText()
             binding.btnAddNewProduct.text = getString(R.string.str_create_product)
         }
         appPermissions = AppPermissionsUtils()

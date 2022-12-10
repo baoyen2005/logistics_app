@@ -29,7 +29,7 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <com.example.baseapp.view.GroupEditTextView
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtCompanyName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         app:gr_hint_text_color="@color/color_text_8"
         android:imeOptions="actionDone"/>
 
-    <com.example.baseapp.view.GroupEditTextView
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtCompanyAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:gr_hint_text_color="@color/color_text_8"
         android:imeOptions="actionDone"/>
 
-    <com.example.baseapp.view.GroupEditTextView
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtCompanyTexCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         app:gr_hint_text_color="@color/color_text_8"
         android:imeOptions="actionDone"/>
 
-    <com.example.baseapp.view.GroupEditTextView
+    <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtCompanyBusinessType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -85,7 +85,6 @@
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_enable_edit ="false"
                 app:gr_hint="@string/str_product_image_choose"
                 app:gr_right_icon = "@drawable/ic_baseline_attachment_24"
                 app:layout_constraintLeft_toRightOf="@id/tvAddNewProductImageTitle"
@@ -189,7 +188,6 @@
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_enable_edit ="false"
                 android:visibility="gone"
                 app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -293,7 +291,6 @@
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_enable_edit ="false"
                 app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

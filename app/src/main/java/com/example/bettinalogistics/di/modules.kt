@@ -7,7 +7,6 @@ import com.example.bettinalogistics.data.*
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductViewModel
 import com.example.bettinalogistics.ui.activity.addorder.OrderViewModel
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderViewModel
-import com.example.bettinalogistics.ui.activity.gg_map.GoogleMapViewmodel
 import com.example.bettinalogistics.ui.activity.login.LoginViewModel
 import com.example.bettinalogistics.ui.activity.main.MainViewModel
 import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
@@ -42,9 +41,6 @@ val models = module {
     }
     viewModel {
         AddNewProductViewModel(get())
-    }
-    viewModel {
-        GoogleMapViewmodel(get())
     }
     viewModel {
         ConfirmOrderViewModel(get(),get())

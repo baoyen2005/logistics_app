@@ -112,10 +112,10 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
 
     private fun initView() {
         if (card == null) {
-            binding.edtCardName.clearContent()
-            binding.edtDateExpired.clearContent()
-            binding.edtCardNumber.clearContent()
-            binding.edtAccountNumber.clearContent()
+            binding.edtCardName.clearText()
+            binding.edtDateExpired.clearText()
+            binding.edtCardNumber.clearText()
+            binding.edtAccountNumber.clearText()
             binding.btnCustomerInforContinued.isVisible = true
         } else {
             binding.edtCardName.setValueContent(card?.name)
