@@ -98,7 +98,7 @@ class UserFollowTrackingFragment : BaseFragment() {
     private fun convertToListData(listEntity: List<Order>): List<Any> {
         val list = mutableListOf<Any>()
         val listDate = listEntity.map {
-            it.orderDate?.let { date ->
+            it.orderDate.let { date ->
                 Utils.g()
                     .convertDate(
                         Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,

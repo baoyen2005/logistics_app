@@ -34,7 +34,7 @@ class AdminAccountFragment : BaseFragment() {
         }
 
         binding.rlAdminLogout.setSafeOnClickListener {
-            val confirmBottomSheetFragment = ConfirmBottomSheetFragment()
+            val confirmBottomSheetFragment = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_confirm_logout))
             confirmBottomSheetFragment.setConfirmListener {
                 FirebaseAuth.getInstance().signOut()
                 AppData.g().logout()

@@ -11,6 +11,7 @@ import com.example.baseapp.di.Common
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.data.OTTFirebaseRepo
 import com.example.bettinalogistics.data.OrderRepository
+import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmUserInfoOrderAdapter.Companion.TYPE_ITEM_USER
 import com.example.bettinalogistics.utils.AppConstant
@@ -53,7 +54,8 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebas
                 discount = discount,
                 amountAfterDiscount = amountAfterDiscount,
                 typeTransportation = typeTransport,
-                methodTransport = methodTransport
+                methodTransport = methodTransport,
+                user = AppData.g().currentUser
             )
             customerOrder = order
             Log.d(TAG, "addOrderTransaction: $products")

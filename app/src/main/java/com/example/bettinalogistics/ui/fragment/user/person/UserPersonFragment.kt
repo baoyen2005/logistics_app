@@ -12,6 +12,7 @@ import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
+import com.example.bettinalogistics.ui.fragment.user.person.EditUserAccountActivity.Companion.IS_EDIT_ACCOUNT
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -24,7 +25,7 @@ class UserPersonFragment : BaseFragment() {
     }
 
     override fun initView() {
-        hiddenLoading()
+        showLoading()
         val user = AppData.g().currentUser
         Glide.with(this).load(user?.image).into(binding.ivUserPersonAvt)
         binding.tvUserPersonName.text = user?.fullName
@@ -36,7 +37,9 @@ class UserPersonFragment : BaseFragment() {
 
     override fun initListener() {
         binding.rlEditInfoUser.setSafeOnClickListener {
-            startActivity(Intent(requireContext(), EditUserAccountActivity::class.java))
+            val intent = Intent(requireContext(), EditUserAccountActivity::class.java)
+            intent.putExtra(IS_EDIT_ACCOUNT, true)
+            startActivity(intent)
         }
         binding.rlEditInfoCompany.setSafeOnClickListener {
             val companyInfo = CustomerCompanyInfoBottomSheet()
@@ -53,7 +56,7 @@ class UserPersonFragment : BaseFragment() {
             viewModel.getCard()
         }
         binding.rlUserLogout.setSafeOnClickListener {
-            val confirmBottomSheetFragment = ConfirmBottomSheetFragment()
+            val confirmBottomSheetFragment = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_confirm_logout))
             confirmBottomSheetFragment.setConfirmListener {
                 FirebaseAuth.getInstance().signOut()
                 AppData.g().logout()
@@ -120,6 +123,13 @@ class UserPersonFragment : BaseFragment() {
             } else {
                 confirm.newBuild().setNotice(getString(R.string.str_edit_user_fail))
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(viewModel.company == null){
+            viewModel.getCompany()
         }
     }
 }

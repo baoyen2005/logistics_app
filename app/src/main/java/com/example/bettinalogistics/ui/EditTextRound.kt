@@ -255,7 +255,7 @@ class EditTextRound : RelativeLayout {
     }
 
     fun getTextEdit(): String{
-        return  binding.edtRound.text.toString()
+        return  binding.edtRound.text.toString().trim()
     }
 
     fun setMaxLength(maxLength: Int) {

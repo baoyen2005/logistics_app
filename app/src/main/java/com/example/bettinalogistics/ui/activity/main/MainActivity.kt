@@ -3,7 +3,6 @@ package com.example.bettinalogistics.ui.activity.main
 import android.content.Intent
 import android.util.Log
 import androidx.core.view.isVisible
-import androidx.viewpager2.widget.ViewPager2
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityMainBinding
@@ -28,20 +27,23 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        binding.viewPagerMain.isUserInputEnabled = false
         viewModel.changedPassword = intent.getStringExtra(CHANGED_PASSWORD)
         val checkForgotPassword = intent.getBooleanExtra(CHECK_FORGOT_PASSWORD,false)
         val email = intent.getStringExtra(USER_EMAIL)
         viewModel.email = email
         if(AppData.g().currentUser == null){
-            showLoading()
             if(checkForgotPassword){
+                showLoading()
                 viewModel.changedPassword?.let { viewModel.updatePassword(password = it) }
             }
             else{
                 if (email != null) {
+                    showLoading()
                     viewModel.getUser(email)
                 }
                 else{
+                    showLoading()
                     viewModel.getUser(Utils.g().getDataString(USER_EMAIL).toString())
                 }
             }
@@ -85,9 +87,7 @@ class MainActivity : BaseActivity() {
         viewModel.getUserLiveData.observe(this) {
             if (it != null) {
                 hiddenLoading()
-                AppData.g().saveUser(
-                   it
-                )
+                AppData.g().saveUser(it)
                 AppData.g().currentUserAuth = Firebase.auth.currentUser.toString()
                 setupViewPager()
                 viewModel.saveTokenByUser()
@@ -114,18 +114,22 @@ class MainActivity : BaseActivity() {
                 val adapter = MainViewPagerAdapter(this, 4)
                 binding.viewPagerMain.adapter = adapter
                 binding.btnFloatTingMainAdd.isVisible = true
+                binding.ivMainNotification.isVisible = true
             }
             "ship" -> {
-                val adapter = ShipUnitMainViewPagerAdapter(this, 4)
+                val adapter = ShipUnitMainViewPagerAdapter(this, 3)
                 binding.viewPagerMain.adapter = adapter
                 binding.btnFloatTingMainAdd.isVisible = false
+                binding.ivMainNotification.isVisible = false
             }
             else -> {
                 val adapter = AdminMainViewPagerAdapter(this, 4)
                 binding.viewPagerMain.adapter = adapter
                 binding.btnFloatTingMainAdd.isVisible = false
+                binding.ivMainNotification.isVisible = true
             }
         }
+        /*
         binding.viewPagerMain.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -146,20 +150,22 @@ class MainActivity : BaseActivity() {
                 super.onPageSelected(position)
             }
         })
-        when(binding.viewPagerMain.currentItem){
-            0 -> {
-                setFirstFragmentItem()
-            }
-            1-> {
-                setSecondFragmentItem()
-            }
-            2 -> {
-                setThirdFragmentItem()
-            }
-            3-> {
-                setFourthFragmentItem()
-            }
-        }
+
+         */
+//        when(binding.viewPagerMain.currentItem){
+//            0 -> {
+//                setFirstFragmentItem()
+//            }
+//            1-> {
+//                setSecondFragmentItem()
+//            }
+//            2 -> {
+//                setThirdFragmentItem()
+//            }
+//            3-> {
+//                setFourthFragmentItem()
+//            }
+ //       }
     }
 
     private fun setFirstFragmentItem() {

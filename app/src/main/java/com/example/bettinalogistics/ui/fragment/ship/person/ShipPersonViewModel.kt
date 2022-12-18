@@ -1,6 +1,5 @@
-package com.example.bettinalogistics.ui.fragment.user.person
+package com.example.bettinalogistics.ui.fragment.ship.person
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
@@ -9,39 +8,10 @@ import com.example.bettinalogistics.data.CardRepository
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Card
 import com.example.bettinalogistics.model.User
-import com.example.bettinalogistics.model.UserCompany
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserPersonViewModel(val authenticationRepository: AuthenticationRepository, val cardRepository: CardRepository) : BaseViewModel() {
-    var uri: Uri? = null
-    var isChangeAvt: Boolean = false
-    var company: UserCompany? = null
-    var isEdit : Boolean = false
-
-    var editUserLiveData = MutableLiveData<Boolean>()
-    fun editUser(user: User) = viewModelScope.launch(Dispatchers.IO) {
-        authenticationRepository.editUser(user, isChangeAvt) {
-            editUserLiveData.postValue(it)
-        }
-    }
-
-    var getCompanyLiveData = MutableLiveData<UserCompany>()
-    fun getCompany() = viewModelScope.launch(Dispatchers.IO) {
-        AppData.g().userId?.let {
-            authenticationRepository.getCompany(it) {
-                getCompanyLiveData.postValue(it)
-            }
-        }
-    }
-
-    var updateCompanyLiveData = MutableLiveData<Boolean>()
-    fun updateCompany(companyEdit: UserCompany) = viewModelScope.launch(Dispatchers.IO) {
-        authenticationRepository.updateCompany(companyEdit) {
-            updateCompanyLiveData.postValue(it)
-        }
-    }
-
+class ShipPersonViewModel(val authenticationRepository: AuthenticationRepository, val cardRepository: CardRepository) : BaseViewModel() {
     var addCardLiveData = MutableLiveData<Boolean>()
     fun addCard(card: Card) = viewModelScope.launch(Dispatchers.IO) {
         cardRepository.addCard(card) {

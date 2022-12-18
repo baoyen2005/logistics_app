@@ -37,6 +37,7 @@ class AdminNotificationFragment : BaseFragment() {
 
     override fun observerData() {
         viewModel.getAllNotificationLiveData.observe(this){
+            hiddenLoading()
             if(it.isNullOrEmpty()){
                 binding.rvAdminNotification.isVisible = false
                 binding.emptyAdminNotification.root.isVisible = true

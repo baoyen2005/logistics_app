@@ -17,7 +17,8 @@ data class Order(
     var discount: Double? = null,
     var amountAfterDiscount: Double? = null,
     var typeTransportation: String? = null,
-    var methodTransport: String? = null
+    var methodTransport: String? = null,
+    var user: User? = null
 )
 
 data class ConfirmOrder(

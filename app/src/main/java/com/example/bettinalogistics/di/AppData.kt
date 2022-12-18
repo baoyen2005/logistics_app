@@ -38,6 +38,8 @@ class AppData {
     fun logout() {
         userId = null
         currentUserAuth = null
+        currentUser = null
+        userId = null
         val intent = Intent(Common.currentActivity, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         Common.currentActivity!!.startActivity(intent)
@@ -48,16 +50,18 @@ class AppData {
 
     fun saveUser(user: User){
         Utils.g().saveDataString(USER_EMAIL, user.email)
-        Utils.g().saveDataString(DataConstant.USER_ID, user.uid)
+        Utils.g().saveDataString(USER_ID, user.uid)
         Utils.g().saveDataString(DataConstant.USER_IMAGE, user.image)
         Utils.g().saveDataString(DataConstant.USER_PHONE, user.phone)
         Utils.g().saveDataString(DataConstant.USER_FULL_NAME, user.fullName)
         Utils.g().saveDataString(DataConstant.USER, Utils.g().getJsonFromObject(user))
+        currentUser = user
+        userId = user.uid
     }
 
     fun clear(){
         Utils.g().clearData(USER_EMAIL)
-        Utils.g().clearData(DataConstant.USER_ID)
+        Utils.g().clearData(USER_ID)
         Utils.g().clearData(DataConstant.USER_IMAGE)
         Utils.g().clearData(DataConstant.USER_PHONE)
         Utils.g().clearData(DataConstant.USER_FULL_NAME)

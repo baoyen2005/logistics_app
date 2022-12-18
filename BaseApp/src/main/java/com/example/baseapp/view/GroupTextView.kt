@@ -196,6 +196,10 @@ class GroupTextView: LinearLayout{
         showKeyboard()
     }
 
+    fun isShowIconClearText(isVisible: Boolean){
+        binding.ivClear.isVisible = isVisible
+    }
+
     fun setVisibleRightText(isVisible: Boolean){
         binding.tvRight.isVisible = isVisible
     }

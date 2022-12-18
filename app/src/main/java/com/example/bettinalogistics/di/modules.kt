@@ -12,7 +12,10 @@ import com.example.bettinalogistics.ui.activity.login.LoginViewModel
 import com.example.bettinalogistics.ui.activity.main.MainViewModel
 import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
 import com.example.bettinalogistics.ui.activity.splash.SplashViewModel
+import com.example.bettinalogistics.ui.fragment.admin.detail_order.DetailAdminOrderViewModel
 import com.example.bettinalogistics.ui.fragment.admin.order.AdminOrderListViewModel
+import com.example.bettinalogistics.ui.fragment.ship.order_list.ShipOrderViewModel
+import com.example.bettinalogistics.ui.fragment.ship.person.ShipPersonViewModel
 import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailUserOrderViewModel
 import com.example.bettinalogistics.ui.fragment.user.followtrask.UserFollowTrackingViewModel
 import com.example.bettinalogistics.ui.fragment.user.home.UserHomeViewModel
@@ -62,7 +65,16 @@ val models = module {
         DetailUserOrderViewModel(get(),get())
     }
     viewModel {
-        UserPersonViewModel(get())
+        UserPersonViewModel(get(),get())
+    }
+    viewModel {
+        ShipOrderViewModel(get(),get(), get())
+    }
+    viewModel {
+        ShipPersonViewModel(get(),get())
+    }
+    viewModel {
+        DetailAdminOrderViewModel(get(),get())
     }
 }
 
@@ -79,8 +91,8 @@ val impls = module {
         GoogleMapRepoImpl()
     }
 
-    single<AdminOrderRepo>  {
-        AdminOrderRepoImpl()
+    single<AdminOrShipperOrderRepo>  {
+        AdminOrShipperOrderRepoImpl()
     }
 
     single<FollowTrackingRepo>  {
@@ -89,6 +101,10 @@ val impls = module {
 
     single<OTTFirebaseRepo>  {
         OttFirebaseRepoImpl()
+    }
+
+    single<CardRepository>  {
+        CardRepoImpl()
     }
 }
 

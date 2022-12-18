@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:fontFamily="@font/ssp_bold"
+        android:gravity="center"
+        android:text="@string/str_approve_order_delivering"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+    <LinearLayout
+        android:id="@+id/linearDetailTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_24dp"
+        android:layout_marginTop="@dimen/dp18"
+        android:layout_marginEnd="@dimen/_24dp"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_2dp"
+        android:paddingTop="@dimen/_2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+        <LinearLayout
+            android:id="@+id/linearTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_bg_fffff_corner_12"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_16dp"
+                android:layout_marginEnd="@dimen/_16dp">
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvDetailOrderCodeTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp4"
+                    android:paddingTop="@dimen/dp8"
+                    android:text="@string/str_order_code"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="@dimen/_16sp"
+                    app:cusfont="SemiBold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvDetailOrderCode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp4"
+                    android:gravity="end"
+                    android:paddingTop="@dimen/dp8"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="@dimen/_16sp"
+                    app:cusfont="SemiBold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5"
+                    tools:text="aaaa" />
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvDetailOrderOriginAddressTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp4"
+                    android:layout_marginBottom="@dimen/_16dp"
+                    android:paddingTop="@dimen/dp8"
+                    android:text="@string/str_origin_address"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="@dimen/_16sp"
+                    app:cusfont="SemiBold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailOrderCodeTitle"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvDetailOrderOriginAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp4"
+                    android:layout_marginBottom="@dimen/_16dp"
+                    android:gravity="end"
+                    android:paddingTop="@dimen/dp8"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="@dimen/_16sp"
+                    app:cusfont="SemiBold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailOrderCodeTitle"
+                    app:layout_constraintWidth_percent="0.5"
+                    tools:text="aaaaaaaaaaaaa" />
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvDetailOrderDestinationAddressTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp4"
+                    android:layout_marginBottom="@dimen/_16dp"
+                    android:paddingTop="@dimen/dp8"
+                    android:text="@string/str_destination_address"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="@dimen/_16sp"
+                    app:cusfont="SemiBold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailOrderOriginAddress"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvDetailOrderDestinationAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp4"
+                    android:layout_marginBottom="@dimen/_16dp"
+                    android:gravity="end"
+                    android:paddingTop="@dimen/dp8"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="@dimen/_16sp"
+                    app:cusfont="SemiBold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailOrderOriginAddress"
+                    app:layout_constraintWidth_percent="0.5"
+                    tools:text="aaaaaaaaaaaaa" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvDetailStatusOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp14"
+            android:layout_marginBottom="@dimen/dp14"
+            android:gravity="center"
+            android:textColor="@color/merchant_color_ffffff"
+            android:textSize="@dimen/_16sp"
+            tools:text="ssss" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnUpdateOrderDelivering"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_24dp"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:text="@string/str_update_order_delivering"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_16sp"
+        app:backgroundTint="@null"
+        android:layout_marginTop="@dimen/_30dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearDetailTransaction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

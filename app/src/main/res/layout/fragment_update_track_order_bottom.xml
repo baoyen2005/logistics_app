@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
+    tools:context=".ui.activity.add_new_order.AddAddressTransactionActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@drawable/shape_merchant_color_999999_corner_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:fontFamily="@font/ssp_bold"
+        android:gravity="center"
+        android:text="@string/str_insert_track"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtAddressTrackOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        app:gr_title="@string/str_address_track"
+        app:gr_hint = "@string/str_enter_address"
+        app:gr_left_icon="@drawable/ic_location"
+        app:gr_is_show_clear_text="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtStatusTrackOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        app:gr_title="@string/str_status_track"
+        app:gr_hint = "@string/str_enter_status"
+        app:gr_left_icon="@drawable/ic_transaction_infor"
+        app:gr_is_show_clear_text="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAddressTrackOrder" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/btnAddOrUpdateTrackSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_30dp"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp18"
+        android:text="@string/str_save"
+        android:textColor="@color/merchant_color_ffffff"
+        android:textSize="@dimen/_16sp"
+        android:fontFamily="@font/ssp_bold"
+        app:layout_constraintTop_toBottomOf="@+id/edtStatusTrackOrder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

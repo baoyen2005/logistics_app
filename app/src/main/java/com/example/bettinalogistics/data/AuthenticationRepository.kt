@@ -4,19 +4,13 @@ import android.net.Uri
 import com.example.baseapp.BaseRepository
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
-import com.example.bettinalogistics.model.Card
 import com.example.bettinalogistics.model.TokenOtt
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.model.UserCompany
-import com.example.bettinalogistics.utils.AppConstant.Companion.CARD_COLLECTION
 import com.example.bettinalogistics.utils.AppConstant.Companion.TOKEN_OTT
 import com.example.bettinalogistics.utils.AppConstant.Companion.USER_COLLECTION
 import com.example.bettinalogistics.utils.AppConstant.Companion.USER_COMPANY_COLLECTION
-import com.example.bettinalogistics.utils.DataConstant.Companion.ACCOUNT_NUMBER
-import com.example.bettinalogistics.utils.DataConstant.Companion.BANK_NAME
-import com.example.bettinalogistics.utils.DataConstant.Companion.CARD_ID
-import com.example.bettinalogistics.utils.DataConstant.Companion.CARD_NUMBER
-import com.example.bettinalogistics.utils.DataConstant.Companion.DARE_OF_EXPIRED
+import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.DataConstant.Companion.TOKEN
 import com.example.bettinalogistics.utils.DataConstant.Companion.TOKEN_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ADDRESS
@@ -58,12 +52,6 @@ interface AuthenticationRepository {
     suspend fun getCompany(uid: String, onComplete: ((UserCompany?) -> Unit)?)
 
     suspend fun updateCompany(company: UserCompany, onComplete: ((Boolean?) -> Unit)?)
-
-    suspend fun addCard(card: Card, onComplete: ((Boolean?) -> Unit)?)
-
-    suspend fun updateCard(card: Card, onComplete: ((Boolean?) -> Unit)?)
-
-    suspend fun getCard(uid: String, onComplete: ((Card?) -> Unit)?)
 }
 
 class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository {
@@ -357,9 +345,30 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
     }
 
     override suspend fun updateCompany(company: UserCompany, onComplete: ((Boolean?) -> Unit)?) {
-        company.id?.let {
+        if (company.id == null) {
+            val documentReference =
+                FirebaseFirestore.getInstance().collection(USER_COMPANY_COLLECTION)
+                    .document()
+            val values: java.util.HashMap<String, String?> = java.util.HashMap()
+            values[DataConstant.COMPANY_ID] = documentReference.id
+            values[DataConstant.COMPANY_NAME] = company.name
+            values[DataConstant.COMPANY_ADDRESS] = company.address
+            values[DataConstant.COMPANY_TEX_CODE] = company.texCode
+            values[DataConstant.COMPANY_BUSINESS_TYPE] = company.businessType
+            values[USER_ID] = AppData.g().userId
+
+            documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
+                if (it.isSuccessful) {
+                    if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                        return@addOnCompleteListener
+                    } else onComplete?.invoke(true)
+                } else {
+                    onComplete?.invoke(false)
+                }
+            }
+        } else {
             FirebaseFirestore.getInstance().collection(USER_COMPANY_COLLECTION)
-                .document(it)
+                .document(company.id!!)
                 .set(company, SetOptions.merge())
                 .addOnCompleteListener { task: Task<Void?> ->
                     if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
@@ -372,62 +381,5 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
                     }
                 }
         }
-    }
-
-    override suspend fun addCard(card: Card, onComplete: ((Boolean?) -> Unit)?) {
-        val documentReference = FirebaseFirestore.getInstance().collection(CARD_COLLECTION)
-            .document()
-        val values: HashMap<String, Any?> = HashMap()
-        values[BANK_NAME] = card.name
-        values[CARD_ID] = documentReference.id
-        values[ACCOUNT_NUMBER] = card.accountNumber
-        values[CARD_NUMBER] = card.cardNumber
-        values[DARE_OF_EXPIRED] = card.dateOfExpired
-        documentReference.set(values, SetOptions.merge())
-            .addOnSuccessListener {
-                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
-                    return@addOnSuccessListener
-                }
-                onComplete?.invoke(true)
-            }.addOnFailureListener {
-                onComplete?.invoke(false)
-            }
-    }
-
-    override suspend fun updateCard(card: Card, onComplete: ((Boolean?) -> Unit)?) {
-        card.id?.let {
-            FirebaseFirestore.getInstance().collection(CARD_COLLECTION)
-                .document(it)
-                .set(card, SetOptions.merge())
-                .addOnCompleteListener { task: Task<Void?> ->
-                    if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
-                        return@addOnCompleteListener
-                    }
-                    if (task.isSuccessful) {
-                        onComplete?.invoke(true)
-                    } else {
-                        onComplete?.invoke(false)
-                    }
-                }
-        }
-    }
-
-    override suspend fun getCard(uid: String, onComplete: ((Card?) -> Unit)?) {
-        FirebaseFirestore.getInstance().collection(CARD_COLLECTION)
-            .whereEqualTo(USER_ID, uid)
-            .get()
-            .addOnCompleteListener {
-                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
-                    return@addOnCompleteListener
-                }
-                val card: List<Card> = it.result.toObjects(Card::class.java)
-                if (card.isEmpty()) {
-                    onComplete?.invoke(null)
-                } else {
-                    onComplete?.invoke(card.firstOrNull())
-                }
-            }.addOnFailureListener {
-                onComplete?.invoke(null)
-            }
     }
 }

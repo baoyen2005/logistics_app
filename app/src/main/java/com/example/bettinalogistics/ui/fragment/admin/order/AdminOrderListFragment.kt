@@ -83,6 +83,7 @@ class AdminOrderListFragment : BaseFragment() {
 
     override fun observerData() {
         viewModel.getListOrderByStatusLiveData.observe(this) {
+            hiddenLoading()
             if (it.isNullOrEmpty()) {
                 binding.emptyAdminListOrder.root.isVisible = true
                 binding.rvAdminOrderList.isVisible = false

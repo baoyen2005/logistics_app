@@ -1,60 +1,98 @@
 package com.example.bettinalogistics.ui.fragment.ship.person
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.Intent
+import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
+import com.example.baseapp.BaseFragment
+import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.databinding.FragmentShipAccountBinding
+import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
+import com.example.bettinalogistics.ui.fragment.user.person.EditUserAccountActivity
+import com.example.bettinalogistics.ui.fragment.user.person.EditUserAccountActivity.Companion.IS_EDIT_ACCOUNT
+import com.google.firebase.auth.FirebaseAuth
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class ShipAccountFragment : BaseFragment() {
+    override val viewModel: ShipPersonViewModel by sharedViewModel()
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ShipAccountFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ShipAccountFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override val binding: FragmentShipAccountBinding by lazy {
+        FragmentShipAccountBinding.inflate(layoutInflater)
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun initView() {
+        val user = AppData.g().currentUser
+        Glide.with(this).load(user?.image).into(binding.ivUserPersonAvt)
+        binding.tvUserPersonName.text = user?.fullName
+        binding.tvUserPersonEmail.text = user?.email
+        binding.headerUserPerson.tvHeaderTitle.text = getString(R.string.str_account)
+        binding.headerUserPerson.ivHeaderBack.isVisible = false
+    }
+
+    override fun initListener() {
+        binding.rlViewInfoUser.setSafeOnClickListener {
+            val intent = Intent(requireContext(), EditUserAccountActivity::class.java)
+            intent.putExtra(IS_EDIT_ACCOUNT, false)
+            startActivity(intent)
+        }
+        binding.rlConnectCard.setSafeOnClickListener {
+            showLoading()
+            viewModel.getCard()
+        }
+        binding.rlUserLogout.setSafeOnClickListener {
+            val confirmBottomSheetFragment = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_confirm_logout))
+            confirmBottomSheetFragment.setConfirmListener {
+                FirebaseAuth.getInstance().signOut()
+                AppData.g().logout()
+            }
+            confirmBottomSheetFragment.setCancelListener {
+                confirmBottomSheetFragment.dismiss()
+            }
+            confirmBottomSheetFragment.show(requireActivity().supportFragmentManager, "Sss")
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ship_account, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShipAccountFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShipAccountFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun observerData() {
+        viewModel.getCardLiveData.observe(this) {
+            hiddenLoading()
+            if (it == null) {
+                confirm.newBuild().setNotice(R.string.st_dont_connect_card).addButtonAgree {
+                    val connectCard = ConnectCardBottomSheet()
+                    connectCard.onConfirmListener = { card ->
+                        showLoading()
+                        viewModel.addCard(card)
+                    }
+                    connectCard.show(requireActivity().supportFragmentManager, "aaaaaaa")
                 }
+            } else {
+                val connectCard = ConnectCardBottomSheet()
+                connectCard.card = it
+                connectCard.onConfirmListener = { card ->
+                    card.id = it.id
+                    card.user = AppData.g().currentUser
+                    showLoading()
+                    viewModel.updateCard(card)
+                }
+                connectCard.show(requireActivity().supportFragmentManager, "aaaaaaa")
             }
+        }
+        viewModel.addCardLiveData.observe(this) {
+            hiddenLoading()
+            if (it) {
+                confirm.newBuild().setNotice(getString(R.string.str_connect_card_succes))
+            } else {
+                confirm.newBuild().setNotice(getString(R.string.str_connect_card_fail))
+            }
+        }
+        viewModel.updateCardLiveData.observe(this) {
+            hiddenLoading()
+            if (it) {
+                confirm.newBuild().setNotice(getString(R.string.str_edit_user_success))
+            } else {
+                confirm.newBuild().setNotice(getString(R.string.str_edit_user_fail))
+            }
+        }
     }
 }

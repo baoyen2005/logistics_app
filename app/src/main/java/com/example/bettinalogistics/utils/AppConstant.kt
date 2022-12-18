@@ -28,6 +28,7 @@ class AppConstant {
         const val SEND_NOTIFICATION = "notification"
         const val TOKEN_OTT = "tokenOtt"
         const val CARD_COLLECTION = "card"
+        const val TRACK_ORDER_COLLECTION = "track_order"
 
         // van chuyen
         const val LAT_HUU_NGHI = 21.27419975

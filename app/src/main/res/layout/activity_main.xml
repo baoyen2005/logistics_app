@@ -10,6 +10,7 @@
         android:id="@+id/viewPagerMain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:isScrollContainer="false"
         app:layout_constraintBottom_toTopOf="@id/linearHomeBottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -22,7 +23,7 @@
         android:layout_marginStart="@dimen/_10dp"
         android:layout_marginEnd="@dimen/_10dp"
         android:orientation="horizontal"
-        android:weightSum="5"
+        android:paddingVertical="@dimen/_20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">

@@ -140,6 +140,7 @@
     <string name="str_user_confirm">Thông tin công ty</string>
     <string name="str_order_confirm">Đặt hàng</string>
     <string name="str_user_name">Người đại diện</string>
+    <string name="str_customer_name">Người nhận hàng</string>
     <string name="str_choose_edit_infor">Chỉnh sửa thông tin</string>
     <string name="str_edit_order">Chỉnh sửa thông tin người dùng</string>
     <string name="str_edit_info">Chỉnh sửa thông tin đơn hàng</string>
@@ -193,6 +194,8 @@
     <string name="str_request_ott">Khách hàng %s vừa gửi yêu cầu đặt hàng với mã vận đơn %s</string>
     <string name="str_request_ott_cancel">Khách hàng %s vừa hủy đơn hàng với mã vận đơn %s</string>
     <string name="str_emtpy_notification">Không có thông báo nào mới</string>
+    <string name="str_track_notification">Đơn hàng với mã vận đơn %s đang ở %s, trạng thái đơn hàng %s.</string>
+    <string name="str_track_notification_update_delivering">Đơn hàng với mã vận đơn %s đã được đơn vị vận chuyển nhận hàng.</string>
     <string name="str_request_order">Gửi yêu cầu đặt hàng</string>
     <string name="view_detail">Xem chi tiết</string>
     <string name="str_detail_order">Chi tiết đơn hàng</string>
@@ -204,6 +207,10 @@
     <string name="str_cancel_success">Hủy thành công</string>
     <string name="str_cancel_failed">Hủy không thành công</string>
     <string name="str_cancel_order">Hủy đơn hàng</string>
+    <string name="str_cancel">Hủy</string>
+    <string name="str_update_track_order">Cập nhật lộ trình</string>
+    <string name="str_update_track_order_success">Cập nhật lộ trình thành công</string>
+    <string name="str_update_track_order_failed">Cập nhật lộ trình không thành công</string>
     <string name="str_result">Kết quả tìm kiếm</string>
     <string name="str_result_search">%s kết quả</string>
     <string name="str_company">Thông tin công ty</string>
@@ -235,4 +242,20 @@
     <string name="str_user_list_empty">Danh sách người dùng rỗng</string>
     <string name="str_delete_user">Xóa người dùng</string>
     <string name="str_account">Tài khoản cá nhân</string>
+    <string name="str_list_track">Danh sách lộ trình</string>
+    <string name="str_track_empty">Chưa cập nhật lộ trình cho đơn hàng. Thêm lộ trình cho đơn hàng ngay?</string>
+    <string name="str_insert_track">Thêm lộ trình</string>
+    <string name="str_address_track">Địa điểm hàng hiện tại</string>
+    <string name="str_enter_address">"Nhập địa điểm "</string>
+    <string name="str_status_track">Trạng thái đơn hàng hiện tại</string>
+    <string name="str_enter_status">"Nhập trạng thái đơn hàng "</string>
+    <string name="str_confirm_logout">Bạn có chắc chắn muốn đăng xuất không?</string>
+    <string name="str_confirmed">Đã xác nhận</string>
+    <string name="str_delivered">Đã giao</string>
+    <string name="str_update_faid">Cập nhật thông tin không thành công</string>
+    <string name="str_add_new_track">Thêm lộ trình</string>
+    <string name="str_approve_order_delivering">Xác nhận đơn hàng</string>
+    <string name="str_update_order_delivering">Bắt đầu giao hàng</string>
+    <string name="str_waiting_delivering">Chờ giao hàng</string>
+    <string name="str_confirm_delivered">Xác nhận giao hàng thành công</string>
 </resources>

@@ -22,6 +22,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 class EditUserAccountActivity : BaseActivity() {
+    companion object {
+        const val IS_EDIT_ACCOUNT = "isEditAccount"
+    }
+
     private lateinit var appPermissions: AppPermissionsUtils
     override val viewModel: UserPersonViewModel by viewModel()
 
@@ -30,21 +34,51 @@ class EditUserAccountActivity : BaseActivity() {
     }
 
     override fun initView() {
+        val isEdit = intent.getBooleanExtra(IS_EDIT_ACCOUNT, false)
+        viewModel.isEdit = isEdit
+        binding.btnEditUserSave.isVisible = isEdit
+        binding.ivEditUserChooseDob.isVisible = isEdit
         appPermissions = AppPermissionsUtils()
         if (!appPermissions.isStorageOk(applicationContext)) {
             appPermissions.requestStoragePermission(this)
         }
+        binding.edtEditUserEmail.setEnableEdittext(false)
+        binding.edtEditUserPassword.setEnableEdittext(false)
+        if (isEdit) {
+            binding.edtEditUserName.setEnableEdittext(true)
+            binding.edtEditUserPhone.setEnableEdittext(true)
+            binding.edtEditUserEmail.setEnableEdittext(true)
+            binding.edtEditUserPassword.setEnableEdittext(true)
+            binding.edtEditUserAddress.setEnableEdittext(true)
+            binding.ivEditUserAvatar.isEnabled = true
+
+            binding.edtEditUserName.isShowIconClearText(true)
+            binding.edtEditUserPhone.isShowIconClearText(true)
+            binding.edtEditUserEmail.isShowIconClearText(true)
+            binding.edtEditUserPassword.isShowIconClearText(true)
+            binding.edtEditUserAddress.isShowIconClearText(true)
+        } else {
+            binding.edtEditUserName.setEnableEdittext(false)
+            binding.edtEditUserPhone.setEnableEdittext(false)
+            binding.edtEditUserEmail.setEnableEdittext(false)
+            binding.edtEditUserPassword.setEnableEdittext(false)
+            binding.edtEditUserAddress.setEnableEdittext(false)
+            binding.ivEditUserAvatar.isEnabled = false
+
+            binding.edtEditUserName.isShowIconClearText(false)
+            binding.edtEditUserPhone.isShowIconClearText(false)
+            binding.edtEditUserEmail.isShowIconClearText(false)
+            binding.edtEditUserPassword.isShowIconClearText(false)
+            binding.edtEditUserAddress.isShowIconClearText(false)
+        }
         val user = AppData.g().currentUser
         Glide.with(this).load(user?.image).into(binding.ivEditUserAvatar)
-        binding.edtEditUserEmail.setEnableEdittext(false)
         binding.edtEditUserName.setValueContent(user?.fullName)
         binding.edtEditUserPhone.setValueContent(user?.phone)
         binding.tvEditUserDateOfBirth.text = user?.dateOfBirth ?: ""
         binding.edtEditUserEmail.setValueContent(user?.email)
         binding.edtEditUserPassword.setValueContent(user?.password)
-        binding.edtEditUserPassword.setEnableEdittext(false)
         binding.edtEditUserAddress.setValueContent(user?.address)
-
         binding.edtEditUserName.onTextChange = {
             binding.btnEditUserSave.isVisible = true
         }
@@ -62,7 +96,9 @@ class EditUserAccountActivity : BaseActivity() {
             chooseDate()
         }
         binding.cvEditUserAvartar.setOnClickListener {
-            pickImage()
+            if (viewModel.isEdit) {
+                pickImage()
+            }
         }
         binding.btnEditUserSave.setOnClickListener {
             if (checkValidate()) {

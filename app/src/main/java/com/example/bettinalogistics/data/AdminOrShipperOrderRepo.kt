@@ -5,11 +5,13 @@ import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.DataConstant
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 
-interface AdminOrderRepo {
+interface AdminOrShipperOrderRepo {
     suspend fun getListOrderByStatus(status: String?, onComplete: ((List<Order>?) -> Unit)?)
+    suspend fun updateOrderToDelivering(order: Order, onComplete: ((Boolean) -> Unit))
 }
-class AdminOrderRepoImpl : AdminOrderRepo{
+class AdminOrShipperOrderRepoImpl : AdminOrShipperOrderRepo{
     override suspend fun getListOrderByStatus(
         status: String?,
         onComplete: ((List<Order>?) -> Unit)?
@@ -43,6 +45,18 @@ class AdminOrderRepoImpl : AdminOrderRepo{
             .addOnFailureListener {
                 onComplete?.invoke(null)
             }
+    }
+
+    override suspend fun updateOrderToDelivering(order: Order, onComplete: (Boolean) -> Unit) {
+        val doc = order.id?.let {
+            FirebaseFirestore.getInstance().collection(AppConstant.ORDER_COLLECTION)
+                .document(it)
+        }
+        doc?.set(order, SetOptions.merge())?.addOnSuccessListener {
+            onComplete.invoke(true)
+        }?.addOnFailureListener {
+            onComplete.invoke(false)
+        }
     }
 
 }

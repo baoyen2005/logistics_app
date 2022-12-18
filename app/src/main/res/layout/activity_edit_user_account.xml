@@ -55,7 +55,6 @@
                 android:layout_marginTop="@dimen/_15dp"
                 app:gr_hint="@string/full_name"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_show_clear_text="true"
                 app:gr_left_icon="@drawable/ic_baseline_account_box_24"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp" />
@@ -68,7 +67,6 @@
                 app:gr_hint="@string/phone"
                 app:gr_max_length = "10"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_show_clear_text="true"
                 app:gr_left_icon="@drawable/ic_baseline_contact_phone_24"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp" />
@@ -130,7 +128,6 @@
                 android:layout_marginTop="@dimen/_15dp"
                 app:gr_hint="@string/password"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_show_clear_text="true"
                 app:gr_left_icon="@drawable/ic_baseline_lock_24"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp" />
@@ -141,8 +138,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15dp"
                 app:gr_hint="@string/password"
+                android:layout_marginBottom="@dimen/_20dp"
                 app:gr_hint_text_color="@color/color_text_8"
-                app:gr_is_show_clear_text="true"
                 app:gr_left_icon="@drawable/ic_baseline_home_24"
                 app:gr_text_color="@color/black"
                 app:gr_text_size="@dimen/_16sp" />
@@ -162,6 +159,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear_address_signup" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

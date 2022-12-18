@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvTrackingDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.3"
+            android:fontFamily="@font/ssp_semi_italic"
+            android:textColor="@color/merchant_color_737378"
+            android:textSize="@dimen/_14sp"
+            tools:text="000 ko hh kkm19/20/2002"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/tvTrackingDate"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tvTrackingDate"
+            app:layout_constraintRight_toLeftOf="@id/ll_one"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/ic_baseline_radio_button_unchecked_24" />
+            <TextView
+                android:layout_width="2dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:background="@color/secondary_sea_green_3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.6"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toEndOf="@+id/ll_dots"
+            android:background="@drawable/bg_gray_color_corner_12"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvTrackingAddressOrderItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    tools:text="ssssssssssssssss"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvTrackingStatusOrderItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    tools:text="adddddd"
+                    android:textColor="@color/merchant_color_4a4a4a"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

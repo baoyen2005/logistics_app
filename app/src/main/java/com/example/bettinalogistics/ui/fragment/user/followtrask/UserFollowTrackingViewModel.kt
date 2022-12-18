@@ -25,6 +25,14 @@ class UserFollowTrackingViewModel(val followTrackingRepo: FollowTrackingRepo) : 
         return list
     }
 
+    fun getListShipTrackingTab(): List<CommonEntity> {
+        val list = mutableListOf<CommonEntity>()
+        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_CONFIRM))
+        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_DELIVERED))
+        list.add(CommonEntity().setTitle(DataConstant.ORDER_STATUS_DELIVERING))
+        return list
+    }
+
     var getAllOrderByStatusAndUserLiveData = MutableLiveData<List<Order>>()
 
     fun getAllOrderByStatusAndUser(status: String?) = viewModelScope.launch(Dispatchers.IO) {

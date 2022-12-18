@@ -23,6 +23,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.CONFIRM_DATE_NO
 import com.example.bettinalogistics.utils.DataConstant.Companion.CONTENT_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.DISCOUNT
 import com.example.bettinalogistics.utils.DataConstant.Companion.ID_NOTIFICATION
+import com.example.bettinalogistics.utils.DataConstant.Companion.NOTIFICATION_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_CODE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_COMPANY
@@ -32,6 +33,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_NOTIFICAT
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_METHOD
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_TYPE
+import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_USER
 import com.example.bettinalogistics.utils.DataConstant.Companion.PAYMENT_STATUS
 import com.example.bettinalogistics.utils.DataConstant.Companion.PERSON_RECEIVER_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_CONT_TYPE
@@ -46,6 +48,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_NUMBER_
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_QUANTITY
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_VOLUME
+import com.example.bettinalogistics.utils.DataConstant.Companion.REQUEST_DATE_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.TIME_ESTIMATE_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.USER_ID
 import com.example.bettinalogistics.utils.dateToString
@@ -225,8 +228,9 @@ class OrderRepositoryImpl : OrderRepository {
         values[DISCOUNT] = order.discount
         values[AMOUNT_AFTER_DISCOUNT] = order.amountAfterDiscount
         values[ORDER_TRANSPORT_TYPE] = order.typeTransportation
-        values[ORDER_TRANSPORT_METHOD] = order.methodTransport
+        values[ORDER_USER] = order.user
         values[USER_ID] = AppData.g().userId
+        values[ORDER_ID] = documentReference.id
         values[ORDER_ID] = documentReference.id
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
@@ -270,7 +274,7 @@ class OrderRepositoryImpl : OrderRepository {
                 if(company.isEmpty()){
                     onComplete?.invoke(null)
                 }
-                else onComplete?.invoke(company[0])
+                else onComplete?.invoke(company.firstOrNull())
             }.addOnFailureListener {
                 val company: UserCompany? = null
                 onComplete?.invoke(company)
@@ -311,8 +315,10 @@ class OrderRepositoryImpl : OrderRepository {
         val values: HashMap<String, Any?> = HashMap()
         values[ID_NOTIFICATION] = documentReference.id
         values[CONTENT_NOTIFICATION] = notification.contentNoti ?: ""
+        values[NOTIFICATION_TYPE] = notification.notificationType ?: ""
         values[ORDER_NOTIFICATION] = notification.order
         values[CONFIRM_DATE_NOTIFICATION] = notification.confirmDate
+        values[REQUEST_DATE_NOTIFICATION] = notification.requestDate
         values[PERSON_RECEIVER_NOTIFICATION] = notification.notiTo
         values[USER_ID] = AppData.g().userId
         values[TIME_ESTIMATE_NOTIFICATION] = notification.timeTransactionEstimate

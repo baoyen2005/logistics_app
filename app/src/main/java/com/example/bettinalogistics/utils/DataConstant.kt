@@ -51,6 +51,7 @@ class DataConstant {
         const val PRODUCT_LIST = "productList"
         const val ORDER_TRANSPORT_TYPE = "typeTransportation"
         const val ORDER_TRANSPORT_METHOD = "methodTransport"
+        const val ORDER_USER = "user"
         const val ORDER_CODE= "orderCode"
         const val AMOUNT_BEFORE_DISCOUNT= "amountBeforeDiscount"
         const val AMOUNT_AFTER_DISCOUNT= "amountAfterDiscount"
@@ -69,8 +70,10 @@ class DataConstant {
         const val ID_NOTIFICATION = "notificationId"
         const val ORDER_NOTIFICATION = "order"
         const val CONFIRM_DATE_NOTIFICATION = "confirmDate"
+        const val REQUEST_DATE_NOTIFICATION = "requestDate"
         const val TIME_ESTIMATE_NOTIFICATION = "timeTransactionEstimate"
         const val PERSON_RECEIVER_NOTIFICATION = "notiTo"
+        const val NOTIFICATION_TYPE = "notificationType"
 
         //token
         const val TOKEN_ID = "id"
@@ -82,5 +85,13 @@ class DataConstant {
         const val ACCOUNT_NUMBER = "accountNumber"
         const val CARD_NUMBER = "cardNumber"
         const val DARE_OF_EXPIRED= "dateOfExpired"
+
+        //track
+        const val TRACK_ID = "id"
+        const val TRACK_CODE = "trackCode"
+        const val TRACK_ADDRESS = "address"
+        const val TRACK_STATUS = "status"
+        const val TRACK_DATE_UPDATE = "dateUpdate"
+        const val TRACK_ORDER_ID = "orderId"
     }
 }

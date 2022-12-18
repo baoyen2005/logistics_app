@@ -62,7 +62,7 @@ class AdminDetailOrderActivity : BaseActivity() {
         binding.btnAdminApprove.isVisible =
             (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
         binding.btnAdminApprove.isVisible =
-            (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERING)
+            (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_PENDING,
             DataConstant.ORDER_STATUS_PAYMENT_WAITING,
@@ -109,6 +109,7 @@ class AdminDetailOrderActivity : BaseActivity() {
             order?.let { it1 -> viewModel.updateOrder(it1) }
             viewModel.isCancel = false
             binding.btnAdminCancel.isVisible = false
+            binding.btnAdminApprove.isVisible = false
         }
         binding.btnAdminCancel.setOnClickListener {
             showLoading()
@@ -117,9 +118,7 @@ class AdminDetailOrderActivity : BaseActivity() {
             order?.let { it1 -> viewModel.updateOrder(it1) }
             viewModel.isCancel = true
             binding.btnAdminApprove.isVisible = false
-        }
-        binding.btnAdminApprove.setOnClickListener {
-            //show manf follow
+            binding.btnAdminCancel.isVisible = false
         }
     }
 
@@ -184,13 +183,13 @@ class AdminDetailOrderActivity : BaseActivity() {
                     )
                     val request = OttRequest(
                         requestId = viewModel.order?.orderCode,
-                        serialNumbers = listToken, content = content, title = getString(R.string.str_noti_cancel_order),
+                        serialNumbers = listToken, content = content, title = getString(R.string.str_noti_approve_order),
                         notificationType = "142341234"
                     )
                     viewModel.sendOttServer(request)
                 }
             } else {
-                confirm.setNotice(getString(R.string.str_cancel_failed))
+                confirm.setNotice(getString(R.string.str_update_faid))
             }
         }
         viewModel.sendNotiRequestFirebaseLiveData.observe(this) {
