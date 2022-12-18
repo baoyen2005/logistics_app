@@ -195,6 +195,7 @@
     <string name="str_request_ott_cancel">Khách hàng %s vừa hủy đơn hàng với mã vận đơn %s</string>
     <string name="str_emtpy_notification">Không có thông báo nào mới</string>
     <string name="str_track_notification">Đơn hàng với mã vận đơn %s đang ở %s, trạng thái đơn hàng %s.</string>
+    <string name="str_track_delivered_notification">Đơn hàng với mã vận đơn %s đã được giao thành công.</string>
     <string name="str_track_notification_update_delivering">Đơn hàng với mã vận đơn %s đã được đơn vị vận chuyển nhận hàng.</string>
     <string name="str_request_order">Gửi yêu cầu đặt hàng</string>
     <string name="view_detail">Xem chi tiết</string>
@@ -209,6 +210,7 @@
     <string name="str_cancel_order">Hủy đơn hàng</string>
     <string name="str_cancel">Hủy</string>
     <string name="str_update_track_order">Cập nhật lộ trình</string>
+    <string name="str_confirm_delivered_noti">Thông báo giao hàng thành công</string>
     <string name="str_update_track_order_success">Cập nhật lộ trình thành công</string>
     <string name="str_update_track_order_failed">Cập nhật lộ trình không thành công</string>
     <string name="str_result">Kết quả tìm kiếm</string>

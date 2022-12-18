@@ -20,7 +20,7 @@ class ShipOrderViewModel(
 ) : BaseViewModel() {
     var order: Order? = null
     var currentTrack: Track? = null
-    var isDele
+    var isDelivered = false
     var tabSelected = DataConstant.ORDER_STATUS_CONFIRM
     var allTokenList = mutableListOf<TokenOtt>()
     var getAllOrderTrackLiveData = MutableLiveData<List<Track>>()

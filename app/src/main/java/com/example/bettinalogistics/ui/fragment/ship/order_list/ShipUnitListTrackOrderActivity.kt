@@ -82,6 +82,7 @@ class ShipUnitListTrackOrderActivity : BaseActivity() {
                 showLoading()
                 viewModel.addOrderTrack(it)
             }
+            viewModel.isDelivered = false
             updateTrackOrderBottomSheet.show(supportFragmentManager, "ssssssss")
         }
         binding.btnUpdateDelivered.setOnClickListener {
@@ -90,6 +91,7 @@ class ShipUnitListTrackOrderActivity : BaseActivity() {
             val confirmOrderBottomSheet = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_confirm_delivered))
             confirmOrderBottomSheet.setConfirmListener {
                 if (order != null) {
+                    viewModel.isDelivered = true
                     showLoading()
                     viewModel.updateOrderToDelivering(order)
                 }
@@ -160,6 +162,42 @@ class ShipUnitListTrackOrderActivity : BaseActivity() {
                     serialNumbers = listToken,
                     content = content,
                     title = getString(R.string.str_update_track_order),
+                    notificationType = "142341234"
+                )
+                viewModel.sendOttServer(request)
+            }
+        }
+        viewModel.updateOrderToDeliveringLiveData.observe(this){
+            if(it){
+                val notification = Notification(
+                    contentNoti = getString(
+                        R.string.str_track_delivered_notification,
+                        viewModel.order?.orderCode ?: "",
+                    ),
+                    notificationType = getString(R.string.str_confirm_delivered_noti),
+                    notiTo = "admin and user",
+                    confirmDate = Utils_Date.convertformDate(
+                        Date(),
+                        Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
+                    ),
+                    order = viewModel.order
+                )
+                viewModel.sendNotiRequestFirebase(notification)
+                val content = getString(
+                    R.string.str_track_delivered_notification,
+                    viewModel.order?.orderCode ?: "",
+                )
+                val listToken = mutableListOf<String>()
+                viewModel.allTokenList.forEach {
+                    if (it.role?.trim() == "admin".trim() || it.role?.trim() == "user".trim()) {
+                        it.token?.let { it1 -> listToken.add(it1) }
+                    }
+                }
+                val request = OttRequest(
+                    requestId = viewModel.order?.orderCode,
+                    serialNumbers = listToken,
+                    content = content,
+                    title = getString(R.string.str_confirm_delivered_noti),
                     notificationType = "142341234"
                 )
                 viewModel.sendOttServer(request)
