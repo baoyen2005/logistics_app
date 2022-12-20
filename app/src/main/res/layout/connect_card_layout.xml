@@ -95,21 +95,47 @@
         android:textSize="@dimen/_14sp"
         app:cusfont="Bold" />
 
-    <Button
-        android:id="@+id/btnCustomerInforContinued"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_40dp"
-        android:layout_marginTop="@dimen/_40dp"
-        app:backgroundTint="@null"
-        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
-        android:gravity="center"
-        android:visibility="gone"
-        android:paddingVertical="@dimen/dp8"
-        android:text="@string/str_save"
-        android:textColor="@color/merchant_color_ffffff"
-        android:textSize="@dimen/_16sp"
-        android:textAllCaps="false"
-        android:fontFamily="@font/ssp_bold"
-        android:layout_marginHorizontal="@dimen/_15dp" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCustomerInforContinued"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_40dp"
+            android:layout_marginBottom="@dimen/_40dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+            android:fontFamily="@font/ssp_bold"
+            android:gravity="center"
+            android:paddingVertical="@dimen/dp8"
+            android:text="@string/str_save"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_ffffff"
+            android:textSize="@dimen/_16sp"
+            android:visibility="gone"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnDeleteCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_40dp"
+            android:layout_marginBottom="@dimen/_40dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_ffffff_stroke_004a9c_corner_12"
+            android:fontFamily="@font/ssp_bold"
+            android:gravity="center"
+            android:paddingVertical="@dimen/dp8"
+            android:text="@string/str_delete_card"
+            android:textAllCaps="false"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp"
+            android:visibility="gone"
+            app:backgroundTint="@null" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

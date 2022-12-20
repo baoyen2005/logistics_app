@@ -25,10 +25,10 @@ class ShipPersonViewModel(val authenticationRepository: AuthenticationRepository
             updateCardLiveData.postValue(it)
         }
     }
-    var getCardLiveData = MutableLiveData<Card>()
+    var getCardLiveData = MutableLiveData<List<Card>>()
     fun getCard() = viewModelScope.launch(Dispatchers.IO) {
         AppData.g().userId?.let {
-            cardRepository.getCard(it) {
+            cardRepository.getAllCards(it) {
                 getCardLiveData.postValue(it)
             }
         }

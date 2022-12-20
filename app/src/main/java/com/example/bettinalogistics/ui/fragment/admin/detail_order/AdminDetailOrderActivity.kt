@@ -56,11 +56,16 @@ class AdminDetailOrderActivity : BaseActivity() {
         binding.tvDetailStatusOrder.text = order?.statusOrder ?: ""
         binding.rvDetailOrder.adapter = detailOrderAdapter
         detailOrderAdapter.reset(order?.let { viewModel.getListDetailOrderCommonEntity(it, this) })
+
         binding.btnAdminCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
         binding.btnAdminApprove.isVisible =
             (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
-        binding.btnAdminApprove.isVisible =
-            (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
+        binding.btnAdminFollowOrder.isVisible =
+            order?.statusOrder != DataConstant.ORDER_STATUS_PENDING && order?.statusOrder != DataConstant.ORDER_STATUS_CANCEL
+
+        binding.btnAdminViewPayment.isVisible =
+            (order?.statusOrder == DataConstant.ORDER_STATUS_PAYMENT_PAID)
+
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_PENDING,
             DataConstant.ORDER_STATUS_PAYMENT_WAITING,
@@ -117,6 +122,14 @@ class AdminDetailOrderActivity : BaseActivity() {
             viewModel.isCancel = true
             binding.btnAdminApprove.isVisible = false
             binding.btnAdminCancel.isVisible = false
+        }
+        binding.btnAdminViewPayment.setOnClickListener {
+            startActivity(viewModel.order?.let { it1 ->
+                AdminDetailPaymentOrderActivity.startAdminDetailPaymentOrderActivity(
+                    this,
+                    it1
+                )
+            })
         }
     }
 

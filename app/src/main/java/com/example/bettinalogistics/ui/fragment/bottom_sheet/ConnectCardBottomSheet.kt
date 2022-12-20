@@ -27,6 +27,7 @@ import java.util.*
 class ConnectCardBottomSheet : BottomSheetDialogFragment() {
     var onConfirmListener: ((Card) -> Unit)? = null
     var card: Card? = null
+    var onDeleteListener : (() -> Unit)? = null
 
     val binding: ConnectCardLayoutBinding by lazy {
         ConnectCardLayoutBinding.inflate(layoutInflater)
@@ -60,6 +61,9 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
                 onConfirmListener?.invoke(card)
                 dismiss()
             }
+        }
+        binding.btnDeleteCard.setSafeOnClickListener {
+            onDeleteListener?.invoke()
         }
     }
 
@@ -114,6 +118,7 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
         binding.edtAccountNumber.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtDateExpired.setInputType(InputType.TYPE_CLASS_NUMBER)
         setTimeForEdittext(binding.edtDateExpired)
+        binding.btnDeleteCard.isVisible = card != null
         if (card == null) {
             binding.edtCardName.clearContent()
             binding.edtDateExpired.clearText()

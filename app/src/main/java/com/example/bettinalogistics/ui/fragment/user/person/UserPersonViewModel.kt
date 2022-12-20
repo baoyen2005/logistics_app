@@ -55,11 +55,19 @@ class UserPersonViewModel(val authenticationRepository: AuthenticationRepository
             updateCardLiveData.postValue(it)
         }
     }
-    var getCardLiveData = MutableLiveData<Card>()
-    fun getCard() = viewModelScope.launch(Dispatchers.IO) {
+
+    var deleteCardLiveData = MutableLiveData<Boolean>()
+    fun deleteCard(card: Card) = viewModelScope.launch(Dispatchers.IO) {
+        cardRepository.deleteCard(card) {
+            deleteCardLiveData.postValue(it)
+        }
+    }
+
+    var getAllCardLiveData = MutableLiveData<List<Card>>()
+    fun getAllCard() = viewModelScope.launch(Dispatchers.IO) {
         AppData.g().userId?.let {
-            cardRepository.getCard(it) {
-                getCardLiveData.postValue(it)
+            cardRepository.getAllCards(it) {
+                getAllCardLiveData.postValue(it)
             }
         }
     }

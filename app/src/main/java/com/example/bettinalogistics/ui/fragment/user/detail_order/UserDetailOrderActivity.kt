@@ -14,6 +14,9 @@ import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OttRequest
+import com.example.bettinalogistics.model.Payment
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.PaymentOrderBottomSheet
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
@@ -58,12 +61,20 @@ class UserDetailOrderActivity : BaseActivity() {
         binding.tvDetailStatusOrder.text = order?.statusOrder ?: ""
         binding.rvDetailOrder.adapter = detailOrderAdapter
         detailOrderAdapter.reset(order?.let { viewModel.getListDetailOrderCommonEntity(it, this) })
+
         binding.btnCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
+
         if (order?.statusOrder != DataConstant.ORDER_STATUS_PENDING && order?.statusOrder != DataConstant.ORDER_STATUS_CANCEL) {
             binding.btnUserViewAllTrack.isVisible
         }
         binding.btnUserPayment.isVisible =
             (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING)
+
+        if (viewModel.listCard.isEmpty() && order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED
+            || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
+        ) {
+            viewModel.getAllCard()
+        }
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_PENDING,
             DataConstant.ORDER_STATUS_PAYMENT_WAITING,
@@ -114,7 +125,22 @@ class UserDetailOrderActivity : BaseActivity() {
             startActivity(intent)
         }
         binding.btnUserPayment.setOnClickListener {
-
+            val paymentOrderBottomSheet = PaymentOrderBottomSheet()
+            paymentOrderBottomSheet.order = viewModel.order
+            paymentOrderBottomSheet.onConfirmListener = { content, imgBill, card ->
+                val payment = Payment(
+                    imgUrlPayment = imgBill,
+                    contentPayment = content,
+                    order = viewModel.order,
+                    user = AppData.g().currentUser,
+                    card = card,
+                    datePayment = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS)
+                )
+                viewModel.order?.statusOrder = DataConstant.ORDER_STATUS_PAYMENT_PAID
+                viewModel.order?.let { it1 -> viewModel.updateOrderToPaid(it1) }
+                viewModel.addPayment(payment)
+            }
+            paymentOrderBottomSheet.show(supportFragmentManager, "ss")
         }
     }
 
@@ -161,6 +187,52 @@ class UserDetailOrderActivity : BaseActivity() {
                 confirm.setNotice(getString(R.string.str_cancel_failed))
             }
         }
+        viewModel.addPaymentLiveData.observe(this){
+            hiddenLoading()
+            if (it) {
+                val notification = Notification(
+                    contentNoti = getString(
+                        R.string.str_noti_payment_order,
+                        viewModel.order?.company?.name ?: "",
+                        UtilsBase.g().getDotMoneyHasCcy(
+                            (viewModel.order?.amountAfterDiscount ?: 0L).toLong().toString(), "VND"
+                        ),
+                        viewModel.order?.orderCode,
+                        Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS)
+                    ),
+                    notificationType = getString(R.string.str_payment_order),
+                    notiTo = "admin",
+                    confirmDate = "null",
+                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS),
+                    order = viewModel.order
+                )
+                viewModel.sendNotiRequestFirebase(notification)
+                val content = getString(
+                    R.string.str_noti_payment_order,
+                    viewModel.order?.company?.name ?: "",
+                    UtilsBase.g().getDotMoneyHasCcy(
+                        (viewModel.order?.amountAfterDiscount ?: 0L).toLong().toString(), "VND"
+                    ),
+                    viewModel.order?.orderCode,
+                    Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS)
+                )
+                val listToken = mutableListOf<String>()
+                viewModel.allTokenList.forEach {
+                    if (it.role == "admin") {
+                        it.token?.let { it1 -> listToken.add(it1) }
+                    }
+                }
+                val request = OttRequest(
+                    requestId = viewModel.order?.orderCode,
+                    serialNumbers = listToken, content = content, title = "Thông báo đặt hàng",
+                    notificationType = "142341234"
+                )
+                viewModel.sendOttServer(request)
+            } else {
+                confirm.setNotice(getString(R.string.str_payment_fail))
+            }
+        }
+
         viewModel.sendNotiRequestFirebaseLiveData.observe(this) {
             hiddenLoading()
             if (it) {
@@ -185,6 +257,35 @@ class UserDetailOrderActivity : BaseActivity() {
         viewModel.sendOttServerLiveData.observe(this) {
             hiddenLoading()
             Log.d(ContentValues.TAG, "observeData send ott: ${it?.code} - ${it?.data}")
+        }
+        viewModel.getAllCardLiveData.observe(this) {
+            hiddenLoading()
+            if (it.isNullOrEmpty()) {
+                confirm.newBuild().setNotice(getString(R.string.no_card)).addButtonAgree {
+                    val cardBottomSheet = ConnectCardBottomSheet()
+                    cardBottomSheet.card = null
+                    cardBottomSheet.onConfirmListener = {
+                        viewModel.addCard(it)
+                    }
+                    cardBottomSheet.show(supportFragmentManager, "ssss")
+                }
+            } else {
+                viewModel.listCard.addAll(it)
+            }
+        }
+        viewModel.addCardLiveData.observe(this) {
+            hiddenLoading()
+            if (it) {
+                confirm.newBuild().setNotice(getString(R.string.add_card_success)).addButtonAgree {
+                    showLoading()
+                    viewModel.getAllCard()
+                }
+            } else {
+                confirm.newBuild().setNotice(getString(R.string.add_card_success)).addButtonAgree {
+                    showLoading()
+                    viewModel.getAllCard()
+                }
+            }
         }
     }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.user.person.CardsManagerActivity">
+
+    <include
+        android:id="@+id/headerCard"
+        layout="@layout/layout_header" />
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtCardsListSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15dp"
+        app:gr_hint="@string/str_search_card"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_is_show_clear_text="true"
+        app:gr_left_icon="@drawable/places_ic_search"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp">
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvResultSearchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:text="@string/str_result"
+            android:visibility="gone" />
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvResultSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:text="@string/str_result"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvAddCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:fontFamily="@font/ssp_bold"
+        android:text="@string/add_card"
+        android:textColor="@color/merchant_color_004a9c"
+        android:textSize="@dimen/_16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <include
+        android:id="@+id/emptyListCard"
+        layout="@layout/empty_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        android:visibility="gone" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

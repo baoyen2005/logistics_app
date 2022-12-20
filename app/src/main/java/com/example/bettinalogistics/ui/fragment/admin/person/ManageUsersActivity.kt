@@ -19,6 +19,7 @@ class ManageUsersActivity : BaseActivity() {
     override fun initView() {
         showLoading()
         viewModel.getAllUser()
+        binding.headerAminManaUser.tvHeaderTitle.text = getString(R.string.str_list_user)
         binding.rvAdminListUser.adapter = adminListUserAdapter
         binding.emptyAdminListUser.tvEmptyLayoutTitle.text = getString(R.string.str_user_list_empty)
     }
@@ -41,6 +42,9 @@ class ManageUsersActivity : BaseActivity() {
                 binding.rvAdminListUser.isVisible = true
                 binding.emptyAdminListUser.root.isVisible = false
             }
+        }
+        binding.headerAminManaUser.ivHeaderBack.setOnClickListener {
+            finish()
         }
     }
 

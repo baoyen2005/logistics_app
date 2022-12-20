@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.baseapp.UtilsBase
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.data.CardRepository
 import com.example.bettinalogistics.data.FollowTrackingRepo
 import com.example.bettinalogistics.data.OTTFirebaseRepo
 import com.example.bettinalogistics.data.OrderRepository
@@ -16,7 +17,10 @@ import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailOrderAda
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo, val trackingRepo:FollowTrackingRepo) : BaseViewModel() {
+class DetailUserOrderViewModel(
+    val orderRepo: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo,
+    val trackingRepo: FollowTrackingRepo, val cardRepository: CardRepository
+) : BaseViewModel() {
     var order: Order? = null
     var allTokenList = mutableListOf<TokenOtt>()
 
@@ -129,6 +133,39 @@ class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRe
             trackingRepo.getAllTrackingByOrder(it) {
                 getAllOrderTrackLiveData.postValue(it)
             }
+        }
+    }
+
+    var getAllCardLiveData = MutableLiveData<List<Card>>()
+    var listCard = mutableListOf<Card>()
+    fun getAllCard() = viewModelScope.launch(Dispatchers.IO) {
+        AppData.g().userId?.let {
+            cardRepository.getAllCards(it) {
+                getAllCardLiveData.postValue(it)
+            }
+        }
+    }
+
+    var updateOrderToPaidLiveData = MutableLiveData<Boolean>()
+    fun updateOrderToPaid(orderUpdate: Order) = viewModelScope.launch(Dispatchers.IO) {
+        orderUpdate.let {
+            orderRepo.updateOrder(it) {
+                updateOrderToPaidLiveData.postValue(it)
+            }
+        }
+    }
+
+    var addCardLiveData = MutableLiveData<Boolean>()
+    fun addCard(card: Card) = viewModelScope.launch(Dispatchers.IO) {
+        cardRepository.addCard(card) {
+            addCardLiveData.postValue(it)
+        }
+    }
+
+    var addPaymentLiveData = MutableLiveData<Boolean>()
+    fun addPayment(payment: Payment) = viewModelScope.launch(Dispatchers.IO) {
+        cardRepository.addPayment(payment) {
+            addPaymentLiveData.postValue(it)
         }
     }
 }

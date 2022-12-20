@@ -10,7 +10,6 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentPersonBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
-import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
 import com.example.bettinalogistics.ui.fragment.user.person.EditUserAccountActivity.Companion.IS_EDIT_ACCOUNT
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
@@ -52,8 +51,7 @@ class UserPersonFragment : BaseFragment() {
             companyInfo.show(requireActivity().supportFragmentManager, "aaaaaaa")
         }
         binding.rlConnectCard.setSafeOnClickListener {
-            showLoading()
-            viewModel.getCard()
+           startActivity(Intent(requireContext(), CardsManagerActivity::class.java))
         }
         binding.rlUserLogout.setSafeOnClickListener {
             val confirmBottomSheetFragment = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_title_logout)).setContent(getString(R.string.str_confirm_logout))
@@ -78,45 +76,6 @@ class UserPersonFragment : BaseFragment() {
             }
         }
         viewModel.updateCompanyLiveData.observe(this) {
-            hiddenLoading()
-            if (it) {
-                confirm.newBuild().setNotice(getString(R.string.str_edit_user_success))
-            } else {
-                confirm.newBuild().setNotice(getString(R.string.str_edit_user_fail))
-            }
-        }
-        viewModel.getCardLiveData.observe(this) {
-            hiddenLoading()
-            if (it == null) {
-                confirm.newBuild().setNotice(R.string.st_dont_connect_card).addButtonAgree {
-                    val connectCard = ConnectCardBottomSheet()
-                    connectCard.onConfirmListener = { card ->
-                        showLoading()
-                        viewModel.addCard(card)
-                    }
-                    connectCard.show(requireActivity().supportFragmentManager, "aaaaaaa")
-                }
-            } else {
-                val connectCard = ConnectCardBottomSheet()
-                connectCard.card = it
-                connectCard.onConfirmListener = { card ->
-                    card.id = it.id
-                    card.user = AppData.g().currentUser
-                    showLoading()
-                    viewModel.updateCard(card)
-                }
-                connectCard.show(requireActivity().supportFragmentManager, "aaaaaaa")
-            }
-        }
-        viewModel.addCardLiveData.observe(this) {
-            hiddenLoading()
-            if (it) {
-                confirm.newBuild().setNotice(getString(R.string.str_connect_card_succes))
-            } else {
-                confirm.newBuild().setNotice(getString(R.string.str_connect_card_fail))
-            }
-        }
-        viewModel.updateCardLiveData.observe(this) {
             hiddenLoading()
             if (it) {
                 confirm.newBuild().setNotice(getString(R.string.str_edit_user_success))

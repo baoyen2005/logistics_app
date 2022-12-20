@@ -217,7 +217,7 @@
     <string name="str_result_search">%s kết quả</string>
     <string name="str_company">Thông tin công ty</string>
     <string name="str_user">Thông tin cá nhân</string>
-    <string name="str_connect_card">Liên kết thẻ</string>
+    <string name="str_connect_card">Quản lý thẻ</string>
     <string name="str_logout">Đăng xuất</string>
     <string name="str_membership">Hạng thành viên</string>
     <string name="str_rank_level0">Thành viên mới</string>
@@ -275,4 +275,21 @@
     <string name="str_payment">Xác nhận thanh toán</string>
     <string name="str_img_confirm_payment">Ảnh đã thanh toán của khách hàng</string>
     <string name="str_entern_choose_image_payment">Chọn hóa đơn thanh toán</string>
+    <string name="str_search_card">Nhập số thẻ, số tài khoản</string>
+    <string name="str_card_list_empty">Danh sách thẻ rỗng</string>
+    <string name="str_delete_card">Xóa thẻ</string>
+    <string name="add_card">Thêm thẻ</string>
+    <string name="add_card_success">Thêm thẻ thành công</string>
+    <string name="str_list_card">Danh sách thẻ</string>
+    <string name="str_update_card_success">Cập nhật thông tin thẻ thành công</string>
+    <string name="update_card_failed">Cập nhật thông tin thẻ thất bại. Vui lòng thử lại</string>
+    <string name="no_card">Chưa có thẻ liên kết. Liên kết thẻ ngay?</string>
+    <string name="str_noti_payment_order">Khách hàng %s đã thanh toán khoản tiền %s VNĐ cho đơn hàng %s. Thời gian thanh toán %s</string>
+    <string name="str_payment_fail">Thanh toán không thành công</string>
+    <string name="str_view_payment">Xem chi tiết thanh toán</string>
+    <string name="str_detail_payment">Chi tiết thanh toán</string>
+    <string name="str_info_payment">Thông tin thanh toán</string>
+    <string name="str_user_name_payment">Người thanh toán</string>
+    <string name="str_payment_date">Ngày thanh toán</string>
+    <string name="str_infor_payment">Thông tin thanh toán</string>
 </resources>

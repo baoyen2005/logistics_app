@@ -62,7 +62,7 @@ val models = module {
         NotificationViewModel(get())
     }
     viewModel {
-        DetailUserOrderViewModel(get(),get())
+        DetailUserOrderViewModel(get(),get(),get(),get())
     }
     viewModel {
         UserPersonViewModel(get(),get())
@@ -74,7 +74,7 @@ val models = module {
         ShipPersonViewModel(get(),get())
     }
     viewModel {
-        DetailAdminOrderViewModel(get(),get())
+        DetailAdminOrderViewModel(get(),get(),get())
     }
 }
 

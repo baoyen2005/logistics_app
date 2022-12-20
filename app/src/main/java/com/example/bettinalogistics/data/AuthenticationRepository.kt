@@ -33,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 interface AuthenticationRepository {
     suspend fun login(email: String, password: String, onComplete: ((Boolean) -> Unit)?)
+
     suspend fun signUp(user: User, onComplete: ((Boolean) -> Unit)?)
 
     suspend fun forgetPassword(email: String, onComplete: ((Boolean) -> Unit)?)

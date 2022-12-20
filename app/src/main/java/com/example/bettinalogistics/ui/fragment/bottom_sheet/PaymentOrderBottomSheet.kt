@@ -1,36 +1,38 @@
 package com.example.bettinalogistics.ui.fragment.bottom_sheet
 
+import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.view.isVisible
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.example.baseapp.utils.UtilsBase
-import com.example.baseapp.view.safeSubString
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
-import com.example.bettinalogistics.databinding.ConnectCardLayoutBinding
 import com.example.bettinalogistics.databinding.PaymentOrderLayoutBinding
-import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Card
 import com.example.bettinalogistics.model.Order
-import com.example.bettinalogistics.ui.EditTextRound
-import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
+import com.example.bettinalogistics.utils.AppConstant
+import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.*
 
 class PaymentOrderBottomSheet : BottomSheetDialogFragment() {
-    var onConfirmListener: (() -> Unit)? = null
+    var onConfirmListener: ((String, String, Card) -> Unit)? = null
+    var listCard: List<Card>? = null
     var order: Order? = null
-    var onChooseCardCallback :(() -> Unit)? = null
+    var card : Card? = null
+    private var uri: String? = null
+    private lateinit var appPermissions: AppPermissionsUtils
 
     val binding: PaymentOrderLayoutBinding by lazy {
         PaymentOrderLayoutBinding.inflate(layoutInflater)
@@ -52,93 +54,52 @@ class PaymentOrderBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initListener() {
-        binding.btnCustomerInforContinued.setSafeOnClickListener {
-            val card = Card(
-                user = AppData.g().currentUser,
-                name = binding.edtCardName.getContentText(),
-                accountNumber = binding.edtAccountNumber.getContentText(),
-                dateOfExpired = binding.edtDateExpired.getTextEdit(),
-                cardNumber = binding.edtCardNumber.getContentText()
-            )
-            if (checkValidate()) {
-                onConfirmListener?.invoke(card)
+        binding.edtChooseCard.setSafeOnClickListener {
+            val chooseOneItem = listCard?.let { it1 ->
+                DialogChooseCard(it1) {
+                    binding.edtChooseCard.setValueContent(it.name + " - " + it.accountNumber)
+                    card = it
+                }.setTitle("Chọn thẻ thanh toán")
+            }
+            chooseOneItem?.show(requireActivity().supportFragmentManager,"ss")
+        }
+        binding.edtChooseBill.setSafeOnClickListener {
+            pickImage()
+        }
+        binding.btnUserPaymentConfirm.setSafeOnClickListener {
+            if(checkValidate()){
+                card?.let { it1 ->
+                    onConfirmListener?.invoke(
+                        binding.edtContentPayment.getContentText(),
+                        binding.edtChooseBill.getContentText(), it1
+                    )
+                }
                 dismiss()
             }
         }
     }
 
-    private fun checkValidate(): Boolean {
-        val name = binding.edtCardName.getContentText()
-        val cardNumber = binding.edtCardNumber.getContentText()
-        val accountNumber = binding.edtAccountNumber.getContentText()
-        val dateOfExpired = binding.edtDateExpired.getTextEdit()
-
-        if (name.isEmpty()) {
-            binding.edtCardName.setVisibleMessageError(
-                getString(
-                    R.string.str_empty_input,
-                    getString(R.string.str_bank_name)
-                )
-            )
+    private fun checkValidate(): Boolean{
+        if (binding.edtContentPayment.getContentText().isEmpty()) {
+            binding.edtContentPayment.setVisibleMessageError(getString(R.string.invalid_field))
         }
-        if (cardNumber.isEmpty()) {
-            binding.edtCardNumber.setVisibleMessageError(
-                getString(
-                    R.string.str_empty_input,
-                    getString(R.string.str_card_number)
-                )
-            )
+        if(card == null){
+            binding.edtChooseCard.setVisibleMessageError(getString(R.string.invalid_field))
         }
-
-        if (accountNumber.isEmpty()) {
-            binding.edtAccountNumber.setVisibleMessageError(
-                getString(
-                    R.string.str_empty_input,
-                    getString(R.string.str_account_number)
-                )
-            )
-        }
-
-        if (dateOfExpired.isEmpty()) {
-            binding.tvDateExpiredError.text = getString(
-                R.string.str_empty_input,
-                getString(R.string.str_date_expired)
-            )
-            binding.tvDateExpiredError.isVisible = true
-        }
-
-        return !binding.edtCardName.isTvErrorVisible()
-                && !binding.edtCardNumber.isTvErrorVisible()
-                && !binding.tvDateExpiredError.isVisible
-                && !binding.edtAccountNumber.isTvErrorVisible()
+        return !binding.edtContentPayment.isTvErrorVisible()  && !binding.edtChooseCard.isTvErrorVisible()
     }
 
     private fun initView() {
+        appPermissions = AppPermissionsUtils()
+        if (!appPermissions.isStorageOk(requireContext())) {
+            appPermissions.requestStoragePermission(requireActivity())
+        }
         binding.edtChooseCard.setEnableEdittext(false)
         binding.edtChooseBill.setEnableEdittext(false)
         binding.edtAmountOrder.setEnableEdittext(false)
-        binding.edtAmountOrder.setValueContent(UtilsBase.g().getDotMoney((order?.amountAfterDiscount ?: 0L).toString()))
-        if (card == null) {
-            binding.edtCardName.clearContent()
-            binding.edtDateExpired.clearText()
-            binding.edtCardNumber.clearContent()
-            binding.edtAccountNumber.clearContent()
-            binding.btnCustomerInforContinued.isVisible = true
-        } else {
-            binding.edtCardName.setValueContent(card?.name)
-            card?.dateOfExpired?.let { binding.edtDateExpired.setEditText(it) }
-            binding.edtCardNumber.setValueContent(card?.cardNumber)
-            binding.edtAccountNumber.setValueContent(card?.accountNumber)
-            binding.edtCardName.onTextChange = {
-                binding.btnCustomerInforContinued.isVisible = true
-            }
-            binding.edtCardNumber.onTextChange = {
-                binding.btnCustomerInforContinued.isVisible = true
-            }
-            binding.edtAccountNumber.onTextChange = {
-                binding.btnCustomerInforContinued.isVisible = true
-            }
-        }
+        binding.edtAmountOrder.setValueContent(
+            UtilsBase.g().getDotMoneyHasCcy((order?.amountAfterDiscount ?: 0L).toString(), "d")
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -166,58 +127,34 @@ class PaymentOrderBottomSheet : BottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    private fun setTimeForEdittext(edtRound: EditTextRound) {
-        var current = ""
-        val cal = Calendar.getInstance()
-        edtRound.onTextChange = { p0 ->
-            if (p0.toString() != current) {
-                var clean = p0.toString().replace("[^\\d.]|\\.".toRegex(), "")
-                val cleanC = current.replace("[^\\d.]|\\.".toRegex(), "")
-                val cl = clean.length
-                var sel = cl
-                var i = 2
-                while (i <= cl && i < 5) {
-                    sel++
-                    i += 2
-                }
-                if (clean == cleanC) sel--
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).also {
+            it.addCategory(Intent.CATEGORY_OPENABLE)
+            it.type = "image/*"
+            it.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        launcher.launch(intent)
+    }
 
-                var month: Int? = if (clean.length >= 2) {
-                    Integer.parseInt(clean.substring(0, 2))
-                } else null
-                var year: Int? = if (clean.length >= 6) {
-                    Integer.parseInt(clean.substring(2, 6))
-                } else null
-                month?.let {
-                    month = if (it < 1) 1 else if (it > 12) 12 else month
-                    cal.set(Calendar.MONTH, it - 1)
-                }
-                Log.d(TAG, "setTimeForEdittext: ${Calendar.YEAR}")
-                year?.let {
-                    year =
-                        if (it < Calendar.YEAR) Calendar.YEAR else if (it > 2100) 2100 else year
-                    cal.set(Calendar.YEAR, it)
-                }
-
-                val stringMonth =
-                    if (month == null) clean.safeSubString(0, 2)
-                    else String.format("%02d", month)
-                val stringYear =
-                    if (year == null) clean.safeSubString(2, 6)
-                    else String.format("%02d", year)
-                clean = stringMonth
-                    .plus(
-                        if (stringMonth.length == 2) "/"
-                        else ""
-                    )
-                    .plus(stringYear)
-                sel = if (sel < 0) 0 else sel
-                current = clean
-                edtRound.setEditText(current)
-                edtRound.setSelection(if (sel < current.count()) sel else current.count())
-                binding.btnCustomerInforContinued.isVisible = true
-                binding.tvDateExpiredError.isVisible = false
-            }
+    @SuppressLint("SetTextI18n")
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK
+            && result.data != null
+        ) {
+            val uriImg = result.data?.data!!
+            requireActivity().contentResolver.takePersistableUriPermission(
+                uriImg,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            uri = uriImg.toString()
+            binding.edtChooseBill.setValueContent(
+                uriImg.toString().substring(0, 40) + "..."
+            )
+        } else {
+            Log.d(AppConstant.TAG, "result = null: ")
         }
     }
 }

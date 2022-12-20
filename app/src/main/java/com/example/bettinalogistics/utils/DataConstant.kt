@@ -93,5 +93,15 @@ class DataConstant {
         const val TRACK_STATUS = "status"
         const val TRACK_DATE_UPDATE = "dateUpdate"
         const val TRACK_ORDER_ID = "orderId"
+
+        //payment
+
+        const val PAYMENT_ID = "id"
+        const val PAYMENT_IMG_URL = "imgUrlPayment"
+        const val PAYMENT_CONTENT = "contentPayment"
+        const val PAYMENT_ORDER = "order"
+        const val PAYMENT_USER = "user"
+        const val PAYMENT_CARD = "card"
+        const val PAYMENT_DATE = "datePayment"
     }
 }
