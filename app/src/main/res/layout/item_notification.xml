@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16dp"
         android:layout_toEndOf="@id/ivIcon"
+        android:fontFamily="@font/ssp_bold"
         app:cusfont="Bold"
         android:textColor="@drawable/color_737378_selected_004a9c"
         android:textSize="@dimen/_16sp"

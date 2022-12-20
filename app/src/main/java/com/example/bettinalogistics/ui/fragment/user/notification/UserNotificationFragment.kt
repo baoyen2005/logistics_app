@@ -6,6 +6,7 @@ import com.example.baseapp.BaseFragment
 import com.example.baseapp.view.getTimeInMillisecond
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentNotificationBinding
+import com.example.bettinalogistics.enums.NotiToDataEnum
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.utils.Utils
@@ -23,10 +24,10 @@ class NotificationFragment : BaseFragment() {
 
     override fun initView() {
         showLoading()
-        viewModel.getAllNotification("user")
+        viewModel.getAllNotification(NotiToDataEnum.USER.notiTo)
         binding.emptyNotification.tvEmptyLayoutTitle.text = getString(R.string.str_emtpy_notification)
         binding.rvNotification.adapter = adminNotificationAdapter
-        binding.layoutNotificationHeader.ivHeaderBack.isVisible =false
+        binding.layoutNotificationHeader.ivHeaderBack.isVisible = false
         binding.layoutNotificationHeader.tvHeaderTitle.text = getString(R.string.str_noti)
     }
 
@@ -80,5 +81,11 @@ class NotificationFragment : BaseFragment() {
             list.addAll(listTranInThisDay)
         }
         return list
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showLoading()
+        viewModel.getAllNotification(NotiToDataEnum.USER.notiTo)
     }
 }

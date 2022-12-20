@@ -59,6 +59,7 @@ class ConfirmBottomSheetFragment : BottomSheetDialogFragment() {
 
         binding.btnConfirm.setSafeOnClickListener {
             confirmListener?.invoke()
+            dismiss()
         }
     }
 

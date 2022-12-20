@@ -17,6 +17,7 @@ import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.ui.fragment.admin.order.AdminListOrderAdapter.Companion.TYPE_DATE
 import com.example.bettinalogistics.utils.Utils_Date
+import com.example.bettinalogistics.utils.Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
 import com.example.bettinalogistics.utils.Utils_Date.DATE_PATTERN_ddMMYYYY
 import com.example.bettinalogistics.utils.toDate
 
@@ -58,11 +59,11 @@ class NotificationAdapter : BaseRclvAdapter() {
 
         override fun onBind(data: Notification) {
             tvTitle.text = data.notificationType ?: ""
-            tvNotifyDes.text = data.contentNoti
+            tvNotifyDes.text = data.contentNoti ?: ""
             tvNotifyDes.visibility = View.VISIBLE
-            tvTime.text = data.confirmDate?.toDate(DATE_PATTERN_ddMMYYYY)?.let {
+            tvTime.text = data.confirmDate?.toDate(DATE_PATTERN_DD_MM_YYYY_HH_MM_SS)?.let {
                 Utils_Date.getCurrentTimeByFormat(
-                    Utils_Date.DATE_PATTERN_ddMMYYYY,
+                    Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS,
                     it.time
                 )
             }
@@ -80,7 +81,7 @@ class NotificationAdapter : BaseRclvAdapter() {
         val resultContent = SpannableString(content)
         val customer = notification.order?.company?.name ?: ""
         val transId = notification.order?.orderCode ?: ""
-        if (customer != null && resultContent.contains(customer)) {
+        if (resultContent.contains(customer)) {
             val startIndex = resultContent.indexOf(customer)
             val endIndex = startIndex + customer.length
             resultContent.setSpan(

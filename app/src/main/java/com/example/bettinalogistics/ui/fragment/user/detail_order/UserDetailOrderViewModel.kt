@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.baseapp.UtilsBase
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.data.FollowTrackingRepo
 import com.example.bettinalogistics.data.OTTFirebaseRepo
 import com.example.bettinalogistics.data.OrderRepository
 import com.example.bettinalogistics.di.AppData
@@ -15,7 +16,7 @@ import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailOrderAda
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo) : BaseViewModel() {
+class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRepo: OTTFirebaseRepo, val trackingRepo:FollowTrackingRepo) : BaseViewModel() {
     var order: Order? = null
     var allTokenList = mutableListOf<TokenOtt>()
 
@@ -119,6 +120,15 @@ class DetailUserOrderViewModel(val orderRepo: OrderRepository, val ottFirebaseRe
     fun sendOttServer(ottRequest: OttRequest) = viewModelScope.launch(Dispatchers.IO) {
         ottFirebaseRepo.sendOttServer(ottRequest){
             sendOttServerLiveData.postValue(it)
+        }
+    }
+
+    var getAllOrderTrackLiveData = MutableLiveData<List<Track>>()
+    fun getAllOrderTrack() = viewModelScope.launch(Dispatchers.IO) {
+        order?.id?.let {
+            trackingRepo.getAllTrackingByOrder(it) {
+                getAllOrderTrackLiveData.postValue(it)
+            }
         }
     }
 }

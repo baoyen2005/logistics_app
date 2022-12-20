@@ -6,6 +6,7 @@ import com.example.baseapp.BaseFragment
 import com.example.baseapp.view.getTimeInMillisecond
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentAdminNotificationBinding
+import com.example.bettinalogistics.enums.NotiToDataEnum
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.ui.fragment.user.notification.NotificationAdapter
@@ -24,7 +25,8 @@ class AdminNotificationFragment : BaseFragment() {
 
     override fun initView() {
         showLoading()
-        viewModel.getAllNotification("admin")
+        viewModel.getAllNotification(NotiToDataEnum.ADMIN.notiTo)
+        viewModel.getAllNotification(NotiToDataEnum.ALL.notiTo)
         binding.emptyAdminNotification.tvEmptyLayoutTitle.text = getString(R.string.str_emtpy_notification)
         binding.rvAdminNotification.adapter = adminNotificationAdapter
         binding.layoutAdminNotificationHeader.ivHeaderBack.isVisible =false

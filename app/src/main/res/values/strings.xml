@@ -260,4 +260,19 @@
     <string name="str_update_order_delivering">Bắt đầu giao hàng</string>
     <string name="str_waiting_delivering">Chờ giao hàng</string>
     <string name="str_confirm_delivered">Xác nhận giao hàng thành công</string>
+    <string name="str_title_logout">Đăng xuất tài khoản</string>
+    <string name="str_edt_track">Chỉnh sửa lộ trình</string>
+    <string name="str_del_track">Xóa lộ trình</string>
+    <string name="str_delete_track_success">Xóa lộ trình thành công</string>
+    <string name="str_delete_track_fail">Xóa lộ trình thất bại</string>
+    <string name="str_review">Đánh giá</string>
+    <string name="str_no_track_user">Chưa có lộ trình nào cho đơn hàng</string>
+    <string name="str_payment_order">Thanh toán đơn hàng</string>
+    <string name="str_choose_card">Chọn thẻ thanh toán</string>
+    <string name="str_card">Thẻ</string>
+    <string name="str_entern_content">Nhập nội dung</string>
+    <string name="str_content_payment">Nội dung thanh toán</string>
+    <string name="str_payment">Xác nhận thanh toán</string>
+    <string name="str_img_confirm_payment">Ảnh đã thanh toán của khách hàng</string>
+    <string name="str_entern_choose_image_payment">Chọn hóa đơn thanh toán</string>
 </resources>

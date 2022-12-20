@@ -19,6 +19,7 @@ class ShipOrderViewModel(
     val adminOrShipperOrderRepo: AdminOrShipperOrderRepo,
 ) : BaseViewModel() {
     var order: Order? = null
+    var isEdit: Boolean? = null
     var currentTrack: Track? = null
     var isDelivered = false
     var tabSelected = DataConstant.ORDER_STATUS_CONFIRM

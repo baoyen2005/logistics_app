@@ -48,9 +48,7 @@ class AdminDetailOrderActivity : BaseActivity() {
             intent.getStringExtra(DETAIL_ORDER)
                 ?.let { Utils.g().getObjectFromJson(it, Order::class.java) }
         viewModel.order = order
-        binding.tvDetailOrderAmount.text =
-            UtilsBase.g()
-                .getDotMoney((order?.amountBeforeDiscount ?: 0.0).toLong().toString()) + " VND"
+        binding.tvDetailOrderAmount.text = UtilsBase.g().getDotMoney((order?.amountBeforeDiscount ?: 0.0).toLong().toString()) + " VND"
         binding.tvDetailOrderCode.text = order?.orderCode ?: ""
         binding.tvDetailCompany.text = order?.company?.name ?: ""
         binding.tvDetailOrderOriginAddress.text = order?.address?.originAddress ?: ""
@@ -143,7 +141,7 @@ class AdminDetailOrderActivity : BaseActivity() {
                         notiTo = "user",
                         confirmDate = Utils_Date.convertformDate(
                             Date(),
-                            Utils_Date.DATE_PATTERN_ddMMYYYY
+                            Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
                         ),
                         order = viewModel.order
                     )
@@ -171,7 +169,7 @@ class AdminDetailOrderActivity : BaseActivity() {
                         notiTo = "user",
                         confirmDate = Utils_Date.convertformDate(
                             Date(),
-                            Utils_Date.DATE_PATTERN_ddMMYYYY
+                            Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
                         ),
                         order = viewModel.order
                     )

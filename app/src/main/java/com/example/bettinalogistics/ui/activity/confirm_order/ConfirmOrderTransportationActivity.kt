@@ -154,7 +154,7 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
                     notificationType = getString(R.string.str_request_order),
                     notiTo = "admin",
                     confirmDate = "null",
-                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_ddMMYYYY),
+                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS),
                     order = viewModel.customerOrder
                 )
                 viewModel.sendNotification(notification)

@@ -89,4 +89,5 @@
         app:layout_constraintTop_toBottomOf="@+id/tvResultSearchTitle"
         android:layout_marginTop="@dimen/_20dp"
         android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

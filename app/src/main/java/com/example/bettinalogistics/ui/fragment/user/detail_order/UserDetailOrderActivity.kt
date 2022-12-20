@@ -50,7 +50,7 @@ class UserDetailOrderActivity : BaseActivity() {
                 ?.let { Utils.g().getObjectFromJson(it, Order::class.java) }
         viewModel.order = order
         binding.tvDetailOrderAmount.text =
-            UtilsBase.g().getDotMoney((order?.amountBeforeDiscount?:0.0).toLong().toString()) + " VND"
+            UtilsBase.g().getDotMoney((order?.amountBeforeDiscount ?: 0.0).toLong().toString()) + " VND"
         binding.tvDetailOrderCode.text = order?.orderCode ?: ""
         binding.tvDetailCompany.text = order?.company?.name ?: ""
         binding.tvDetailOrderOriginAddress.text = order?.address?.originAddress ?: ""
@@ -59,6 +59,11 @@ class UserDetailOrderActivity : BaseActivity() {
         binding.rvDetailOrder.adapter = detailOrderAdapter
         detailOrderAdapter.reset(order?.let { viewModel.getListDetailOrderCommonEntity(it, this) })
         binding.btnCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
+        if (order?.statusOrder != DataConstant.ORDER_STATUS_PENDING && order?.statusOrder != DataConstant.ORDER_STATUS_CANCEL) {
+            binding.btnUserViewAllTrack.isVisible
+        }
+        binding.btnUserPayment.isVisible =
+            (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING)
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_PENDING,
             DataConstant.ORDER_STATUS_PAYMENT_WAITING,
@@ -104,6 +109,13 @@ class UserDetailOrderActivity : BaseActivity() {
             order?.statusOrder = DataConstant.ORDER_STATUS_CANCEL
             order?.let { it1 -> viewModel.cancelOder(it1) }
         }
+        binding.btnUserViewAllTrack.setOnClickListener {
+            val intent = viewModel.order?.let { it1 -> UserListTrackOrderActivity.startDetailOrderActivity(this, it1) }
+            startActivity(intent)
+        }
+        binding.btnUserPayment.setOnClickListener {
+
+        }
     }
 
     override fun observeData() {
@@ -124,7 +136,7 @@ class UserDetailOrderActivity : BaseActivity() {
                     notificationType = getString(R.string.str_cancel_order),
                     notiTo = "admin",
                     confirmDate = "null",
-                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_ddMMYYYY),
+                    requestDate = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS),
                     order = viewModel.order
                 )
                 viewModel.sendNotiRequestFirebase(notification)

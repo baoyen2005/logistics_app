@@ -56,7 +56,7 @@ class UserPersonFragment : BaseFragment() {
             viewModel.getCard()
         }
         binding.rlUserLogout.setSafeOnClickListener {
-            val confirmBottomSheetFragment = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_confirm_logout))
+            val confirmBottomSheetFragment = ConfirmBottomSheetFragment().setTitle(getString(R.string.str_title_logout)).setContent(getString(R.string.str_confirm_logout))
             confirmBottomSheetFragment.setConfirmListener {
                 FirebaseAuth.getInstance().signOut()
                 AppData.g().logout()

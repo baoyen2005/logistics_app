@@ -66,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/_30dp"
                 android:orientation="vertical">
 
                 <com.example.baseapp.view.Textview
@@ -91,5 +92,15 @@
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivShowDetailTracking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_expand_more_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

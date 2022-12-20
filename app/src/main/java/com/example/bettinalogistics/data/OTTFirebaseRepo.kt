@@ -8,6 +8,7 @@ import com.example.bettinalogistics.model.OttRequest
 import com.example.bettinalogistics.model.OttResponse
 import com.example.bettinalogistics.model.TokenOtt
 import com.example.bettinalogistics.utils.AppConstant
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.DataConstant
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -46,22 +47,23 @@ class OttFirebaseRepoImpl : OTTFirebaseRepo {
     }
 
     override suspend fun getAllNotification(role: String, onComplete: ((List<Notification>?) -> Unit)?) {
-        val listToken: ArrayList<Notification> = ArrayList()
+        val listNotification: ArrayList<Notification> = ArrayList()
         FirebaseFirestore.getInstance().collection(AppConstant.SEND_NOTIFICATION)
             .whereEqualTo(DataConstant.PERSON_RECEIVER_NOTIFICATION,role)
             .get()
             .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 for (query in queryDocumentSnapshots) {
                     val order = query.toObject(Notification::class.java);
-                    listToken.add(order)
+                    listNotification.add(order)
                 }
-                if (listToken.isNotEmpty()) {
-                    onComplete?.invoke(listToken)
+                if (listNotification.isNotEmpty()) {
+                    onComplete?.invoke(listNotification)
                 } else {
                     onComplete?.invoke(null)
                 }
             }
             .addOnFailureListener {
+                Log.d(TAG, "getAllNotification exception: $it")
                 onComplete?.invoke(null)
             }
     }
@@ -75,12 +77,13 @@ class OttFirebaseRepoImpl : OTTFirebaseRepo {
         val values: HashMap<String, Any?> = HashMap()
         values[DataConstant.ID_NOTIFICATION] = documentReference.id
         values[DataConstant.CONTENT_NOTIFICATION] = notification.contentNoti ?: ""
+        values[DataConstant.NOTIFICATION_TYPE] = notification.notificationType ?: ""
         values[DataConstant.ORDER_NOTIFICATION] = notification.order
         values[DataConstant.CONFIRM_DATE_NOTIFICATION] = notification.confirmDate
         values[DataConstant.PERSON_RECEIVER_NOTIFICATION] = notification.notiTo
-        values[DataConstant.USER_ID] = AppData.g().userId
+        values[DataConstant.USER_ID] = notification.uid
         values[DataConstant.TIME_ESTIMATE_NOTIFICATION] = notification.timeTransactionEstimate
-
+        Log.d(TAG, "sendNotiRequestFirebase: $notification")
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
