@@ -41,10 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivIcon"
-        android:layout_marginTop="@dimen/dp12"
-        app:cusfont="Regular"
+        android:layout_marginTop="@dimen/dp15"
         android:lineSpacingExtra="6.4sp"
         android:textColor="@color/merchant_color_4a4a4a"
+        app:cusfont="Regular"
         tool:text="Bạn nhận được + 45.000 đ từ Vũ Tùng, số điện thoại đuôi 0816, số tài khoản 123xxx001.Tại Đại lý Bluenotes, điểm bán Bluenotes Láng Hạ.Mã giao dịch 133567899." />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -2,6 +2,7 @@ package com.example.bettinalogistics.utils
 
 class DataConstant {
     companion object{
+        const val MEMBER_LEVEL = "memberLevel"
         // user
         const val USER = "user"
         const val USER_ID = "uid"

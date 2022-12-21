@@ -31,7 +31,6 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_DATE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_STATUS
-import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_METHOD
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_TRANSPORT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.ORDER_USER
 import com.example.bettinalogistics.utils.DataConstant.Companion.PAYMENT_STATUS
@@ -71,6 +70,7 @@ interface OrderRepository {
     suspend fun deleteProduct(product: Product, onComplete: ((Boolean) -> Unit)?)
     suspend fun updateProduct(product: Product, onComplete: ((Boolean) -> Unit)?)
     suspend fun getAllOrderTransactions(onComplete: ((List<Order>?) -> Unit)?)
+    suspend fun getAllOrderTransactionsSuccess(onComplete: ((List<Order>?) -> Unit)?)
     suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun updateOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?)
@@ -213,6 +213,31 @@ class OrderRepositoryImpl : OrderRepository {
                 onComplete?.invoke(null)
             }
     }
+
+    override suspend fun getAllOrderTransactionsSuccess(onComplete: ((List<Order>?) -> Unit)?) {
+        val listOrder: ArrayList<Order> = ArrayList()
+        FirebaseFirestore.getInstance().collection(ORDER_COLLECTION)
+            .whereEqualTo(USER_ID, AppData.g().userId)
+            .get()
+            .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
+                for (query in queryDocumentSnapshots) {
+                    val order = query.toObject(Order::class.java);
+                    if(order.statusOrder == DataConstant.ORDER_STATUS_DELIVERED)
+                    {
+                        listOrder.add(order)
+                    }
+                }
+                if (listOrder.isNotEmpty()) {
+                    onComplete?.invoke(listOrder)
+                } else {
+                    onComplete?.invoke(null)
+                }
+            }
+            .addOnFailureListener {
+                onComplete?.invoke(null)
+            }
+    }
+
     var countUpLoad = 0
     override suspend fun addOrderTransaction(order: Order, onComplete: ((Boolean) -> Unit)?) {
         val values: HashMap<String, Any?> = HashMap()

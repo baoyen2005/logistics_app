@@ -296,4 +296,10 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebas
         }
         return list
     }
+    var getAllOrderLiveData = MutableLiveData<List<Order>>()
+    fun getAllOrderSuccess() = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.getAllOrderTransactionsSuccess {
+            getAllOrderLiveData.postValue(it)
+        }
+    }
 }

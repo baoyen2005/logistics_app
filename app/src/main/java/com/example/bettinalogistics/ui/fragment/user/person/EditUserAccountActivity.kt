@@ -139,6 +139,7 @@ class EditUserAccountActivity : BaseActivity() {
             AppData.g().saveUser(it)
             AppData.g().currentUser = it
             confirm.newBuild().setNotice(getString(R.string.str_edit_user_success)).addButtonAgree {
+                setResult(RESULT_OK)
                 finish()
             }
         }

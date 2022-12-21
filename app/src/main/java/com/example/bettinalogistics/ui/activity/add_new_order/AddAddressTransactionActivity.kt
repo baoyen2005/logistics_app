@@ -99,7 +99,6 @@ class AddAddressTransactionActivity : BaseActivity() {
     override fun initListener() {
         binding.btnAddAddressContinued.setSafeOnClickListener {
             if (checkValidate()) {
-                showLoading()
                 val locationOrigin = binding.edtOriginSearch.getContentText().removeAccentNormalize()
                 val locationDestination = binding.edtDestinationSearch.getContentText().removeAccentNormalize()
                 var addressListOrigin: List<Address>? = null;
@@ -130,6 +129,7 @@ class AddAddressTransactionActivity : BaseActivity() {
                         viewModel.orderAddress = orderAddress
                     }
                 }
+                showLoading()
                 viewModel.getUserCompanyInfo()
             }
         }
@@ -184,6 +184,8 @@ class AddAddressTransactionActivity : BaseActivity() {
             binding.edtOriginSearch.getContentText().lowercase().contains(getString(R.string.str_korea).lowercase())
                     && viewModel.typeTransaction == getString(R.string.str_road_transport) ->{
                         confirm.newBuild().setNotice("Tuyến Hàn Quốc - Việt Nam chỉ có đường biển, vui lòng chọn lại")
+                flag = true
+                view = binding.tvErrorMethodTransaction
                     }
         }
         return if (flag) {

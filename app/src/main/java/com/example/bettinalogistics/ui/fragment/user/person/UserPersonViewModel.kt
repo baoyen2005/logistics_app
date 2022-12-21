@@ -6,18 +6,23 @@ import androidx.lifecycle.viewModelScope
 import com.example.baseapp.BaseViewModel
 import com.example.bettinalogistics.data.AuthenticationRepository
 import com.example.bettinalogistics.data.CardRepository
+import com.example.bettinalogistics.data.OrderRepository
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Card
+import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.User
 import com.example.bettinalogistics.model.UserCompany
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserPersonViewModel(val authenticationRepository: AuthenticationRepository, val cardRepository: CardRepository) : BaseViewModel() {
+class UserPersonViewModel(
+    val authenticationRepository: AuthenticationRepository,
+    val cardRepository: CardRepository, val orderRepository: OrderRepository
+) : BaseViewModel() {
     var uri: Uri? = null
     var isChangeAvt: Boolean = false
     var company: UserCompany? = null
-    var isEdit : Boolean = false
+    var isEdit: Boolean = false
 
     var editUserLiveData = MutableLiveData<Boolean>()
     fun editUser(user: User) = viewModelScope.launch(Dispatchers.IO) {
@@ -78,6 +83,13 @@ class UserPersonViewModel(val authenticationRepository: AuthenticationRepository
             authenticationRepository.getUser(it) {
                 getNewUserLiveData.postValue(it)
             }
+        }
+    }
+
+    var getAllOrderLiveData = MutableLiveData<List<Order>>()
+    fun getAllOrderSuccess() = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.getAllOrderTransactionsSuccess {
+            getAllOrderLiveData.postValue(it)
         }
     }
 }

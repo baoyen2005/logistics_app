@@ -13,6 +13,8 @@ import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetF
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
 import com.example.bettinalogistics.ui.fragment.user.person.EditUserAccountActivity.Companion.IS_EDIT_ACCOUNT
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
+import com.example.bettinalogistics.utils.DataConstant
+import com.example.bettinalogistics.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -32,6 +34,13 @@ class UserPersonFragment : BaseFragment() {
         binding.headerUserPerson.tvHeaderTitle.text = getString(R.string.str_account)
         binding.headerUserPerson.ivHeaderBack.isVisible = false
         viewModel.getCompany()
+        val levelMember = Utils.g().getDataString(DataConstant.MEMBER_LEVEL)
+        if (levelMember == null) {
+            showLoading()
+            viewModel.getAllOrderSuccess()
+        } else {
+            binding.tvMemberLevel.text = levelMember
+        }
     }
 
     override fun initListener() {
@@ -81,6 +90,37 @@ class UserPersonFragment : BaseFragment() {
                 confirm.newBuild().setNotice(getString(R.string.str_edit_user_success))
             } else {
                 confirm.newBuild().setNotice(getString(R.string.str_edit_user_fail))
+            }
+        }
+        viewModel.getAllOrderLiveData.observe(this) {
+            if (it.isNullOrEmpty()) {
+                binding.tvMemberLevel.text = getString(R.string.str_rank_level0)
+                Utils.g()
+                    .saveDataString(DataConstant.MEMBER_LEVEL, getString(R.string.str_rank_level0))
+            } else {
+                when (it.size) {
+                    in 1..5 -> {
+                        binding.tvMemberLevel.text = getString(R.string.tv_hang_dong)
+                        Utils.g().saveDataString(
+                            DataConstant.MEMBER_LEVEL,
+                            getString(R.string.tv_hang_dong)
+                        )
+                    }
+                    in 6..10 -> {
+                        binding.tvMemberLevel.text = getString(R.string.tv_hang_bac)
+                        Utils.g().saveDataString(
+                            DataConstant.MEMBER_LEVEL,
+                            getString(R.string.tv_hang_bac)
+                        )
+                    }
+                    else -> {
+                        binding.tvMemberLevel.text = getString(R.string.tv_hang_vang)
+                        Utils.g().saveDataString(
+                            DataConstant.MEMBER_LEVEL,
+                            getString(R.string.tv_hang_vang)
+                        )
+                    }
+                }
             }
         }
     }

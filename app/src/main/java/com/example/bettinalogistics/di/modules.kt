@@ -66,7 +66,7 @@ val models = module {
         DetailUserOrderViewModel(get(),get(),get(),get())
     }
     viewModel {
-        UserPersonViewModel(get(),get())
+        UserPersonViewModel(get(),get(),get())
     }
     viewModel {
         ShipOrderViewModel(get(),get(), get())

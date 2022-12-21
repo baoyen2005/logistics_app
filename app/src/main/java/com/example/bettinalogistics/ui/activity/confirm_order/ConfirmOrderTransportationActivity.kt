@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.baseapp.BaseActivity
 import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.getAmount
@@ -13,9 +14,12 @@ import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityConfirmOrderTransportationBinding
 import com.example.bettinalogistics.di.AppData
+import com.example.bettinalogistics.enums.VoucherDataEnum
 import com.example.bettinalogistics.model.*
 import com.example.bettinalogistics.ui.activity.addorder.OrderActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
+import com.example.bettinalogistics.ui.fragment.user.person.EditUserAccountActivity
+import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
 import com.google.gson.reflect.TypeToken
@@ -69,12 +73,10 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         viewModel.products = Utils.g().provideGson()
             .fromJson(intent.getStringExtra(PRODUCT_LIST_CONFIRM_ACTIVITY), object :
                 TypeToken<List<Product>>() {}.type) ?: listOf()
-        Log.d(TAG, "initView: ${viewModel.products}")
         viewModel.orderAddress = Utils.g().getObjectFromJson(
             intent.getStringExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY).toString(),
             OrderAddress::class.java
         )
-        Log.d(TAG, "initView: ${viewModel.orderAddress}")
         viewModel.userCompany =
             Utils.g().getObjectFromJson(
                 intent.getStringExtra(USER_COMPANY_TRANSPORT_ACTIVITY).toString(),
@@ -84,19 +86,29 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         viewModel.methodTransport = intent.getStringExtra(METHOD_TRANSPORT_ACTIVITY)
         binding.confirmOrderHeader.tvHeaderTitle.text = getString(R.string.str_confirm_infor)
 
+        val levelMember = Utils.g().getDataString(DataConstant.MEMBER_LEVEL)
+        if (levelMember == null) {
+            showLoading()
+            viewModel.getAllOrderSuccess()
+        } else {
+            binding.tvPaymentVoucher.text = getDiscountByLevelMember(levelMember).toString()
+        }
         adapter = ConfirmUserInfoOrderAdapter()
         binding.rvInfoConfirmOrder.adapter = adapter
         adapter?.reset(viewModel.getListInfoConfirm())
-        binding.tvPaymentInlandTruckingAmount.text =
-            viewModel.calculateInlandTruckingFee().toString().getAmount()
-        binding.tvPaymentServiceAmount.text = viewModel.getServiceFee().toString().getAmount()
-        binding.tvPaymentInternalTruckingAmount.text =
-            viewModel.calculateInternalTruckingFee().toString().getAmount()
-        binding.tvAmountBeforeDiscount.text =
-            (viewModel.calculateInlandTruckingFee() + viewModel.getServiceFee() +
-                    viewModel.calculateInternalTruckingFee()).toString().getAmount()
-        binding.tvPaymentVoucher.text = "0"
-        binding.tvInfoPaymentSumFinal.text = binding.tvAmountBeforeDiscount.text
+
+        val inlandTruckingFee = viewModel.calculateInlandTruckingFee()
+        val internalTruckingFee = viewModel.calculateInternalTruckingFee()
+        val serviceFee = viewModel.getServiceFee()
+        val sum = inlandTruckingFee + internalTruckingFee + serviceFee
+        val finalTotal =
+            (sum - sum * (binding.tvPaymentVoucher.text.toString().toDoubleOrNull() ?: 0.0)).toLong()
+
+        binding.tvPaymentInlandTruckingAmount.text = inlandTruckingFee.toString().getAmount()
+        binding.tvPaymentServiceAmount.text = serviceFee.toString().getAmount()
+        binding.tvPaymentInternalTruckingAmount.text = internalTruckingFee.toString().getAmount()
+        binding.tvAmountBeforeDiscount.text = sum.toString().getAmount()
+        binding.tvInfoPaymentSumFinal.text = finalTotal.toString().getAmount()
     }
 
     override fun initListener() {
@@ -111,7 +123,9 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
             }
             dialog.setConfirmListener {
                 // show trang chinh sua thong tin nguoi dung
-
+                val intent = Intent(this, EditUserAccountActivity::class.java)
+                intent.putExtra(EditUserAccountActivity.IS_EDIT_ACCOUNT, true)
+                resultLauncherAddAddress.launch(intent)
             }
             dialog.setCancelListener {
                 //show trang chinh sua hang hoa
@@ -136,7 +150,42 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
     }
 
     override fun observeData() {
-        viewModel.addOrderTransactionLiveData.observe(this){
+        viewModel.getAllOrderLiveData.observe(this) {
+            if (it.isNullOrEmpty()) {
+                binding.tvPaymentVoucher.text =
+                    getDiscountByLevelMember(getString(R.string.str_rank_level0)).toString()
+                Utils.g()
+                    .saveDataString(DataConstant.MEMBER_LEVEL, getString(R.string.str_rank_level0))
+            } else {
+                when (it.size) {
+                    in 1..5 -> {
+                        binding.tvPaymentVoucher.text =
+                            getDiscountByLevelMember(getString(R.string.tv_hang_dong)).toString()
+                        Utils.g().saveDataString(
+                            DataConstant.MEMBER_LEVEL,
+                            getString(R.string.tv_hang_dong)
+                        )
+                    }
+                    in 6..10 -> {
+                        binding.tvPaymentVoucher.text =
+                            getDiscountByLevelMember(getString(R.string.tv_hang_bac)).toString()
+                        Utils.g().saveDataString(
+                            DataConstant.MEMBER_LEVEL,
+                            getString(R.string.tv_hang_bac)
+                        )
+                    }
+                    else -> {
+                        binding.tvPaymentVoucher.text =
+                            getDiscountByLevelMember(getString(R.string.tv_hang_vang)).toString()
+                        Utils.g().saveDataString(
+                            DataConstant.MEMBER_LEVEL,
+                            getString(R.string.tv_hang_vang)
+                        )
+                    }
+                }
+            }
+        }
+        viewModel.addOrderTransactionLiveData.observe(this) {
             if (it) {
                 viewModel.deleteAddedProducts()
                 AppData.g().clearOrderInfo()
@@ -207,4 +256,25 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
             Log.d(TAG, "observeData send ott: ${it?.code} - ${it?.data}")
         }
     }
+
+    private fun getDiscountByLevelMember(levelMember: String): Double {
+        return if (VoucherDataEnum.NEW_MEMBER.title == levelMember) {
+            VoucherDataEnum.NEW_MEMBER.discount
+        } else if (VoucherDataEnum.HANG_DONG.title == levelMember) {
+            VoucherDataEnum.HANG_DONG.discount
+        } else if (VoucherDataEnum.HANG_BAC.title == levelMember) {
+            VoucherDataEnum.HANG_BAC.discount
+        } else {
+            VoucherDataEnum.HANG_VANG.discount
+        }
+    }
+
+    private var resultLauncherAddAddress =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> {
+                    adapter?.reset(viewModel.getListInfoConfirm())
+                }
+            }
+        }
 }

@@ -147,10 +147,10 @@
             android:textSize="@dimen/_16sp" />
 
         <com.example.baseapp.view.Textview
+            android:id="@+id/tvMemberLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:drawableEnd="@drawable/ic_back_header_004a9c"
             android:text="@string/str_rank_level0"
             android:textColor="@color/merchant_color_4a4a4a"
             android:textSize="@dimen/_14sp" />

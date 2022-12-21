@@ -66,6 +66,7 @@ class AppData {
         Utils.g().clearData(DataConstant.USER_PHONE)
         Utils.g().clearData(DataConstant.USER_FULL_NAME)
         Utils.g().clearData(DataConstant.USER)
+        Utils.g().clearData(DataConstant.MEMBER_LEVEL)
     }
 
     fun clearOrderInfo(){

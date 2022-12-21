@@ -294,4 +294,7 @@
     <string name="str_infor_payment">Thông tin thanh toán</string>
     <string name="add_card_fail">Thêm thẻ thất bại</string>
     <string name="str_update_success">Cập nhật đơn hàng thành công</string>
+    <string name="tv_hang_dong">Thành viên hạng đồng</string>
+    <string name="tv_hang_bac">Thành viên hạng bạc</string>
+    <string name="tv_hang_vang">Thành viên hạng vàng</string>
 </resources>
