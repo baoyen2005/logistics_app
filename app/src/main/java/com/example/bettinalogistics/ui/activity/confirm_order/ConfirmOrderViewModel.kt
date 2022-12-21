@@ -175,18 +175,38 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebas
 
     fun getServiceFee(): Int {
         when {
-            typeTransport == context!!.getString(R.string.str_road_transport) -> {
-                return AppConstant.SERVICE_DUONG_BO_TRUNG
+            typeTransport == context!!.getString(R.string.str_road_transport)
+                    && methodTransport == context!!.getString(R.string.str_chinh_ngach) -> {
+                return AppConstant.SERVICE_DUONG_BO_TRUNG_CHINH_NGACH
             }
-            typeTransport == context.getString(R.string.str_sea_transport) &&
-                    orderAddress?.originAddress?.lowercase()
+            typeTransport == context!!.getString(R.string.str_road_transport) && methodTransport == context!!.getString(
+                R.string.str_tieu_ngach
+            ) -> {
+                return AppConstant.SERVICE_DUONG_BO_TRUNG_TIEU_NGACH
+            }
+            typeTransport == context.getString(R.string.str_sea_transport)
+                    && methodTransport == context!!.getString(R.string.str_chinh_ngach)
+                    && orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
-                return AppConstant.SERVICE_DUONG_BIEN_TRUNG
+                return AppConstant.SERVICE_DUONG_BIEN_TRUNG_CHINH_NGACH
             }
-            typeTransport == context.getString(R.string.str_sea_transport) &&
-                    orderAddress?.originAddress?.lowercase()
+            typeTransport == context.getString(R.string.str_sea_transport)
+                    && methodTransport == context!!.getString(R.string.str_tieu_ngach)
+                    && orderAddress?.originAddress?.lowercase()
+                        ?.contains(context.getString(R.string.str_china).lowercase()) == true -> {
+                return AppConstant.SERVICE_DUONG_BIEN_TRUNG_TIEU_NGACH
+            }
+            typeTransport == context.getString(R.string.str_sea_transport)
+                    && methodTransport == context!!.getString(R.string.str_chinh_ngach)
+                    && orderAddress?.originAddress?.lowercase()
                         ?.contains(context.getString(R.string.str_korea).lowercase()) == true -> {
-                return AppConstant.SERVICE_DUONG_BIEN_TRUNG
+                return AppConstant.SERVICE_DUONG_BIEN_HAN_CHINH_NGACH
+            }
+            typeTransport == context.getString(R.string.str_sea_transport)
+                    && methodTransport == context!!.getString(R.string.str_tieu_ngach)
+                    && orderAddress?.originAddress?.lowercase()
+                        ?.contains(context.getString(R.string.str_korea).lowercase()) == true -> {
+                return AppConstant.SERVICE_DUONG_BIEN_HAN_TIEU_NGACH
             }
         }
         return 0

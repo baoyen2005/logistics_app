@@ -13,7 +13,7 @@ class UserDetailAdminActivity : BaseActivity() {
     companion object {
         const val DETAIL_USER = "detailUser"
 
-        fun startDetailOrderActivity(context: Context, user: User): Intent {
+        fun startUserDetailAdminActivity(context: Context, user: User): Intent {
             val intent = Intent(context, UserDetailAdminActivity::class.java)
             intent.putExtra(
                 DETAIL_USER,

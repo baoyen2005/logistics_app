@@ -14,6 +14,7 @@ import com.example.bettinalogistics.ui.activity.signup.SignUpViewModel
 import com.example.bettinalogistics.ui.activity.splash.SplashViewModel
 import com.example.bettinalogistics.ui.fragment.admin.detail_order.DetailAdminOrderViewModel
 import com.example.bettinalogistics.ui.fragment.admin.order.AdminOrderListViewModel
+import com.example.bettinalogistics.ui.fragment.admin.person.AdminAccountViewModel
 import com.example.bettinalogistics.ui.fragment.ship.order_list.ShipOrderViewModel
 import com.example.bettinalogistics.ui.fragment.ship.person.ShipPersonViewModel
 import com.example.bettinalogistics.ui.fragment.user.detail_order.DetailUserOrderViewModel
@@ -75,6 +76,9 @@ val models = module {
     }
     viewModel {
         DetailAdminOrderViewModel(get(),get(),get())
+    }
+    viewModel {
+        AdminAccountViewModel(get())
     }
 }
 

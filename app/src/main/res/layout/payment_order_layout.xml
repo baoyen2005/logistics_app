@@ -29,74 +29,84 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <ImageView
-        android:layout_marginTop="@dimen/_20dp"
-        android:layout_gravity="center"
-        android:layout_width="@dimen/_100dp"
-        android:layout_height="@dimen/_100dp"
-        android:src="@drawable/qr_admin"/>
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <androidx.appcompat.widget.LinearLayoutCompat
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+           <ImageView
+               android:layout_marginTop="@dimen/_20dp"
+               android:layout_gravity="center"
+               android:layout_width="@dimen/_150dp"
+               android:scaleType="fitXY"
+               android:layout_height="@dimen/_100dp"
+               android:src="@drawable/qr_admin"/>
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtChooseCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_hint="@string/str_choose_card"
-        app:gr_title="@string/str_card"
-        app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"/>
+           <com.example.baseapp.view.GroupTextView
+               android:id="@+id/edtChooseCard"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_20dp"
+               app:gr_hint="@string/str_choose_card"
+               app:gr_title="@string/str_card"
+               app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
+               app:gr_text_color="@color/black"
+               app:gr_text_size="@dimen/_16sp"
+               app:gr_hint_text_color="@color/color_text_8"/>
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtAmountOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_title="@string/str_order_amount"
-        app:gr_text_color="@color/black"
-        app:gr_is_enable_edit = "false"
-        app:gr_text_size="@dimen/_16sp"
-       />
+           <com.example.baseapp.view.GroupTextView
+               android:id="@+id/edtAmountOrder"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_20dp"
+               app:gr_title="@string/str_order_amount"
+               app:gr_text_color="@color/black"
+               app:gr_is_enable_edit = "false"
+               app:gr_text_size="@dimen/_16sp"
+               />
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtContentPayment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_hint="@string/str_entern_content"
-        app:gr_hint_text_color="@color/color_text_8"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_title="@string/str_content_payment" />
+           <com.example.baseapp.view.GroupTextView
+               android:id="@+id/edtContentPayment"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_20dp"
+               app:gr_hint="@string/str_entern_content"
+               app:gr_hint_text_color="@color/color_text_8"
+               app:gr_is_show_clear_text="true"
+               app:gr_text_color="@color/black"
+               app:gr_text_size="@dimen/_16sp"
+               app:gr_title="@string/str_content_payment" />
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtChooseBill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_hint_text_color="@color/color_text_8"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
-        app:gr_hint="@string/str_entern_choose_image_payment"
-        app:gr_title="@string/str_img_confirm_payment"/>
+           <com.example.baseapp.view.GroupTextView
+               android:id="@+id/edtChooseBill"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_20dp"
+               app:gr_hint_text_color="@color/color_text_8"
+               app:gr_text_color="@color/black"
+               app:gr_text_size="@dimen/_16sp"
+               app:gr_right_icon = "@drawable/ic_baseline_expand_more_24"
+               app:gr_hint="@string/str_entern_choose_image_payment"
+               app:gr_title="@string/str_img_confirm_payment"/>
 
-    <Button
-        android:id="@+id/btnUserPaymentConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_40dp"
-        android:layout_marginTop="@dimen/_40dp"
-        app:backgroundTint="@null"
-        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
-        android:gravity="center"
-        android:paddingVertical="@dimen/dp8"
-        android:text="@string/str_payment"
-        android:textColor="@color/merchant_color_ffffff"
-        android:textSize="@dimen/_16sp"
-        android:textAllCaps="false"
-        android:fontFamily="@font/ssp_bold"
-        android:layout_marginHorizontal="@dimen/_15dp" />
+           <Button
+               android:id="@+id/btnUserPaymentConfirm"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/_40dp"
+               android:layout_marginTop="@dimen/_40dp"
+               app:backgroundTint="@null"
+               android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+               android:gravity="center"
+               android:paddingVertical="@dimen/dp8"
+               android:text="@string/str_payment"
+               android:textColor="@color/merchant_color_ffffff"
+               android:textSize="@dimen/_16sp"
+               android:textAllCaps="false"
+               android:fontFamily="@font/ssp_bold"
+               android:layout_marginHorizontal="@dimen/_15dp" />
+       </androidx.appcompat.widget.LinearLayoutCompat>
+   </ScrollView>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -3,7 +3,9 @@ package com.example.bettinalogistics.data
 import android.net.Uri
 import android.util.Log
 import com.example.baseapp.di.Common
+import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Card
+import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.Payment
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
@@ -22,7 +24,7 @@ interface CardRepository {
 
     suspend fun getAllCards(uid: String, onComplete: ((List<Card>?) -> Unit)?)
 
-    suspend fun getPayment(orderId: String, onComplete: ((Payment?) -> Unit)?)
+    suspend fun getPayment(order:Order, onComplete: ((Payment?) -> Unit)?)
 
     suspend fun addPayment(payment: Payment, onComplete: ((Boolean) -> Unit)?)
 }
@@ -36,6 +38,7 @@ class CardRepoImpl : CardRepository{
         values[DataConstant.ACCOUNT_NUMBER] = card.accountNumber
         values[DataConstant.CARD_NUMBER] = card.cardNumber
         values[DataConstant.DARE_OF_EXPIRED] = card.dateOfExpired
+        values[DataConstant.USER] = AppData.g().currentUser
         documentReference.set(values, SetOptions.merge())
             .addOnSuccessListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
@@ -85,7 +88,7 @@ class CardRepoImpl : CardRepository{
 
     override suspend fun getAllCards(uid: String, onComplete: ((List<Card>?) -> Unit)?) {
         FirebaseFirestore.getInstance().collection(AppConstant.CARD_COLLECTION)
-            .whereEqualTo(DataConstant.USER_ID, uid)
+            .whereEqualTo(DataConstant.USER, AppData.g().currentUser)
             .get()
             .addOnCompleteListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
@@ -102,9 +105,9 @@ class CardRepoImpl : CardRepository{
             }
     }
 
-    override suspend fun getPayment(orderId: String, onComplete: ((Payment?) -> Unit)?) {
+    override suspend fun getPayment(order:Order, onComplete: ((Payment?) -> Unit)?) {
         FirebaseFirestore.getInstance().collection(AppConstant.PAYMENT_COLLECTION)
-            .whereEqualTo(DataConstant.ORDER_ID, orderId)
+            .whereEqualTo(DataConstant.PAYMENT_ORDER, order)
             .get()
             .addOnCompleteListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
@@ -122,6 +125,7 @@ class CardRepoImpl : CardRepository{
     }
 
     override suspend fun addPayment(payment: Payment, onComplete: ((Boolean) -> Unit)?) {
+        Log.d(TAG, "addPayment: ${payment.imgUrlPayment}")
         val documentReference = FirebaseFirestore.getInstance().collection(AppConstant.PAYMENT_COLLECTION)
             .document()
         val values: HashMap<String, Any?> = HashMap()
@@ -144,7 +148,7 @@ class CardRepoImpl : CardRepository{
     private fun uploadImage(uid: String, uri: String?, onComplete: ((Boolean) -> Unit)?) {
         val storage = FirebaseStorage.getInstance()
         val name = "banking"
-        val storageRef = storage.reference.child("photos_$uid").child(uid).child(name)
+        val storageRef = storage.reference.child("photos_bank_$uid").child(uid).child(name)
         val uploadTask = storageRef.putFile(Uri.parse(uri))
         uploadTask.addOnSuccessListener {
             if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {

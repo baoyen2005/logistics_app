@@ -38,7 +38,7 @@
         android:layout_marginStart="@dimen/_24dp"
         android:layout_marginTop="@dimen/dp18"
         android:layout_marginEnd="@dimen/_24dp"
-        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:background="@drawable/shape_merchant_color_ffbe21_corner_12"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/_2dp"
         android:paddingTop="@dimen/_2dp"

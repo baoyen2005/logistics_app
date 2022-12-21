@@ -17,6 +17,7 @@ import com.example.bettinalogistics.model.OttRequest
 import com.example.bettinalogistics.model.Payment
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.PaymentOrderBottomSheet
+import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
@@ -65,7 +66,7 @@ class UserDetailOrderActivity : BaseActivity() {
         binding.btnCancel.isVisible = (order?.statusOrder == DataConstant.ORDER_STATUS_PENDING)
 
         if (order?.statusOrder != DataConstant.ORDER_STATUS_PENDING && order?.statusOrder != DataConstant.ORDER_STATUS_CANCEL) {
-            binding.btnUserViewAllTrack.isVisible
+            binding.btnUserViewAllTrack.isVisible = true
         }
         binding.btnUserPayment.isVisible =
             (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING)
@@ -73,6 +74,7 @@ class UserDetailOrderActivity : BaseActivity() {
         if (viewModel.listCard.isEmpty() && order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED
             || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
         ) {
+            showLoading()
             viewModel.getAllCard()
         }
         when (order?.statusOrder) {
@@ -127,7 +129,9 @@ class UserDetailOrderActivity : BaseActivity() {
         binding.btnUserPayment.setOnClickListener {
             val paymentOrderBottomSheet = PaymentOrderBottomSheet()
             paymentOrderBottomSheet.order = viewModel.order
+            paymentOrderBottomSheet.listCard = viewModel.listCard
             paymentOrderBottomSheet.onConfirmListener = { content, imgBill, card ->
+                Log.d(TAG, "initListener: $imgBill")
                 val payment = Payment(
                     imgUrlPayment = imgBill,
                     contentPayment = content,
@@ -136,7 +140,8 @@ class UserDetailOrderActivity : BaseActivity() {
                     card = card,
                     datePayment = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS)
                 )
-                viewModel.order?.statusOrder = DataConstant.ORDER_STATUS_PAYMENT_PAID
+                viewModel.order?.statusPayment = DataConstant.ORDER_STATUS_PAYMENT_PAID
+                showLoading()
                 viewModel.order?.let { it1 -> viewModel.updateOrderToPaid(it1) }
                 viewModel.addPayment(payment)
             }
@@ -187,6 +192,10 @@ class UserDetailOrderActivity : BaseActivity() {
                 confirm.setNotice(getString(R.string.str_cancel_failed))
             }
         }
+        viewModel.updateOrderToPaidLiveData.observe(this){
+            hiddenLoading()
+            Log.d(TAG, "observeData: it")
+        }
         viewModel.addPaymentLiveData.observe(this){
             hiddenLoading()
             if (it) {
@@ -236,13 +245,13 @@ class UserDetailOrderActivity : BaseActivity() {
         viewModel.sendNotiRequestFirebaseLiveData.observe(this) {
             hiddenLoading()
             if (it) {
-                confirm.setNotice(getString(R.string.str_cancel_success)).addButtonAgree {
+                confirm.setNotice(getString(R.string.str_update_success)).addButtonAgree {
                     val i = Intent()
                     setResult(RESULT_OK, i)
                     finish()
                 }
             } else {
-                confirm.newBuild().setNotice(getString(R.string.str_add_order_fail))
+                confirm.newBuild().setNotice(getString(R.string.str_update_faid))
             }
         }
         viewModel.getOttTokenListLiveData.observe(this) {
@@ -270,6 +279,7 @@ class UserDetailOrderActivity : BaseActivity() {
                     cardBottomSheet.show(supportFragmentManager, "ssss")
                 }
             } else {
+                Log.d(TAG, "observeData: ${viewModel.getAllCardLiveData.value}")
                 viewModel.listCard.addAll(it)
             }
         }
@@ -281,10 +291,7 @@ class UserDetailOrderActivity : BaseActivity() {
                     viewModel.getAllCard()
                 }
             } else {
-                confirm.newBuild().setNotice(getString(R.string.add_card_success)).addButtonAgree {
-                    showLoading()
-                    viewModel.getAllCard()
-                }
+                confirm.newBuild().setNotice(getString(R.string.add_card_fail))
             }
         }
     }

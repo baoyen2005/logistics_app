@@ -10,7 +10,6 @@ import com.example.baseapp.view.Textview
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.model.Card
-import com.example.bettinalogistics.model.TypeCommonEntity
 
 class ChooseCardAdapter(
     val listener: (Card) -> Unit
@@ -59,7 +58,7 @@ class ChooseCardAdapter(
         }
 
         override fun onBind(data: CommonContactVHData) {
-            tvInformation.text = (data.realData as TypeCommonEntity?)?.title?: ""
+            tvInformation.text = (data.realData as Card?)?.name?: "" + " - "+(data.realData as Card?)?.accountNumber?: ""
         }
     }
 
@@ -83,7 +82,9 @@ class ChooseCardAdapter(
                     mDataSet.forEach { data ->
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (data is CommonContactVHData && (normalization((data.realData as TypeCommonEntity).title).contains(key))) {
+                        if (data is CommonContactVHData && (normalization((data.realData as Card).accountNumber).contains(key))
+                            ||data is CommonContactVHData && (normalization((data.realData as Card).cardNumber).contains(key))
+                        ) {
                             filteredList.add(data)
                         }
                     }

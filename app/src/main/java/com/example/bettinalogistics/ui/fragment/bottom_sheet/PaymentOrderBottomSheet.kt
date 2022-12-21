@@ -68,11 +68,13 @@ class PaymentOrderBottomSheet : BottomSheetDialogFragment() {
         }
         binding.btnUserPaymentConfirm.setSafeOnClickListener {
             if(checkValidate()){
-                card?.let { it1 ->
-                    onConfirmListener?.invoke(
-                        binding.edtContentPayment.getContentText(),
-                        binding.edtChooseBill.getContentText(), it1
-                    )
+                card?.let { card ->
+                    uri?.let { uri ->
+                        onConfirmListener?.invoke(
+                            binding.edtContentPayment.getContentText(),
+                            uri, card
+                        )
+                    }
                 }
                 dismiss()
             }

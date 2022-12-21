@@ -13,7 +13,6 @@ import com.example.baseapp.view.removeAccentNormalize
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
-import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderTransportationActivity
@@ -86,7 +85,7 @@ class AddAddressTransactionActivity : BaseActivity() {
             binding.ivCheckBoxTieuNgach.setImageResource(R.drawable.ic_checkbox_checked)
             binding.icCheckBoxChinhNgach.setImageResource(R.drawable.ic_checkbox_uncheck)
         }
-        if (binding.edtOriginSearch.getContentText()
+        if (binding.edtOriginSearch.getContentText().lowercase()
                 .contains(getString(R.string.str_korea).lowercase())
         ) {
             binding.linearSeaTransport.setBackgroundResource(R.drawable.shape_ffffff_stroke_004a9c_corner_12)
@@ -182,6 +181,10 @@ class AddAddressTransactionActivity : BaseActivity() {
                 flag = true
                 view = binding.tvErrorMethodTransaction
             }
+            binding.edtOriginSearch.getContentText().lowercase().contains(getString(R.string.str_korea).lowercase())
+                    && viewModel.typeTransaction == getString(R.string.str_road_transport) ->{
+                        confirm.newBuild().setNotice("Tuyến Hàn Quốc - Việt Nam chỉ có đường biển, vui lòng chọn lại")
+                    }
         }
         return if (flag) {
             view?.requestFocus()
@@ -197,6 +200,7 @@ class AddAddressTransactionActivity : BaseActivity() {
         viewModel.getUserCompanyInfoLiveData.observe(this){
             hiddenLoading()
             if(it != null) {
+                showLoading()
                 viewModel.userCompany = it
                 Utils.g().saveDataString(
                     DataConstant.ORDER_ADDRESS,
@@ -232,6 +236,7 @@ class AddAddressTransactionActivity : BaseActivity() {
                     }
             }
         }
+
         viewModel.addCompanyInfoLiveData.observe(this) {
             hiddenLoading()
             if (it) {

@@ -187,84 +187,9 @@
                android:text="@string/login"
                app:backgroundTint="@null"
                android:textColor="@color/white"
-               app:layout_constraintBottom_toTopOf="@id/txt_or_login_with"
                app:layout_constraintLeft_toLeftOf="@id/txt_forgot_pass_login"
                app:layout_constraintRight_toRightOf="@id/txt_forgot_pass_login"
                app:layout_constraintTop_toBottomOf="@id/txt_forgot_pass_login" />
-
-           <com.example.baseapp.view.Textview
-               android:id="@+id/txt_or_login_with"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/_20dp"
-               android:text="@string/or_login_with"
-               android:textColor="@color/white"
-               android:textSize="@dimen/_12sp"
-               android:fontFamily="@font/ssp_semi_bold"
-               app:layout_constraintBottom_toTopOf="@id/linear_logIn_facebook"
-               app:layout_constraintLeft_toLeftOf="parent"
-               app:layout_constraintRight_toRightOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/btnLogin" />
-
-           <LinearLayout
-               android:id="@+id/linear_logIn_facebook"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="@dimen/_15dp"
-               android:layout_marginTop="@dimen/_20dp"
-               android:background="@drawable/custom_background_button_face"
-               android:orientation="horizontal"
-               app:layout_constraintLeft_toLeftOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/txt_or_login_with"
-               app:layout_constraintWidth_percent="0.4">
-
-               <ImageView
-                   android:layout_width="@dimen/_30dp"
-                   android:layout_height="@dimen/_40dp"
-                   android:contentDescription="@string/app_name"
-                   android:padding="@dimen/_8dp"
-                   android:src="@drawable/icon_facebook" />
-
-               <com.example.baseapp.view.Textview
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="center"
-                   android:fontFamily="@font/poppins_regular"
-                   android:padding="@dimen/_8dp"
-                   android:text="@string/facebook"
-                   android:textColor="@color/white"
-                   android:textSize="@dimen/_12sp" />
-           </LinearLayout>
-
-           <LinearLayout
-               android:id="@+id/linear_logIn_google"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/_20dp"
-               android:layout_marginEnd="@dimen/_15dp"
-               android:background="@drawable/custom_background_button_gg"
-               android:orientation="horizontal"
-               app:layout_constraintRight_toRightOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/txt_or_login_with"
-               app:layout_constraintWidth_percent="0.4">
-
-               <ImageView
-                   android:layout_width="@dimen/_30dp"
-                   android:layout_height="@dimen/_40dp"
-                   android:contentDescription="@string/app_name"
-                   android:padding="@dimen/_8dp"
-                   android:src="@drawable/icon_google" />
-
-               <com.example.baseapp.view.Textview
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="center"
-                   android:fontFamily="@font/poppins_regular"
-                   android:padding="@dimen/_8dp"
-                   android:text="@string/google"
-                   android:textColor="@color/black"
-                   android:textSize="@dimen/_12sp" />
-           </LinearLayout>
 
            <com.example.baseapp.view.Textview
                android:id="@+id/new_user"
@@ -275,10 +200,10 @@
                android:fontFamily="@font/ssp_semi_regular"
                android:textColor="@color/white"
                android:textSize="@dimen/_16sp"
+               android:layout_marginBottom="@dimen/_40dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintLeft_toLeftOf="parent"
-               app:layout_constraintRight_toRightOf="@+id/txtLoginRegister"
-               app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />
+               app:layout_constraintRight_toRightOf="@+id/txtLoginRegister" />
 
            <com.example.baseapp.view.Textview
                android:id="@+id/txtLoginRegister"
@@ -289,11 +214,10 @@
                android:text="@string/register"
                android:textColor="@color/black"
                android:textSize="@dimen/_16sp"
+               android:layout_marginBottom="@dimen/_40dp"
                android:fontFamily="@font/ssp_semi_regular"
                app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintLeft_toRightOf="@id/new_user"
-               app:layout_constraintTop_toBottomOf="@id/linear_logIn_google" />
-
+               app:layout_constraintLeft_toRightOf="@id/new_user" />
        </androidx.constraintlayout.widget.ConstraintLayout>
    </androidx.constraintlayout.widget.ConstraintLayout>
 

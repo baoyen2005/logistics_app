@@ -292,4 +292,6 @@
     <string name="str_user_name_payment">Người thanh toán</string>
     <string name="str_payment_date">Ngày thanh toán</string>
     <string name="str_infor_payment">Thông tin thanh toán</string>
+    <string name="add_card_fail">Thêm thẻ thất bại</string>
+    <string name="str_update_success">Cập nhật đơn hàng thành công</string>
 </resources>

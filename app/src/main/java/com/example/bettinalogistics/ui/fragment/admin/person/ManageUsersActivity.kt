@@ -26,7 +26,7 @@ class ManageUsersActivity : BaseActivity() {
 
     override fun initListener() {
         adminListUserAdapter.onItemClickListener = {
-            startActivity(UserDetailAdminActivity.startDetailOrderActivity(this, it))
+            startActivity(UserDetailAdminActivity.startUserDetailAdminActivity(this, it))
         }
         adminListUserAdapter.onSearchResult = {
             binding.tvResultSearchTitle.isVisible =

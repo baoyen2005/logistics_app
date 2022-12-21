@@ -42,9 +42,12 @@ class AppConstant {
         const val LON_CANG_THUONG_HAI_TRUNG_QUOC = 121.469170
         const val LAT_CANG_BUSAN = 35.166668
         const val LON_CANG_BUSAN = 129.066666
-        const val SERVICE_DUONG_BO_TRUNG = 20000000
-        const val SERVICE_DUONG_BIEN_TRUNG = 24000000
-        const val SERVICE_DUONG_BIEN_HAN = 30000000
+        const val SERVICE_DUONG_BO_TRUNG_CHINH_NGACH = 20000000
+        const val SERVICE_DUONG_BO_TRUNG_TIEU_NGACH = 10000000
+        const val SERVICE_DUONG_BIEN_TRUNG_CHINH_NGACH = 24000000
+        const val SERVICE_DUONG_BIEN_TRUNG_TIEU_NGACH = 14000000
+        const val SERVICE_DUONG_BIEN_HAN_CHINH_NGACH = 30000000
+        const val SERVICE_DUONG_BIEN_HAN_TIEU_NGACH = 15000000
 
         // list voucher
         fun allListVoucher(): List<Voucher> {

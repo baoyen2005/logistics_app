@@ -130,10 +130,8 @@ class DetailAdminOrderViewModel(
 
     var getPaymentLiveData = MutableLiveData<Payment>()
     fun getPayment(order: Order) = viewModelScope.launch(Dispatchers.IO) {
-        order.id?.let {
-            cardRepository.getPayment(it) {
-                getPaymentLiveData.postValue(it)
-            }
+        cardRepository.getPayment(order) {
+            getPaymentLiveData.postValue(it)
         }
     }
 

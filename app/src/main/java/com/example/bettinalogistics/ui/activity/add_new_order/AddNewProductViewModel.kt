@@ -44,15 +44,28 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     }
 
     var updateProductLiveData = MutableLiveData<Boolean>()
-    fun updateProduct(product: Product) = viewModelScope.launch (Dispatchers.IO){
-        orderRepository.updateProduct(product){
+    fun updateProduct(product: Product) = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.updateProduct(product) {
             updateProductLiveData.postValue(it)
+        }
+    }
+
+    var getAllOrderLiveData = MutableLiveData<List<Order>>()
+    fun getAllOrder() = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.getAllOrderTransactions {
+            getAllOrderLiveData.postValue(it)
         }
     }
 
     fun getListContType(): List<TypeCommonEntity> {
         val list = ArrayList<TypeCommonEntity>()
-        list.add(TypeCommonEntity(title = "Container 10 feet", volumeMaxOfCont = 16.0, quantity = 8810.0))
+        list.add(
+            TypeCommonEntity(
+                title = "Container 10 feet",
+                volumeMaxOfCont = 16.0,
+                quantity = 8810.0
+            )
+        )
         list.add(
             TypeCommonEntity(
                 title = "Container 20 feet khô thường",

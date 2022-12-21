@@ -69,7 +69,10 @@ class AdminListUserAdapter : BaseRclvAdapter(), Filterable {
             val data = adminconstUserItemVhData.realData as User
             tvUserNameAdminItem.text = data.fullName ?: ""
             tvUserEmailAdminItem.text = data.email ?: ""
-            Glide.with(itemView.context).load(data.image).into(ivUserAvtAdminItem)
+            if(data.image == null){
+                ivUserAvtAdminItem.setImageResource(R.drawable.ic_user)
+            }
+            else Glide.with(itemView.context).load(data.image).into(ivUserAvtAdminItem)
         }
     }
 
