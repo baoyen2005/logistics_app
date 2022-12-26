@@ -153,6 +153,21 @@ class GroupTextView: LinearLayout{
         return binding.rlGroupTv.requestFocus()
     }
 
+    fun showClearIcon(isShow: Boolean) {
+        binding.ivClear.isVisible = isShow
+    }
+
+    fun isEnableClearIcon() {
+        onFocusChange = {
+            if (it) {
+                if (getContentText().isNotEmpty()) {
+                    showClearIcon(true)
+                }
+            } else {
+                showClearIcon(false)
+            }
+        }
+    }
 
     fun setBackgroundClickListener(onSafeClick: (View) -> Unit) {
         binding.rlGroupTv.setSafeOnClickListener(onSafeClick)

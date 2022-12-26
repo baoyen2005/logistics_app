@@ -3,7 +3,9 @@ package com.example.bettinalogistics.ui.fragment.user.detail_order
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.baseapp.BaseActivity
@@ -38,6 +40,15 @@ class UserDetailOrderActivity : BaseActivity() {
         }
     }
 
+    private var resultLauncherAddAddress =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> {
+                    finish()
+                }
+            }
+        }
+
     private val detailOrderAdapter: DetailOrderAdapter by lazy { DetailOrderAdapter() }
 
     override val viewModel: DetailUserOrderViewModel by viewModel()
@@ -53,8 +64,12 @@ class UserDetailOrderActivity : BaseActivity() {
             intent.getStringExtra(DETAIL_ORDER)
                 ?.let { Utils.g().getObjectFromJson(it, Order::class.java) }
         viewModel.order = order
+        if (order != null) {
+            viewModel.getPayment(order)
+        }
         binding.tvDetailOrderAmount.text =
-            UtilsBase.g().getDotMoney((order?.amountBeforeDiscount ?: 0.0).toLong().toString()) + " VND"
+            UtilsBase.g()
+                .getDotMoney((order?.amountBeforeDiscount ?: 0.0).toLong().toString()) + " VND"
         binding.tvDetailOrderCode.text = order?.orderCode ?: ""
         binding.tvDetailCompany.text = order?.company?.name ?: ""
         binding.tvDetailOrderOriginAddress.text = order?.address?.originAddress ?: ""
@@ -69,7 +84,10 @@ class UserDetailOrderActivity : BaseActivity() {
             binding.btnUserViewAllTrack.isVisible = true
         }
         binding.btnUserPayment.isVisible =
-            (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING)
+            (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
+                    && order?.statusOrder != DataConstant.ORDER_STATUS_PENDING)
+
+        binding.btnViewBill.isVisible = order?.statusOrder == DataConstant.ORDER_STATUS_PAYMENT_PAID
 
         if (viewModel.listCard.isEmpty() && order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED
             || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
@@ -123,8 +141,23 @@ class UserDetailOrderActivity : BaseActivity() {
             order?.let { it1 -> viewModel.cancelOder(it1) }
         }
         binding.btnUserViewAllTrack.setOnClickListener {
-            val intent = viewModel.order?.let { it1 -> UserListTrackOrderActivity.startDetailOrderActivity(this, it1) }
+            val intent = viewModel.order?.let { it1 ->
+                UserListTrackOrderActivity.startDetailOrderActivity(
+                    this,
+                    it1
+                )
+            }
             startActivity(intent)
+        }
+        binding.btnViewBill.setOnClickListener {
+            resultLauncherAddAddress.launch(
+                viewModel.order?.let { it1 ->
+                    BillActivity.startDetailOrderActivity(
+                        this,
+                        it1
+                    )
+                }
+            )
         }
         binding.btnUserPayment.setOnClickListener {
             val paymentOrderBottomSheet = PaymentOrderBottomSheet()
@@ -138,7 +171,11 @@ class UserDetailOrderActivity : BaseActivity() {
                     order = viewModel.order,
                     user = AppData.g().currentUser,
                     card = card,
-                    datePayment = Utils_Date.convertformDate(Date(), Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS)
+                    orderId = viewModel.order?.id,
+                    datePayment = Utils_Date.convertformDate(
+                        Date(),
+                        Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
+                    )
                 )
                 viewModel.order?.statusPayment = DataConstant.ORDER_STATUS_PAYMENT_PAID
                 showLoading()
@@ -237,6 +274,16 @@ class UserDetailOrderActivity : BaseActivity() {
                     notificationType = "142341234"
                 )
                 viewModel.sendOttServer(request)
+                Handler(mainLooper).postDelayed({
+                    resultLauncherAddAddress.launch(
+                        viewModel.order?.let { it1 ->
+                            BillActivity.startDetailOrderActivity(
+                                this,
+                                it1
+                            )
+                        }
+                    )
+                }, 1000L)
             } else {
                 confirm.setNotice(getString(R.string.str_payment_fail))
             }

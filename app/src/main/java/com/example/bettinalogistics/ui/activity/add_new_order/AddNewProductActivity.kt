@@ -15,6 +15,7 @@ import com.example.bettinalogistics.databinding.ActivityAddNewOrderBinding
 import com.example.bettinalogistics.model.Product
 import com.example.bettinalogistics.model.TypeCommonEntity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.DialogCommonChooseOneItem
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.SupplierCompanyInfoBottomSheet
 import com.example.bettinalogistics.utils.AppConstant
 import com.example.bettinalogistics.utils.AppPermissionsUtils
 import com.example.bettinalogistics.utils.Utils
@@ -60,7 +61,10 @@ class AddNewProductActivity : BaseActivity() {
                     (product.quantity ?: 0).toString()
                 )
                 binding.gTvNewProductType.setValueContent(product.type?.title ?: "0")
-
+                binding.gTvNewProductType.isEnableClearIcon()
+                binding.edtAddNewProductQuantity.isEnableClearIcon()
+                binding.edtAddNewProductName.isEnableClearIcon()
+                binding.edtAddNewProductDescription.isEnableClearIcon()
                 if (product.isOrderLCL) {
                     setViewWhenClickLCLEdit()
                 } else {
@@ -146,8 +150,13 @@ class AddNewProductActivity : BaseActivity() {
                 if (viewModel.isEdit) {
                     viewModel.updateProduct(product)
                 } else {
-                    showLoading()
-                    viewModel.insertProduct(product)
+                    val companyInfo = SupplierCompanyInfoBottomSheet()
+                    companyInfo.onConfirmListener = { company ->
+                        showLoading()
+                        viewModel.supplierCompany = company
+                        viewModel.addSupplier(company)
+                    }
+                    companyInfo.show(supportFragmentManager, "aaaaaaa")
                 }
             }
         }
@@ -161,7 +170,14 @@ class AddNewProductActivity : BaseActivity() {
                 val i = Intent()
                 i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
                 setResult(RESULT_OK, i)
-                finish()
+            } else {
+                confirm.newBuild().setNotice(getString(R.string.str_add_new_product_tocart_fail))
+            }
+        }
+        viewModel.addSupplierLiveData.observe(this) {
+            if (it) {
+                showLoading()
+                viewModel.insertProduct(getProduct())
             } else {
                 confirm.newBuild().setNotice(getString(R.string.str_add_new_product_tocart_fail))
             }
@@ -211,7 +227,8 @@ class AddNewProductActivity : BaseActivity() {
                 numberOfCarton = numberOfCarton,
                 isOrderLCL = viewModel.isLCL,
                 type = viewModel.orderType,
-                contType = viewModel.contType
+                contType = viewModel.contType,
+                supplierCompany = viewModel.supplierCompany
             )
         return product
     }
@@ -389,6 +406,9 @@ class AddNewProductActivity : BaseActivity() {
         binding.edtAddNewProductNumberOfCarton.setValueContent(
             (viewModel.editProduct?.numberOfCarton ?: 0).toString()
         )
+        binding.edtAddNewProductMass.isEnableClearIcon()
+        binding.edtAddNewProductNumberOfCarton.isEnableClearIcon()
+        binding.edtAddNewProductVolume.isEnableClearIcon()
     }
 
     private fun pickImage() {

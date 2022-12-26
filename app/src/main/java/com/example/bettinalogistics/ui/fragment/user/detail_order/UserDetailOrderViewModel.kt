@@ -22,6 +22,7 @@ class DetailUserOrderViewModel(
     val trackingRepo: FollowTrackingRepo, val cardRepository: CardRepository
 ) : BaseViewModel() {
     var order: Order? = null
+    var payment: Payment? = null
     var allTokenList = mutableListOf<TokenOtt>()
 
     fun getListDetailOrderCommonEntity(
@@ -166,6 +167,13 @@ class DetailUserOrderViewModel(
     fun addPayment(payment: Payment) = viewModelScope.launch(Dispatchers.IO) {
         cardRepository.addPayment(payment) {
             addPaymentLiveData.postValue(it)
+        }
+    }
+
+    var getPaymentLiveData = MutableLiveData<Payment>()
+    fun getPayment(order: Order) = viewModelScope.launch(Dispatchers.IO) {
+        cardRepository.getPayment(order) {
+            getPaymentLiveData.postValue(it)
         }
     }
 }

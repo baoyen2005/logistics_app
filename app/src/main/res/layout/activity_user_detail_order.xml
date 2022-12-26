@@ -253,34 +253,57 @@
 
     <Button
         android:id="@+id/btnUserViewAllTrack"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/_15dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_24dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:text="@string/view_tracking"
         android:layout_marginBottom="@dimen/_40dp"
         android:background="@drawable/shape_merchant_color_004a9c_corner_12"
-        android:text="@string/str_tracking"
+        app:backgroundTint="@null"
         android:textAllCaps="false"
         android:textSize="@dimen/_16sp"
-        android:visibility="gone"
-        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintWidth_percent="0.5" />
 
     <Button
         android:id="@+id/btnUserPayment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_24dp"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:background="@drawable/shape_bg_fffff_corner_12"
         android:layout_marginBottom="@dimen/_40dp"
-        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
+        android:textColor="@color/merchant_color_4a4a4a"
         android:text="@string/str_payment"
         android:textAllCaps="false"
         android:textSize="@dimen/_16sp"
         android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@id/btnUserViewAllTrack"
+        app:backgroundTint="@null"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <Button
+        android:id="@+id/btnViewBill"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15dp"
+        android:layout_marginEnd="@dimen/_15dp"
+        android:layout_marginBottom="@dimen/_40dp"
+        android:background="@drawable/shape_bg_fffff_corner_12"
+        android:text="@string/str_view_bill"
+        android:textAllCaps="false"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_16sp"
+        android:visibility="gone"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btnUserViewAllTrack"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

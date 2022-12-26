@@ -107,7 +107,7 @@ class CardRepoImpl : CardRepository{
 
     override suspend fun getPayment(order:Order, onComplete: ((Payment?) -> Unit)?) {
         FirebaseFirestore.getInstance().collection(AppConstant.PAYMENT_COLLECTION)
-            .whereEqualTo(DataConstant.PAYMENT_ORDER, order)
+            .whereEqualTo(DataConstant.PAYMENT_ORDER_ID, order.id)
             .get()
             .addOnCompleteListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
@@ -132,6 +132,7 @@ class CardRepoImpl : CardRepository{
         values[DataConstant.PAYMENT_CONTENT] = payment.contentPayment
         values[DataConstant.PAYMENT_ID] = documentReference.id
         values[DataConstant.PAYMENT_ORDER] = payment.order
+        values[DataConstant.PAYMENT_ORDER_ID] = payment.orderId
         values[DataConstant.PAYMENT_USER] = payment.user
         values[DataConstant.PAYMENT_CARD] = payment.card
         values[DataConstant.PAYMENT_DATE] = payment.datePayment

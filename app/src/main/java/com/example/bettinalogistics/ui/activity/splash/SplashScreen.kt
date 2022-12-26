@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.WindowManager
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.databinding.ActivitySplashScreenBinding
 import com.example.bettinalogistics.di.AppData
@@ -28,7 +29,11 @@ class SplashScreen : BaseActivity() {
     }
 
     override fun initView() {
-        handler.postDelayed(runnable, 1200)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+        handler.postDelayed(runnable, 2000)
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)

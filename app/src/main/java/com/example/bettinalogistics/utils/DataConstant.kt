@@ -26,6 +26,7 @@ class DataConstant {
         const val PRODUCT_TYPE ="type"
         const val PRODUCT_CONT_TYPE = "contType"
         const val PRODUCT_ID = "productId"
+        const val PRODUCT_SUPPLIER = "supplierCompany"
         const val PRODUCT_DOCUMENT_ID= "productDocumentId"
         //
         const val ORDER_ADDRESS = "address"
@@ -104,5 +105,10 @@ class DataConstant {
         const val PAYMENT_USER = "user"
         const val PAYMENT_CARD = "card"
         const val PAYMENT_DATE = "datePayment"
+        const val PAYMENT_ORDER_ID = "orderId"
+
+        //supplier
+        const val COMPANY_EMAIL = "email"
+        const val COMPANY_PHONE= "phone"
     }
 }

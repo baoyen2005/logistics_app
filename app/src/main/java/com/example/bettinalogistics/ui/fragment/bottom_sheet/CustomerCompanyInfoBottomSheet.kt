@@ -43,10 +43,10 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
     private fun initListener() {
         binding.btnCustomerInforContinued.setSafeOnClickListener {
             val userCompany = UserCompany(
-                name = binding.edtCompanyName.getValueText(),
-                address = binding.edtCompanyAddress.getValueText(),
-                texCode = binding.edtCompanyTexCode.getValueText(),
-                businessType = binding.edtCompanyBusinessType.getValueText()
+                name = binding.edtCompanyName.getContentText(),
+                address = binding.edtCompanyAddress.getContentText(),
+                texCode = binding.edtCompanyTexCode.getContentText(),
+                businessType = binding.edtCompanyBusinessType.getContentText()
             )
             if (checkValidate()) {
                 onConfirmListener?.invoke(userCompany)
@@ -56,48 +56,51 @@ class CustomerCompanyInfoBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun checkValidate(): Boolean {
-        val name = binding.edtCompanyName.getValueText()
-        val address = binding.edtCompanyAddress.getValueText()
-        val texCode = binding.edtCompanyTexCode.getValueText()
-        val businessType = binding.edtCompanyBusinessType.getValueText()
+        val name = binding.edtCompanyName.getContentText()
+        val address = binding.edtCompanyAddress.getContentText()
+        val texCode = binding.edtCompanyTexCode.getContentText()
+        val businessType = binding.edtCompanyBusinessType.getContentText()
         when {
             name.isEmpty() -> {
                 binding.edtCompanyName.setVisibleMessageError(getString(R.string.invalid_field))
-                return false
             }
             address.isEmpty() -> {
                 binding.edtCompanyAddress.setVisibleMessageError(getString(R.string.invalid_field))
-                return false
             }
             texCode.isEmpty() -> {
                 binding.edtCompanyTexCode.setVisibleMessageError(getString(R.string.invalid_field))
-                return false
             }
             businessType.isEmpty() -> {
                 binding.edtCompanyBusinessType.setVisibleMessageError(getString(R.string.invalid_field))
-                return false
-            }
-            else ->{
-                binding.edtCompanyName.setGoneMessageError()
-                binding.edtCompanyAddress.setGoneMessageError()
-                binding.edtCompanyTexCode.setGoneMessageError()
-                binding.edtCompanyBusinessType.setGoneMessageError()
-                return true
             }
         }
+        return  !binding.edtCompanyName.isTvErrorVisible()
+                && !binding.edtCompanyAddress.isTvErrorVisible()
+                && !binding.edtCompanyBusinessType.isTvErrorVisible()
+                && !binding.edtCompanyTexCode.isTvErrorVisible()
     }
 
     private fun initView() {
         if (company == null) {
-            binding.edtCompanyName.clearEditText()
-            binding.edtCompanyAddress.clearEditText()
-            binding.edtCompanyTexCode.clearEditText()
-            binding.edtCompanyBusinessType.clearEditText()
+            binding.edtCompanyName.clearContent()
+            binding.edtCompanyAddress.clearContent()
+            binding.edtCompanyTexCode.clearContent()
+            binding.edtCompanyBusinessType.clearContent()
         } else {
-            binding.edtCompanyName.setValueText(company?.name?:"")
-            binding.edtCompanyAddress.setValueText(company?.address?:"")
-            binding.edtCompanyTexCode.setValueText(company?.texCode?:"")
-            binding.edtCompanyBusinessType.setValueText(company?.businessType?:"")
+            binding.edtCompanyName.isShowIconClearText(false)
+            binding.edtCompanyAddress.isShowIconClearText(false)
+            binding.edtCompanyTexCode.isShowIconClearText(false)
+            binding.edtCompanyBusinessType.isShowIconClearText(false)
+
+            binding.edtCompanyName.isEnableClearIcon()
+            binding.edtCompanyAddress.isEnableClearIcon()
+            binding.edtCompanyTexCode.isEnableClearIcon()
+            binding.edtCompanyBusinessType.isEnableClearIcon()
+
+            binding.edtCompanyName.setValueContent(company?.name?:"")
+            binding.edtCompanyAddress.setValueContent(company?.address?:"")
+            binding.edtCompanyTexCode.setValueContent(company?.texCode?:"")
+            binding.edtCompanyBusinessType.setValueContent(company?.businessType?:"")
         }
     }
 

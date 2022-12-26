@@ -36,17 +36,17 @@ class CardAdapter : BaseRclvAdapter(), Filterable {
         reset(listFilter)
     }
 
-    override fun getLayoutResource(viewType: Int): Int = R.layout.manage_user_item
+    override fun getLayoutResource(viewType: Int): Int = R.layout.card_item
 
     override fun onCreateVH(itemView: View, viewType: Int): BaseRclvVH<*> =
-        UserListManagementHolder(itemView)
+        CardViewHolder(itemView)
 
 
     class CardVHData(data: Any) : BaseVHData<Any>(data) {
 
     }
 
-    inner class UserListManagementHolder(itemView: View) : BaseRclvVH<CardVHData>(itemView) {
+    inner class CardViewHolder(itemView: View) : BaseRclvVH<CardVHData>(itemView) {
         private val tvBankNameItem: TextView by lazy { itemView.findViewById(R.id.tvBankNameItem) }
         private val tvAccountNumberItem: TextView by lazy { itemView.findViewById(R.id.tvAccountNumberItem) }
         private val constUserItem: ConstraintLayout by lazy { itemView.findViewById(R.id.constUserItem) }

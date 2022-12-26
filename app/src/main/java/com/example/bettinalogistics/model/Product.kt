@@ -1,8 +1,5 @@
 package com.example.bettinalogistics.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
 data class Product (
     var productId: String? = null,
     var productDocumentId: String = "",
@@ -16,6 +13,7 @@ data class Product (
     var isOrderLCL: Boolean = false,
     var type: TypeCommonEntity? = null,
     var contType: TypeCommonEntity? = null,
+    var supplierCompany: SupplierCompany? = null
 )
 
 data class TypeCommonEntity(

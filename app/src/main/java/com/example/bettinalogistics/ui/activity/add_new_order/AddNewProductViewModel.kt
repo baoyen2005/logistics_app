@@ -21,6 +21,7 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     var methodTransaction: String? = null
     var orderType: TypeCommonEntity? = null
     var contType: TypeCommonEntity? = null
+    var supplierCompany: SupplierCompany? = null
 
     var getUserCompanyInfoLiveData = MutableLiveData<UserCompany?>()
     fun getUserCompanyInfo() = viewModelScope.launch(Dispatchers.IO) {
@@ -46,6 +47,13 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
     var updateProductLiveData = MutableLiveData<Boolean>()
     fun updateProduct(product: Product) = viewModelScope.launch(Dispatchers.IO) {
         orderRepository.updateProduct(product) {
+            updateProductLiveData.postValue(it)
+        }
+    }
+
+    var addSupplierLiveData = MutableLiveData<Boolean>()
+    fun addSupplier(supplierCompany: SupplierCompany) = viewModelScope.launch(Dispatchers.IO) {
+        orderRepository.addSupplier(supplierCompany) {
             updateProductLiveData.postValue(it)
         }
     }

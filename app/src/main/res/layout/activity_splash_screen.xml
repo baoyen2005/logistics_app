@@ -3,11 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         >
-    </LinearLayout>
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvTitleSplash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_200dp"
+            android:fontFamily="@font/ssp_bold"
+            android:text="Logistics Bettina"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_20sp" />
+
+        <ImageView
+            android:id="@+id/ivSplashLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_200dp"
+            android:layout_below="@id/tvTitleSplash"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
+            android:src="@drawable/logistics_logo"
+            app:tint="@color/black" />
+
+        <!--on below line we are creating progress bar-->
+        <ProgressBar
+            android:id="@+id/loadingBarSplash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivSplashLogo"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/black" />
+    </RelativeLayout>
 
 </layout>

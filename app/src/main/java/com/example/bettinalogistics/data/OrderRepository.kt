@@ -16,8 +16,10 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.AMOUNT_AFTER_DI
 import com.example.bettinalogistics.utils.DataConstant.Companion.AMOUNT_BEFORE_DISCOUNT
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ADDRESS
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_BUSINESS_TYPE
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_EMAIL
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_ID
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_NAME
+import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_PHONE
 import com.example.bettinalogistics.utils.DataConstant.Companion.COMPANY_TEX_CODE
 import com.example.bettinalogistics.utils.DataConstant.Companion.CONFIRM_DATE_NOTIFICATION
 import com.example.bettinalogistics.utils.DataConstant.Companion.CONTENT_NOTIFICATION
@@ -45,6 +47,7 @@ import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_MASS
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_NAME
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_NUMBER_OF_CARTON
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_QUANTITY
+import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_SUPPLIER
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_TYPE
 import com.example.bettinalogistics.utils.DataConstant.Companion.PRODUCT_VOLUME
 import com.example.bettinalogistics.utils.DataConstant.Companion.REQUEST_DATE_NOTIFICATION
@@ -75,6 +78,8 @@ interface OrderRepository {
     suspend fun updateOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
+    suspend fun addSupplier(supplierCompany: SupplierCompany, onComplete: ((Boolean) -> Unit)?)
+
     suspend fun sendNotiRequest(notification: Notification, onComplete: ((Boolean) -> Unit)?)
     suspend fun sendOtt(ottRequest: OttRequest, onComplete: ((OttResponse?) -> Unit)?)
 }
@@ -94,6 +99,7 @@ class OrderRepositoryImpl : OrderRepository {
         values[PRODUCT_TYPE] = product.type
         values[PRODUCT_CONT_TYPE] = product.contType
         values[PRODUCT_ID] = product.productId
+        values[PRODUCT_SUPPLIER] = product.supplierCompany
         values[PRODUCT_DOCUMENT_ID] = document.id
         values[USER_ID] = AppData.g().userId
         document.set(values, SetOptions.merge())
@@ -318,6 +324,32 @@ class OrderRepositoryImpl : OrderRepository {
         values[COMPANY_ADDRESS] = userCompany.address
         values[COMPANY_TEX_CODE] = userCompany.texCode
         values[COMPANY_BUSINESS_TYPE] = userCompany.businessType
+        values[USER_ID] = AppData.g().userId
+
+        documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
+            if (it.isSuccessful) {
+                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
+                    return@addOnCompleteListener
+                } else onComplete?.invoke(true)
+            } else {
+                onComplete?.invoke(false)
+            }
+        }
+    }
+
+    override suspend fun addSupplier(
+        supplierCompany: SupplierCompany,
+        onComplete: ((Boolean) -> Unit)?
+    ) {
+        val documentReference = FirebaseFirestore.getInstance().collection(USER_COMPANY_COLLECTION)
+            .document()
+        val values: HashMap<String, String?> = HashMap()
+        values[COMPANY_ID] = documentReference.id
+        values[COMPANY_NAME] = supplierCompany.name
+        values[COMPANY_ADDRESS] = supplierCompany.address
+        values[COMPANY_EMAIL] = supplierCompany.email
+        values[COMPANY_PHONE] = supplierCompany.phone
+        values[COMPANY_BUSINESS_TYPE] = supplierCompany.businessType
         values[USER_ID] = AppData.g().userId
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->

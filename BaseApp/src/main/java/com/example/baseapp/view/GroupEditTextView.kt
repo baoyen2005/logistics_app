@@ -14,12 +14,14 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.app.NotificationCompat.getContentText
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.example.baseapp.R
 import com.example.baseapp.captures.MoneyCapture
 import com.example.baseapp.databinding.LayoutGroupEdittextBinding
+import com.vnpay.merchant.ui.views.AbstractTextWatcher
 
 class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
@@ -161,6 +163,9 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
         }
     }
 
+    fun getTvError(): Textview{
+        return binding.tvError
+    }
     fun setBackground(background: Int) {
         binding.viewParent.setBackgroundResource(background)
     }
@@ -176,6 +181,10 @@ class GroupEditTextView(context: Context, attrs: AttributeSet?) :
     fun enableFocusInput(focusable: Boolean) {
         binding.edtGroupEditTextLayout.isFocusable = focusable
         binding.edtGroupEditTextLayout.isFocusableInTouchMode = focusable
+    }
+
+    fun showClearIcon(isShow: Boolean) {
+        binding.ivClear.isVisible = isShow
     }
 
     fun enableInput(enable: Boolean){
