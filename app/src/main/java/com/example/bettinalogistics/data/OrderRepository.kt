@@ -78,8 +78,6 @@ interface OrderRepository {
     suspend fun updateOrder(order: Order, onComplete: ((Boolean) -> Unit)?)
     suspend fun getUserCompany(onComplete: ((UserCompany?) -> Unit)?)
     suspend fun addUserCompany(userCompany: UserCompany, onComplete: ((Boolean) -> Unit)?)
-    suspend fun addSupplier(supplierCompany: SupplierCompany, onComplete: ((Boolean) -> Unit)?)
-
     suspend fun sendNotiRequest(notification: Notification, onComplete: ((Boolean) -> Unit)?)
     suspend fun sendOtt(ottRequest: OttRequest, onComplete: ((OttResponse?) -> Unit)?)
 }
@@ -324,32 +322,6 @@ class OrderRepositoryImpl : OrderRepository {
         values[COMPANY_ADDRESS] = userCompany.address
         values[COMPANY_TEX_CODE] = userCompany.texCode
         values[COMPANY_BUSINESS_TYPE] = userCompany.businessType
-        values[USER_ID] = AppData.g().userId
-
-        documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
-            if (it.isSuccessful) {
-                if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {
-                    return@addOnCompleteListener
-                } else onComplete?.invoke(true)
-            } else {
-                onComplete?.invoke(false)
-            }
-        }
-    }
-
-    override suspend fun addSupplier(
-        supplierCompany: SupplierCompany,
-        onComplete: ((Boolean) -> Unit)?
-    ) {
-        val documentReference = FirebaseFirestore.getInstance().collection(USER_COMPANY_COLLECTION)
-            .document()
-        val values: HashMap<String, String?> = HashMap()
-        values[COMPANY_ID] = documentReference.id
-        values[COMPANY_NAME] = supplierCompany.name
-        values[COMPANY_ADDRESS] = supplierCompany.address
-        values[COMPANY_EMAIL] = supplierCompany.email
-        values[COMPANY_PHONE] = supplierCompany.phone
-        values[COMPANY_BUSINESS_TYPE] = supplierCompany.businessType
         values[USER_ID] = AppData.g().userId
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->

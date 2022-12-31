@@ -1,6 +1,7 @@
 package com.example.bettinalogistics.data
 
 import android.net.Uri
+import android.util.Log
 import com.example.baseapp.BaseRepository
 import com.example.baseapp.di.Common
 import com.example.bettinalogistics.di.AppData
@@ -67,6 +68,7 @@ class AuthenticationRepositoryImpl : BaseRepository(), AuthenticationRepository 
             .addOnSuccessListener {
                 onComplete?.invoke(true)
             }.addOnFailureListener {
+                Log.d("__login", "login: "+it.message)
                 onComplete?.invoke(false)
             }
     }

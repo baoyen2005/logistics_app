@@ -154,7 +154,7 @@ class AddNewProductActivity : BaseActivity() {
                     companyInfo.onConfirmListener = { company ->
                         showLoading()
                         viewModel.supplierCompany = company
-                        viewModel.addSupplier(company)
+                        viewModel.insertProduct(getProduct())
                     }
                     companyInfo.show(supportFragmentManager, "aaaaaaa")
                 }
@@ -170,14 +170,6 @@ class AddNewProductActivity : BaseActivity() {
                 val i = Intent()
                 i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
                 setResult(RESULT_OK, i)
-            } else {
-                confirm.newBuild().setNotice(getString(R.string.str_add_new_product_tocart_fail))
-            }
-        }
-        viewModel.addSupplierLiveData.observe(this) {
-            if (it) {
-                showLoading()
-                viewModel.insertProduct(getProduct())
             } else {
                 confirm.newBuild().setNotice(getString(R.string.str_add_new_product_tocart_fail))
             }

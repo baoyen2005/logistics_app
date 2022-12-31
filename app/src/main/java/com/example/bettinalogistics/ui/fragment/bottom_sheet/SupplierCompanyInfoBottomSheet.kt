@@ -21,9 +21,8 @@ class SupplierCompanyInfoBottomSheet : BaseBottomSheetFragment() {
             val supplierCompany = SupplierCompany(
                 name = binding.edtCompanyName.getContentText(),
                 address = binding.edtCompanyAddress.getContentText(),
-                email = binding.edtCompanyEmail.getContentText(),
                 phone = binding.edtCompanyPhone.getContentText(),
-                businessType = binding.edtCompanyBusinessType.getContentText()
+                email = binding.edtCompanyEmail.getContentText()
             )
             if (checkValidate()) {
                 onConfirmListener?.invoke(supplierCompany)
@@ -37,7 +36,6 @@ class SupplierCompanyInfoBottomSheet : BaseBottomSheetFragment() {
         val address = binding.edtCompanyAddress.getContentText()
         val phone = binding.edtCompanyPhone.getContentText()
         val email = binding.edtCompanyEmail.getContentText()
-        val businessType = binding.edtCompanyBusinessType.getContentText()
         when {
             name.isEmpty() -> {
                 binding.edtCompanyName.setVisibleMessageError(getString(R.string.invalid_field))
@@ -45,21 +43,17 @@ class SupplierCompanyInfoBottomSheet : BaseBottomSheetFragment() {
             address.isEmpty() -> {
                 binding.edtCompanyAddress.setVisibleMessageError(getString(R.string.invalid_field))
             }
-            email.isEmpty() -> {
-                binding.edtCompanyEmail.setVisibleMessageError(getString(R.string.invalid_field))
-            }
             phone.isEmpty() -> {
                 binding.edtCompanyPhone.setVisibleMessageError(getString(R.string.invalid_field))
             }
-            businessType.isEmpty() -> {
-                binding.edtCompanyBusinessType.setVisibleMessageError(getString(R.string.invalid_field))
+            email.isEmpty() -> {
+                binding.edtCompanyEmail.setVisibleMessageError(getString(R.string.invalid_field))
             }
         }
         return !binding.edtCompanyName.isTvErrorVisible()
                 && !binding.edtCompanyAddress.isTvErrorVisible()
-                && !binding.edtCompanyEmail.isTvErrorVisible()
                 && !binding.edtCompanyPhone.isTvErrorVisible()
-                && !binding.edtCompanyBusinessType.isTvErrorVisible()
+                && !binding.edtCompanyEmail.isTvErrorVisible()
     }
 
     override fun initView() {

@@ -51,13 +51,6 @@ class AddNewProductViewModel(private val orderRepository: OrderRepository) : Bas
         }
     }
 
-    var addSupplierLiveData = MutableLiveData<Boolean>()
-    fun addSupplier(supplierCompany: SupplierCompany) = viewModelScope.launch(Dispatchers.IO) {
-        orderRepository.addSupplier(supplierCompany) {
-            updateProductLiveData.postValue(it)
-        }
-    }
-
     var getAllOrderLiveData = MutableLiveData<List<Order>>()
     fun getAllOrder() = viewModelScope.launch(Dispatchers.IO) {
         orderRepository.getAllOrderTransactions {
