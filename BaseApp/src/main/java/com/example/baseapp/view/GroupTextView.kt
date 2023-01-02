@@ -191,7 +191,13 @@ class GroupTextView: LinearLayout{
         binding.ivIconRight.visibility = isVisible
     }
 
-
+    fun setRightTextClickListener(onSafeClick: (View) -> Unit) {
+        binding.tvRight.setSafeOnClickListener(onSafeClick)
+    }
+    fun clearFocusEdittext(){
+        binding.edtContent.clearFocus()
+        hideKeyboard()
+    }
     fun setBackground(background: Int) {
         binding.rlGroupTv.setBackgroundResource(background)
     }

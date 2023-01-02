@@ -33,6 +33,7 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         const val TYPE_TRANSPORT_ACTIVITY = "typeTransportInConfirmActivity"
         const val METHOD_TRANSPORT_ACTIVITY = "methodTransportInConfirmActivity"
         const val USER_COMPANY_TRANSPORT_ACTIVITY = "userCompanyInConfirmActivity"
+        const val SHIPPER_COMPANY_TRANSPORT_ACTIVITY = "shipperCompanyInConfirmActivity"
 
         fun startConfirmOrderActivity(
             context: Context,
@@ -40,7 +41,8 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
             orderAddress: OrderAddress,
             typeTransport: String,
             methodTransport: String,
-            userCompany: UserCompany?
+            userCompany: UserCompany?,
+            supplierCompany: SupplierCompany?
         ): Intent {
             val intent = Intent(context, ConfirmOrderTransportationActivity::class.java)
             intent.putExtra(PRODUCT_LIST_CONFIRM_ACTIVITY, Utils.g().getJsonFromObject(product))
@@ -51,6 +53,10 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
             intent.putExtra(
                 USER_COMPANY_TRANSPORT_ACTIVITY,
                 Utils.g().getJsonFromObject(userCompany)
+            )
+            intent.putExtra(
+                SHIPPER_COMPANY_TRANSPORT_ACTIVITY,
+                Utils.g().getJsonFromObject(supplierCompany)
             )
             intent.putExtra(TYPE_TRANSPORT_ACTIVITY, typeTransport)
             intent.putExtra(METHOD_TRANSPORT_ACTIVITY, methodTransport)
@@ -81,6 +87,11 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
             Utils.g().getObjectFromJson(
                 intent.getStringExtra(USER_COMPANY_TRANSPORT_ACTIVITY).toString(),
                 UserCompany::class.java
+            )
+        viewModel.supplierCompany =
+            Utils.g().getObjectFromJson(
+                intent.getStringExtra(SHIPPER_COMPANY_TRANSPORT_ACTIVITY).toString(),
+                SupplierCompany::class.java
             )
         viewModel.typeTransport = intent.getStringExtra(TYPE_TRANSPORT_ACTIVITY)
         viewModel.methodTransport = intent.getStringExtra(METHOD_TRANSPORT_ACTIVITY)

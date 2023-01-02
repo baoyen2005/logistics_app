@@ -4,7 +4,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.view.View
 import android.widget.Button
+import androidx.core.view.isVisible
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.EditText
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityLoginBinding
@@ -24,6 +26,9 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initView() {
+        binding.edtLoginInputPassword.onTextChange = {
+            binding.tvLoginPasswordError.isVisible = false
+        }
     }
 
     override fun initListener() {
@@ -48,8 +53,8 @@ class LoginActivity : BaseActivity() {
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 intent.putExtra(CHECK_FORGOT_PASSWORD, viewModel.forgotPassword)
-                intent.putExtra(CHANGED_PASSWORD, binding.edtPasswordLogin.text.toString())
-                intent.putExtra(USER_EMAIL, binding.edtEmailLogin.text.toString())
+                intent.putExtra(CHANGED_PASSWORD, binding.edtLoginInputPassword.getTextEdit())
+                intent.putExtra(USER_EMAIL, binding.edtEmailLogin.getContentText())
                 startActivity(intent)
                 finish()
             }
@@ -71,30 +76,32 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun areFieldReady(): Boolean {
-        val email = binding.edtEmailLogin.text.trim().toString()
-        val password = binding.edtPasswordLogin.text.trim().toString()
+        val email = binding.edtEmailLogin.getContentText()
+        val password = binding.edtLoginInputPassword.getTextEdit()
 
         var view: View? = null
         var flag = false
         when {
             email.isEmpty() -> {
-                binding.edtEmailLogin.error = getString(R.string.invalid_field)
+                binding.edtEmailLogin.setVisibleMessageError(getString(R.string.invalid_field))
+                view = binding.edtEmailLogin
+                flag = true
+            }
+            !UtilsBase.g().isValidEmail(email) -> {
+                binding.edtEmailLogin.setVisibleMessageError(getString(R.string.invalid_email))
                 view = binding.edtEmailLogin
                 flag = true
             }
             password.isEmpty() -> {
-                binding.edtPasswordLogin.error = getString(R.string.invalid_field)
-                view = binding.edtPasswordLogin
+                binding.tvLoginPasswordError.isVisible = true
+                binding.tvLoginPasswordError.text = getString(R.string.invalid_field)
+                view = binding.edtLoginInputPassword
                 flag = true
             }
-            password.length < 8 -> {
-                binding.edtPasswordLogin.error = getString(R.string.invalid_pass)
-                view = binding.edtPasswordLogin
-                flag = true
-            }
-            password.contains(" ") -> {
-                binding.edtPasswordLogin.error = getString(R.string.invalid_pass)
-                view = binding.edtPasswordLogin
+            !UtilsBase.g().verifyPassword(password) -> {
+                binding.tvLoginPasswordError.isVisible = true
+                binding.tvLoginPasswordError.text = getString(R.string.invalid_pass)
+                view = binding.edtLoginInputPassword
                 flag = true
             }
             else -> {

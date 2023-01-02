@@ -36,9 +36,10 @@ class CardRepoImpl : CardRepository{
         values[DataConstant.BANK_NAME] = card.name
         values[DataConstant.CARD_ID] = documentReference.id
         values[DataConstant.ACCOUNT_NUMBER] = card.accountNumber
+        values[DataConstant.ACCOUNT_NAME] = card.accountName
         values[DataConstant.CARD_NUMBER] = card.cardNumber
         values[DataConstant.DARE_OF_EXPIRED] = card.dateOfExpired
-        values[DataConstant.USER] = AppData.g().currentUser
+        values[DataConstant.USER_ID] = AppData.g().userId
         documentReference.set(values, SetOptions.merge())
             .addOnSuccessListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {

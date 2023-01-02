@@ -29,62 +29,73 @@
         android:textColor="@color/merchant_color_4a4a4a"
         android:textSize="16sp" />
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtCompanyName"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_20dp"
-        android:paddingHorizontal="@dimen/_12dp"
-        app:gr_hint="@string/str_enter_company_name"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"
-        />
+        android:layout_height="wrap_content">
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtCompanyAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_20dp"
-        android:paddingHorizontal="@dimen/_12dp"
-        app:gr_hint="@string/str_enter_company_address"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"
-       />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtCompanyTexCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_20dp"
-        android:paddingHorizontal="@dimen/_12dp"
-        app:gr_hint="@string/str_enter_company_tex_code"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"
-        />
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:paddingHorizontal="@dimen/_12dp"
+                app:gr_hint="@string/str_enter_company_name"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_enter_company_name" />
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtCompanyBusinessType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_20dp"
-        android:paddingHorizontal="@dimen/_12dp"
-        app:gr_hint="@string/str_enter_company_business_type"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"
-        />
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtCompanyAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:paddingHorizontal="@dimen/_12dp"
+                app:gr_hint="@string/str_enter_company_address"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_enter_company_address" />
 
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtCompanyTexCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:paddingHorizontal="@dimen/_12dp"
+                app:gr_hint="@string/str_enter_company_tex_code"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_enter_company_tex_code" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtCompanyBusinessType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:paddingHorizontal="@dimen/_12dp"
+                app:gr_hint="@string/str_enter_company_business_type"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_enter_company_business_type" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
     <Button
         android:id="@+id/btnCustomerInforContinued"
         android:layout_width="match_parent"

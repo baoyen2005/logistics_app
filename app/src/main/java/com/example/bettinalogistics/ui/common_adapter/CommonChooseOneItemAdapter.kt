@@ -9,14 +9,15 @@ import com.example.baseapp.BaseVHData
 import com.example.baseapp.view.Textview
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
+import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.TypeCommonEntity
 
-class CommonChooseOneItemAdapter(
-    val listener: (TypeCommonEntity) -> Unit
-) :
+class CommonChooseOneItemAdapter() :
     BaseRclvAdapter(), Filterable {
     private val listFilter = mutableListOf<CommonContactVHData>()
+    var onResultSearch: ((Int) -> Unit)? =null
 
+    var listener: ((CommonEntity) -> Unit)? =null
     override fun getLayoutResource(viewType: Int): Int {
         return R.layout.item_service_contact
     }
@@ -51,7 +52,7 @@ class CommonChooseOneItemAdapter(
                 if (position > -1){
                     val data = listFilter[position]
                     data.realData?.let {
-                        listener.invoke(it as TypeCommonEntity)
+                        listener?.invoke(it as CommonEntity)
                     }
                 }
             }

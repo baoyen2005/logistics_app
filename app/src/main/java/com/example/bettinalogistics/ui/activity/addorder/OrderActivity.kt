@@ -12,6 +12,7 @@ import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActiv
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.ADD_NEW_PRODUCT
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.IS_EDIT
 import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity.Companion.PRODUCT_EDIT
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.SupplierCompanyInfoBottomSheet
 import com.example.bettinalogistics.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -59,12 +60,18 @@ class OrderActivity : BaseActivity() {
                     resultLauncher.launch(intent)
                 }
             } else {
-                resultLauncherAddAddress.launch(
-                    AddAddressTransactionActivity.startAddAddressTransactionActivity(
-                        this,
-                        viewModel.productList
+                val companyInfo = SupplierCompanyInfoBottomSheet()
+                companyInfo.onConfirmListener = { company ->
+                    viewModel.supplierCompany = company
+                    resultLauncherAddAddress.launch(
+                        AddAddressTransactionActivity.startAddAddressTransactionActivity(
+                            this,
+                            viewModel.productList,
+                            company
+                        )
                     )
-                )
+                }
+                companyInfo.show(supportFragmentManager, "aaaaaaa")
             }
         }
         addOrderAdapter.itemExpandOnClick = { product, position, view ->

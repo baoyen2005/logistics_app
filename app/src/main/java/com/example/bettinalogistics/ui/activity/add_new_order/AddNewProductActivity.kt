@@ -92,7 +92,6 @@ class AddNewProductActivity : BaseActivity() {
     }
 
     override fun initListener() {
-
         binding.tvUriNewImageProduct.setOnClickListener {
             pickImage()
         }
@@ -150,13 +149,8 @@ class AddNewProductActivity : BaseActivity() {
                 if (viewModel.isEdit) {
                     viewModel.updateProduct(product)
                 } else {
-                    val companyInfo = SupplierCompanyInfoBottomSheet()
-                    companyInfo.onConfirmListener = { company ->
-                        showLoading()
-                        viewModel.supplierCompany = company
-                        viewModel.insertProduct(getProduct())
-                    }
-                    companyInfo.show(supportFragmentManager, "aaaaaaa")
+                    showLoading()
+                    viewModel.insertProduct(getProduct())
                 }
             }
         }
@@ -170,6 +164,7 @@ class AddNewProductActivity : BaseActivity() {
                 val i = Intent()
                 i.putExtra(ADD_NEW_PRODUCT, Utils.g().getJsonFromObject(product))
                 setResult(RESULT_OK, i)
+                finish()
             } else {
                 confirm.newBuild().setNotice(getString(R.string.str_add_new_product_tocart_fail))
             }
@@ -220,7 +215,6 @@ class AddNewProductActivity : BaseActivity() {
                 isOrderLCL = viewModel.isLCL,
                 type = viewModel.orderType,
                 contType = viewModel.contType,
-                supplierCompany = viewModel.supplierCompany
             )
         return product
     }

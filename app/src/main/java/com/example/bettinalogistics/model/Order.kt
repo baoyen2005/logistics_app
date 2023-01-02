@@ -18,13 +18,14 @@ data class Order(
     var amountAfterDiscount: Double? = null,
     var typeTransportation: String? = null,
     var methodTransport: String? = null,
-    var user: User? = null
+    var user: User? = null,
+    var supplierCompany: SupplierCompany? = null
 )
 
 data class ConfirmOrder(
     var transportType: String?,
     var transportMethod: String?,
     var product: Product?,
-    var amount: Int?,
+    var amount: Long?,
     var status: String = DataConstant.ORDER_STATUS_PENDING,
 )

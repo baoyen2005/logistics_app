@@ -27,7 +27,16 @@ class CommonEntity {
     private var objData: Any? = null
     var data: Double = 0.0
     var quantity : Double = 0.0
+    private var idString: String = ""
 
+    fun setIdString(id: String): CommonEntity {
+        this.idString = id
+        return this
+    }
+
+    fun getIdString(): String {
+        return idString
+    }
     fun setIsSpace(isSpace: Boolean): CommonEntity {
         this.isSpace = isSpace
         return this

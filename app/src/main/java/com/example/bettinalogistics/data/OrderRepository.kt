@@ -97,7 +97,6 @@ class OrderRepositoryImpl : OrderRepository {
         values[PRODUCT_TYPE] = product.type
         values[PRODUCT_CONT_TYPE] = product.contType
         values[PRODUCT_ID] = product.productId
-        values[PRODUCT_SUPPLIER] = product.supplierCompany
         values[PRODUCT_DOCUMENT_ID] = document.id
         values[USER_ID] = AppData.g().userId
         document.set(values, SetOptions.merge())
@@ -261,6 +260,7 @@ class OrderRepositoryImpl : OrderRepository {
         values[USER_ID] = AppData.g().userId
         values[ORDER_ID] = documentReference.id
         values[ORDER_ID] = documentReference.id
+        values[PRODUCT_SUPPLIER] = order.supplierCompany
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {

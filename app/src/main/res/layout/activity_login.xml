@@ -59,124 +59,65 @@
                android:textColor="@color/white"
                android:textSize="@dimen/_24sp"
                android:fontFamily="@font/ssp_semi_bold"
-               app:layout_constraintBottom_toTopOf="@id/linear_email_login"
+               app:layout_constraintBottom_toTopOf="@id/edtEmailLogin"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintTop_toTopOf="parent" />
 
-           <LinearLayout
-               android:id="@+id/linear_email_login"
+           <com.example.baseapp.view.GroupTextView
+               android:id="@+id/edtEmailLogin"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_marginStart="@dimen/_15dp"
-               android:layout_marginTop="@dimen/_20dp"
-               android:layout_marginEnd="@dimen/_15dp"
-               android:background="@drawable/custom_background_linear_email"
-               android:orientation="horizontal"
-               android:padding="@dimen/_10dp"
-               app:layout_constraintBottom_toTopOf="@id/linear_password_login"
+               app:gr_hint="@string/email"
+               app:gr_hint_text_color="@color/color_text_8"
+               app:gr_is_show_clear_text="true"
+               app:gr_left_icon="@drawable/ic_baseline_email_24"
+               app:gr_text_color="@color/black"
+               app:gr_text_size="@dimen/_16sp"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintRight_toRightOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/txtTitleLogin">
+               app:layout_constraintTop_toBottomOf="@id/txtTitleLogin" />
 
-               <LinearLayout
-                   android:layout_width="@dimen/_40dp"
-                   android:layout_height="@dimen/_40dp"
-                   android:background="@drawable/custom_background_img_view"
-                   android:gravity="center"
-                   android:orientation="horizontal"
-                   android:padding="@dimen/_10dp">
-
-                   <ImageView
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:layout_gravity="center"
-                       android:contentDescription="@string/app_name"
-                       android:src="@drawable/ic_baseline_email_24" />
-               </LinearLayout>
-
-               <EditText
-                   android:id="@+id/edtEmailLogin"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:layout_gravity="center"
-                   android:background="@drawable/custom_background_edt_email"
-                   android:hint="@string/email"
-                   android:fontFamily="@font/ssp_semi_regular"
-                   android:inputType="textEmailAddress"
-                   android:padding="@dimen/_10dp"
-                   android:textColor="@color/black"
-                   android:textColorHint="@color/tertiary_gray"
-                   android:textSize="@dimen/_16sp" />
-           </LinearLayout>
-
-           <LinearLayout
-               android:id="@+id/linear_password_login"
+           <com.example.bettinalogistics.ui.EditTextRound
+               android:id="@+id/edtLoginInputPassword"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_marginStart="@dimen/_15dp"
                android:layout_marginTop="@dimen/_15dp"
-               android:layout_marginEnd="@dimen/_15dp"
-               android:background="@drawable/custom_background_linear_email"
-               android:orientation="horizontal"
-               android:padding="@dimen/_10dp"
-               app:layout_constraintBottom_toTopOf="@id/txt_forgot_pass_login"
+               android:layout_marginHorizontal="@dimen/_15dp"
+               android:background="@drawable/shape_merchant_color_f8f8f9_corner_12"
+               android:hint="@string/password"
+               app:maxLength="50"
+               android:inputType="textPassword"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintRight_toRightOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/linear_email_login">
+               app:layout_constraintTop_toBottomOf="@id/edtEmailLogin"
+               app:srcIconLeft="@drawable/ic_baseline_lock_24" />
 
-               <LinearLayout
-                   android:layout_width="@dimen/_40dp"
-                   android:layout_height="@dimen/_40dp"
-                   android:background="@drawable/custom_background_img_view"
-                   android:gravity="center"
-                   android:orientation="horizontal"
-                   android:padding="@dimen/_10dp">
-
-                   <ImageView
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:layout_gravity="center"
-                       android:contentDescription="@string/app_name"
-                       android:src="@drawable/ic_baseline_lock_24" />
-               </LinearLayout>
-
-               <EditText
-                   android:id="@+id/edtPasswordLogin"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:layout_gravity="center"
-                   android:background="@drawable/custom_background_edt_email"
-                   android:hint="@string/password"
-                   android:fontFamily="@font/ssp_semi_regular"
-                   android:inputType="textPassword"
-                   android:padding="@dimen/_10dp"
-                   android:textColor="@color/black"
-                   android:textColorHint="@color/tertiary_gray"
-                   android:textSize="@dimen/_16sp" />
-           </LinearLayout>
-
-           <ImageView
-               android:id="@+id/img_show_password_login"
-               android:layout_width="wrap_content"
+           <com.example.baseapp.view.Textview
+               android:id="@+id/tvLoginPasswordError"
+               android:layout_width="0dp"
                android:layout_height="wrap_content"
-               android:layout_marginEnd="@dimen/_30dp"
-               android:contentDescription="@string/app_name"
-               android:src="@drawable/ic_baseline_remove_red_eye_24"
-               app:layout_constraintBottom_toBottomOf="@id/linear_password_login"
-               app:layout_constraintRight_toRightOf="@id/linear_password_login"
-               app:layout_constraintTop_toTopOf="@id/linear_password_login" />
+               android:layout_marginHorizontal="@dimen/_15dp"
+               android:layout_marginTop="8dp"
+               android:layout_marginEnd="@dimen/_20dp"
+               android:textColor="@color/merchant_color_ea5b5b"
+               android:textSize="@dimen/_14sp"
+               app:cusfont="Bold"
+               app:layout_constraintLeft_toLeftOf="parent"
+               app:layout_constraintRight_toLeftOf="@+id/txt_forgot_pass_login"
+               app:layout_constraintTop_toBottomOf="@id/edtLoginInputPassword" />
 
            <com.example.baseapp.view.Textview
                android:id="@+id/txt_forgot_pass_login"
                android:layout_width="wrap_content"
-               android:layout_height="0dp"
+               android:layout_height="wrap_content"
                android:layout_marginTop="@dimen/_10dp"
                android:text="@string/forgot_password"
                android:fontFamily="@font/ssp_semi_bold"
                android:textColor="@color/white"
-               android:textSize="@dimen/_12sp"
-               app:layout_constraintRight_toRightOf="@id/linear_password_login"
-               app:layout_constraintTop_toBottomOf="@id/linear_password_login" />
+               android:layout_marginEnd="@dimen/_15dp"
+               android:textSize="@dimen/_14sp"
+               app:layout_constraintRight_toRightOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/tvLoginPasswordError" />
 
            <Button
                android:id="@+id/btnLogin"

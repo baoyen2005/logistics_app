@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -80,98 +79,53 @@
                         android:src="@drawable/ic_baseline_add_a_photo_24" />
                 </androidx.cardview.widget.CardView>
 
-                <LinearLayout
-                    android:id="@+id/linear_full_name_signup"
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvSignUpAvatarError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/_20dp"
+                    android:textColor="@color/merchant_color_ea5b5b"
+                    android:textSize="@dimen/_14sp"
+                    android:visibility="gone"
+                    app:cusfont="Bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_img_avt" />
+
+                <com.example.baseapp.view.GroupTextView
+                    android:id="@+id/edtFullNameSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15dp"
+                    android:inputType="textCapWords|textMultiLine"
+                    app:gr_hint="@string/full_name"
                     android:layout_marginTop="@dimen/_20dp"
-                    android:layout_marginEnd="@dimen/_15dp"
-                    android:background="@drawable/custom_background_linear_signup"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10dp"
-                    android:gravity="center"
-                    app:layout_constraintBottom_toTopOf="@id/linear_phone_signup"
+                    app:gr_hint_text_color="@color/color_text_8"
+                    app:gr_is_show_clear_text="true"
+                    app:gr_left_icon="@drawable/ic_baseline_account_box_24"
+                    app:gr_text_color="@color/black"
+                    app:gr_text_size="@dimen/_16sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_img_avt">
+                    app:layout_constraintTop_toBottomOf="@id/tvSignUpAvatarError" />
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_40dp"
-                        android:layout_height="@dimen/_40dp"
-                        android:background="@drawable/custom_background_img_view"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/_10dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_baseline_account_box_24" />
-                    </LinearLayout>
-
-                    <com.example.baseapp.view.EditText
-                        android:id="@+id/edtFullNameSignUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_background_email_signup"
-                        android:hint="@string/full_name"
-                        android:inputType="text"
-                        android:padding="@dimen/_10dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/tertiary_gray"
-                        android:textSize="@dimen/_16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_phone_signup"
+                <com.example.baseapp.view.GroupTextView
+                    android:id="@+id/edtPhoneSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15dp"
+                    android:inputType="number"
+                    app:gr_hint="@string/phone"
                     android:layout_marginTop="@dimen/_15dp"
-                    android:layout_marginEnd="@dimen/_15dp"
-                    android:background="@drawable/custom_background_linear_signup"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10dp"
-                    app:layout_constraintBottom_toTopOf="@id/linear_birthday_signup"
+                    app:gr_hint_text_color="@color/color_text_8"
+                    app:gr_is_show_clear_text="true"
+                    app:gr_left_icon="@drawable/ic_baseline_contact_phone_24"
+                    app:gr_max_length="10"
+                    app:gr_text_color="@color/black"
+                    app:gr_text_size="@dimen/_16sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_full_name_signup">
-
-                    <LinearLayout
-                        android:layout_width="@dimen/_40dp"
-                        android:layout_height="@dimen/_40dp"
-                        android:background="@drawable/custom_background_img_view"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/_10dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_baseline_contact_phone_24" />
-                    </LinearLayout>
-
-                    <com.example.baseapp.view.EditText
-                        android:id="@+id/edtPhoneSignup"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_background_email_signup"
-                        android:hint="@string/phone"
-                        android:inputType="textPhonetic"
-                        android:maxLength="10"
-                        android:padding="@dimen/_10dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/tertiary_gray"
-                        android:textSize="@dimen/_16sp"
-                        tools:ignore="TextFields" />
-                </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@id/edtFullNameSignUp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/linear_birthday_signup"
@@ -183,10 +137,9 @@
                     android:background="@drawable/custom_background_linear_signup"
                     android:gravity="center"
                     android:padding="@dimen/_10dp"
-                    app:layout_constraintBottom_toTopOf="@id/linear_email_signup"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_phone_signup">
+                    app:layout_constraintTop_toBottomOf="@id/edtPhoneSignUp">
 
                     <com.example.baseapp.view.Textview
                         android:id="@+id/tvDateOfBirthSignUp"
@@ -214,138 +167,78 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
-                    android:id="@+id/linear_email_signup"
-                    android:layout_width="match_parent"
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvSignUpDateOfBirthError"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15dp"
-                    android:layout_marginTop="@dimen/_20dp"
-                    android:layout_marginEnd="@dimen/_15dp"
-                    android:background="@drawable/custom_background_linear_signup"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10dp"
-                    app:layout_constraintBottom_toTopOf="@id/linear_password_signup"
+                    android:layout_marginHorizontal="@dimen/_15dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/merchant_color_ea5b5b"
+                    android:textSize="@dimen/_14sp"
+                    android:visibility="gone"
+                    app:cusfont="Bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_birthday_signup">
+                    app:layout_constraintTop_toBottomOf="@id/linear_birthday_signup" />
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_40dp"
-                        android:layout_height="@dimen/_40dp"
-                        android:background="@drawable/custom_background_img_view"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/_10dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_baseline_email_24" />
-                    </LinearLayout>
-
-                    <com.example.baseapp.view.EditText
-                        android:id="@+id/edtEmailSignUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_background_email_signup"
-                        android:hint="@string/email"
-                        android:inputType="textEmailAddress"
-                        android:padding="@dimen/_10dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/tertiary_gray"
-                        android:textSize="@dimen/_16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_password_signup"
+                <com.example.baseapp.view.GroupTextView
+                    android:id="@+id/edtEmailSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15dp"
                     android:layout_marginTop="@dimen/_15dp"
-                    android:layout_marginEnd="@dimen/_15dp"
-                    android:background="@drawable/custom_background_linear_signup"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10dp"
+                    app:gr_hint="@string/email"
+                    app:gr_hint_text_color="@color/color_text_8"
+                    app:gr_is_show_clear_text="true"
+                    app:gr_left_icon="@drawable/ic_baseline_email_24"
+                    app:gr_text_color="@color/black"
+                    app:gr_text_size="@dimen/_16sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_email_signup">
+                    app:layout_constraintTop_toBottomOf="@id/tvSignUpDateOfBirthError" />
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_40dp"
-                        android:layout_height="@dimen/_40dp"
-                        android:background="@drawable/custom_background_img_view"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/_10dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_baseline_lock_24" />
-                    </LinearLayout>
-                    <com.example.baseapp.view.EditText
-                        android:id="@+id/edtPasswordSignup"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_background_email_signup"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        android:padding="@dimen/_10dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/tertiary_gray"
-                        app:passwordToggleEnabled="true"
-                        android:textSize="@dimen/_16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_address_signup"
+                <com.example.bettinalogistics.ui.EditTextRound
+                    android:id="@+id/edtPasswordSignup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15dp"
+                    android:layout_marginHorizontal="@dimen/_15dp"
                     android:layout_marginTop="@dimen/_20dp"
-                    android:layout_marginEnd="@dimen/_15dp"
-                    android:background="@drawable/custom_background_linear_signup"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_10dp"
+                    android:background="@drawable/shape_merchant_color_f8f8f9_corner_12"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_password_signup">
+                    app:layout_constraintTop_toBottomOf="@id/edtEmailSignUp"
+                    app:maxLength="50"
+                    app:srcIconLeft="@drawable/ic_baseline_lock_24" />
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_40dp"
-                        android:layout_height="@dimen/_40dp"
-                        android:background="@drawable/custom_background_img_view"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/_10dp">
+                <com.example.baseapp.view.Textview
+                    android:id="@+id/tvSignUpPasswordError"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/_20dp"
+                    android:textColor="@color/merchant_color_ea5b5b"
+                    android:textSize="@dimen/_14sp"
+                    android:visibility="gone"
+                    app:cusfont="Bold"
+                    app:layout_constraintBottom_toTopOf="@id/edtAddressSignUp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edtPasswordSignup" />
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_baseline_home_24" />
-                    </LinearLayout>
-
-                    <com.example.baseapp.view.EditText
-                        android:id="@+id/edtAddressSignUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_background_email_signup"
-                        android:hint="@string/address"
-                        android:inputType="textEmailAddress"
-                        android:padding="@dimen/_10dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/tertiary_gray"
-                        android:textSize="@dimen/_16sp" />
-                </LinearLayout>
+                <com.example.baseapp.view.GroupTextView
+                    android:id="@+id/edtAddressSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    app:gr_hint="@string/address"
+                    app:gr_hint_text_color="@color/color_text_8"
+                    app:gr_is_show_clear_text="true"
+                    app:gr_left_icon="@drawable/ic_baseline_home_24"
+                    app:gr_text_color="@color/black"
+                    app:gr_text_size="@dimen/_16sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSignUpPasswordError" />
 
                 <Button
                     android:id="@+id/btnSignup"
@@ -359,9 +252,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_address_signup" />
+                    app:layout_constraintTop_toBottomOf="@id/edtAddressSignUp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

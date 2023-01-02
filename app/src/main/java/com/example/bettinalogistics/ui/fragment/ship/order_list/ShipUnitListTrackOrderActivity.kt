@@ -6,17 +6,14 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.view.isVisible
 import com.example.baseapp.BaseActivity
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityShipUnitListTrackOrderBinding
-import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.enums.NotiToDataEnum
 import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OttRequest
 import com.example.bettinalogistics.model.Track
-import com.example.bettinalogistics.ui.activity.add_new_order.AddNewProductActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.UpdateTrackOrderBottomSheet
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
@@ -25,7 +22,6 @@ import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ShipUnitListTrackOrderActivity : BaseActivity() {
     companion object {
@@ -62,8 +58,11 @@ class ShipUnitListTrackOrderActivity : BaseActivity() {
         binding.tvDetailOrderOriginAddress.text = order?.address?.originAddress ?: ""
         binding.tvDetailOrderDestinationAddress.text = order?.address?.destinationAddress ?: ""
         binding.tvDetailStatusOrder.text = order?.statusOrder ?: ""
-        binding.tvDetailOrderCustomerName.text = order?.company?.name ?:""
-        binding.tvDetailOrderCustomerPhone.text = order?.user?.phone ?:""
+        binding.tvDetailOrderCustomerName.text = order?.company?.name ?: ""
+        binding.tvDetailOrderCustomerPhone.text = order?.user?.phone ?: ""
+        binding.tvDetailOrderShipperName.text = order?.supplierCompany?.name ?: ""
+        binding.tvDetailOrderShipperPhone.text = order?.supplierCompany?.phone ?: ""
+        binding.tvDetailOrderTypeTransport.text = order?.typeTransportation ?: ""
         binding.rvListTrackOrder.adapter = trackListOrderAdapter
         when (order?.statusOrder) {
             DataConstant.ORDER_STATUS_DELIVERING -> {
@@ -71,7 +70,7 @@ class ShipUnitListTrackOrderActivity : BaseActivity() {
                 binding.btnAddNewTrack.visibility = View.VISIBLE
                 binding.btnUpdateDelivered.visibility = View.VISIBLE
             }
-            DataConstant.ORDER_STATUS_DELIVERED ->{
+            DataConstant.ORDER_STATUS_DELIVERED -> {
                 binding.btnAddNewTrack.visibility = View.GONE
                 binding.btnUpdateDelivered.visibility = View.GONE
             }

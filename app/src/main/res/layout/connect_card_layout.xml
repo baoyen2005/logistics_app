@@ -17,53 +17,77 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.baseapp.view.Textview
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15dp"
-        android:layout_marginTop="@dimen/_24dp"
-        android:fontFamily="@font/ssp_bold"
-        android:gravity="center"
-        android:text="@string/str_connect_card"
-        android:textAllCaps="false"
-        android:textColor="@color/merchant_color_4a4a4a"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content">
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtCardName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_hint="@string/str_bank_name"
-        app:gr_title="@string/str_bank_name"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"/>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtCardNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_hint="@string/str_card_number"
-        app:gr_title="@string/str_card_number"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_hint_text_color="@color/color_text_8"/>
+            <com.example.baseapp.view.Textview
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_24dp"
+                android:fontFamily="@font/ssp_bold"
+                android:gravity="center"
+                android:text="@string/str_connect_card"
+                android:textAllCaps="false"
+                android:textColor="@color/merchant_color_4a4a4a"
+                android:textSize="16sp" />
 
-    <com.example.baseapp.view.GroupTextView
-        android:id="@+id/edtAccountNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20dp"
-        app:gr_hint="@string/str_account_number"
-        app:gr_hint_text_color="@color/color_text_8"
-        app:gr_is_show_clear_text="true"
-        app:gr_text_color="@color/black"
-        app:gr_text_size="@dimen/_16sp"
-        app:gr_title="@string/str_account_number" />
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtCardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                app:gr_hint="@string/str_bank_name"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_right_icon="@drawable/ic_baseline_expand_more_24"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_bank_name" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtAccountName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                app:gr_hint="@string/str_account_name"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_account_name" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                app:gr_hint="@string/str_card_number"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_card_number" />
+
+            <com.example.baseapp.view.GroupTextView
+                android:id="@+id/edtAccountNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                app:gr_hint="@string/str_account_number"
+                app:gr_hint_text_color="@color/color_text_8"
+                app:gr_is_show_clear_text="true"
+                app:gr_text_color="@color/black"
+                app:gr_text_size="@dimen/_16sp"
+                app:gr_title="@string/str_account_number" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 
     <com.example.baseapp.view.Textview
         android:layout_width="wrap_content"

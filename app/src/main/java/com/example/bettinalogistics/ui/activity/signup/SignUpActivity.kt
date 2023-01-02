@@ -3,10 +3,13 @@ package com.example.bettinalogistics.ui.activity.signup
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.text.InputType
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.UtilsBase
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivitySignUpBinding
 import com.example.bettinalogistics.di.AppData
@@ -35,6 +38,15 @@ class SignUpActivity : BaseActivity() {
         if (!appPermissions.isStorageOk(applicationContext)) {
             appPermissions.requestStoragePermission(this)
         }
+        binding.edtPasswordSignup.onTextChange = {
+            binding.tvSignUpPasswordError.isVisible = false
+        }
+        binding.edtFullNameSignUp.setInputType(
+            InputType.TYPE_CLASS_TEXT
+                    or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                    or InputType.TYPE_TEXT_FLAG_CAP_WORDS
+        )
+        binding.edtPhoneSignUp.setInputType(InputType.TYPE_CLASS_NUMBER)
     }
 
     override fun initListener() {
@@ -47,7 +59,6 @@ class SignUpActivity : BaseActivity() {
         }
 
         binding.btnSignup.setOnClickListener {
-            showLoading()
             saveUser()
         }
     }
@@ -98,6 +109,7 @@ class SignUpActivity : BaseActivity() {
             binding.imgAvt.visibility = View.VISIBLE
             binding.imgClickCamera.visibility = View.GONE
             binding.imgAvt.setImageURI(photoUri)
+            binding.tvSignUpAvatarError.isVisible = false
         } else {
             binding.imgAvt.visibility = View.GONE
             binding.imgClickCamera.visibility = View.VISIBLE
@@ -113,6 +125,9 @@ class SignUpActivity : BaseActivity() {
         datePicker.show(supportFragmentManager,"DatePicker")
         datePicker.addOnPositiveButtonClickListener {
             val date = dateToString(Date(it))
+            if (binding.tvSignUpDateOfBirthError.isVisible) {
+                binding.tvSignUpDateOfBirthError.isVisible = false
+            }
             binding.tvDateOfBirthSignUp.text = date
         }
         datePicker.addOnNegativeButtonClickListener {
@@ -121,79 +136,73 @@ class SignUpActivity : BaseActivity() {
     }
 
     private fun areFieldReady(): Boolean {
-        val fullName = binding.edtFullNameSignUp.text?.trim().toString()
-        val phone = binding.edtPhoneSignup.text?.trim().toString()
+        val fullName = binding.edtFullNameSignUp.getContentText()
+        val phone = binding.edtPhoneSignUp.getContentText()
         val dateOfBirth = binding.tvDateOfBirthSignUp.text.trim().toString()
-        val email = binding.edtEmailSignUp.text?.trim().toString()
-        val password = binding.edtPasswordSignup.text?.trim().toString()
-        val address = binding.edtAddressSignUp.text?.trim().toString()
-        var view: View? = null
-        var flag = false
-        when {
-            fullName.isEmpty() -> {
-                binding.edtFullNameSignUp.error = getString(R.string.invalid_field)
-                view = binding.edtFullNameSignUp
-                flag = true
-            }
-            phone.isEmpty() -> {
-                binding.edtPhoneSignup.error = getString(R.string.invalid_field)
-                view = binding.edtPhoneSignup
-                flag = true
-            }
-            dateOfBirth.isEmpty() -> {
-                binding.tvDateOfBirthSignUp.error = getString(R.string.invalid_field)
-                view = binding.tvDateOfBirthSignUp
-                flag = true
-            }
-            email.isEmpty() -> {
-                binding.edtEmailSignUp.error = getString(R.string.invalid_field)
-                view = binding.edtEmailSignUp
-                flag = true
-            }
-            password.isEmpty() -> {
-                binding.edtPasswordSignup.error = getString(R.string.invalid_field)
-                view = binding.edtPasswordSignup
-                flag = true
-            }
-            password.contains(" ") ->{
-                binding.edtPasswordSignup.error = getString(R.string.invalid_pass)
-                view = binding.edtPasswordSignup
-                flag = true
-            }
-            password.length < 8   -> {
-                binding.edtPasswordSignup.error = getString(R.string.invalid_pass)
-                view = binding.edtPasswordSignup
-                flag = true
-            }
-            address.isEmpty() -> {
-                binding.edtAddressSignUp.error = getString(R.string.invalid_field)
-                view = binding.edtAddressSignUp
-                flag = true
-            }
+        val email = binding.edtEmailSignUp.getContentText()
+        val password = binding.edtPasswordSignup.getTextEdit()
+        val address = binding.edtAddressSignUp.getContentText()
+        if (fullName.isEmpty()) {
+            binding.edtFullNameSignUp.setVisibleMessageError(getString(R.string.invalid_field))
         }
-        return if (flag) {
-            view?.requestFocus()
-            false
-        } else
-            true
+        if (phone.isEmpty()) {
+            binding.edtPhoneSignUp.setVisibleMessageError(getString(R.string.invalid_field))
+        } else if (!UtilsBase.g().isValidPhone(phone)) {
+            binding.edtPhoneSignUp.setVisibleMessageError(getString(R.string.invalid_phone))
+        }
+        if (dateOfBirth.isEmpty()) {
+            binding.tvSignUpDateOfBirthError.isVisible = true
+            binding.tvSignUpDateOfBirthError.text = getString(R.string.invalid_field)
+        }
+        if (email.isEmpty()) {
+            binding.edtEmailSignUp.setVisibleMessageError(getString(R.string.invalid_field))
+        } else if (!UtilsBase.g().isValidEmail(email)) {
+            binding.edtEmailSignUp.setVisibleMessageError(getString(R.string.invalid_email))
+        }
+        if (password.isEmpty()) {
+            binding.tvSignUpPasswordError.isVisible = true
+            binding.tvSignUpPasswordError.text = getString(R.string.invalid_field)
+        } else if (!UtilsBase.g().verifyPassword(password)) {
+            binding.tvSignUpPasswordError.isVisible = true
+            binding.tvSignUpPasswordError.text = getString(R.string.invalid_pass)
+        }
+        if (address.isEmpty()) {
+            binding.edtAddressSignUp.setVisibleMessageError(getString(R.string.invalid_field))
+        }
+        if (viewModel.uri == null) {
+            binding.tvSignUpAvatarError.isVisible = true
+            binding.tvSignUpAvatarError.text = getString(R.string.invalid_field)
+        }
+        return !binding.edtEmailSignUp.isTvErrorVisible()
+                && !binding.edtFullNameSignUp.isTvErrorVisible()
+                && !binding.edtPhoneSignUp.isTvErrorVisible()
+                && !binding.edtAddressSignUp.isTvErrorVisible()
+                && !binding.tvSignUpDateOfBirthError.isVisible
+                && !binding.tvSignUpDateOfBirthError.isVisible
+                && !binding.tvSignUpAvatarError.isVisible
     }
 
     private fun saveUser() {
         if (areFieldReady()) {
             val uri = viewModel.uri
-            val fullName = binding.edtFullNameSignUp.text?.trim().toString()
-            val phone = binding.edtPhoneSignup.text?.trim().toString()
+            val fullName = binding.edtFullNameSignUp.getContentText()
+            val phone = binding.edtPhoneSignUp.getContentText()
             val dateOfBirth = binding.tvDateOfBirthSignUp.text.trim().toString()
-            val email = binding.edtEmailSignUp.text?.trim().toString()
-            val password = binding.edtPasswordSignup.text?.trim().toString()
-            val address = binding.edtAddressSignUp.text?.trim().toString()
-            val user = com.example.bettinalogistics.model.User(
-                image = uri.toString(), fullName = fullName,
-                phone = phone, dateOfBirth = dateOfBirth, email = email, password = password,
+            val email = binding.edtEmailSignUp.getContentText()
+            val password = binding.edtPasswordSignup.getTextEdit()
+            val address = binding.edtAddressSignUp.getContentText()
+            val user = User(
+                image = uri.toString(),
+                fullName = fullName,
+                phone = phone,
+                dateOfBirth = dateOfBirth,
+                email = email,
+                password = password,
                 address = address
             )
             viewModel.terminalUser = user
-           viewModel.signUp(user)
+            showLoading()
+            viewModel.signUp(user)
         }
     }
 }

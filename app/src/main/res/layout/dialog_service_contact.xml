@@ -27,6 +27,40 @@
         android:layout_marginTop="20dp"
         app:srcCompat="@drawable/ic_close" />
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llSearchTitle"
+        android:paddingHorizontal="@dimen/_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_alignBottom="@id/edtSearch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        >
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvSearchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cusfont="Bold"
+            android:text="@string/str_result_search"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp" />
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvSearchResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:text="@string/count_search_business_result"
+            android:textColor="@color/merchant_color_737378"
+            android:textSize="@dimen/_14sp"
+            app:cusfont="Bold" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.example.baseapp.view.GroupTextView
         android:id="@+id/edtSearch"
@@ -51,14 +85,14 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <com.example.baseapp.view.Textview
-        android:id="@+id/tvNoData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginEnd="@dimen/dp4"
-        android:gravity="center"
-        android:text="Không dữ liệu"
-        android:textSize="14sp"
-        app:cusfont="Bold" />
+    <include
+    android:id="@+id/searchServiceContactEmpty"
+    layout="@layout/empty_search_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/llSearchTitle" />
 </RelativeLayout>

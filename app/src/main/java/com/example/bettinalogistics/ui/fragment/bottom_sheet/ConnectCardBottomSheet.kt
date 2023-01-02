@@ -1,59 +1,52 @@
 package com.example.bettinalogistics.ui.fragment.bottom_sheet
 
-import android.app.Dialog
 import android.os.Bundle
-import android.os.Handler
 import android.text.InputType
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import com.example.baseapp.BaseBottomSheetFragment
 import com.example.baseapp.view.safeSubString
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ConnectCardLayoutBinding
 import com.example.bettinalogistics.di.AppData
 import com.example.bettinalogistics.model.Card
+import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.ui.EditTextRound
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 
-class ConnectCardBottomSheet : BottomSheetDialogFragment() {
+class ConnectCardBottomSheet : BaseBottomSheetFragment() {
     var onConfirmListener: ((Card) -> Unit)? = null
     var card: Card? = null
-    var onDeleteListener : (() -> Unit)? = null
+    var nameBankSelected: String? = null
+    var onDeleteListener: (() -> Unit)? = null
+    var chooseBankNameListener: (() -> Unit)? = null
+    var listBankName: List<CommonEntity>? = null
 
-    val binding: ConnectCardLayoutBinding by lazy {
+    override val binding: ConnectCardLayoutBinding by lazy {
         ConnectCardLayoutBinding.inflate(layoutInflater)
     }
+    override val isFocusFullHeight: Boolean = true
+    override val isDraggable: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyleBottomSheet)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        initView()
-        initListener()
-        return binding.root
-    }
 
-    private fun initListener() {
+    override fun initListener() {
+        binding.edtCardName.setBackgroundClickListener {
+            chooseBankNameListener?.invoke()
+        }
         binding.btnCustomerInforContinued.setSafeOnClickListener {
             val card = Card(
                 user = AppData.g().currentUser,
                 name = binding.edtCardName.getContentText(),
                 accountNumber = binding.edtAccountNumber.getContentText(),
+                accountName = binding.edtAccountName.getContentText(),
                 dateOfExpired = binding.edtDateExpired.getTextEdit(),
                 cardNumber = binding.edtCardNumber.getContentText()
             )
@@ -71,6 +64,7 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
         val name = binding.edtCardName.getContentText()
         val cardNumber = binding.edtCardNumber.getContentText()
         val accountNumber = binding.edtAccountNumber.getContentText()
+        val accountName = binding.edtAccountName.getContentText()
         val dateOfExpired = binding.edtDateExpired.getTextEdit()
 
         if (name.isEmpty()) {
@@ -99,6 +93,15 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
             )
         }
 
+        if (accountName.isEmpty()) {
+            binding.edtAccountName.setVisibleMessageError(
+                getString(
+                    R.string.str_empty_input,
+                    getString(R.string.str_account_name)
+                )
+            )
+        }
+
         if (dateOfExpired.isEmpty()) {
             binding.tvDateExpiredError.text = getString(
                 R.string.str_empty_input,
@@ -111,25 +114,30 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
                 && !binding.edtCardNumber.isTvErrorVisible()
                 && !binding.tvDateExpiredError.isVisible
                 && !binding.edtAccountNumber.isTvErrorVisible()
+                && !binding.edtAccountName.isTvErrorVisible()
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.edtCardNumber.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtAccountNumber.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtDateExpired.setInputType(InputType.TYPE_CLASS_NUMBER)
         setTimeForEdittext(binding.edtDateExpired)
+        binding.edtCardName.setEnableEdittext(false)
         binding.btnDeleteCard.isVisible = card != null
+        binding.edtCardName.setValueContent(nameBankSelected ?: "")
         if (card == null) {
             binding.edtCardName.clearContent()
             binding.edtDateExpired.clearText()
             binding.edtCardNumber.clearContent()
             binding.edtAccountNumber.clearContent()
+            binding.edtAccountName.clearContent()
             binding.btnCustomerInforContinued.isVisible = true
         } else {
-            binding.edtCardName.setValueContent(card?.name)
+            binding.edtCardName.setValueContent(card?.name ?: "")
             card?.dateOfExpired?.let { binding.edtDateExpired.setEditText(it) }
-            binding.edtCardNumber.setValueContent(card?.cardNumber)
-            binding.edtAccountNumber.setValueContent(card?.accountNumber)
+            binding.edtCardNumber.setValueContent(card?.cardNumber ?: "")
+            binding.edtAccountNumber.setValueContent(card?.accountNumber ?: "")
+            binding.edtAccountName.setValueContent(card?.accountName ?: "")
             binding.edtCardName.onTextChange = {
                 binding.btnCustomerInforContinued.isVisible = true
             }
@@ -140,31 +148,6 @@ class ConnectCardBottomSheet : BottomSheetDialogFragment() {
                 binding.btnCustomerInforContinued.isVisible = true
             }
         }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.setOnShowListener { dialogInterface ->
-            Handler().postDelayed(Runnable {
-                val bottomSheetDialog = dialogInterface as BottomSheetDialog
-                setupFullHeight(bottomSheetDialog)
-            }, 300L)
-        }
-
-        return dialog
-    }
-
-    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
-        val bottomSheet =
-            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout?
-        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet!!)
-        val layoutParams = bottomSheet.layoutParams
-        val windowHeight = binding.root.height
-        if (layoutParams != null) {
-            layoutParams.height = windowHeight
-        }
-        bottomSheet.layoutParams = layoutParams
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun setTimeForEdittext(edtRound: EditTextRound) {

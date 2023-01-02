@@ -13,7 +13,6 @@ data class Product (
     var isOrderLCL: Boolean = false,
     var type: TypeCommonEntity? = null,
     var contType: TypeCommonEntity? = null,
-    var supplierCompany: SupplierCompany? = null
 )
 
 data class TypeCommonEntity(

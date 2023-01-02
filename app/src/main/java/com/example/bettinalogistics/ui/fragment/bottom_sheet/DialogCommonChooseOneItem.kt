@@ -10,121 +10,103 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import com.example.baseapp.BaseBottomSheetFragment
+import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.DialogServiceContactBinding
 import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.model.TypeCommonEntity
 import com.example.bettinalogistics.ui.common_adapter.CommonChooseOneItemAdapter
+import com.example.bettinalogistics.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class DialogCommonChooseOneItem(
-    val dataList: List<TypeCommonEntity>,
-    val listener: (TypeCommonEntity) -> Unit
-) : BottomSheetDialogFragment() {
+    val dataList: List<CommonEntity>,
+    val listener: (CommonEntity) -> Unit
+) : BaseBottomSheetFragment() {
 
-    val binding : DialogServiceContactBinding by lazy {
+    override val binding : DialogServiceContactBinding by lazy {
         DialogServiceContactBinding.inflate(layoutInflater)
+    }
+    override val isFocusFullHeight: Boolean = true
+
+    private val adapter: CommonChooseOneItemAdapter by lazy {
+        CommonChooseOneItemAdapter()
     }
 
     private var mTitle = ""
+    private var mHint = ""
 
-    private var bottomSheetBehavior: BottomSheetBehavior<*>? = null
-
-    private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyleBottomSheet)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val adapter = CommonChooseOneItemAdapter() {
+    override fun initView() {
+        adapter.listener = {
             listener.invoke(it)
             dismiss()
         }
-        binding.rcvContent.isVisible = !dataList.isNullOrEmpty()
-        binding.tvNoData.isVisible = dataList.isNullOrEmpty()
+        binding.rcvContent.isVisible = dataList.isNotEmpty()
+        binding.searchServiceContactEmpty.root.isVisible = dataList.isEmpty()
         adapter.setData(dataList)
 
         binding.rcvContent.adapter = adapter
 
+        adapter.onResultSearch = {
+            binding.tvSearchResult.text = requireContext().getString(R.string.count_search_business_result, UtilsBase.g().getBeautyNumber(it))
+            binding.llSearchTitle.visibility = View.VISIBLE
+            if (it == 0) {
+                binding.llSearchTitle.isVisible = false
+                binding.rcvContent.isVisible = false
+                binding.searchServiceContactEmpty.root.isVisible = true
+            } else {
+                binding.llSearchTitle.isVisible = true
+                binding.rcvContent.isVisible = true
+                binding.searchServiceContactEmpty.root.isVisible =false
+            }
+        }
+        binding.edtSearch.onClearText = {
+            binding.llSearchTitle.visibility = View.GONE
+            binding.edtSearch.setVisibleRightText(true)
+            binding.rcvContent.isVisible = true
+            binding.searchServiceContactEmpty.root.isVisible = false
+        }
+        binding.edtSearch.setRightTextClickListener {
+            binding.llSearchTitle.visibility = View.GONE
+            binding.edtSearch.clearFocusEdittext()
+            binding.edtSearch.setVisibleRightText(false)
+        }
+        binding.edtSearch.onTextChange = {
+            binding.tvSearchResult.isVisible = !it.isNullOrEmpty()
+            binding.tvSearchTitle.isVisible = !it.isNullOrEmpty()
+            adapter.filter.filter(it)
+        }
+        initTitle()
+
+    }
+
+    override fun initListener() {
         binding.imgClose.setSafeOnClickListener {
             dismiss()
         }
-
-        binding.edtSearch.onTextChange = {
-            adapter.filter.filter(it)
-        }
-
-        initTitle()
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-            dialog.setOnShowListener { d ->
-                bottomSheetBehavior = (d as BottomSheetDialog).behavior
-                bottomSheetBehavior?.apply {
-                    setupFullHeight(d)
-                    bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-                        override fun onSlide(
-                            bottomSheet: View,
-                            slideOffset: Float
-                        ) {
-                        }
-
-                        override fun onStateChanged(
-                            bottomSheet: View,
-                            newState: Int
-                        ) {
-                        }
-                    }
-                    isDraggable = false
-                    addBottomSheetCallback(bottomSheetCallback!!)
-                }
-
-        }
-
-        return dialog
-    }
-
-    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
-        val bottomSheet =
-            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout?
-        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet!!)
-        val layoutParams = bottomSheet.layoutParams
-        val windowHeight = getWindowHeight()
-        if (layoutParams != null) {
-            layoutParams.height = windowHeight
-        }
-        bottomSheet.layoutParams = layoutParams
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-
-    private fun getWindowHeight(): Int {
-        // Calculate window height for fullscreen use
-        val displayMetrics = DisplayMetrics()
-        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        return displayMetrics.heightPixels
     }
 
     private fun initTitle() {
         binding.tvTitle.text = mTitle
+        if(mHint.isEmpty()){
+            binding.edtSearch.setHint(requireContext().getString(R.string.str_search))
+        }
+        else{
+            binding.edtSearch.setHint(hint = mHint)
+        }
     }
 
     fun setTitle(title: String): DialogCommonChooseOneItem{
         mTitle = title
+        return this@DialogCommonChooseOneItem
+    }
+
+    fun setHint(hint: String): DialogCommonChooseOneItem{
+        mHint = hint
         return this@DialogCommonChooseOneItem
     }
 }

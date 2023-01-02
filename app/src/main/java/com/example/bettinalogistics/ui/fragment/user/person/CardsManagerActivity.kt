@@ -6,7 +6,9 @@ import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityCardsManagerBinding
+import com.example.bettinalogistics.model.CommonEntity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.choose_one_item.BottomSheetChooseOneItemFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CardsManagerActivity : BaseActivity() {
@@ -29,11 +31,24 @@ class CardsManagerActivity : BaseActivity() {
         binding.headerCard.ivHeaderBack.setOnClickListener {
             finish()
         }
-        cardAdapter.onItemClickListener = {
+        cardAdapter.onItemClickListener = {card->
             val cardBottomSheet = ConnectCardBottomSheet()
-            cardBottomSheet.card = it
+            cardBottomSheet.card = card
+            val selectedBank = viewModel.getListBank().find { it.title == card.name }
+            cardBottomSheet.chooseBankNameListener = {
+                if (selectedBank != null) {
+                    BottomSheetChooseOneItemFragment()
+                        .setTitle(getString(R.string.choose_bank_name))
+                        .setData(viewModel.getListBank(), selectedBank)
+                        .setListener { any ->
+                            val serviceType = any as CommonEntity
+                            viewModel.bankNameSelected = serviceType
+                            cardBottomSheet.nameBankSelected = serviceType.title
+                        }.show(supportFragmentManager, "bSChooseOneItemFragment")
+                }
+            }
             cardBottomSheet.onDeleteListener = {
-                viewModel.deleteCard(it)
+                viewModel.deleteCard(card)
             }
             cardBottomSheet.onConfirmListener = {
                 viewModel.updateCard(it)
@@ -58,6 +73,18 @@ class CardsManagerActivity : BaseActivity() {
         binding.tvAddCard.setSafeOnClickListener {
             val cardBottomSheet = ConnectCardBottomSheet()
             cardBottomSheet.card = null
+            cardBottomSheet.chooseBankNameListener = {
+                viewModel.bankNameSelected?.let { it1 ->
+                    BottomSheetChooseOneItemFragment()
+                        .setTitle(getString(R.string.choose_bank_name))
+                        .setData(viewModel.getListBank(), it1)
+                        .setListener { any ->
+                            val serviceType = any as CommonEntity
+                            viewModel.bankNameSelected = serviceType
+                            cardBottomSheet.nameBankSelected = serviceType.title
+                        }.show(supportFragmentManager, "bSChooseOneItemFragment")
+                }
+            }
             cardBottomSheet.onConfirmListener = {
                 viewModel.addCard(it)
             }

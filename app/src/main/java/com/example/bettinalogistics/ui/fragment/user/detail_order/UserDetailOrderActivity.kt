@@ -17,12 +17,14 @@ import com.example.bettinalogistics.model.Notification
 import com.example.bettinalogistics.model.Order
 import com.example.bettinalogistics.model.OttRequest
 import com.example.bettinalogistics.model.Payment
+import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConfirmBottomSheetFragment
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.ConnectCardBottomSheet
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.PaymentOrderBottomSheet
 import com.example.bettinalogistics.utils.AppConstant.Companion.TAG
 import com.example.bettinalogistics.utils.DataConstant
 import com.example.bettinalogistics.utils.Utils
 import com.example.bettinalogistics.utils.Utils_Date
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -85,7 +87,7 @@ class UserDetailOrderActivity : BaseActivity() {
         }
         binding.btnUserPayment.isVisible =
             (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
-                    && order?.statusOrder != DataConstant.ORDER_STATUS_PENDING)
+                    && order.statusOrder != DataConstant.ORDER_STATUS_PENDING)
 
         binding.btnViewBill.isVisible = order?.statusOrder == DataConstant.ORDER_STATUS_PAYMENT_PAID
 
@@ -135,10 +137,18 @@ class UserDetailOrderActivity : BaseActivity() {
             finish()
         }
         binding.btnCancel.setOnClickListener {
-            showLoading()
-            val order = viewModel.order
-            order?.statusOrder = DataConstant.ORDER_STATUS_CANCEL
-            order?.let { it1 -> viewModel.cancelOder(it1) }
+            val confirmBottomSheetFragment =
+                ConfirmBottomSheetFragment().setTitle(getString(R.string.str_cancel_order)).setContent(getString(R.string.str_confirm_cancel_order))
+            confirmBottomSheetFragment.setConfirmListener {
+                showLoading()
+                val order = viewModel.order
+                order?.statusOrder = DataConstant.ORDER_STATUS_CANCEL
+                order?.let { it1 -> viewModel.cancelOder(it1) }
+            }
+            confirmBottomSheetFragment.setCancelListener {
+                confirmBottomSheetFragment.dismiss()
+            }
+            confirmBottomSheetFragment.show(supportFragmentManager, "Sss")
         }
         binding.btnUserViewAllTrack.setOnClickListener {
             val intent = viewModel.order?.let { it1 ->

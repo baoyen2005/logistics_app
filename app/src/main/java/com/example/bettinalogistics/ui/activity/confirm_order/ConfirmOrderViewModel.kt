@@ -37,6 +37,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebas
     var addOrderTransactionLiveData = MutableLiveData<Boolean>()
     var customerOrder : Order? = null
     var allTokenList = mutableListOf<TokenOtt>()
+    var supplierCompany: SupplierCompany? = null
 
     fun addOrderTransaction(
         amountBeforeDiscount: Double,
@@ -55,7 +56,8 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebas
                 amountAfterDiscount = amountAfterDiscount,
                 typeTransportation = typeTransport,
                 methodTransport = methodTransport,
-                user = AppData.g().currentUser
+                user = AppData.g().currentUser,
+                supplierCompany = supplierCompany
             )
             customerOrder = order
             Log.d(TAG, "addOrderTransaction: $products")
@@ -290,7 +292,7 @@ class ConfirmOrderViewModel(val orderRepository: OrderRepository, val ottFirebas
         products?.forEach {
             val orderConfirm = ConfirmOrder(
                 transportType = typeTransport, transportMethod = methodTransport,
-                product = it, amount = products?.size ?: 0
+                product = it, amount = it.quantity ?: 0L
             )
             list.add(orderConfirm)
         }

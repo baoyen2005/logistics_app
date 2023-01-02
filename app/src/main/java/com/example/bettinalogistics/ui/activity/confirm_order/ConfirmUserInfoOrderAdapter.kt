@@ -1,6 +1,5 @@
 package com.example.bettinalogistics.ui.activity.confirm_order
 
-import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -55,12 +54,12 @@ class ConfirmUserInfoOrderAdapter : BaseRclvAdapter() {
         private val tvOrderStatusTransactionConfirmItem: TextView = itemView.findViewById(R.id.tvOrderStatusTransactionConfirmItem)
 
         override fun onBind(data: ConfirmOrder) {
-            Glide.with(itemView.context).load(data.product?.imgUri?:"").into(ivOrderImageItem)
-            tvOrderNameConfirmItem.text = data.product?.productName?:""
-            tvOrderTypeTransactionConfirmItem.text = data.transportType?:""
-            tvOrderMethodTransactionConfirmItem.text = data.transportMethod?:""
-            tvOrderQuantityTransactionConfirmItem.text = (data.amount?:"").toString()
-         //   tvOrderNoteConfirmItem.text = data.product?.note?:""
+            Glide.with(itemView.context).load(data.product?.imgUri ?: "").into(ivOrderImageItem)
+            tvOrderNameConfirmItem.text = data.product?.productName ?: ""
+            tvOrderTypeTransactionConfirmItem.text = data.transportType ?: ""
+            tvOrderMethodTransactionConfirmItem.text = data.transportMethod ?: ""
+            tvOrderQuantityTransactionConfirmItem.text = (data.amount ?: "").toString()
+            //   tvOrderNoteConfirmItem.text = data.product?.note?:""
             tvOrderStatusTransactionConfirmItem.text = data.status
         }
     }

@@ -15,6 +15,7 @@ import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityAddAddressTransactionBinding
 import com.example.bettinalogistics.model.OrderAddress
 import com.example.bettinalogistics.model.Product
+import com.example.bettinalogistics.model.SupplierCompany
 import com.example.bettinalogistics.ui.activity.confirm_order.ConfirmOrderTransportationActivity
 import com.example.bettinalogistics.ui.fragment.bottom_sheet.CustomerCompanyInfoBottomSheet
 import com.example.bettinalogistics.utils.DataConstant
@@ -27,9 +28,11 @@ class AddAddressTransactionActivity : BaseActivity() {
     companion object {
         const val NEW_ORDER = "newOrder"
         const val NEW_ADDRESS_ORDER = "newAddressOrder"
-        fun startAddAddressTransactionActivity(context: Context, products: List<Product>): Intent {
+        const val NEW_SUPPLIER_COMPANY_ORDER = "newSupplierCompanyOrder"
+        fun startAddAddressTransactionActivity(context: Context, products: List<Product>, supplierCompany: SupplierCompany?): Intent {
             val intent = Intent(context, AddAddressTransactionActivity::class.java)
             intent.putExtra(NEW_ORDER, Utils.g().getJsonFromObject(products))
+            intent.putExtra(NEW_SUPPLIER_COMPANY_ORDER, Utils.g().getJsonFromObject(supplierCompany))
             return intent
         }
     }
@@ -59,6 +62,9 @@ class AddAddressTransactionActivity : BaseActivity() {
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_infor_order)
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             finish()
+        }
+        viewModel.supplierCompany = Utils.g().getDataString(NEW_SUPPLIER_COMPANY_ORDER)?.let {
+            Utils.g().getObjectFromJson(it, SupplierCompany::class.java)
         }
         viewModel.orderAddress = Utils.g().getDataString(DataConstant.ORDER_ADDRESS)
             ?.let { Utils.g().getObjectFromJson(it, OrderAddress::class.java) }
@@ -222,7 +228,8 @@ class AddAddressTransactionActivity : BaseActivity() {
                             orderAddress = orderAddress,
                             typeTransport = viewModel.typeTransaction ?: "",
                             methodTransport = viewModel.methodTransaction ?: "",
-                            userCompany = it
+                            userCompany = it,
+                            supplierCompany = viewModel.supplierCompany
                         )
                     }
                 })

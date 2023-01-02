@@ -1,5 +1,6 @@
 package com.example.bettinalogistics.ui.fragment.bottom_sheet
 
+import android.text.InputType
 import com.example.baseapp.BaseBottomSheetFragment
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
@@ -57,5 +58,6 @@ class SupplierCompanyInfoBottomSheet : BaseBottomSheetFragment() {
     }
 
     override fun initView() {
+        binding.edtCompanyPhone.setInputType(InputType.TYPE_CLASS_NUMBER)
     }
 }

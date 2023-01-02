@@ -85,6 +85,7 @@ class DataConstant {
         const val BANK_NAME = "name"
         const val CARD_ID = "id"
         const val ACCOUNT_NUMBER = "accountNumber"
+        const val ACCOUNT_NAME = "accountName"
         const val CARD_NUMBER = "cardNumber"
         const val DARE_OF_EXPIRED= "dateOfExpired"
 
