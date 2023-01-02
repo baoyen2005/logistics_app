@@ -320,4 +320,5 @@
     <string name="str_account_name">Tên chủ tài khoản</string>
     <string name="count_search_business_result">%s kết quả</string>
     <string name="choose_bank_name">Chọn tên ngân hàng</string>
+    <string name="result_search">Kết quả tìm kiếm</string>
 </resources>

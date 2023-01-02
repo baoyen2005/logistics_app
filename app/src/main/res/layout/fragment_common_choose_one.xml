@@ -7,7 +7,7 @@
     android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/dp32">
+    android:paddingHorizontal="@dimen/dp15">
 
     <View
         android:id="@+id/view"
@@ -28,6 +28,50 @@
         app:cusfont="Bold"
         />
 
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="15dp"
+        app:gr_hint="@string/str_search"
+        app:gr_is_show_clear_text="true"
+        app:gr_text_color="@color/black"
+        app:gr_text_size="@dimen/_16sp"
+        app:gr_hint_text_color="@color/color_text_8"
+        app:gr_left_icon="@drawable/places_ic_search" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llSearchTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvSearchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cusfont="Bold"
+            android:text="@string/result_search"
+            android:textColor="@color/merchant_color_4a4a4a"
+            android:textSize="@dimen/_16sp" />
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvSearchResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/count_search_business_result"
+            android:textColor="@color/merchant_color_737378"
+            android:textSize="@dimen/_14sp"
+            app:cusfont="Bold" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSelectData"
         android:layout_width="match_parent"
@@ -36,4 +80,11 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
+    <include
+        android:id="@+id/searchServiceContactEmpty"
+        layout="@layout/empty_search_layout"
+        android:layout_marginTop="@dimen/dp32"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </LinearLayout>

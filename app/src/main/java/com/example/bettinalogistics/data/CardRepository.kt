@@ -89,7 +89,7 @@ class CardRepoImpl : CardRepository{
 
     override suspend fun getAllCards(uid: String, onComplete: ((List<Card>?) -> Unit)?) {
         FirebaseFirestore.getInstance().collection(AppConstant.CARD_COLLECTION)
-            .whereEqualTo(DataConstant.USER, AppData.g().currentUser)
+            .whereEqualTo(DataConstant.USER_ID, AppData.g().userId)
             .get()
             .addOnCompleteListener {
                 if (Common.currentActivity!!.isDestroyed || Common.currentActivity!!.isFinishing) {

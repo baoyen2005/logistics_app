@@ -24,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class DialogCommonChooseOneItem(
-    val dataList: List<CommonEntity>,
+    val dataList: List<Any>,
     val listener: (CommonEntity) -> Unit
 ) : BaseBottomSheetFragment() {
 

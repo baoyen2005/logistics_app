@@ -13,7 +13,7 @@
     <com.example.baseapp.view.Textview
         android:id="@+id/tvChooseCommonOneTitleItm"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_24dp"
+        android:layout_height="wrap_content"
         android:drawablePadding="@dimen/dp8"
         android:gravity="center_vertical"
         android:textColor="@color/color_4a4a4a_selected_ffffff"

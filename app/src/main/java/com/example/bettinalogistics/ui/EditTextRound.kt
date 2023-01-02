@@ -325,6 +325,10 @@ class EditTextRound : RelativeLayout {
         binding.edtRound.inputType = type
     }
 
+    fun setVisibleImgShowPassword(isVisible: Boolean){
+        binding.imgShowPassword.isVisible = isVisible
+    }
+
     fun clearFocusEdittext(){
         binding.edtRound.clearFocus()
         hideKeyboard()

@@ -54,7 +54,7 @@ class DialogChooseCard(
             dismiss()
         }
         binding.rcvContent.isVisible = !dataList.isNullOrEmpty()
-        binding.tvNoData.isVisible = dataList.isNullOrEmpty()
+        binding.searchServiceContactEmpty.root.isVisible = dataList.isNullOrEmpty()
         adapter.setData(dataList)
 
         binding.rcvContent.adapter = adapter

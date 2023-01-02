@@ -19,7 +19,7 @@ class UserPersonViewModel(
     var uri: Uri? = null
     var isChangeAvt: Boolean = false
     var company: UserCompany? = null
-    var bankNameSelected: CommonEntity? = null
+    var bankNameSelected: CommonEntity? = CommonEntity()
     var isEdit: Boolean = false
 
     var editUserLiveData = MutableLiveData<Boolean>()
@@ -95,7 +95,6 @@ class UserPersonViewModel(
         val list = ArrayList<CommonEntity>()
         list.add(CommonEntity().setTitle("BIDV - Đầu tư và Phát triển Việt Nam").setIdString("BIDV"))
         list.add(CommonEntity().setTitle("VietinBank - Công thương Việt Nam").setIdString("VietinBank"))
-        list.add(CommonEntity().setTitle("Vietcombank - Ngoại Thương Việt Nam").setIdString("Vietcombank"))
         list.add(CommonEntity().setTitle("Vietcombank - Ngoại Thương Việt Nam").setIdString("Vietcombank"))
         list.add(CommonEntity().setTitle("VPBank - Việt Nam Thịnh Vượng").setIdString("VPBank"))
         list.add(CommonEntity().setTitle("MB - Quân Đội").setIdString("MB"))

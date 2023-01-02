@@ -5,6 +5,7 @@ import android.text.InputType
 import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.MutableLiveData
 import com.example.baseapp.BaseBottomSheetFragment
 import com.example.baseapp.view.safeSubString
 import com.example.baseapp.view.setSafeOnClickListener
@@ -20,7 +21,7 @@ import java.util.*
 class ConnectCardBottomSheet : BaseBottomSheetFragment() {
     var onConfirmListener: ((Card) -> Unit)? = null
     var card: Card? = null
-    var nameBankSelected: String? = null
+    var nameBankSelected= MutableLiveData<String?>()
     var onDeleteListener: (() -> Unit)? = null
     var chooseBankNameListener: (() -> Unit)? = null
     var listBankName: List<CommonEntity>? = null
@@ -57,6 +58,9 @@ class ConnectCardBottomSheet : BaseBottomSheetFragment() {
         }
         binding.btnDeleteCard.setSafeOnClickListener {
             onDeleteListener?.invoke()
+        }
+        nameBankSelected.observe(this ){
+            binding.edtCardName.setValueContent(it ?: "")
         }
     }
 
@@ -121,10 +125,11 @@ class ConnectCardBottomSheet : BaseBottomSheetFragment() {
         binding.edtCardNumber.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtAccountNumber.setInputType(InputType.TYPE_CLASS_NUMBER)
         binding.edtDateExpired.setInputType(InputType.TYPE_CLASS_NUMBER)
+        binding.edtDateExpired.setVisibleImgShowPassword(false)
         setTimeForEdittext(binding.edtDateExpired)
         binding.edtCardName.setEnableEdittext(false)
         binding.btnDeleteCard.isVisible = card != null
-        binding.edtCardName.setValueContent(nameBankSelected ?: "")
+        binding.edtCardName.setValueContent(nameBankSelected.value ?: "")
         if (card == null) {
             binding.edtCardName.clearContent()
             binding.edtDateExpired.clearText()

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/constUserItem"
     android:layout_marginTop="@dimen/_10dp"
+    android:background="@drawable/shape_merchant_color_f8f8f9_corner_12"
     xmlns:tool="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView

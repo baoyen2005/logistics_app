@@ -86,13 +86,13 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <include
-    android:id="@+id/searchServiceContactEmpty"
-    layout="@layout/empty_search_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/llSearchTitle" />
+        android:id="@+id/searchServiceContactEmpty"
+        layout="@layout/empty_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSearchTitle" />
 </RelativeLayout>

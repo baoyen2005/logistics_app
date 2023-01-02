@@ -43,7 +43,7 @@ class CardsManagerActivity : BaseActivity() {
                         .setListener { any ->
                             val serviceType = any as CommonEntity
                             viewModel.bankNameSelected = serviceType
-                            cardBottomSheet.nameBankSelected = serviceType.title
+                            cardBottomSheet.nameBankSelected.postValue(serviceType.title)
                         }.show(supportFragmentManager, "bSChooseOneItemFragment")
                 }
             }
@@ -74,16 +74,14 @@ class CardsManagerActivity : BaseActivity() {
             val cardBottomSheet = ConnectCardBottomSheet()
             cardBottomSheet.card = null
             cardBottomSheet.chooseBankNameListener = {
-                viewModel.bankNameSelected?.let { it1 ->
-                    BottomSheetChooseOneItemFragment()
-                        .setTitle(getString(R.string.choose_bank_name))
-                        .setData(viewModel.getListBank(), it1)
-                        .setListener { any ->
-                            val serviceType = any as CommonEntity
-                            viewModel.bankNameSelected = serviceType
-                            cardBottomSheet.nameBankSelected = serviceType.title
-                        }.show(supportFragmentManager, "bSChooseOneItemFragment")
-                }
+                BottomSheetChooseOneItemFragment()
+                    .setTitle(getString(R.string.choose_bank_name))
+                    .setData(viewModel.getListBank(), viewModel.bankNameSelected ?: "")
+                    .setListener { any ->
+                        val serviceType = any as CommonEntity
+                        viewModel.bankNameSelected = serviceType
+                        cardBottomSheet.nameBankSelected.postValue(serviceType.title)
+                    }.show(supportFragmentManager, "bSChooseOneItemFragment")
             }
             cardBottomSheet.onConfirmListener = {
                 viewModel.addCard(it)
