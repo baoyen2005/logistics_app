@@ -2,6 +2,7 @@ package com.example.bettinalogistics.ui.fragment.bottom_sheet
 
 import android.text.InputType
 import com.example.baseapp.BaseBottomSheetFragment
+import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.SupplierCompanyInfoLayoutBinding
@@ -37,19 +38,19 @@ class SupplierCompanyInfoBottomSheet : BaseBottomSheetFragment() {
         val address = binding.edtCompanyAddress.getContentText()
         val phone = binding.edtCompanyPhone.getContentText()
         val email = binding.edtCompanyEmail.getContentText()
-        when {
-            name.isEmpty() -> {
-                binding.edtCompanyName.setVisibleMessageError(getString(R.string.invalid_field))
-            }
-            address.isEmpty() -> {
-                binding.edtCompanyAddress.setVisibleMessageError(getString(R.string.invalid_field))
-            }
-            phone.isEmpty() -> {
-                binding.edtCompanyPhone.setVisibleMessageError(getString(R.string.invalid_field))
-            }
-            email.isEmpty() -> {
-                binding.edtCompanyEmail.setVisibleMessageError(getString(R.string.invalid_field))
-            }
+        if (name.isEmpty()) {
+            binding.edtCompanyName.setVisibleMessageError(getString(R.string.invalid_field))
+        }
+        if (address.isEmpty()) {
+            binding.edtCompanyAddress.setVisibleMessageError(getString(R.string.invalid_field))
+        }
+        if (phone.isEmpty()) {
+            binding.edtCompanyPhone.setVisibleMessageError(getString(R.string.invalid_field))
+        }
+        if (email.isEmpty()) {
+            binding.edtCompanyEmail.setVisibleMessageError(getString(R.string.invalid_field))
+        } else if (!UtilsBase.g().isValidEmail(email)) {
+            binding.edtCompanyEmail.setVisibleMessageError(getString(R.string.invalid_email))
         }
         return !binding.edtCompanyName.isTvErrorVisible()
                 && !binding.edtCompanyAddress.isTvErrorVisible()

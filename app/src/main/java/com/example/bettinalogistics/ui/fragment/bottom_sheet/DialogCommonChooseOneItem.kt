@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class DialogCommonChooseOneItem(
     val dataList: List<Any>,
-    val listener: (CommonEntity) -> Unit
+    val listener: (Any) -> Unit
 ) : BaseBottomSheetFragment() {
 
     override val binding : DialogServiceContactBinding by lazy {

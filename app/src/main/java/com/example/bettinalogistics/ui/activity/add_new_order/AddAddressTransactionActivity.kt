@@ -58,12 +58,11 @@ class AddAddressTransactionActivity : BaseActivity() {
         viewModel.products = Utils.g().provideGson()
             .fromJson(intent.getStringExtra(NEW_ORDER), object :
                 TypeToken<List<Product>>() {}.type) ?: listOf()
-        Log.d(TAG, "initView: order = ${viewModel.products}")
         binding.layoutHeaderOrder.tvHeaderTitle.text = getString(R.string.str_infor_order)
         binding.layoutHeaderOrder.ivHeaderBack.setOnClickListener {
             finish()
         }
-        viewModel.supplierCompany = Utils.g().getDataString(NEW_SUPPLIER_COMPANY_ORDER)?.let {
+        viewModel.supplierCompany = intent.getStringExtra(NEW_SUPPLIER_COMPANY_ORDER)?.let {
             Utils.g().getObjectFromJson(it, SupplierCompany::class.java)
         }
         viewModel.orderAddress = Utils.g().getDataString(DataConstant.ORDER_ADDRESS)
@@ -302,5 +301,10 @@ class AddAddressTransactionActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hiddenLoading()
     }
 }

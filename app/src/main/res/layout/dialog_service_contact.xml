@@ -74,7 +74,7 @@
         app:gr_text_size="@dimen/_16sp"
         android:layout_marginStart="10dp"
         app:gr_hint_text_color="@color/color_text_8"
-        app:gr_right_icon="@drawable/places_ic_search" />
+        app:gr_left_icon="@drawable/places_ic_search" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvContent"

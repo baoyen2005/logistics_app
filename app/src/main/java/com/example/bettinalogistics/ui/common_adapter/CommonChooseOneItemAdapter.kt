@@ -17,7 +17,7 @@ class CommonChooseOneItemAdapter() :
     private val listFilter = mutableListOf<CommonContactVHData>()
     var onResultSearch: ((Int) -> Unit)? =null
 
-    var listener: ((CommonEntity) -> Unit)? =null
+    var listener: ((Any) -> Unit)? =null
     override fun getLayoutResource(viewType: Int): Int {
         return R.layout.item_service_contact
     }
@@ -52,7 +52,7 @@ class CommonChooseOneItemAdapter() :
                 if (position > -1){
                     val data = listFilter[position]
                     data.realData?.let {
-                        listener?.invoke(it as CommonEntity)
+                        listener?.invoke(it as TypeCommonEntity)
                     }
                 }
             }

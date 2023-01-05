@@ -79,20 +79,26 @@ class ConfirmOrderTransportationActivity : BaseActivity() {
         viewModel.products = Utils.g().provideGson()
             .fromJson(intent.getStringExtra(PRODUCT_LIST_CONFIRM_ACTIVITY), object :
                 TypeToken<List<Product>>() {}.type) ?: listOf()
-        viewModel.orderAddress = Utils.g().getObjectFromJson(
-            intent.getStringExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY).toString(),
-            OrderAddress::class.java
-        )
+        viewModel.orderAddress = intent.getStringExtra(ORDER_ADDRESS_CONFIRM_ACTIVITY)?.let {
+            Utils.g().getObjectFromJson(
+                it,
+                OrderAddress::class.java
+            )
+        }
         viewModel.userCompany =
-            Utils.g().getObjectFromJson(
-                intent.getStringExtra(USER_COMPANY_TRANSPORT_ACTIVITY).toString(),
-                UserCompany::class.java
-            )
+            intent.getStringExtra(USER_COMPANY_TRANSPORT_ACTIVITY)?.let {
+                Utils.g().getObjectFromJson(
+                    it,
+                    UserCompany::class.java
+                )
+            }
         viewModel.supplierCompany =
-            Utils.g().getObjectFromJson(
-                intent.getStringExtra(SHIPPER_COMPANY_TRANSPORT_ACTIVITY).toString(),
-                SupplierCompany::class.java
-            )
+            intent.getStringExtra(SHIPPER_COMPANY_TRANSPORT_ACTIVITY)?.let {
+                Utils.g().getObjectFromJson(
+                    it,
+                    SupplierCompany::class.java
+                )
+            }
         viewModel.typeTransport = intent.getStringExtra(TYPE_TRANSPORT_ACTIVITY)
         viewModel.methodTransport = intent.getStringExtra(METHOD_TRANSPORT_ACTIVITY)
         binding.confirmOrderHeader.tvHeaderTitle.text = getString(R.string.str_confirm_infor)

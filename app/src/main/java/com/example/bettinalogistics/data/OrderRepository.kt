@@ -259,7 +259,6 @@ class OrderRepositoryImpl : OrderRepository {
         values[ORDER_USER] = order.user
         values[USER_ID] = AppData.g().userId
         values[ORDER_ID] = documentReference.id
-        values[ORDER_ID] = documentReference.id
         values[PRODUCT_SUPPLIER] = order.supplierCompany
 
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
