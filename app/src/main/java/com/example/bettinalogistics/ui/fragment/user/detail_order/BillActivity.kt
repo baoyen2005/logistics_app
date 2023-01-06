@@ -1,13 +1,20 @@
 package com.example.bettinalogistics.ui.fragment.user.detail_order
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.print.*
+import android.provider.Settings
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import com.example.baseapp.BaseActivity
+import com.example.baseapp.UtilsBase
 import com.example.baseapp.view.getAmount
+import com.example.baseapp.view.setSafeOnClickListener
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.ActivityBillBinding
 import com.example.bettinalogistics.model.Order
@@ -18,6 +25,10 @@ import java.util.*
 
 class BillActivity : BaseActivity() {
     companion object {
+        var PERMISSIONS = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
         const val BILL_ORDER = "billOrder"
         fun startDetailOrderActivity(context: Context, order: Order): Intent {
             val intent = Intent(context, BillActivity::class.java)
@@ -29,6 +40,7 @@ class BillActivity : BaseActivity() {
         }
     }
 
+    private var printJob: PrintJob? = null
 
     override val binding: ActivityBillBinding by lazy {
         ActivityBillBinding.inflate(layoutInflater)
@@ -47,6 +59,48 @@ class BillActivity : BaseActivity() {
     }
 
     override fun initListener() {
+        binding.headerBill.ivHeaderBack.setSafeOnClickListener {
+            finish()
+        }
+
+        binding.btnPrintBill.setSafeOnClickListener {
+            val printManager = this
+                .getSystemService(PRINT_SERVICE) as PrintManager
+            val jobName = "${getString(R.string.app_name)}_bill_${System.currentTimeMillis()}"
+            val printAdapter: PrintDocumentAdapter =
+                binding.wvBill.createPrintDocumentAdapter(jobName)
+
+            printJob = printManager.print(
+                jobName,
+                printAdapter,
+                PrintAttributes.Builder().build()
+            )
+        }
+        binding.tvBillShare.setSafeOnClickListener {
+            if (!UtilsBase.g().hasPermissions(this, PERMISSIONS)) {
+                providerPermission()
+            } else {
+                val dir =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/MerchantBill/")
+                val fileName = "MerchantBill${System.currentTimeMillis()}.pdf"
+                showLoading()
+                PdfView.createWebPdfJob(
+                    this@BillActivity,
+                    binding.wvBill,
+                    dir,
+                    fileName,
+                    object : PdfView.Callback {
+                        override fun success(path: String) {
+                            hiddenLoading()
+                            PdfView.sharePdfFile(this@BillActivity, path)
+                        }
+
+                        override fun failure() {
+                            hiddenLoading()
+                        }
+                    })
+              }
+        }
     }
 
     override fun observeData() {
@@ -58,6 +112,24 @@ class BillActivity : BaseActivity() {
                 viewModel.payment = it
                 setUpWebview()
             }
+        }
+    }
+
+    private fun providerPermission() {
+        val permission = resources.getString(R.string.permission_storage)
+        confirm.setNotice(
+            resources.getString(
+                R.string.notification_permission,
+                permission
+            )
+        ).addButtonAgree(R.string.agree) {
+            confirm.dismiss()
+            startActivity(Intent().apply {
+                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                data = Uri.fromParts("package", packageName, null)
+            })
+        }.addButtonCancel(R.string.txt_skip) {
+            confirm.dismiss()
         }
     }
 
@@ -99,10 +171,10 @@ class BillActivity : BaseActivity() {
                     viewModel.payment?.id ?: ""
                 )
                 .replaceFirst("[billNo]", "Bill${Date().time}")
-                .replaceFirst("[transactionDate]", viewModel.payment?.datePayment ?: "")
-                .replaceFirst("[customerName]", viewModel.payment?.order?.company?.name ?: "")
-                .replaceFirst("[customerPhone]", viewModel.payment?.user?.phone ?: "")
-                .replaceFirst("[terminalAddress]", viewModel.payment?.order?.company?.address ?: "")
+                .replaceFirst("[datePayment]", viewModel.payment?.datePayment ?: "")
+                .replaceFirst("[companyName]", viewModel.payment?.order?.company?.name ?: "")
+                .replaceFirst("[userPhone]", viewModel.payment?.user?.phone ?: "")
+                .replaceFirst("[companyAddress]", viewModel.payment?.order?.company?.address ?: "")
                 .replaceFirst("[orderId]", viewModel.payment?.order?.orderCode ?: "")
                 .replaceFirst(
                     "[beforeDiscount]",

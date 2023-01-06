@@ -321,4 +321,8 @@
     <string name="count_search_business_result">%s kết quả</string>
     <string name="choose_bank_name">Chọn tên ngân hàng</string>
     <string name="result_search">Kết quả tìm kiếm</string>
+    <string name="notification_permission">Quý khách vui lòng cấp quyền truy cập vào %s cho App để thực hiện chức năng này.</string>
+    <string name="permission_storage">Bộ nhớ</string>
+    <string name="agree">Đồng ý</string>
+    <string name="txt_skip">Bỏ qua</string>
 </resources>

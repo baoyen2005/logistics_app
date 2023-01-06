@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_24dp"
         android:text="@string/str_share"
+        android:visibility="gone"
         android:textColor="@color/merchant_color_004a9c"
         android:textSize="@dimen/_16sp"
         app:layout_constraintBottom_toBottomOf="@id/headerBill"

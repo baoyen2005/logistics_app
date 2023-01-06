@@ -12,12 +12,10 @@ class UserHomeViewModel :BaseViewModel() {
         val list = ArrayList<CommonEntity>()
         val roadTransport = CommonEntity(R.drawable.duongbo, context.getString(R.string.str_road_transport))
         val seaTransport = CommonEntity(R.drawable.duongbien, context.getString(R.string.str_sea_transport))
-        val airTransport = CommonEntity(R.drawable.hangkhong, context.getString(R.string.str_air_transport))
         val lclTransport = CommonEntity(R.drawable.hang_le_lcl, context.getString(R.string.str_lcl))
         val fclTransport = CommonEntity(R.drawable.hang_nguyen_cong_fcl, context.getString(R.string.str_fcl_transport))
         list.add(roadTransport)
         list.add(seaTransport)
-        list.add(airTransport)
         list.add(lclTransport)
         list.add(fclTransport)
         return list

@@ -85,11 +85,9 @@ class UserDetailOrderActivity : BaseActivity() {
         if (order?.statusOrder != DataConstant.ORDER_STATUS_PENDING && order?.statusOrder != DataConstant.ORDER_STATUS_CANCEL) {
             binding.btnUserViewAllTrack.isVisible = true
         }
-        binding.btnUserPayment.isVisible =
-            (order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
-                    && order.statusOrder != DataConstant.ORDER_STATUS_PENDING)
+        binding.btnUserPayment.isVisible = order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
 
-        binding.btnViewBill.isVisible = order?.statusOrder == DataConstant.ORDER_STATUS_PAYMENT_PAID
+        binding.btnViewBill.isVisible = order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_PAID
 
         if (viewModel.listCard.isEmpty() && order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED
             || order?.statusPayment == DataConstant.ORDER_STATUS_PAYMENT_WAITING
