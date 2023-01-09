@@ -30,10 +30,21 @@ class TrackListOrderAdapter : BaseRclvAdapter() {
             itemView.findViewById(R.id.ivShowDetailTracking)
 
         init {
-            ivShowDetailTracking.setSafeOnClickListener {
-                val position = bindingAdapterPosition
-                if (position > -1) {
-                    onShowDetailTrack?.invoke(mDataSet[position] as Track, it)
+            if(!ivShowDetailTracking.isVisible)
+            {
+               itemView.setSafeOnClickListener {
+                   val position = bindingAdapterPosition
+                   if (position > -1) {
+                       onShowDetailTrack?.invoke(mDataSet[position] as Track, it)
+                   }
+               }
+            }
+            else{
+                ivShowDetailTracking.setSafeOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position > -1) {
+                        onShowDetailTrack?.invoke(mDataSet[position] as Track, it)
+                    }
                 }
             }
         }

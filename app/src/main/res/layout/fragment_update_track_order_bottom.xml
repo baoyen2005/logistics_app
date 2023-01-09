@@ -64,6 +64,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edtAddressTrackOrder" />
 
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtShipperName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        app:gr_title="@string/str_nguoi_van_chuyen"
+        app:gr_hint = "@string/str_nguoi_van_chuyen_nhap"
+        app:gr_left_icon="@drawable/ic_transaction_infor"
+        app:gr_is_show_clear_text="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtStatusTrackOrder" />
+
+    <com.example.baseapp.view.GroupTextView
+        android:id="@+id/edtShipperPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        android:layout_marginTop="@dimen/_24dp"
+        app:gr_max_length = "10"
+        app:gr_title="@string/str_nguoi_van_chuyen_sdt"
+        app:gr_hint = "@string/str_nguoi_van_chuyen_nhap_sdt"
+        app:gr_left_icon="@drawable/ic_transaction_infor"
+        app:gr_is_show_clear_text="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtShipperName" />
+
     <com.example.baseapp.view.Textview
         android:id="@+id/btnAddOrUpdateTrackSave"
         android:layout_width="match_parent"
@@ -78,7 +107,7 @@
         android:textColor="@color/merchant_color_ffffff"
         android:textSize="@dimen/_16sp"
         android:fontFamily="@font/ssp_bold"
-        app:layout_constraintTop_toBottomOf="@+id/edtStatusTrackOrder"
+        app:layout_constraintTop_toBottomOf="@+id/edtShipperPhone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

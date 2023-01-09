@@ -96,6 +96,7 @@ class DataConstant {
         const val TRACK_STATUS = "status"
         const val TRACK_DATE_UPDATE = "dateUpdate"
         const val TRACK_ORDER_ID = "orderId"
+        const val TRACK_SHIPPER = "shipper"
 
         //payment
 

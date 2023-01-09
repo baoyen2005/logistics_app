@@ -8,4 +8,5 @@ data class Track(
     var status: String? = null,
     var dateUpdate: String? = null,
     var orderId: String? = null,
+    var shipper: Shipper? = null,
 )

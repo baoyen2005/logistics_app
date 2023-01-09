@@ -71,14 +71,14 @@ class ShipOrderViewModel(
 
     var deleteOrderTrackLiveData = MutableLiveData<Boolean>()
     fun deleteOrderTrack(track: Track) = viewModelScope.launch(Dispatchers.IO) {
-        trackingRepo.updateOrderTrack(track) {
+        trackingRepo.deleteOrderTrack(track) {
             addOrderTrackLiveData.postValue(it)
         }
     }
 
     var updateOrderTrackLiveData = MutableLiveData<Boolean>()
     fun updateOrderTrack(track: Track) = viewModelScope.launch(Dispatchers.IO) {
-        trackingRepo.deleteOrderTrack(track) {
+        trackingRepo.updateOrderTrack(track) {
             addOrderTrackLiveData.postValue(it)
         }
     }

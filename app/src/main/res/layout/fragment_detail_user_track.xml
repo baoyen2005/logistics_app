@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_merchant_color_ffffff_corner_top_24"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dp32">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp32"
+        android:layout_height="@dimen/dp4"
+        android:layout_marginTop="@dimen/dp8"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_merchant_color_999999_corner_12" />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvDetailOrderTrackTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        android:text="@string/str_detail_track"
+        android:layout_gravity="center"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_20sp"
+        app:cusfont="Bold"
+        />
+
+    <com.example.baseapp.view.Textview
+        android:id="@+id/tvDetailOrderTrackSmallTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp8"
+        android:lineSpacingExtra="9.6sp"
+        android:textColor="@color/merchant_color_666666"
+        android:textSize="16sp"
+        app:cusfont="Regular" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llDetailOrderTrackContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        android:orientation="vertical">
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvDetailDateTrack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/merchant_color_666666"
+            android:textSize="16sp"
+            app:cusfont="Regular" />
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvDetailAddressTrack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp12"
+            android:textColor="@color/merchant_color_666666"
+            android:textSize="16sp"
+            app:cusfont="Regular" />
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvDetailStatusTrack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp12"
+            android:textColor="@color/merchant_color_666666"
+            android:textSize="16sp"
+            app:cusfont="Regular" />
+
+        <com.example.baseapp.view.Textview
+            android:id="@+id/tvDetailShipperInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp12"
+            android:textColor="@color/merchant_color_666666"
+            android:textSize="16sp"
+            app:cusfont="Regular" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <com.example.baseapp.view.Textview
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/shape_merchant_color_f8f8f9_corner_16"
+        android:padding="@dimen/_16dp"
+        android:text="@string/str_detail_track_note"
+        android:textColor="@color/merchant_color_4a4a4a"
+        android:textSize="@dimen/_16sp"
+        app:cusfont="Regular" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

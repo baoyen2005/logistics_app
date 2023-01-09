@@ -325,4 +325,15 @@
     <string name="permission_storage">Bộ nhớ</string>
     <string name="agree">Đồng ý</string>
     <string name="txt_skip">Bỏ qua</string>
+    <string name="str_nguoi_van_chuyen">Tên shipper</string>
+    <string name="str_nguoi_van_chuyen_nhap">Nhập tên người vận chuyển</string>
+    <string name="str_nguoi_van_chuyen_sdt">Số điện thoại shipper</string>
+    <string name="str_nguoi_van_chuyen_nhap_sdt">"Nhập số điện thoại "</string>
+    <string name="str_detail_track">Chi tiết lộ trình</string>
+    <string name="str_detail_track_note">Trên đây thông tin chi tiết cho lộ trình đơn hàng. Có bất kỳ thắc mắc gì vui lòng gọi đến số: <b>0369044581</b></string>
+    <string name="str_info_track_for">Thông tin chi tiết lộ trình cho đơn hàng có mã vận đơn %s</string>
+    <string name="str_update_to">Cập nhật tới ngày %s</string>
+    <string name="str_now_address">Hiện tại đơn hàng đang ở %s</string>
+    <string name="str_now_status">Tình trạng đơn hàng: %s</string>
+    <string name="str_shipper_info">Đơn hàng đang được thực hiện giao bởi %s - số điện thoại %s</string>
 </resources>

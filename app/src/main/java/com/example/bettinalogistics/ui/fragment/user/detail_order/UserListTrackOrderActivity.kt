@@ -53,7 +53,6 @@ class UserListTrackOrderActivity : BaseActivity() {
             intent.getStringExtra(LIST_TRACK_ORDER)
                 ?.let { Utils.g().getObjectFromJson(it, Order::class.java) }
         viewModel.order = order
-        binding.btnReview.isVisible = order?.statusOrder == DataConstant.ORDER_STATUS_DELIVERED
         showLoading()
         viewModel.getAllOrderTrack()
         binding.tvDetailOrderCode.text = order?.orderCode ?: ""
@@ -69,6 +68,11 @@ class UserListTrackOrderActivity : BaseActivity() {
     override fun initListener() {
         binding.ivDetailTransactionBack.setOnClickListener {
             finish()
+        }
+        trackListOrderAdapter.onShowDetailTrack = {track, _ ->
+            val detailUserTrackBottomSheetFragment = DetailUserTrackBottomSheetFragment()
+            detailUserTrackBottomSheetFragment.track = track
+            detailUserTrackBottomSheetFragment.show(supportFragmentManager, "ssss")
         }
     }
 

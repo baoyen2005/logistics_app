@@ -3,6 +3,7 @@ package com.example.bettinalogistics.ui.fragment.bottom_sheet
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import com.example.bettinalogistics.R
 import com.example.bettinalogistics.databinding.FragmentUpdateTrackOrderBottomBinding
+import com.example.bettinalogistics.model.Shipper
 import com.example.bettinalogistics.model.Track
 import com.example.bettinalogistics.utils.Utils_Date
 import com.example.bettinalogistics.utils.Utils_Date.DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
@@ -73,7 +75,8 @@ class UpdateTrackOrderBottomSheet : BottomSheetDialogFragment() {
                         dateUpdate = Utils_Date.convertformDate(
                             Date(),
                             DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
-                        )
+                        ),
+                        shipper = Shipper(name = binding.edtShipperName.getContentText(), phone = binding.edtShipperPhone.getContentText())
                     )
                 } else {
                     trackUpdate = Track(
@@ -83,7 +86,8 @@ class UpdateTrackOrderBottomSheet : BottomSheetDialogFragment() {
                         dateUpdate = Utils_Date.convertformDate(
                             Date(),
                             DATE_PATTERN_DD_MM_YYYY_HH_MM_SS
-                        )
+                        ),
+                        shipper = Shipper(name = binding.edtShipperName.getContentText(), phone = binding.edtShipperPhone.getContentText())
                     )
                 }
                 onUpdateOrAddFinish?.invoke(trackUpdate)
@@ -93,12 +97,18 @@ class UpdateTrackOrderBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun initView() {
+        binding.edtShipperPhone.setInputType(InputType.TYPE_CLASS_NUMBER)
+        binding.edtShipperName.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
         if (track == null) {
             binding.edtStatusTrackOrder.clearContent()
             binding.edtAddressTrackOrder.clearContent()
+            binding.edtShipperName.clearContent()
+            binding.edtShipperPhone.clearContent()
         } else {
-            binding.edtStatusTrackOrder.setValueContent(track?.status)
-            binding.edtAddressTrackOrder.setValueContent(track?.address)
+            binding.edtStatusTrackOrder.setValueContent(track?.status ?: "")
+            binding.edtAddressTrackOrder.setValueContent(track?.address ?: "")
+            binding.edtShipperName.setValueContent(track?.shipper?.name ?: "")
+            binding.edtShipperPhone.setValueContent(track?.shipper?.phone ?: "")
         }
     }
 

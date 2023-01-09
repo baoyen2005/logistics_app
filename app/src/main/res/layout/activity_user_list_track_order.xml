@@ -239,7 +239,7 @@
         android:layout_marginBottom="@dimen/_40dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/btnReview"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearDetailTransaction" />
@@ -255,20 +255,5 @@
         app:layout_constraintTop_toBottomOf="@+id/linearDetailTransaction"
         android:layout_marginTop="@dimen/_20dp"
         android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/btnReview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_24dp"
-        android:layout_marginBottom="@dimen/_40dp"
-        android:background="@drawable/shape_merchant_color_004a9c_corner_12"
-        android:text="@string/str_review"
-        android:textAllCaps="false"
-        android:textSize="@dimen/_16sp"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

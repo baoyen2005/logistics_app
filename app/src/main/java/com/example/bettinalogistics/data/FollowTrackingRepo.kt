@@ -79,7 +79,7 @@ class FollowTrackingRepoImpl : FollowTrackingRepo {
     }
 
     override suspend fun addOrderTrack(track: Track, onComplete: ((Boolean) -> Unit)?) {
-        val values: HashMap<String, String?> = HashMap()
+        val values: HashMap<String, Any?> = HashMap()
         val documentReference =
             FirebaseFirestore.getInstance().collection(AppConstant.TRACK_ORDER_COLLECTION)
                 .document()
@@ -89,6 +89,7 @@ class FollowTrackingRepoImpl : FollowTrackingRepo {
         values[DataConstant.TRACK_DATE_UPDATE] = track.dateUpdate
         values[DataConstant.TRACK_ORDER_ID] = track.orderId
         values[DataConstant.TRACK_CODE] = track.trackCode
+        values[DataConstant.TRACK_SHIPPER] = track.shipper
         documentReference.set(values, SetOptions.merge()).addOnCompleteListener { it ->
             if (it.isSuccessful) {
                 onComplete?.invoke(true)

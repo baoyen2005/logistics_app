@@ -1,4 +1,6 @@
 package com.example.bettinalogistics.model
 
-class Shipper {
-}
+data class Shipper(
+    var name : String? = null,
+    var phone: String? = null
+)
